@@ -15,7 +15,7 @@ namespace MakeAble.Models
         int noPepole;
         double size;
         double price;
-        double range;
+        double rating;
         bool aircondition;
         bool accessibility;
         bool serving_coffee;
@@ -23,7 +23,7 @@ namespace MakeAble.Models
         bool free_parking;
         string[] profession;
 
-        public Makerspace(int makerspaceId, string address, string phoneNumber, string url, string[] days_hours, int noPepole, double size, double price, double range, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession)
+        public Makerspace(int makerspaceId, string address, string phoneNumber, string url, string[] days_hours, int noPepole, double size, double price, double rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession)
         {
             MakerspaceId = makerspaceId;
             Address = address;
@@ -33,7 +33,7 @@ namespace MakeAble.Models
             NoPepole = noPepole;
             Size = size;
             Price = price;
-            Range = range;
+            Rating = rating;
             Aircondition = aircondition;
             Accessibility = accessibility;
             Serving_coffee = serving_coffee;
@@ -52,7 +52,7 @@ namespace MakeAble.Models
         public int NoPepole { get => noPepole; set => noPepole = value; }
         public double Size { get => size; set => size = value; }
         public double Price { get => price; set => price = value; }
-        public double Range { get => range; set => range = value; }
+        public double Rating { get => rating; set => rating = value; }
         public bool Aircondition { get => aircondition; set => aircondition = value; }
         public bool Accessibility { get => accessibility; set => accessibility = value; }
         public bool Serving_coffee { get => serving_coffee; set => serving_coffee = value; }
