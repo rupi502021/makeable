@@ -13,7 +13,7 @@ namespace MakeAble.Models
         string description;
         string urlPhoto;
         string urlVideo;
-
+        
         public Message(int messageId, DateTime date, DateTime time, string description, string urlPhoto, string urlVideo)
         {
             this.messageId = messageId;
