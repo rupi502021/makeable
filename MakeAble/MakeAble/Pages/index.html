@@ -56,49 +56,39 @@
 	<!-- Modal -->
 	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-		<div class="modal-content" style="font-family:Calibri">
+		<div class="modal-content">
 			<div class="modal-header tit-up">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" style="margin: 0 auto">התחברות</h4>
+				<h4 class="modal-title">Customer Login</h4>
 			</div>
-			<div class="modal-body customer-box" style="margin: 0 auto">
+			<div class="modal-body customer-box">
 				<!-- Nav tabs -->
-                <ul class="nav nav-tabs" style="justify-content:center">
-                    <li><a href="#Registration" data-toggle="tab">הרשמה</a></li>
-                    <li><a class="active" href="#Login" data-toggle="tab">התחברות</a></li>
-                </ul>
+				<ul class="nav nav-tabs">
+					<li><a class="active" href="#Login" data-toggle="tab">Login</a></li>
+					<li><a href="#Registration" data-toggle="tab">Registration</a></li>
+				</ul>
 				<!-- Tab panes -->
 				<div class="tab-content">
 					<div class="tab-pane active" id="Login">
 						<form role="form" class="form-horizontal">
 							<div class="form-group">
 								<div class="col-sm-12">
-									<input class="form-control" id="email1" placeholder="שם משתמש" type="text" style="text-align:right">
+									<input class="form-control" id="email1" placeholder="Name" type="text">
 								</div>
 							</div>
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <input class="form-control" id="exampleInputPassword1" placeholder="סיסמא" type="email" style="text-align:right">
-                                </div>
-                                <div class="row">
-                                    <label for="remember-me" class="for-pwd" style="padding-left:157px">
-                                        <span>זכור אותי</span>
-                                        <span><input id="remember-me" name="remember-me" type="checkbox"></span>
-                                    </label>
-                                </div>
-                            </div>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input class="form-control" id="exampleInputPassword1" placeholder="Email" type="email">
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-sm-10">
 									<button type="submit" id="submitLogin" class="btn btn-light btn-radius btn-brd grd1">
-										התחברות
+										Submit
 									</button>
+									<a class="for-pwd" href="javascript:;">Forgot your password?</a>
 								</div>
 							</div>
-                            <div class="row">
-                                <div class="col-sm-10">
-                                    <a class="for-pwd" href="javascript:;">שכחת סיסמא?</a>
-                                </div>
-                            </div>
 						</form>
 					</div>
 					<div class="tab-pane" id="Registration">
