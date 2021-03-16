@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MakeAble.Models.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -50,5 +51,14 @@ namespace MakeAble.Models
         public string Description { get => description; set => description = value; }
         public bool Have_makerspace { get => have_makerspace; set => have_makerspace = value; }
         public string[] Profession { get => profession; set => profession = value; }
+
+
+        public List<User> Read()
+        {
+            DBServices dbs = new DBServices();
+            List<User> u = dbs.getusers();
+            return u;
+        }
     }
+
 }

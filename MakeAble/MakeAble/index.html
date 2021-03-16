@@ -1,6 +1,6 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-
+<head>
     <!-- Basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">   
@@ -30,8 +30,21 @@
     <link rel="stylesheet" href="css/custom.css">
 
     <!-- Modernizer for Portfolio -->
-    <script src="js/modernizer.js"></script>
+    <script src="js/modernizer.js">
+       
 
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#submitLogin").click(fLogin);
+        });
+
+        function fLogin() {
+               alert("shalom");
+        }
+    </script>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -70,7 +83,7 @@
 							</div>
 							<div class="row">
 								<div class="col-sm-10">
-									<button type="submit" class="btn btn-light btn-radius btn-brd grd1">
+									<button type="submit" id="submitLogin" class="btn btn-light btn-radius btn-brd grd1">
 										Submit
 									</button>
 									<a class="for-pwd" href="javascript:;">Forgot your password?</a>

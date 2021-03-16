@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MakeAble.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,9 +11,18 @@ namespace MakeAble.Controllers
     public class UsersController : ApiController
     {
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public HttpResponseMessage Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                User customer = new User();
+                List<User> uList = customer.Read();
+                return Request.CreateResponse(HttpStatusCode.OK, uList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
 
         // GET api/<controller>/5
