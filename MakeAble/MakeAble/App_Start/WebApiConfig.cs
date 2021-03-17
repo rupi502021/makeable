@@ -10,9 +10,9 @@ namespace MakeAble
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+            Access - Control - Allow - Origin: *
+                  // Web API routes
+                  config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
