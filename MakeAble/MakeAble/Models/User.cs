@@ -53,7 +53,7 @@ namespace MakeAble.Models
         public string[] Profession { get => profession; set => profession = value; }
 
 
-        public List<User> Read()
+        public List<User> ReadUsers()
         {
             DBServices dbs = new DBServices();
             List<User> u = dbs.getusers();

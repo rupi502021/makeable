@@ -15,7 +15,7 @@
     <meta name="author" content="">
 
     <!-- Site Icons -->
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="##" type="image/x-icon" />
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
     <!-- Bootstrap CSS -->
@@ -35,7 +35,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+    
 
     <script src="../Scripts/ajaxCalls.js"></script>
 
@@ -45,8 +45,43 @@
         });
 
         function fLogin() {
-            alert("shalom");
+            let email = $("#email1").val();
+            let pass = $("#pass1").val();
+            let api = "../api/Users/" + email + "/" + pass;
+          
+            ajaxCall("GET", api, "", getSuccess, getError);
         }
+
+        function getSuccess(data) {
+            console.log(data);
+           
+            if (data != null) {
+                swal({
+                    title: "You are logged in!", text: "####", icon:
+                        "success"
+                }).then(function () {
+                    window.location.href = 'index.html';
+                }
+                );
+
+                checked = document.getElementById("remember-me").checked;
+                if (checked) {
+                    localStorage.setItem("user", JSON.stringify(data));
+                }              
+            }
+            else {
+                swal({
+                    title: "Wrong credentials", text: "Try again", icon:
+                        "error"
+                })
+            }     
+        }
+
+        function getError(err) {
+            console.log(err);
+        }
+
+      
     </script>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -81,7 +116,7 @@
 							</div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <input class="form-control" id="exampleInputPassword1" placeholder="סיסמא" type="password" >
+                                    <input class="form-control" id="pass1" placeholder="סיסמא" type="password" >
                                 </div>
                                 <div class="row">
                                     <label for="remember-me" class="for-pwd" style="padding-left:157px">

@@ -10,25 +10,32 @@ namespace MakeAble.Controllers
 {
     public class UsersController : ApiController
     {
-        // GET api/<controller>
-        public HttpResponseMessage Get()
+        //GET api/<controller>
+      
+
+        // GET api/<controller>/5
+        [HttpGet]
+        [Route("api/Users/{email}/{pass}")]
+        public HttpResponseMessage Get(string email,string pass)
         {
             try
             {
-                User customer = new User();
-                List<User> uList = customer.Read();
-                return Request.CreateResponse(HttpStatusCode.OK, uList);
+                User user = new User();
+                List<User> uList = user.ReadUsers();
+                foreach (var item in uList)
+                {
+                    if (email == item.Email && pass==item.Password)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK, item);
+                    }
+                }
+                user = null;
+                return Request.CreateResponse(HttpStatusCode.OK, user);
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
             }
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
         }
 
         // POST api/<controller>
