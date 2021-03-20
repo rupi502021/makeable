@@ -10,8 +10,7 @@ namespace MakeAble.Controllers
 {
     public class UsersController : ApiController
     {
-        //GET api/<controller>
-      
+       
 
         // GET api/<controller>/5
         [HttpGet]
