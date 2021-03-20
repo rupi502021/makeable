@@ -174,7 +174,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Gallery.html" />
+    <Content Include="GalleryPage.html" />
+    <Content Include="Galleries.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="contact.html" />
     <Content Include="contact.php" />
