@@ -200,7 +200,7 @@
     <Content Include="css\versions.css" />
     <Content Include="domain.html" />
     <Content Include="favicon.ico" />
-    <Content Include="features.html" />
+    <Content Include="personal.html" />
     <Content Include="fonts\Flaticon.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
