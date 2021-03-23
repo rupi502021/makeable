@@ -198,6 +198,7 @@
     <Content Include="css\timeline.min.css" />
     <Content Include="css\versions.css" />
     <Content Include="favicon.ico" />
+    <Content Include="personal - gallery.html" />
     <Content Include="personal.html" />
     <Content Include="fonts\Flaticon.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
