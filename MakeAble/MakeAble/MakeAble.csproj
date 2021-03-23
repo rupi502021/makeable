@@ -174,11 +174,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\person.css" />
     <Content Include="GalleryPage.html" />
     <Content Include="Galleries.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="contact.html" />
-    <Content Include="contact.php" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -198,14 +197,12 @@
     <Content Include="css\responsive.css" />
     <Content Include="css\timeline.min.css" />
     <Content Include="css\versions.css" />
-    <Content Include="domain.html" />
     <Content Include="favicon.ico" />
     <Content Include="personal.html" />
     <Content Include="fonts\Flaticon.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="hosting.html" />
     <Content Include="images\about_02.jpg" />
     <Content Include="images\about_03.jpg" />
     <Content Include="images\ajax-loader.gif" />
@@ -356,7 +353,6 @@
     <Content Include="Pages\index.html" />
     <Content Include="Pages\pricing.html" />
     <Content Include="Pages\style.css" />
-    <Content Include="pricing.html" />
     <Content Include="newGallery.html" />
     <Content Include="Registration.html" />
     <Content Include="Scripts\bootstrap.js" />

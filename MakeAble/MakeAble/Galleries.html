@@ -37,7 +37,9 @@
         .container {
             font-family: Calibri;
         }
-
+        a#logout::before {
+            background: red;
+        }
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             max-width: 400px;
@@ -109,7 +111,10 @@
 
                 checked = document.getElementById("remember-me").checked;
                 if (checked) {
-                    localStorage.setItem("user", JSON.stringify(data));
+                    localStorage.setItem("user_remember", JSON.stringify(data));
+                }
+                else {
+                    localStorage.setItem("user_without_remember", JSON.stringify(data));
                 }
             }
             else {
@@ -125,8 +130,9 @@
         }
 
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            if (l != null) {
+            var l = JSON.parse(localStorage.getItem('user_remember'));
+            var l1 = JSON.parse(localStorage.getItem('user_without_remember'));
+            if (l != null || l1 != null) {
                 $("ul.nav.navbar-nav.navbar-right").hide();
                 var hi= "היי, "
                 $("#perHello").append(hi+l.Fname);
@@ -134,8 +140,15 @@
             }
             else {
                 $("#loginperson").hide();
+                $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
             }
+        }
+        function logout() {
+            alert("logging out");
+            localStorage.removeItem('user_remember');
+            localStorage.removeItem('user_without_remember');
+            location.reload();
         }
 
     </script>
@@ -214,23 +227,10 @@
                         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                         <li class="nav-item active"><a class="nav-link" href="Gallery.html">גלרייה</a></li>
                         <li class="nav-item"><a class="nav-link" href="personal.html">איזור אישי </a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Hosting </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                                <a class="dropdown-item" href="hosting.html">Web Hosting </a>
-                                <a class="dropdown-item" href="hosting.html">WordPress Hosting </a>
-                                <a class="dropdown-item" href="hosting.html">Cloud Server </a>
-                                <a class="dropdown-item" href="hosting.html">Reseller Package </a>
-                                <a class="dropdown-item" href="hosting.html">Dedicated Hosting </a>
-                            </div>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="domain.html">Domain</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                    </ul>
+                     </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
-                        <li><a ><span id="perHello" style="color:white"></span></a></li>
-                        <li><a  onclick="" style="background-color:red"><span>התנתק</span></a></li>
+                        <li><a><span id="perHello" style="color:white"></span></a></li>
+                        <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a class="hover-btn-new log" href="" data-toggle="modal" data-target="#login"><span>התחברות</span></a></li>
@@ -241,19 +241,7 @@
         </nav>
     </header>
     <!-- End header -->
-    <div id="overviews" class="section lb">
-        <div class="container">
-            <div class="section-title row text-center">
-                <div class="col-md-8 offset-md-2">
-                    <h3>About</h3>
-                    <p class="lead">Lorem Ipsum dolroin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem!</p>
-                </div>
-            </div><!-- end title -->
-
-           
-        </div><!-- end container -->
-    </div><!-- end section -->
-
+   
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
@@ -338,100 +326,8 @@
 
     </div>
 
-    <div class="parallax section dbcolor">
-        <div class="container">
-            <div class="row logos">
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_01.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_02.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_03.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_04.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_05.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_06.png" alt="" class="img-repsonsive"></a>
-                </div>
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </div><!-- end section -->
-
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-xs-12">
-                    <div class="widget clearfix">
-                        <div class="widget-title">
-                            <h3>About US</h3>
-                        </div>
-                        <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>
-                        <p>Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>
-                    </div><!-- end clearfix -->
-                </div><!-- end col -->
-
-                <div class="col-lg-4 col-md-4 col-xs-12">
-                    <div class="widget clearfix">
-                        <div class="widget-title">
-                            <h3>Information Link</h3>
-                        </div>
-                        <ul class="footer-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Pricing</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Faq</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul><!-- end links -->
-                    </div><!-- end clearfix -->
-                </div><!-- end col -->
-
-                <div class="col-lg-4 col-md-4 col-xs-12">
-                    <div class="widget clearfix">
-                        <div class="widget-title">
-                            <h3>Contact Details</h3>
-                        </div>
-
-                        <ul class="footer-links">
-                            <li><a href="mailto:#">info@yoursite.com</a></li>
-                            <li><a href="#">www.yoursite.com</a></li>
-                            <li>PO Box 16122 Collins Street West Victoria 8007 Australia</li>
-                            <li>+61 3 8376 6284</li>
-                        </ul><!-- end links -->
-                    </div><!-- end clearfix -->
-                </div><!-- end col -->
-
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </footer><!-- end footer -->
-
-    <div class="copyrights">
-        <div class="container">
-            <div class="footer-distributed">
-                <div class="footer-left">
-                    <p class="footer-company-name">All Rights Reserved. &copy; 2018 <a href="#">QuickCloud</a> Design By : <a href="https://html.design/">html design</a></p>
-                </div>
-
-                <div class="footer-right">
-                    <ul class="footer-links-soi">
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-github"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                        <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                    </ul><!-- end links -->
-                </div>
-            </div>
-        </div><!-- end container -->
-    </div><!-- end copyrights -->
-
-    <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
+   
+  
 
     <!-- ALL JS FILES -->
     <script src="../js/all.js"></script>

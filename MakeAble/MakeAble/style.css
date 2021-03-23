@@ -642,9 +642,11 @@ a img.aligncenter {
   z-index: 1;
 }
 
+
 .navbar-right li a.hover-btn-new:hover span {
   color: #ffffff;
 }
+
 .navbar-right li a.hover-btn-new::before {
   height: 100%;
   left: 0;

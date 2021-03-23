@@ -29,13 +29,19 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/custom.css">
 
+    <style>
+        a#logout::before {
+            background: red;
+        }
+    </style>
+
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
+
 
     <script src="../Scripts/ajaxCalls.js"></script>
 
@@ -49,13 +55,13 @@
             let email = $("#email1").val();
             let pass = $("#pass1").val();
             let api = "../api/Users/" + email + "/" + pass;
-          
+
             ajaxCall("GET", api, "", getSuccess, getError);
         }
 
         function getSuccess(data) {
             console.log(data);
-           
+
             if (data != null) {
                 swal({
                     title: "You are logged in!", text: "####", icon:
@@ -67,23 +73,27 @@
 
                 checked = document.getElementById("remember-me").checked;
                 if (checked) {
-                    localStorage.setItem("user", JSON.stringify(data));
-                }              
+                    localStorage.setItem("user_remember", JSON.stringify(data));
+                }
+                else {
+                    localStorage.setItem("user_without_remember", JSON.stringify(data));
+                }
             }
             else {
                 swal({
                     title: "Wrong credentials", text: "Try again", icon:
                         "error"
                 })
-            }     
+            }
         }
 
         function getError(err) {
             console.log(err);
         }
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            if (l != null) {
+            var l = JSON.parse(localStorage.getItem('user_remember'));
+            var l1 = JSON.parse(localStorage.getItem('user_without_remember'));
+            if (l != null || l1 != null) {
                 $("ul.nav.navbar-nav.navbar-right").hide();
                 var hi = "היי, "
                 $("#perHello").append(hi + l.Fname);
@@ -91,15 +101,17 @@
             }
             else {
                 $("#loginperson").hide();
+                $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
             }
         }
-      
+        function logout() {
+            alert("logging out");
+            localStorage.removeItem('user');
+            location.reload();
+        }
     </script>
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+   
 
 </head>
 <body class="host_version" dir="rtl"> 
@@ -179,23 +191,11 @@
                         <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
                         <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
                         <li class="nav-item"><a class="nav-link" href="personal.html">איזור אישי </a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Hosting </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                                <a class="dropdown-item" href="hosting.html">Web Hosting </a>
-                                <a class="dropdown-item" href="hosting.html">WordPress Hosting </a>
-                                <a class="dropdown-item" href="hosting.html">Cloud Server </a>
-                                <a class="dropdown-item" href="hosting.html">Reseller Package </a>
-                                <a class="dropdown-item" href="hosting.html">Dedicated Hosting </a>
-                            </div>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="domain.html">Domain</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                       
                     </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
                         <li><a><span id="perHello" style="color:white"></span></a></li>
-                        <li><a onclick="" style="background-color:red"><span>התנתק</span></a></li>
+                        <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a class="hover-btn-new log" href="" data-toggle="modal" data-target="#login"><span>התחברות</span></a></li>
