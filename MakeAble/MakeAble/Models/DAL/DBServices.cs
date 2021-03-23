@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Configuration;
 
@@ -78,6 +79,66 @@ namespace MakeAble.Models.DAL
 
             }
 
+        }
+        public int Insert(User user)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertCommand(user);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new user, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        //--------------------------------------------------------------------
+        // Build the Insert command String
+        //--------------------------------------------------------------------
+        private String BuildInsertCommand(User user)
+        {
+            String command;
+
+            StringBuilder sb = new StringBuilder();
+            // use a string builder to create the dynamic string
+
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
+            user.Email, user.Fname, user.Lname,
+            user.City, user.Password, user.Phone, user.ProfilePhoto, user.BirthDay, user.Description, user.Have_makerspace);
+
+            String prefix = "INSERT INTO Users " + "([Email],[Fname],[Lname],[City],[Password],[Phone],[ProfilePhoto],[BirthDay],[Description],[Have_makerspace])";
+
+            command = prefix + sb.ToString();
+
+            return command;
         }
     }
 }

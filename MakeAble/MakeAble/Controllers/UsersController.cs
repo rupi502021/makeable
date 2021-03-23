@@ -11,7 +11,6 @@ namespace MakeAble.Controllers
     public class UsersController : ApiController
     {
        
-
         // GET api/<controller>/5
         [HttpGet]
         [Route("api/Users/{email}/{pass}")]
@@ -37,9 +36,22 @@ namespace MakeAble.Controllers
             }
         }
 
-        // POST api/<controller>
-        public void Post([FromBody] string value)
+        public HttpResponseMessage Post([FromBody] User user)
         {
+
+            try
+            {
+                //לאתחל משתמש חדש
+                {
+                    user.Insert();
+                }
+
+                return Request.CreateResponse(HttpStatusCode.Created, user);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
 
         // PUT api/<controller>/5

@@ -148,7 +148,8 @@
         }
         function logout() {
             alert("logging out");
-            localStorage.removeItem('user');
+            localStorage.removeItem('user_remember');
+            localStorage.removeItem('user_without_remember');
             location.reload();
         }
 

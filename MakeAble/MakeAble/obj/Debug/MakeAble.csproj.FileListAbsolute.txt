@@ -168,3 +168,7 @@ C:\Users\ronda\Desktop\Git\makeable\MakeAble\MakeAble\obj\Debug\MakeAble.csproj.
 C:\Users\ronda\Desktop\Git\makeable\MakeAble\MakeAble\obj\Debug\MakeAble.csproj.CopyComplete
 C:\Users\ronda\Desktop\Git\makeable\MakeAble\MakeAble\obj\Debug\MakeAble.dll
 C:\Users\ronda\Desktop\Git\makeable\MakeAble\MakeAble\obj\Debug\MakeAble.pdb
+C:\Users\ronda\Desktop\Git\makeable\MakeAble\MakeAble\MakeAble\obj\Debug\MakeAble.csprojAssemblyReference.cache
+C:\Users\ronda\Desktop\Git\makeable\MakeAble\MakeAble\MakeAble\obj\Debug\MakeAble.csproj.CoreCompileInputs.cache
+C:\Users\ronda\Desktop\Git\makeable\MakeAble\MakeAble\MakeAble\obj\Debug\MakeAble.dll
+C:\Users\ronda\Desktop\Git\makeable\MakeAble\MakeAble\MakeAble\obj\Debug\MakeAble.pdb
