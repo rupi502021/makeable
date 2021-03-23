@@ -42,36 +42,8 @@
             font-size: 30px;
         }
 
-        .nav.navbar.navbar-expand.navbar-dark.bg-primary {
+        .nav.navbar.navbar-expand.navbar-dark.bg-primary{
             background-color: #333333;
-        }
-
-        input {
-            text-align: right;
-        }
-
-        *[role="form"] {
-            max-width: 100%;
-            padding: 15px;
-            margin: 0 auto;
-            border-radius: 0.3em;
-            background-color: #f2f2f2;
-            text-align: right;
-        }
-
-            *[role="form"] h2 {
-                font-family: 'Open Sans', sans-serif;
-                font-size: 50px;
-                font-weight: 600;
-                color: #000000;
-                margin-top: 5%;
-                text-align: center;
-                text-transform: uppercase;
-                letter-spacing: 4px;
-            }
-        #btn_save{
-            width:30%;
-            margin:auto;
         }
 
     </style>
@@ -255,115 +227,17 @@
     <div id="wrapper" class="toggled">
 
         <!-- Sidebar -->
-        <div id="sidebar-wrapper" >
+        <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li><a href="personal.html"> עדכון פרטים אישים </a><br /></li>
-                <li> <a href="personal - gallery.html">הגלריות שלי</a><br /></li>
-                <li> <a href="personal - favorits - gallery.html">המועדפים</a><br /></li>
-                <li> <a href="#">ניהול חלל עבודה</a><br /></li>
-                <li> <a href="#">הצ'אטים שלי</a> </li>
-
+                <li><a href="personal - favorits - gallery.html">גלריות שאהבתי</a><br /></li>
+                <li> <a href="personal - favorits - space.html">רשימת Spaces שלי</a><br /></li>
             </ul>
-        </div> <!-- /#sidebar-wrapper -->
+        </div>  <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container">
-                <form id="formUsers" class="form-horizontal" role="form">
-                    <label for="firstName" class="col-sm-3 control-label">שם פרטי</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="text" id="firstName" placeholder="שם פרטי" class="form-control" autofocus maxlength="10" required>
-                        </div>
-
-                    </div>
-                    <label for="lastName" class="col-sm-3 control-label">שם משפחה</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="text" id="lastName" placeholder="שם משפחה" class="form-control" autofocus maxlength="20" required>
-                        </div>
-
-                    </div>
-                    <label for="email" class="col-sm-3 control-label">Email </label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="email" id="email" placeholder="Email" class="form-control" name="email" required
-                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                   oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
-                                   oninput="this.setCustomValidity('')">
-                        </div>
-                    </div>
-                    <label for="password" class="col-sm-3 control-label">סיסמא</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="password" id="password" placeholder="סיסמא" class="form-control" required>
-                        </div>
-
-                    </div>
-                    <label for="password" class="col-sm-3 control-label">אמת סיסמא</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="password" id="confirm_password" placeholder=" סיסמא בשנית" class="form-control" onblur="validatePassword()">
-                        </div>
-
-                    </div>
-                    <label for="birthDate" class="col-sm-3 control-label">תאריך לידה</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="date" id="birthDate" class="form-control">
-                        </div>
-                    </div>
-                    <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="tel" id="phoneNumber" placeholder="מספר טלפון" class="form-control" required
-                                   pattern="[0-9]{3}-[0-9]{7}"
-                                   oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
-                                   oninput="this.setCustomValidity('')">
-                        </div>
-                    </div>
-                    <label for="cities" class="col-sm-3 control-label" style="bottom:8px">עיר</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <select id="cities"></select>
-                        </div>
-                    </div>
-
-                    <!-- File Button -->
-                    <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה פרופיל</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input id="filebutton" name="filebutton" class="input-file" type="file">
-                        </div>
-                    </div>
-                    <label for="text" class="col-sm-3 control-label">תיאור</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <textarea class="form-control" id="textarea" name="textarea">תיאור קצר עלייך</textarea>
-                        </div>
-
-                    </div>
-
-                    <!-- Select Multiple -->
-                    <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-
-                            <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
-                                <option value="1">אומנות</option>
-                                <option value="2">מדפסות תל מימד</option>
-                                <option value="3">נגרות</option>
-                                <option value="4">תכנות</option>
-                            </select>
-
-
-                        </div>
-                        <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
-                    </div>
-                </form> <!-- /form -->
-                <button id="btn_save" type="submit" class="btn btn-primary btn-block">שמירת שינויים</button>
-            </div> <!-- ./container -->
-        </div> <!-- /#page-content-wrapper -->
+        <!-- Sidebar -->
+        <!-- /#sidebar-wrapper --> <!-- /#page-content-wrapper -->
     </div> <!-- /#wrapper -->
+     <!-- /#page-content-wrapper -->
     <!-- Bootstrap core JavaScript -->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script> <!-- Menu Toggle Script -->
