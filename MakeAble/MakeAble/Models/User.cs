@@ -59,6 +59,11 @@ namespace MakeAble.Models
             List<User> u = dbs.getusers();
             return u;
         }
+        public void Insert()
+        {
+            DBServices dbs = new DBServices();
+            dbs.Insert(this);
+        }
     }
 
 }

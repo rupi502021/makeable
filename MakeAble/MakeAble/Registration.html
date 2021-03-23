@@ -5,16 +5,19 @@
     <title>הרשמה</title>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
+
     <script src="Scripts/ajaxCalls.js"></script>
-    <script src="Scripts/ajaxCallsWithKey.js"></script>
+    
     <style>
         body {
             background: url('https://static-communitytable.parade.com/wp-content/uploads/2014/03/rethink-target-heart-rate-number-ftr.jpg') fixed;
@@ -52,11 +55,16 @@
     <script>
 
         $(document).ready(function () {
+            getcities();
+           
+            $("#formUsers").submit(f1);
+        });
 
+        function getcities() {
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
-                
-                
+
+
             };
             $.ajax({
                 url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
@@ -68,70 +76,85 @@
                     var value = " <option value='0'></option>";
                     for (var i = 1; i < data.length; i++) {
                         citieslist.push(data[i].name);
-                        value += " <option value='" + data[i].name + "'>"+ data[i].name +"</option>";
+                        value += " <option value='" + data[i].name + "'>" + data[i].name + "</option>";
                     }
                     $("#cities").append(value);
                 }
             });
-
-            $("#formUsers").submit(f1);
-        });
-
+        }
         function f1() {
-            AddCustomer();
+            AddUser();
 
             return false;;
         }
 
-        function AddCustomer() {
-            customer = {
+        function AddUser() {
+            user = {
                 Fname: $("#firstName").val(),
                 Lname: $("#lastName").val(),
-                Email: $("#email").val(),               
+                Email: $("#email").val(),
                 Password: $("#password").val(),
                 BirthDay: $("#birthDate").val(),
                 Phone: $("#phoneNumber").val(),
                 City: $("#cities").val(),
                 Description: $("#textarea").val(),
-                Have_makerspace: $("#Have_makerspace").attr("checked") ? 1 : 0,
+                Have_makerspace: $("#Have_makerspace:checked").val(),
                 Profession: $("#selectmultiple").val()
             }
+
             upload();
-            console.log(JSON.stringify(customer));
+            console.log(JSON.stringify(user));
+        }
+        //נשלח לקונטרולר את התמונה שהועלתה+שם פרטי+ שם משפחה+ תאריך העלה- שיהיה יוניקי
+        function upload() {
+            var data = new FormData();
+            var files = $("#filebutton").get(0).files;
 
-            //נשלח לקונטרולר את התמונה שהועלתה+שם פרטי+ שם משפחה+ תאריך העלה- שיהיה יוניקי
-            function upload() {
-                var data = new FormData();
-                var files = $("#files").get(0).files;
-
-                if (files.length > 0) {
-                    for (f = 0; f < files.length; f++) {
-                        data.append("UploadedImage", files[f]);
-                    }
-                    data.append("name", customer.Fname + '_' + customer.Lname + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedImage", files[f]);
                 }
-
+                data.append("name", user.Fname + '_' + user.Lname + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
                 // Ajax upload (image)
                 $.ajax({
                     type: "POST",
-                    url: "../Api/FileUpload",
+                    url: "../api/FileUpload",
                     contentType: false,
                     processData: false,
                     data: data,
                     success: successfile,
                     error: error
                 });
-
-                return false;
             }
-            function successfile(data) {
-                customer = { ...customer, ProfilePhoto: data[0] };
-
-                //נעלה את כול הקסטיומר כולל תכונת התמונה
-                console.log(JSON.stringify(customer));
-              //  ajaxCall("POST", "../api/Customers", JSON.stringify(customer), success, error);
-
+            else {
+                ajaxCall("POST", "../api/Users", JSON.stringify(user), success, error);
             }
+           
+            return false;
+        }
+        function successfile(data) {
+            user = { ...user, ProfilePhoto: data[0] };
+
+            //נעלה את כול הקסטיומר כולל תכונת התמונה
+            console.log(JSON.stringify(user));
+            ajaxCall("POST", "../api/Users", JSON.stringify(user), success, error);
+
+        }
+
+
+
+        function error(err) {
+            alert(err.responseJSON);
+        }
+        function success(data) {
+            swal({
+                title: "Added Successfuly!", text: "Moving to search page", icon:
+                    "success"
+            }).then(function () {
+                window.location.href = 'index.html';
+                localStorage.removeItem('user_without_pre');
+            }
+            );
         }
         function validatePassword() {
             var password = document.getElementById("password")
@@ -139,13 +162,13 @@
 
             if (password.value != confirm_password.value) {
                 confirm_password.setCustomValidity("Passwords Don't Match");
-                
+
             } else {
                 confirm_password.setCustomValidity('');
             }
         }
-       
-  
+
+
     </script>
 </head>
 
@@ -193,7 +216,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="date" id="birthDate" class="form-control">
+                    <input type="date" id="birthDate" class="form-control" required>
                 </div>
                 <label for="birthDate" class="col-sm-3 control-label">תאריך לידה*</label>
 
