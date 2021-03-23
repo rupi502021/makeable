@@ -39,8 +39,13 @@
         .sidebar-nav {
             text-align: right;
             font-family: Calibri;
-            font-size: 25px;
+            font-size: 30px;
         }
+
+        .nav.navbar.navbar-expand.navbar-dark.bg-primary{
+            background-color: #333333;
+        }
+
     </style>
   
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -197,7 +202,7 @@
                         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                         <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
                         <li class="nav-item active"><a class="nav-link" href="personal.html">איזור אישי </a></li>
-                        </ul>
+                    </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
                         <li><a><span id="perHello" style="color:white"></span></a></li>
                         <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
@@ -212,26 +217,24 @@
     </header>
     <!-- End header -->
 
-
     <nav class="navbar navbar-expand navbar-dark bg-primary">
         <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
         <div class="collapse navbar-collapse" id="navbarsExample02">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
-                <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
-            </ul>
             <form class="form-inline my-2 my-md-0"> </form>
         </div>
     </nav>
+
     <div id="wrapper" class="toggled">
+
         <!-- Sidebar -->
-        <div id="sidebar-wrapper">
+        <div id="sidebar-wrapper" >
             <ul class="sidebar-nav">
-                <li> <a href="#"> עדכון פרטים אישים </a> </li>
-                <li> <a href="#">הגלריות שלי</a> </li>
-                <li> <a href="#">המועדפים</a> </li>
-                <li> <a href="#">הוספה וניהול חלל עבודה</a> </li>
+                <li><a href="#"> עדכון פרטים אישים </a><br /></li>
+                <li> <a href="#">הגלריות שלי</a><br /></li>
+                <li> <a href="#">המועדפים</a><br /></li>
+                <li> <a href="#">ניהול חלל עבודה</a><br /></li>
                 <li> <a href="#">הצ'אטים שלי</a> </li>
+
             </ul>
         </div> <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
