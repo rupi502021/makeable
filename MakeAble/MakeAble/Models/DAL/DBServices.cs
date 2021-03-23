@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Web;
+using System.Data.SqlClient;
+using System.Web.Configuration;
+using System.Data;
+using System.Text;
 using System.Web.Configuration;
 
 namespace MakeAble.Models.DAL
@@ -14,7 +15,12 @@ namespace MakeAble.Models.DAL
         public SqlDataAdapter da;
         public DataTable dt;
 
-
+        public DBServices()
+        {
+            //
+            // TODO: Add constructor logic here
+            //
+        }
         //--------------------------------------------------------------------------------------------------
         // This method creates a connection to the database according to the connectionString name in the web.config 
         //--------------------------------------------------------------------------------------------------
@@ -118,6 +124,22 @@ namespace MakeAble.Models.DAL
                 }
             }
 
+        }
+
+        private SqlCommand CreateCommand(String CommandSTR, SqlConnection con)
+        {
+
+            SqlCommand cmd = new SqlCommand(); // create the command object
+
+            cmd.Connection = con;              // assign the connection to the command object
+
+            cmd.CommandText = CommandSTR;      // can be Select, Insert, Update, Delete 
+
+            cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+            cmd.CommandType = System.Data.CommandType.Text; // the type of the command, can also be stored procedure
+
+            return cmd;
         }
 
         //--------------------------------------------------------------------

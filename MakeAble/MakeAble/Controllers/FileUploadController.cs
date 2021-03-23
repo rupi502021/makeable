@@ -28,7 +28,7 @@ namespace MakeAble.Controllers
 
                     // this is an example of how you can extract addional values from the Ajax call
                     string end = httpPostedFile.FileName.Split('.').Last();
-                    string name = (httpContext.Request.Form["name"] + '.' + end);
+                    string name = (httpContext.Request.Form["email"] + '.' + end);
 
                     if (httpPostedFile != null)
                     {

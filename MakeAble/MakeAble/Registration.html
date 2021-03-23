@@ -108,7 +108,7 @@
                 for (f = 0; f < files.length; f++) {
                     data.append("UploadedImage", files[f]);
                 }
-                data.append("name", user.Fname + '_' + user.Lname + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                data.append("email", user.Email+ '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
             }
             else {
                 ajaxCall("POST", "../api/Users", JSON.stringify(user), success, error);
@@ -137,18 +137,18 @@
 
         }
         function success(data) {
-            //swal("Added Successfuly!", "Great Job", "success");
+            alert("got post success");
 
-            swal({
-                title: "Added Successfuly!", text: "Moving to Preferences page", icon:
-                    "success"
-            }).then(function () {
-                window.location.href = 'Preferences.html';
-                localStorage.setItem("user_without_pre", JSON.stringify(data.Email));
+            //swal({
+            //    title: "Added Successfuly!", text: "Moving to Preferences page", icon:
+            //        "success"
+            //}).then(function () {
+            //    window.location.href = 'Preferences.html';
+            //    localStorage.setItem("user_without_pre", JSON.stringify(data.Email));
 
-            }
-            );
-            clear();
+            //}
+            //);
+            //clear();
 
         }
 
