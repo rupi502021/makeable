@@ -12,6 +12,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
     <script src="Scripts/ajaxCalls.js"></script>
 
@@ -53,26 +54,26 @@
 
         $(document).ready(function () {
 
-            //var data = {
-            //    resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
+            var data = {
+                resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
 
 
-            //};
-            //$.ajax({
-            //    url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
-            //    data: data,
-            //    dataType: 'json',
-            //    success: function (data) {
+            };
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
+                data: data,
+                dataType: 'json',
+                success: function (data) {
 
-            //        var citieslist = [];
-            //        var value = " <option value='0'></option>";
-            //        for (var i = 1; i < data.length; i++) {
-            //            citieslist.push(data[i].name);
-            //            value += " <option value='" + data[i].name + "'>" + data[i].name + "</option>";
-            //        }
-            //        $("#cities").append(value);
-            //    }
-            //});
+                    var citieslist = [];
+                    var value = " <option value='0'></option>";
+                    for (var i = 1; i < data.length; i++) {
+                        citieslist.push(data[i].name);
+                        value += " <option value='" + data[i].name + "'>" + data[i].name + "</option>";
+                    }
+                    $("#cities").append(value);
+                }
+            });
 
             $("#formUsers").submit(f1);
         });
@@ -108,24 +109,25 @@
                 for (f = 0; f < files.length; f++) {
                     data.append("UploadedImage", files[f]);
                 }
-                data.append("email", user.Email+ '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                data.append("email", user.Email + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                // Ajax upload (image)
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/FileUpload",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: successfile,
+                    error: error
+                });
+                return false;
             }
             else {
                 ajaxCall("POST", "../api/Users", JSON.stringify(user), success, error);
                 return false;
             }
 
-            // Ajax upload (image)
-            $.ajax({
-                type: "POST",
-                url: "../Api/FileUpload",
-                contentType: false,
-                processData: false,
-                data: data,
-                success: successfile,
-                error: error
-            });
-            return false;
+
         }
 
         function successfile(data) {
@@ -139,29 +141,39 @@
         function success(data) {
             alert("got post success");
 
-            //swal({
-            //    title: "Added Successfuly!", text: "Moving to Preferences page", icon:
-            //        "success"
-            //}).then(function () {
-            //    window.location.href = 'Preferences.html';
-            //    localStorage.setItem("user_without_pre", JSON.stringify(data.Email));
+            swal({
+                title: "Added Successfuly!", text: "Moving to Home page", icon:
+                    "success"
+            }).then(function () {
+                window.location.href = 'index.html';
 
-            //}
-            //);
-            //clear();
-
+                checked = document.getElementById("remember-me").checked;
+                if (checked) {
+                    localStorage.setItem("user_remember", JSON.stringify(data));
+                }
+                else {
+                    localStorage.setItem("user_without_remember", JSON.stringify(data));
+                }
+            }
+            );
+            clear();
         }
 
         function error(err) {
             alert(err.responseJSON);
         }
+
         function clear() {
-            $("#fnameTB").val(''),
-                $("#lnameTB").val(''),
-                $("#emailTB").val(''),
-                $("#phoneTB").val(''),
-                $("#passwordTB").val(''),
-                $("#files").val('');
+            $("#firstName").val(''),
+                $("#lastName").val(''),
+                $("#email").val(''),
+                $("#password").val(''),
+                $("#birthDate").val(''),
+                $("#phoneNumber").val(''),
+                $("#cities").val(''),
+                $("#textarea").val(''),
+                $("#Have_makerspace:checked").val(''),
+                $("#selectmultiple").val('');
         }
         function validatePassword() {
             var password = document.getElementById("password")
@@ -253,7 +265,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <textarea class="form-control" id="textarea" name="textarea">תיאור קצר עלייך</textarea>
+                    <textarea class="form-control" id="textarea" name="textarea" placeholder="ספר לנו עלייך"></textarea>
                 </div>
                 <label for="text" class="col-sm-3 control-label">תיאור</label>
 
@@ -291,7 +303,7 @@
 
                 <div class="col-sm-2">
                     <label class="checkbox-inline" for="checkboxes-0" style="padding-right:70px">
-                        <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
+                        <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1" onchange="document.getElementById('submitBTN').disabled = !this.checked;">
                         1
                     </label>
                 </div>
@@ -312,7 +324,7 @@
                     <span class="help-block">שדות חובה*</span>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">הירשם!</button>
+            <button type="submit" id="submitBTN" class="btn btn-primary btn-block" disabled>הירשם!</button>
         </form> <!-- /form -->
     </div> <!-- ./container -->
 </body>
