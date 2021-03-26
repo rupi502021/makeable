@@ -36,7 +36,7 @@
         }
 
         *[role="form"] {
-            max-width: 530px;
+            max-width: 700px;
             padding: 15px;
             margin: 0 auto;
             border-radius: 0.3em;
@@ -54,6 +54,10 @@
                 text-transform: uppercase;
                 letter-spacing: 4px;
             }
+        img#PP {
+            max-width: 25%;
+            
+        }
     </style>
     <script>
 
@@ -74,22 +78,40 @@
                     var value = " <option value='בחירת עיר'></option>";
                     for (var i = 1; i < data.length; i++) {
                         citieslist.push(data[i].name);
-                        value += " <option value='" + data[i].name + "'>" + data[i].name + "</option>";
+                        value += " <option data-id='" + data[i].name+"' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
                     }
                     $("#mylist").append(value);
                 }
             });
-
+            $("#filebutton").change(function () {
+                readURL(this);
+            });
             $("#formUsers").submit(f1);
         });
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#PP').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+
         function f1() {
             AddUser();
-
+           
             return false;
         }
 
         function AddUser() {
+            var getvalue = document.getElementsByName('mylist')[0];
+            city=getvalue.value;
+            
             user = {
                 Fname: $("#firstName").val(),
                 Lname: $("#lastName").val(),
@@ -97,11 +119,12 @@
                 Password: $("#password").val(),
                 BirthDay: $("#birthDate").val(),
                 Phone: $("#phoneNumber").val(),
-                City: $("#cities").val(),
+                City: city,
                 Description: $("#textarea").val(),
-                Have_makerspace: $("#Have_makerspace:checked").val(),
+                Have_makerspace: parseInt($("#Have_makerspace:checked").val()),
                 Profession: $("#selectmultiple").val()
             }
+          
             upload();
             console.log(JSON.stringify(user));
         }
@@ -170,15 +193,15 @@
 
         function clear() {
             $("#firstName").val(''),
-                $("#lastName").val(''),
-                $("#email").val(''),
-                $("#password").val(''),
-                $("#birthDate").val(''),
-                $("#phoneNumber").val(''),
-                $("#cities").val(''),
-                $("#textarea").val(''),
-                $("#Have_makerspace:checked").val(''),
-                $("#selectmultiple").val('');
+            $("#lastName").val(''),
+            $("#email").val(''),
+            $("#password").val(''),
+            $("#birthDate").val(''),
+            $("#phoneNumber").val(''),
+            $("#cities").val(''),
+            $("#textarea").val(''),
+            $("#Have_makerspace:checked").val(''),
+            $("#selectmultiple").val('');
         }
         function validatePassword() {
             var password = document.getElementById("password")
@@ -256,7 +279,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input class="dropdown-input" list="mylist"  />
+                    <input class="dropdown-input" list="mylist" name="mylist" />
                     <datalist id="mylist">
                         
                     </datalist>
@@ -266,9 +289,11 @@
 
             <!-- File Button -->
             <div class="form-group">
-                <div class="col-sm-9">
+                <img class="col-sm-6" id="PP" src="#" alt="ProfilePhoto" />
+                <div class="col-sm-6">
                     <input id="filebutton" name="filebutton" class="input-file" type="file">
                 </div>
+
                 <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה פרופיל</label>
             </div>
             <div class="form-group">
@@ -296,7 +321,7 @@
                 <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
             </div>
             <div class="form-group">
-                <label class="col-sm-10 control-label" for="checkboxes">האם את/ה בעל/ת מייקרספייס?*</label>
+                <label class="col-sm-10 control-label" for="checkboxes">האם את/ה בעל/ת מייקרספייס?</label>
 
                 <div class="col-sm-2">
                     <label class="checkbox-inline" for="checkboxes-0" style="padding-right:70px">

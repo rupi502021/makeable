@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 <head>
     <!-- Basic -->
     <meta charset="utf-8">
@@ -31,6 +31,8 @@
     <link href="css/person.css" rel="stylesheet" />
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
+
+    <script src="Scripts/ajaxCalls.js"></script>
     <style>
         a#logout::before {
             background: red;
@@ -69,68 +71,202 @@
                 text-transform: uppercase;
                 letter-spacing: 4px;
             }
-        #btn_save{
-            width:30%;
-            margin:auto;
+
+        #btn_save {
+            width: 30%;
+            margin: auto;
         }
 
+        img#PP {
+            max-width: 25%;
+        }
     </style>
-  
+
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    <script>
+        $(function () {
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            $(window).resize(function (e) {
+                if ($(window).width() <= 768) {
+                    $("#wrapper").removeClass("toggled");
+                } else {
+                    $("#wrapper").addClass("toggled");
+                }
+            });
+        });
+
+    </script>
 
     <script src="../Scripts/ajaxCalls.js"></script>
 
     <script>
         $(document).ready(function () {
-            $("#submitLogin").click(fLogin);
+            var data = {
+                resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
+
+
+            };
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+
+                    var citieslist = [];
+                    var value = " <option value='בחירת עיר'></option>";
+                    for (var i = 1; i < data.length; i++) {
+                        citieslist.push(data[i].name);
+                        value += " <option value='" + data[i].name + "'>" + data[i].name + "</option>";
+                    }
+                    $("#mylist").append(value);
+                }
+            });
+            $("#filebutton").change(function () {
+                readURL(this);
+            });
+            $("#formUsers").submit(updateUser);
+            fLogin();
             checklogin();
         });
 
-        function fLogin() {
-            let email = $("#email1").val();
-            let pass = $("#pass1").val();
-            let api = "../api/Users/" + email + "/" + pass;
+        //להכניס תמונה לתצוגה מקדימה
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-            ajaxCall("GET", api, "", getSuccess, getError);
+                reader.onload = function (e) {
+                    $('#PP').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+
+
+        function fLogin() {
+            var l = JSON.parse(localStorage.getItem('user'));
+            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l == null) {
+                let email = l1.Email;
+                let pass = l1.Password;
+                var api = "../api/Users/" + email + "/" + pass;
+            }
+            else {
+                let email = l.Email;
+                let pass = l.Password;
+                var api = "../api/Users/" + email + "/" + pass;
+            }
+            ajaxCall("GET", api, "", getSuccess, error);
+
         }
 
         function getSuccess(data) {
             console.log(data);
+            //להחזיר את התאריך לאינפוט
+            let tmp = new Date(data.BirthDay);
+            var day = ("0" + tmp.getDate()).slice(-2);
+            var month = ("0" + (tmp.getMonth() + 1)).slice(-2);
+            var today = tmp.getFullYear() + "-" + (month) + "-" + (day);
 
-            if (data != null) {
-                swal({
-                    title: "You are logged in!", text: "####", icon:
-                        "success"
-                }).then(function () {
-                    window.location.href = 'index.html';
-                }
-                );
+            document.getElementsByName('mylist')[0].value = data.City;
 
-                checked = document.getElementById("remember-me").checked;
-                if (checked) {
-                    localStorage.setItem("user", JSON.stringify(data));
+            $("#firstName").val(data.Fname);
+            $("#lastName").val(data.Lname);
+            $("#email").val(data.Email);
+            $("#password").val(data.Password);
+            $("#confirm_password").val(data.Password);
+            $("#birthDate").val(today);
+            $("#phoneNumber").val(data.Phone);
+            if (data.ProfilePhoto != null) {
+                $("#CPP").text('תצוגה מקדימה:');
+            }
+            $("#PP").attr('src', data.ProfilePhoto);
+            $("#textarea").val(data.Description);
+
+        }
+
+        function updateUser() {
+            var getvalue = document.getElementsByName('mylist')[0];
+            city = getvalue.value;
+
+            user = {
+                Fname: $("#firstName").val(),
+                Lname: $("#lastName").val(),
+                Email: $("#email").val(),
+                Password: $("#password").val(),
+                BirthDay: $("#birthDate").val(),
+                Phone: $("#phoneNumber").val(),
+                City: city,
+                Description: $("#textarea").val(),
+                Have_makerspace: parseInt($("#Have_makerspace:checked").val()),
+                Profession: $("#selectmultiple").val()
+            }
+            upload();
+        }
+
+        function upload() {
+            var data = new FormData();
+            var files = $("#filebutton").get(0).files;
+
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedImage", files[f]);
                 }
-                else {
-                    sessionStorage.setItem("user", JSON.stringify(data));
-                }
+                data.append("email", user.Email + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                // Ajax upload (image)
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/FileUpload",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: successfile,
+                    error: error
+                });
+                return false;
             }
             else {
-                swal({
-                    title: "Wrong credentials", text: "Try again", icon:
-                        "error"
-                })
+                ajaxCall("PUT", "../api/Users", JSON.stringify(user), success, error);
+                return false;
             }
+
+
         }
 
-        function getError(err) {
+        function successfile(data) {
+            user = { ...user, ProfilePhoto: data[0] };
+
+            //נעלה את כול הקסטיומר כולל תכונת התמונה
+            console.log(JSON.stringify(user));
+            ajaxCall("PUT", "../api/Users", JSON.stringify(user), success, error);
+            return false;
+        }
+        function success(data) {
+            alert("update success");
+
+            swal({
+                title: "הצלחה!", text: "בוצעו השינויים", icon:
+                    "success"
+            }).then(function () {
+                location.reload();
+            });
+        }
+
+        function error(err) {
             console.log(err);
         }
+
         function checklogin() {
             var l = JSON.parse(localStorage.getItem('user'));
             var l1 = JSON.parse(sessionStorage.getItem('user'));
@@ -156,6 +292,17 @@
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             location.reload();
+        }
+        function validatePassword() {
+            var password = document.getElementById("password")
+                , confirm_password = document.getElementById("confirm_password");
+
+            if (password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+
+            } else {
+                confirm_password.setCustomValidity('');
+            }
         }
 
     </script>
@@ -261,7 +408,7 @@
     <div id="wrapper" class="toggled">
 
         <!-- Sidebar -->
-        <div id="sidebar-wrapper" >
+        <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li><a href="personal.html"> עדכון פרטים אישים </a><br /></li>
                 <li> <a href="personal - gallery.html">הגלריות שלי</a><br /></li>
@@ -289,8 +436,8 @@
                         </div>
 
                     </div>
-                    <label for="email" class="col-sm-3 control-label">Email </label>
-                    <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label" hidden>Email </label>
+                    <div class="form-group" hidden>
                         <div class="col-sm-9">
                             <input type="email" id="email" placeholder="Email" class="form-control" name="email" required
                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -301,14 +448,14 @@
                     <label for="password" class="col-sm-3 control-label">סיסמא</label>
                     <div class="form-group">
                         <div class="col-sm-9">
-                            <input type="password" id="password" placeholder="סיסמא" class="form-control" required>
+                            <input type="text" id="password" placeholder="סיסמא" class="form-control" required>
                         </div>
 
                     </div>
                     <label for="password" class="col-sm-3 control-label">אמת סיסמא</label>
                     <div class="form-group">
                         <div class="col-sm-9">
-                            <input type="password" id="confirm_password" placeholder=" סיסמא בשנית" class="form-control" onblur="validatePassword()">
+                            <input type="text" id="confirm_password" placeholder=" סיסמא בשנית" class="form-control" onblur="validatePassword()">
                         </div>
 
                     </div>
@@ -327,24 +474,28 @@
                                    oninput="this.setCustomValidity('')">
                         </div>
                     </div>
+
                     <label for="cities" class="col-sm-3 control-label" style="bottom:8px">עיר</label>
                     <div class="form-group">
                         <div class="col-sm-9">
-                            <select id="cities"></select>
+                            <input class="dropdown-input" list="mylist" name="mylist" />
+                            <datalist id="mylist">
+                            </datalist>
                         </div>
                     </div>
-
                     <!-- File Button -->
                     <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה פרופיל</label>
                     <div class="form-group">
                         <div class="col-sm-9">
                             <input id="filebutton" name="filebutton" class="input-file" type="file">
+                            <span id="CPP"></span>
+                            <img id="PP" src="#" alt="ProfilePhoto" />
                         </div>
                     </div>
                     <label for="text" class="col-sm-3 control-label">תיאור</label>
                     <div class="form-group">
                         <div class="col-sm-9">
-                            <textarea class="form-control" id="textarea" name="textarea">תיאור קצר עלייך</textarea>
+                            <textarea class="form-control" id="textarea" name="textarea" placeholder="תיאור קצר עלייך"></textarea>
                         </div>
 
                     </div>
@@ -365,31 +516,26 @@
                         </div>
                         <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
                     </div>
+
+                    <label class="col-sm-10 control-label" for="checkboxes">האם את/ה בעל/ת מייקרספייס?*</label>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="checkbox-inline" for="checkboxes-0">
+                                <input type="checkbox" name="checkboxes" id="Have_makerspace" value="1">
+                                סמן אם כן
+                            </label>
+                        </div>
+                    </div>
+                    <button id="btn_save" type="submit" class="btn btn-primary btn-block">שמירת שינויים</button>
                 </form> <!-- /form -->
-                <button id="btn_save" type="submit" class="btn btn-primary btn-block">שמירת שינויים</button>
             </div> <!-- ./container -->
         </div> <!-- /#page-content-wrapper -->
     </div> <!-- /#wrapper -->
     <!-- Bootstrap core JavaScript -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script> <!-- Menu Toggle Script -->
-    <script>
-        $(function () {
-            $("#menu-toggle").click(function (e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
-
-            $(window).resize(function (e) {
-                if ($(window).width() <= 768) {
-                    $("#wrapper").removeClass("toggled");
-                } else {
-                    $("#wrapper").addClass("toggled");
-                }
-            });
-        });
-
-    </script>
+    <!--<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>-->
+    <!-- Menu Toggle Script -->
+  
 
     <!-- ALL JS FILES -->
     <script src="js/all.js"></script>

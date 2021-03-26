@@ -64,6 +64,11 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             dbs.Insert(this);
         }
+        public int Update()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.Update(this);
+        }
     }
 
 }
