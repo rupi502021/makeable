@@ -175,6 +175,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chat.html" />
+    <Content Include="config.js" />
+    <Content Include="css\chat.css" />
     <Content Include="css\person.css" />
     <Content Include="GalleryPage.html" />
     <Content Include="Galleries.html" />
@@ -199,8 +202,8 @@
     <Content Include="css\timeline.min.css" />
     <Content Include="css\versions.css" />
     <Content Include="favicon.ico" />
-    <Content Include="personal - favorits - space.html" />
-    <Content Include="personal - favorits - gallery.html" />
+    <Content Include="personal - favorites - space.html" />
+    <Content Include="personal - favorites - gallery.html" />
     <Content Include="personal - gallery.html" />
     <Content Include="personal.html" />
     <Content Include="fonts\Flaticon.svg" />
@@ -359,6 +362,8 @@
     <Content Include="Pages\style.css" />
     <Content Include="newGallery.html" />
     <Content Include="Registration.html" />
+    <Content Include="Scripts\ajaxCalls.js" />
+    <Content Include="Scripts\ajaxCallsWithKey.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -389,12 +394,17 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\config.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="style.css" />
+    <Content Include="uploadedFiles\rhhhon%40gmail.com_1616590368362.jpg" />
+    <Content Include="uploadedFiles\rhhhon%40gmail.com_1616590383780.jpg" />
+    <Content Include="uploadedFiles\ron%40gmail.com_1616589174633.jpg" />
+    <Content Include="uploadedFiles\rondd%40gmail.com_1616589316022.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

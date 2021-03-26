@@ -148,6 +148,9 @@
                 if (checked) {
                     localStorage.setItem("user", JSON.stringify(data));
                 }
+                else {
+                    sessionStorage.setItem("user", JSON.stringify(data));
+                }
             }
             else {
                 swal({
@@ -160,7 +163,32 @@
         function getError(err) {
             console.log(err);
         }
-
+        function checklogin() {
+            var l = JSON.parse(localStorage.getItem('user'));
+            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l != null || l1 != null) {
+                $("ul.nav.navbar-nav.navbar-right").hide();
+                var hi = "היי, ";
+                if (l == null) {
+                    $("#perHello").append(hi + l1.Fname);
+                }
+                else {
+                    $("#perHello").append(hi + l.Fname);
+                }
+                $("#loginperson").show();
+            }
+            else {
+                $("#loginperson").hide();
+                $("a#logout").hide();
+                $("ul.nav.navbar-nav.navbar-right").show();
+            }
+        }
+        function logout() {
+            alert("logging out");
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
+            location.reload();
+        }
 
     </script>
 </head>

@@ -114,10 +114,10 @@
 
                 checked = document.getElementById("remember-me").checked;
                 if (checked) {
-                    localStorage.setItem("user_remember", JSON.stringify(data));
+                    localStorage.setItem("user", JSON.stringify(data));
                 }
                 else {
-                    localStorage.setItem("user_without_remember", JSON.stringify(data));
+                    sessionStorage.setItem("user", JSON.stringify(data));
                 }
             }
             else {
@@ -132,12 +132,17 @@
             console.log(err);
         }
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user_remember'));
-            var l1 = JSON.parse(localStorage.getItem('user_without_remember'));
+            var l = JSON.parse(localStorage.getItem('user'));
+            var l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
                 $("ul.nav.navbar-nav.navbar-right").hide();
-                var hi = "היי, "
-                $("#perHello").append(hi + l.Fname);
+                var hi = "היי, ";
+                if (l == null) {
+                    $("#perHello").append(hi + l1.Fname);
+                }
+                else {
+                    $("#perHello").append(hi + l.Fname);
+                }
                 $("#loginperson").show();
             }
             else {
@@ -148,8 +153,8 @@
         }
         function logout() {
             alert("logging out");
-            localStorage.removeItem('user_remember');
-            localStorage.removeItem('user_without_remember');
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
             location.reload();
         }
 
