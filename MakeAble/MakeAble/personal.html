@@ -151,25 +151,22 @@
                 reader.onload = function (e) {
                     $('#PP').attr('src', e.target.result);
                 }
-
                 reader.readAsDataURL(input.files[0]); // convert to base64 string
             }
         }
-
-
 
         function fLogin() {
             var l = JSON.parse(localStorage.getItem('user'));
             var l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l == null) {
                 let email = l1.Email;
-                let pass = l1.Password;
-                var api = "../api/Users/" + email + "/" + pass;
+                
+                var api = "../api/Users/" + email + "/";
             }
             else {
                 let email = l.Email;
-                let pass = l.Password;
-                var api = "../api/Users/" + email + "/" + pass;
+               
+                var api = "../api/Users/" + email + "/";
             }
             ajaxCall("GET", api, "", getSuccess, error);
 
@@ -178,11 +175,14 @@
         function getSuccess(data) {
             console.log(data);
             //להחזיר את התאריך לאינפוט
-            let tmp = new Date(data.BirthDay);
-            var day = ("0" + tmp.getDate()).slice(-2);
-            var month = ("0" + (tmp.getMonth() + 1)).slice(-2);
-            var today = tmp.getFullYear() + "-" + (month) + "-" + (day);
+            if (data.BirthDay != null) {
+                let tmp = new Date(data.BirthDay);
+                var day = ("0" + tmp.getDate()).slice(-2);
+                var month = ("0" + (tmp.getMonth() + 1)).slice(-2);
+                var today = tmp.getFullYear() + "-" + (month) + "-" + (day);
 
+            }
+         
             document.getElementsByName('mylist')[0].value = data.City;
 
             $("#firstName").val(data.Fname);
@@ -217,6 +217,7 @@
                 Profession: $("#selectmultiple").val()
             }
             upload();
+            return false;
         }
 
         function upload() {
@@ -436,7 +437,7 @@
                     <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה פרופיל</label>
                     <div class="form-group">
                         <div class="col-sm-9">
-                            <input id="filebutton" name="filebutton" class="input-file" type="file">
+                            <input id="filebutton"  name="filebutton" class="input-file" type="file">
                             <span id="CPP"></span>
                             <img id="PP" src="#" alt="ProfilePhoto" />
                         </div>

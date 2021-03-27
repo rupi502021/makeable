@@ -208,10 +208,10 @@ namespace MakeAble.Models.DAL
         private String BuildUpdateCommand(User user)
         {
             String command;
-            command = "UPDATE Users SET Fname=" + user.Fname + ", Lname=" + user.Lname + "," +
-                "City=" + user.City + ", Password=" + user.Password + ",Phone='" + user.Phone + ", ProfilePhoto=" + user.ProfilePhoto +
-                ", BirthDay=" + user.BirthDay + ", Description=" + user.Description + ", Have_makerspace=" + user.Have_makerspace +
-                "' " + "WHERE RestaurantID=" + user.Email;
+            command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
+                "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone + "', ProfilePhoto='" + user.ProfilePhoto +
+                "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
+                "' " + "WHERE Email='" + user.Email+"'";
             return command;
         }
 

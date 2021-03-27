@@ -53,8 +53,8 @@
 
         function fLogin() {
             let email = $("#email1").val();
-            let pass = $("#pass1").val();
-            let api = "../api/Users/" + email + "/" + pass;
+          
+            let api = "../api/Users/" + email+"/";
 
             ajaxCall("GET", api, "", getSuccess, getError);
         }

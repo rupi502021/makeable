@@ -13,8 +13,8 @@ namespace MakeAble.Controllers
        
         // GET api/<controller>/5
         [HttpGet]
-        [Route("api/Users/{email}/{pass}")]
-        public HttpResponseMessage Get(string email,string pass)
+        [Route("api/Users/{email}/")]
+        public HttpResponseMessage Get(string email)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace MakeAble.Controllers
                 List<User> uList = user.ReadUsers();
                 foreach (var item in uList)
                 {
-                    if (email == item.Email && pass==item.Password)
+                    if (email == item.Email)
                     {
                         return Request.CreateResponse(HttpStatusCode.OK, item);
                     }
