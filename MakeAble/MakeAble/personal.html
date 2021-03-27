@@ -80,6 +80,10 @@
         img#PP {
             max-width: 25%;
         }
+
+        #nav_menu {
+            position:sticky;
+        }
     </style>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -288,10 +292,10 @@
             }
         }
         function logout() {
-            alert("logging out");
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             location.reload();
+            window.location.href = "index.html";
         }
         function validatePassword() {
             var password = document.getElementById("password")
@@ -308,55 +312,6 @@
     </script>
 </head>
 <body class="host_version" dir="rtl">
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content" style="font-family:Calibri">
-                <div class="modal-header tit-up">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="right:750px">&times;</button>
-                    <h4 class="modal-title">התחברות</h4>
-                </div>
-                <div class="modal-body customer-box">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="Login" dir="rtl">
-                            <form role="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="email1" placeholder="שם משתמש (אימייל)" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="pass1" placeholder="סיסמא" type="password">
-                                    </div>
-                                    <div class="col-sm-12 row">
-                                        <label for="remember-me" class="for-pwd" style="direction:rtl">
-                                            <span><input id="remember-me" name="remember-me" type="checkbox"></span>
-                                            <span>זכור אותי</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <button type="button" id="submitLogin" class="btn btn-light btn-radius btn-brd grd1">
-                                            התחברות
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <a class="for-pwd" href="javascript:;">שכחת סיסמא?</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- LOADER -->
     <div id="preloader">
         <div class="loader-container">
@@ -388,21 +343,15 @@
                         <li><a><span id="perHello" style="color:white"></span></a></li>
                         <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a class="hover-btn-new log" href="" data-toggle="modal" data-target="#login"><span>התחברות</span></a></li>
-                        <li><a class="hover-btn-new log" href="Registration.html"><span>הרשמה</span></a></li>
-                    </ul>
+                   
                 </div>
             </div>
         </nav>
     </header>
     <!-- End header -->
 
-    <nav class="navbar navbar-expand navbar-dark bg-primary">
+    <nav id="nav_menu" class="navbar navbar-expand navbar-dark bg-primary">
         <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-        <div class="collapse navbar-collapse" id="navbarsExample02">
-            <form class="form-inline my-2 my-md-0"> </form>
-        </div>
     </nav>
 
     <div id="wrapper" class="toggled">

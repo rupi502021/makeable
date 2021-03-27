@@ -102,7 +102,7 @@
 
             if (data != null) {
                 swal({
-                    title: "You are logged in!", text: "####", icon:
+                    title: "You are logged in!", icon:
                         "success"
                 }).then(function () {
                     window.location.href = 'index.html';
@@ -134,6 +134,7 @@
             var l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
                 $("ul.nav.navbar-nav.navbar-right").hide();
+                $("#per_area").show();
                 var hi = "היי, ";
                 if (l == null) {
                     $("#perHello").append(hi + l1.Fname);
@@ -147,6 +148,7 @@
                 $("#loginperson").hide();
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
+                $("#per_area").hide();
             }
         }
         function logout() {
@@ -230,7 +232,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                         <li class="nav-item active"><a class="nav-link" href="Gallery.html">גלרייה</a></li>
-                        <li class="nav-item"><a class="nav-link" href="personal.html">איזור אישי </a></li>
+                        <li class="nav-item"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
                      </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
                         <li><a><span id="perHello" style="color:white"></span></a></li>

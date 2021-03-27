@@ -95,33 +95,7 @@
     <script>
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
-
-            $(".filter-button").click(function () {
-                var value = $(this).attr('data-filter');
-
-                if (value == "all") {
-                    //$('.filter').removeClass('hidden');
-                    $('.filter').show('1000');
-                }
-                else {
-                    //            $('.filter[filter-item="'+value+'"]').removeClass('hidden');
-                    //            $(".filter").not('.filter[filter-item="'+value+'"]').addClass('hidden');
-                    $(".filter").not('.' + value).hide('3000');
-                    $('.filter').filter('.' + value).show('3000');
-
-                }
-            });
-
-            if ($(".filter-button").removeClass("active")) {
-                $(this).removeClass("active");
-            }
-            $(this).addClass("active");
-            });
-
-            if ($(".filter-button").removeClass("active")) {
-                $(this).removeClass("active");
-            }
-            $(this).addClass("active");
+            checklogin();
         });
 
         function fLogin() {
@@ -168,6 +142,7 @@
             var l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
                 $("ul.nav.navbar-nav.navbar-right").hide();
+                $("#per_area").show();
                 var hi = "היי, ";
                 if (l == null) {
                     $("#perHello").append(hi + l1.Fname);
@@ -181,6 +156,7 @@
                 $("#loginperson").hide();
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
+                $("#per_area").hide();
             }
         }
         function logout() {
@@ -214,22 +190,22 @@
                                     <div class="col-sm-12">
                                         <input class="form-control" id="pass1" placeholder="סיסמא" type="password">
                                     </div>
-                                    <div class="row">
-                                        <label for="remember-me" class="for-pwd" style="padding-left:157px">
-                                            <span>זכור אותי</span>
+                                    <div class="col-sm-12 row">
+                                        <label for="remember-me" class="for-pwd" style="direction:rtl">
                                             <span><input id="remember-me" name="remember-me" type="checkbox"></span>
+                                            <span>זכור אותי</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-12">
                                         <button type="button" id="submitLogin" class="btn btn-light btn-radius btn-brd grd1">
                                             התחברות
                                         </button>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-12">
                                         <a class="for-pwd" href="javascript:;">שכחת סיסמא?</a>
                                     </div>
                                 </div>
@@ -240,6 +216,7 @@
             </div>
         </div>
     </div>
+
     <!-- LOADER -->
     <div id="preloader">
         <div class="loader-container">
@@ -263,22 +240,14 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item active"><a class="nav-link" href="Galleries.html">גלריה</a></li>
-                        <li class="nav-item"><a class="nav-link" href="features.html">Features </a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Hosting </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                                <a class="dropdown-item" href="hosting.html">Web Hosting </a>
-                                <a class="dropdown-item" href="hosting.html">WordPress Hosting </a>
-                                <a class="dropdown-item" href="hosting.html">Cloud Server </a>
-                                <a class="dropdown-item" href="hosting.html">Reseller Package </a>
-                                <a class="dropdown-item" href="hosting.html">Dedicated Hosting </a>
-                            </div>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="domain.html">Domain</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
+
+                    </ul>
+                    <ul id="loginperson" class="nav navbar-nav navbar-right">
+                        <li><a><span id="perHello" style="color:white"></span></a></li>
+                        <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a class="hover-btn-new log" href="" data-toggle="modal" data-target="#login"><span>התחברות</span></a></li>
@@ -295,10 +264,10 @@
         <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h2 class="gallery-title"><i class="fa fa-user"></i>&nbspשם גלריה</h2>
         </div>
-            <div style="margin: 0 auto; text-align: center; font-family:Calibri">
-                <h3><i class="fa fa-map-marker"></i>&nbspמיקום בו נוצרה</h3>
-                <h4>תחום עיסוק</h4>
-            </div>
+        <div style="margin: 0 auto; text-align: center; font-family:Calibri">
+            <h3><i class="fa fa-map-marker"></i>&nbspמיקום בו נוצרה</h3>
+            <h4>תחום עיסוק</h4>
+        </div>
 
         <div class="row">
             <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter spray">
