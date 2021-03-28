@@ -204,14 +204,12 @@ namespace MakeAble.Models.DAL
         {
             String command="";
 
-            StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
             for (int i = 0; i < user.Profession.Length; i++)
             {
                 StringBuilder sb = new StringBuilder();
-
-                sb.AppendFormat("Values( '{0}','{1}','{2}','{3}')", customer.Id, hlist[i].Id, hlist[i].Name, customer.Price_range);
-                String prefix = "INSERT INTO PreHigh_2021 " + "([id_cus], [id_highlight],[name_highlight],[price_range])";
+                sb.AppendFormat("Values('{0}','{1}')", user.Profession[i],user.Email);
+                String prefix = "INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
 
                 command += prefix + sb.ToString();
             }
