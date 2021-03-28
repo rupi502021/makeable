@@ -159,64 +159,20 @@ namespace MakeAble.Models.DAL
 
             command = prefix + sb.ToString();
 
-            return command;
-        }
-        public int InsertUser_prof(User user)
-        {
-
-            SqlConnection con;
-            SqlCommand cmd;
-
-            try
+            if (user.Profession.Length > 0)
             {
-                con = connect("DBConnectionString"); // create the connection
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("You didnt succeed to connect to DB", ex);
-            }
-
-            String cStr = BuildInsertUser_profCommand(user);      // helper method to build the insert string
-
-            cmd = CreateCommand(cStr, con);             // create the command
-
-            try
-            {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                return numEffected;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("You didnt succeed to add a proffesion to user, Try again!", ex);
-            }
-
-            finally
-            {
-                if (con != null)
+                for (int i = 0; i < user.Profession.Length; i++)
                 {
-                    // close the db connection
-                    con.Close();
+                    sb = new StringBuilder();
+                    sb.AppendFormat("Values('{0}','{1}')", user.Profession[i], user.Email);
+                    prefix = "INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
+
+                    command += prefix + sb.ToString();
                 }
             }
-
-        }
-        private String BuildInsertUser_profCommand(User user)
-        {
-            String command="";
-
-            // use a string builder to create the dynamic string
-            for (int i = 0; i < user.Profession.Length; i++)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendFormat("Values('{0}','{1}')", user.Profession[i],user.Email);
-                String prefix = "INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
-
-                command += prefix + sb.ToString();
-            }
-           
-
             return command;
         }
+      
         public int Update(User user)
         {
 

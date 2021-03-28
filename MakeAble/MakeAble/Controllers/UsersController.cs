@@ -44,7 +44,7 @@ namespace MakeAble.Controllers
                 //לאתחל משתמש חדש
                 {
                     user.Insert();
-                    user.InsertUser_prof();
+
                 }
 
                 return Request.CreateResponse(HttpStatusCode.Created, user);
