@@ -26,6 +26,9 @@ body {
     font-family: 'Quicksand', sans-serif;
     line-height: 1.80857;
 }
+div#logofront {
+    padding-top: 10%;
+}
 
 body.demos .section {
     background: url(images/bg.png) repeat top center #f2f3f5;
@@ -876,23 +879,6 @@ a img.aligncenter {
 	background-color: #2d3032;
 }
 
-.first-section {
-    position: relative;
-    overflow: hidden;
-    height: 100%;	
-	vertical-align: middle;
-}
-
-.first-section::before {
-    content: "";
-    position: absolute;
-    height: 100%;
-    width: 100%;
-	top: 0px;
-	left: 0px;
-    display: block;
-    background: rgba(0,0,0,0.5);
-}
 
 .first-section h2 {
     color: #ffffff;
@@ -960,10 +946,10 @@ a img.aligncenter {
 	position: relative;
 	width: 100%;
 }
-.dtab{
+/*.dtab{
 	display: table-cell;
 	vertical-align: middle;
-}
+}*/
 
 
 .page-section{
