@@ -202,6 +202,7 @@
     <Content Include="css\timeline.min.css" />
     <Content Include="css\versions.css" />
     <Content Include="favicon.ico" />
+    <Content Include="images\notfoundPic.jpg" />
     <Content Include="personal - favorites - space.html" />
     <Content Include="personal - favorites - gallery.html" />
     <Content Include="personal - gallery.html" />

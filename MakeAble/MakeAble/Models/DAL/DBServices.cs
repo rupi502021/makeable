@@ -82,7 +82,6 @@ namespace MakeAble.Models.DAL
                 {
                     con.Close();
                 }
-
             }
 
         }
@@ -162,7 +161,64 @@ namespace MakeAble.Models.DAL
 
             return command;
         }
+        public int InsertUser_prof(User user)
+        {
 
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertUser_profCommand(user);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a proffesion to user, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+        private String BuildInsertUser_profCommand(User user)
+        {
+            String command="";
+
+            StringBuilder sb = new StringBuilder();
+            // use a string builder to create the dynamic string
+            for (int i = 0; i < user.Profession.Length; i++)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendFormat("Values( '{0}','{1}','{2}','{3}')", customer.Id, hlist[i].Id, hlist[i].Name, customer.Price_range);
+                String prefix = "INSERT INTO PreHigh_2021 " + "([id_cus], [id_highlight],[name_highlight],[price_range])";
+
+                command += prefix + sb.ToString();
+            }
+           
+
+            return command;
+        }
         public int Update(User user)
         {
 
@@ -202,17 +258,26 @@ namespace MakeAble.Models.DAL
                     con.Close();
                 }
             }
-
         }
 
         private String BuildUpdateCommand(User user)
         {
             String command;
-            command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
-                "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone + "', ProfilePhoto='" + user.ProfilePhoto +
-                "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
-                "' " + "WHERE Email='" + user.Email+"'";
-            return command;
+            if (user.ProfilePhoto!=null)
+            {
+                command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
+                   "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone + "', ProfilePhoto='" + user.ProfilePhoto +
+                   "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
+                   "' " + "WHERE Email='" + user.Email + "'";
+            }
+            else
+            {
+                command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
+                   "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone +
+                   "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
+                   "' " + "WHERE Email='" + user.Email + "'";              
+            }
+                return command;
         }
 
 

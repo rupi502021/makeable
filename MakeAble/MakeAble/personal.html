@@ -140,7 +140,7 @@
             });
             $("#formUsers").submit(updateUser);
             fLogin();
-            checklogin();
+           
         });
 
         //להכניס תמונה לתצוגה מקדימה
@@ -174,6 +174,17 @@
 
         function getSuccess(data) {
             console.log(data);
+            checked =  JSON.parse(localStorage.getItem('user')); 
+            if (checked) {
+                localStorage.setItem("user", JSON.stringify(data));
+            }
+            else {
+                sessionStorage.removeItem('user');
+                sessionStorage.setItem("user", JSON.stringify(data));
+            }
+
+            checklogin();
+
             //להחזיר את התאריך לאינפוט
             if (data.BirthDay != null) {
                 let tmp = new Date(data.BirthDay);
@@ -192,12 +203,31 @@
             $("#confirm_password").val(data.Password);
             $("#birthDate").val(today);
             $("#phoneNumber").val(data.Phone);
-            if (data.ProfilePhoto != null) {
+            if (data.ProfilePhoto != "" ) {
                 $("#CPP").text('תצוגה מקדימה:');
+                $("#PP").attr('src', data.ProfilePhoto);
             }
-            $("#PP").attr('src', data.ProfilePhoto);
+            $("#Have_makerspace").prop('checked', data.Have_makerspace);
             $("#textarea").val(data.Description);
 
+            const select = document.getElementById('selectmultiple')
+            const selectValues = data.Profession;
+
+            /* Iterate options of select element */
+            for (const option of document.querySelectorAll('#selectmultiple option')) {
+
+                /* Parse value to integer */
+                const value = Number.parseInt(option.value);
+
+                /* If option value contained in values, set selected attribute */
+                if (selectValues.indexOf(value) !== -1) {
+                    option.setAttribute('selected', 'selected');
+                }
+                /* Otherwise ensure no selected attribute on option */
+                else {
+                    option.removeAttribute('selected');
+                }
+            }
         }
 
         function updateUser() {
@@ -242,6 +272,7 @@
                 return false;
             }
             else {
+                user = { ...user, ProfilePhoto: null };
                 ajaxCall("PUT", "../api/Users", JSON.stringify(user), success, error);
                 return false;
             }
@@ -264,7 +295,7 @@
                 title: "הצלחה!", text: "בוצעו השינויים", icon:
                     "success"
             }).then(function () {
-                location.reload();
+                window.location.href = "personal.html";
             });
         }
 
@@ -295,7 +326,7 @@
         function logout() {
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
-            location.reload();
+            
             window.location.href = "index.html";
         }
         function validatePassword() {
@@ -437,9 +468,10 @@
                     <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה פרופיל</label>
                     <div class="form-group">
                         <div class="col-sm-9">
-                            <input id="filebutton"  name="filebutton" class="input-file" type="file">
+                            <input id="filebutton" name="filebutton" class="input-file" type="file">
                             <span id="CPP"></span>
-                            <img id="PP" src="#" alt="ProfilePhoto" />
+                           
+                            <img id="PP" src="images/notfoundPic.jpg"  alt="ProfilePhoto" />
                         </div>
                     </div>
                     <label for="text" class="col-sm-3 control-label">תיאור</label>

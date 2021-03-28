@@ -64,6 +64,11 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             dbs.Insert(this);
         }
+        public void InsertUser_prof()
+        {
+            DBServices dbs = new DBServices();
+            dbs.InsertUser_prof(this);
+        }
         public int Update()
         {
             DBServices dbs = new DBServices();
