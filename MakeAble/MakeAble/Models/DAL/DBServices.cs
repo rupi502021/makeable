@@ -230,5 +230,118 @@ namespace MakeAble.Models.DAL
                 return command;
         }
 
+        public int Insert(Gallery gallery)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertCommand(gallery);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new gallery, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        //--------------------------------------------------------------------
+        // Build the Insert command String
+        //--------------------------------------------------------------------
+        private String BuildInsertCommand(Gallery gallery)
+        {
+            String command;
+
+            StringBuilder sb = new StringBuilder();
+            // use a string builder to create the dynamic string
+
+            sb.AppendFormat("Values( '{0}','{1}','{2}','{3}')", gallery.GalleryName, gallery.Date, gallery.Time, gallery.Description);
+
+            String prefix = "INSERT INTO Gallery " + "([GalleryName],[UploadTime],[UploadDate],[Description])";
+
+            command = prefix + sb.ToString();
+
+            if (gallery.Profession.Length > 0)
+            {
+                for (int i = 0; i < gallery.Profession.Length; i++)
+                {
+                    sb = new StringBuilder();
+                    sb.AppendFormat("Values('{0}')", gallery.Profession[i]);
+                    prefix = "INSERT INTO Professions_Gallery" + "([ProfessionName])";
+
+                    command += prefix + sb.ToString();
+                }
+            }
+            return command;
+        }
+
+        public List<Gallery> getgallery()
+        {
+            SqlConnection con = null;
+            List<Gallery> gList = new List<Gallery>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "SELECT * FROM Gallery";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+                    Gallery g = new Gallery();
+                    g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
+                    g.GalleryName = Convert.ToString(dr["GalleryName"]);
+                    g.Url = Convert.ToString(dr["Url"]);
+                    g.Time = Convert.ToDateTime(dr["UploadTime"]);
+                    g.Date = Convert.ToDateTime(dr["UploadDate"]);
+                    g.Description = Convert.ToString(dr["Description"]);
+
+                    gList.Add(g);
+
+                }
+                return gList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
+
     }
 }

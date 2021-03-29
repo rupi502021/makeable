@@ -40,7 +40,16 @@ namespace MakeAble.Models
         public string[] Profession { get => profession; set => profession = value; }
         public string[] Images { get => images; set => images = value; }
 
-        public void Read() {}
-        public void Insert() { }
+        public List<Gallery> Read()
+        {
+            DBServices dbs = new DBServices();
+            List<Gallery> g = dbs.getgallery();
+            return g;
+        }
+        public void Insert()
+        {
+            DBServices dbs = new DBServices();
+            dbs.Insert(this);
+        }
     }
 }

@@ -11,13 +11,12 @@ namespace MakeAble.Controllers
     public class GalleriesController : ApiController
     {
         // GET api/<controller>
-        //public List<Gallery> Get()
-        //{
-        //    //Gallery gallery = new Gallery();
-        //    //List<Gallery> gList = gallery.Read();
-        //    //return gList;
-        //    return;
-        //}
+        public List<Gallery> Get()
+        {
+            Gallery gallery = new Gallery();
+            List<Gallery> gList = gallery.Read();
+            return gList;
+        }
 
         // GET api/<controller>/5
         public string Get(int id)
