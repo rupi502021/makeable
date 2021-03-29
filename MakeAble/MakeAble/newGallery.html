@@ -2,7 +2,7 @@
 <html lang="he">
 <head>
     <meta charset="utf-8" />
-    <title>הרשמה</title>
+    <title>הוספת גלריה</title>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -17,6 +17,16 @@
     <script src="Scripts/ajaxCalls.js"></script>
     <script src="Scripts/ajaxCallsWithKey.js"></script>
     <style>
+        .container .form-horizontal{
+            font-family: Calibri;
+            margin-top: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            outline: solid;
+        }
+        .container h1 {
+            text-align:center;
+        }
         #center #stars {
             text-align: right;
         }
@@ -61,10 +71,7 @@
             color: orange;
         }
 
-        body {
-            background: url('https://static-communitytable.parade.com/wp-content/uploads/2014/03/rethink-target-heart-rate-number-ftr.jpg') fixed;
-            background-size: cover;
-        }
+    body { background: url('https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg') fixed; background-size: cover; }
 
         input {
             text-align: right;
@@ -94,15 +101,99 @@
                 letter-spacing: 4px;
             }
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $("#pForm").submit(f1);
+        });
+
+        function f1() {
+            AddGallery();
+            return false;
+        }
+
+        function AddGallery() {
+            var stars_range;
+            if ($("input[type='radio'].starRange-input").is(':checked')) {
+                var stars_range = $("input[type='radio'].starRange-input:checked").val();
+            }//דירוג כוכבים לחלל העבודה
+
+            var makerspace;
+            if (document.getElementById('checkboxes-1').checked) {
+                makerspace = document.getElementById('selectbasic').value;
+            }
+            else if (document.getElementById('checkboxes-2').checked) {
+                makespace = document.getElementById('selectbasic').value;
+            } //בחירת חלל העבודה
+
+            gallery = {
+                GalleryName: ("#galleryName").val(), //שם גלריה
+                Profession: $("#selectmultiple").val(), //תחומי עיסוק
+                Description: $("#textarea").val(), //תיאור קצר
+            }
+            upload() //הוספת תמונות
+            console.log(JSON.stringify(gallery));
+        }
+
+        function upload() {
+            var data = new FormData();
+            var files = $("#filebutton").get(0).files;
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedImage", files[f]);
+                }
+                data.append("name", gallery.galleryName + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+            }
+            // Ajax upload  
+            $.ajax({
+                type: "POST",
+                url: "../Api/FileUpload",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: successfile,
+                error: error
+            });
+            return false;
+        }
+
+        function successfile(data) {
+            gallery = { ...gallery, Images: data[0] };
+            console.log(JSON.stringify(gallery));
+            ajaxCall("POST", "../api/Galleries", JSON.stringify(gallery), success, error);
+        }
+
+        function success(data) {
+            //swal("Added Successfuly!", "Great Job", "success");
+            swal({
+                title: "Added Successfuly!", text: "Moving to All Galleries", type:
+                    "success"
+            }).then(function () {
+                window.location.href = 'Galleries.html';
+            }
+            );
+            clear();
+        }
+
+        function error(err) {
+            alert(err.responseJSON);
+        }
+
+        function clear() {
+            $("#galleryName").val(''),
+            $("#selectmultiple").val(''),
+            $("#textarea").val('')
+        }
+    </script>
 </head>
 
 <body dir="rtl">
-    <div class="container" style="font-family:Calibri">
-        <form class="form-horizontal" role="form">
-            <h1 style="text-align:center">הוספת גלריה חדשה</h1>
+    <div class="container">
+        <form class="form-horizontal" id="pFrom" role="form">
+            <h1>הוספת גלריה חדשה</h1>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="text" id="firstName" placeholder="שם הגלריה" class="form-control" autofocus>
+                    <input type="text" id="galleryName" placeholder="שם הגלריה" class="form-control" autofocus>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">שם הגלריה</label>
 
@@ -113,10 +204,10 @@
                 <div class="col-sm-9">
 
                     <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
-                        <option value="1">אומנות</option>
-                        <option value="2">מדפסות תל מימד</option>
-                        <option value="3">נגרות</option>
-                        <option value="4">תכנות</option>
+                        <option value="אומנות">אומנות</option>
+                        <option value="מדפסות תל מימד">מדפסות תל מימד</option>
+                        <option value="נגרות">נגרות</option>
+                        <option value="תכנות">תכנות</option>
                     </select>
 
 
@@ -127,10 +218,10 @@
 
             <!-- Multiple Checkboxes -->
             <div class="form-group">
-                <div class="col-sm-9">
+                <div class="col-sm-9 places">
                     <div class="checkbox">
                         <label for="checkboxes-0">
-                            <input type="radio" name="checkboxes" id="checkboxes-0" value="1">
+                            <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
                             <label class="control-label" for="selectbasic">
                                 <select id="selectbasic" name="selectbasic" class="דform-control">
                                     <option value="0">חללי העבודה שלי</option>
@@ -141,11 +232,11 @@
                     </div>
                     <div class="checkbox">
                         <label for="checkboxes-0">
-                            <input type="radio" name="checkboxes" id="checkboxes-0" value="1">
+                            <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
                             <label class="control-label" for="selectbasic">
                                 <select id="selectbasic" name="selectbasic" class="דform-control">
                                     <option value="0">כל חללי העבודה</option>
-                                    <option value="1">חלל עבודה 1</option>
+                                    <option value="1">חלל עבודה 11</option>
                                 </select>
                             </label>
                         </label>
@@ -165,17 +256,17 @@
 
             <!-- Multiple Checkboxes (inline) -->
             <div class="form-group" id="center">
-                <div class="col-sm-9" id="stars">
-                    <input type="radio" id="one" name="rate" value="1">
-                    <label for="one"></label>
-                    <input type="radio" id="two" name="rate" value="2">
-                    <label for="two"></label>
-                    <input type="radio" id="three" name="rate" value="3">
-                    <label for="three"></label>
-                    <input type="radio" id="four" name="rate" value="4">
-                    <label for="four"></label>
-                    <input type="radio" id="five" name="rate" value="5">
-                    <label for="five"></label>
+                <div class="col-sm-9 starRange-checkbox" id="stars">
+                    <input type="radio" id="one" class="starRange-input" name="rate" value="1">
+                    <label for="one" class="starRange-lable"></label>
+                    <input type="radio" id="two" class="starRange-input" name="rate" value="2">
+                    <label for="two" class="starRange-lable"></label>
+                    <input type="radio" id="three" class="starRange-input" name="rate" value="3">
+                    <label for="three" class="starRange-lable"></label>
+                    <input type="radio" id="four" class="starRange-input" name="rate" value="4">
+                    <label for="four" class="starRange-lable"></label>
+                    <input type="radio" id="five" class="starRange-input" name="rate" value="5">
+                    <label for="five" class="starRange-lable"></label>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">דירוג המקום</label>
             </div>
