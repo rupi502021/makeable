@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
-    <title>QuickCloud - Hosting Responsive HTML5 Template</title>
+    <title>הגלריות שלי</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -84,10 +84,30 @@
         #newGalleryBTN{
             float:right;
         }
+
+        #photo img{
+            width:45%;
+        }
+
+        .container button{
+            width:40%;
+            margin: 0 auto;
+        }
+
+        .fa-heart-o {
+            color: dodgerblue;
+        }
+        .fa-heart{
+            color: deeppink;
+        }
+        #logo_top {
+            width: 200px;
+            height: 51px;
+        }
     </style>
   
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -100,6 +120,7 @@
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
             checklogin();
+            render();
         });
 
         function fLogin() {
@@ -168,6 +189,90 @@
             location.reload();
         }
 
+        function render() {
+            ajaxCall("GET", "../api/Galleries", "", getSuccessRender, getErrorRender);
+        }
+
+        function getSuccessRender(data) {
+            console.log(data);
+            var d = data;
+            renderGalleries(d);
+            renderGalleriesSaved(d);
+        }
+
+        function getErrorRender(err) {
+            console.log(err);
+        }
+
+        function renderGalleries(d) { //רנדור גלריות שפורסמו
+            $("#ph1").html("");
+            let str = "";
+            for (var i = 0; i < d.length; i++) {
+                if (d[i].isActive == true) {
+                    for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
+                        str += "<div class='col-sm-'>";
+                        str += "<div class='card'>";
+                        str += "<div class='para'><br />";
+                        str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].galleryName + "</h1>"; //שם
+                        str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
+                        str += "<p>" + d[i].profession + "</p></div>"; //תחומי עיסוק
+                        str += "<div id='photo' class='row'><img src='" + d[i].images[0] + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
+                        str += "<div id='photo' class='row'><img src='" + d[i].images[1] + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
+                        str += "<div class='para'><p>" + d[i].description + "</p>"; //תיאור
+                        str += "<p>" + d[i].time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                        //אייקונים
+                        str += "<div class='row'><div class='icon-bar'>";
+                        str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
+                        str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
+                        str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
+                        str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
+                        str += "<button type='button' class='btn btn - primary btn - block' style='background - color: white; color: dodgerblue'>הסתר</button>"; //כפתור הסתר
+                        str += "</div></div></div></div>";
+                    }
+                    k = 0; 
+                }
+            }
+            $("#ph1").append(str);
+        }
+
+        function renderGalleriesSaved(d) { //רנדור גלריות שנשמרו
+            $("#ph1").html("");
+            let str = "";
+            for (var i = 0; i < d.length; i++) {
+                if (d[i].isActive == false) {
+                    for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
+                        str += "<div class='col-sm-'>";
+                        str += "<div class='card'>";
+                        str += "<div class='para'><br />";
+                        str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].galleryName + "</h1>"; //שם
+                        str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
+                        str += "<p>" + d[i].profession + "</p></div>"; //תחומי עיסוק
+                        str += "<div id='photo' class='row'><img src='" + d[i].images[0] + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
+                        str += "<div id='photo' class='row'><img src='" + d[i].images[1] + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
+                        str += "<div class='para'><p>" + d[i].description + "</p>"; //תיאור
+                        str += "<p>" + d[i].time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                        //אייקונים
+                        str += "<div class='row'><div class='icon-bar'>";
+                        str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
+                        str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
+                        str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
+                        str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
+                        str += "<button type='button' class='btn btn - primary btn - block'>פרסם</button>"; //כפתור פרסם
+                        str += "</div></div></div></div>";
+                    }
+                    k = 0;
+                }
+            }
+            $("#ph1").append(str);
+        }
+
+        function togglefunc() {
+            $('.fa-heart-o').click(function () {
+                $(this).toggleClass('fa-heart');
+                $(this).toggleClass('fa-heart-o');
+            });
+        }
+
     </script>
 </head>
 <body class="host_version" dir="rtl">
@@ -234,7 +339,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.html">
-                    <img src="images/logo-hosting.png" alt="" />
+                    <img id="logo_top" src="images/make.png" alt="" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
@@ -287,20 +392,24 @@
                 <li><a class="hover-btn-new log" href="newGallery.html"><span>הוספת גלריה חדשה</span></a></li>
             </ul>
         </div>
+        <br />
+        <br />
+        <br />
         <div class="container">
-
+            <h1 style="text-align:right">גלריות שפורסמו</h1>
             <div class="row">
+                <!-- ph1 צריכה לבוא כאן -->
                 <div class="col-sm-4">
                     <div class="card">
                         <div class="para">
                             <br />
-                            <h1><i class="fa fa-user"></i>&nbspשם גלריה</h1>
-                            <p><i class="fa fa-map-marker"></i>&nbspמיקום בו נוצרה</p>
+                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
+                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
                             <p>תחום עיסוק</p>
                         </div>
                         <div id="photo" class="row">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans" style="width:45%">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans" style="width:45%">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
                         </div>
                         <div class="para">
                             <p>תיאור אופציונלי</p>
@@ -308,10 +417,11 @@
                         </div>
                         <div class="row">
                             <div class="icon-bar">
-                                <a ref="#"><i class="fa fa-heart-o"></i></a>
+                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
                                 <a href="#"><i class="fa fa-comment-o"></i></a>
                                 <a href="#"><i class="fa fa-paper-plane"></i></a>
                                 <a href="#"><i class="fa fa-share-alt"></i></a>
+                                <button type="button" class="btn btn-primary btn-block" style="background-color:white; color:dodgerblue">הסתר</button>
                             </div>
                         </div>
                     </div>
@@ -320,13 +430,13 @@
                     <div class="card">
                         <div class="para">
                             <br />
-                            <h1><i class="fa fa-user"></i>&nbspשם גלריה</h1>
-                            <p><i class="fa fa-map-marker"></i>&nbspמיקום בו נוצרה</p>
+                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
+                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
                             <p>תחום עיסוק</p>
                         </div>
                         <div id="photo" class="row">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans" style="width:45%">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans" style="width:45%">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
                         </div>
                         <div class="para">
                             <p>תיאור אופציונלי</p>
@@ -334,10 +444,11 @@
                         </div>
                         <div class="row">
                             <div class="icon-bar">
-                                <a ref="#"><i class="fa fa-heart-o"></i></a>
+                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
                                 <a href="#"><i class="fa fa-comment-o"></i></a>
                                 <a href="#"><i class="fa fa-paper-plane"></i></a>
                                 <a href="#"><i class="fa fa-share-alt"></i></a>
+                                <button type="button" class="btn btn-primary btn-block" style="background-color:white; color:dodgerblue">הסתר</button>
                             </div>
                         </div>
                     </div>
@@ -346,13 +457,13 @@
                     <div class="card">
                         <div class="para">
                             <br />
-                            <h1><i class="fa fa-user"></i>&nbspשם גלריה</h1>
-                            <p><i class="fa fa-map-marker"></i>&nbspמיקום בו נוצרה</p>
+                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
+                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
                             <p>תחום עיסוק</p>
                         </div>
                         <div id="photo" class="row">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans" style="width:45%">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans" style="width:45%">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
                         </div>
                         <div class="para">
                             <p>תיאור אופציונלי</p>
@@ -360,43 +471,106 @@
                         </div>
                         <div class="row">
                             <div class="icon-bar">
-                                <a ref="#"><i class="fa fa-heart-o"></i></a>
+                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
                                 <a href="#"><i class="fa fa-comment-o"></i></a>
                                 <a href="#"><i class="fa fa-paper-plane"></i></a>
                                 <a href="#"><i class="fa fa-share-alt"></i></a>
+                                <button type="button" class="btn btn-primary btn-block" style="background-color:white; color:dodgerblue">הסתר</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <br />
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray" />
 
+        <div class="container">
+            <h1 style="text-align:right">גלריות שנשמרו</h1>
+            <div class="row">
+                <!-- ph2 צריכה לבוא כאן -->
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="para">
+                            <br />
+                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
+                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
+                            <p>תחום עיסוק</p>
+                        </div>
+                        <div id="photo" class="row">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                        </div>
+                        <div class="para">
+                            <p>תיאור אופציונלי</p>
+                            <p>10 דקות</p>
+                        </div>
+                        <div class="row">
+                            <div class="icon-bar">
+                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
+                                <a href="#"><i class="fa fa-comment-o"></i></a>
+                                <a href="#"><i class="fa fa-paper-plane"></i></a>
+                                <a href="#"><i class="fa fa-share-alt"></i></a>
+                                <button type="button" class="btn btn-primary btn-block">פרסם</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="para">
+                            <br />
+                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
+                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
+                            <p>תחום עיסוק</p>
+                        </div>
+                        <div id="photo" class="row">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                        </div>
+                        <div class="para">
+                            <p>תיאור אופציונלי</p>
+                            <p>10 דקות</p>
+                        </div>
+                        <div class="row">
+                            <div class="icon-bar">
+                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
+                                <a href="#"><i class="fa fa-comment-o"></i></a>
+                                <a href="#"><i class="fa fa-paper-plane"></i></a>
+                                <a href="#"><i class="fa fa-share-alt"></i></a>
+                                <button type="button" class="btn btn-primary btn-block">פרסם</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div> <!-- /#page-content-wrapper -->
-    </div> <!-- /#wrapper -->
-    <!-- Bootstrap core JavaScript -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script> <!-- Menu Toggle Script -->
-    <script>
-        $(function () {
-            $("#menu-toggle").click(function (e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
+        </div> <!-- /#wrapper -->
+        <!-- Bootstrap core JavaScript -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script> <!-- Menu Toggle Script -->
+        <script>
+            $(function () {
+                $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
+                });
+
+                $(window).resize(function (e) {
+                    if ($(window).width() <= 768) {
+                        $("#wrapper").removeClass("toggled");
+                    } else {
+                        $("#wrapper").addClass("toggled");
+                    }
+                });
             });
 
-            $(window).resize(function (e) {
-                if ($(window).width() <= 768) {
-                    $("#wrapper").removeClass("toggled");
-                } else {
-                    $("#wrapper").addClass("toggled");
-                }
-            });
-        });
+        </script>
 
-    </script>
-
-    <!-- ALL JS FILES -->
-    <script src="js/all.js"></script>
-    <!-- ALL PLUGINS -->
-    <script src="js/custom.js"></script>
+        <!-- ALL JS FILES -->
+        <script src="js/all.js"></script>
+        <!-- ALL PLUGINS -->
+        <script src="js/custom.js"></script>
 
 </body>
 </html>
