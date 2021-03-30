@@ -16,20 +16,7 @@ namespace MakeAble.Models
         string description;
         string[] profession;
         string[] images;
-
-        public Gallery(int galleryId, string galleryName, string url, DateTime date, DateTime time, string description, string[] profession, string[] images)
-        {
-            this.GalleryId = galleryId;
-            this.GalleryName = galleryName;
-            this.Url = url;
-            this.Date = date;
-            this.Time = time;
-            this.Description = description;
-            this.Profession = profession;
-            this.Images = images;
-        }
-
-        public Gallery() { }
+        bool isActive;
 
         public int GalleryId { get => galleryId; set => galleryId = value; }
         public string GalleryName { get => galleryName; set => galleryName = value; }
@@ -39,6 +26,22 @@ namespace MakeAble.Models
         public string Description { get => description; set => description = value; }
         public string[] Profession { get => profession; set => profession = value; }
         public string[] Images { get => images; set => images = value; }
+        public bool IsActive { get => isActive; set => isActive = value; }
+
+        public Gallery() { }
+
+        public Gallery(int galleryId, string galleryName, string url, DateTime date, DateTime time, string description, string[] profession, string[] images, bool isActive)
+        {
+            this.GalleryId = galleryId;
+            this.GalleryName = galleryName;
+            this.Url = url;
+            this.Date = date;
+            this.Time = time;
+            this.Description = description;
+            this.Profession = profession;
+            this.Images = images;
+            this.IsActive = isActive;
+        }
 
         public List<Gallery> Read()
         {
