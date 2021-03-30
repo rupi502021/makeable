@@ -18,18 +18,18 @@ namespace MakeAble.Controllers
             return gList;
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+        
         // POST api/<controller>
         public HttpResponseMessage Post([FromBody] Gallery gallery)
         {
             try
             {
                 gallery.Insert();
+                List<Gallery> gList = gallery.Read();
+                for (int i = gList.Count; i <= gList.Count; i++)
+                {
+                    gList[i-1].InsertProffesion_Gallery(gallery, gList[i - 1].GalleryId);
+                }
                 return Request.CreateResponse(HttpStatusCode.Created, gallery);
             }
             catch (Exception ex)

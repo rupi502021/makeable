@@ -28,17 +28,17 @@ namespace MakeAble.Controllers
 
                     // this is an example of how you can extract addional values from the Ajax call
                     string end = httpPostedFile.FileName.Split('.').Last();
-                    string name = (httpContext.Request.Form["email"] + '.' + end);
+                    string name = (httpContext.Request.Form["name"] + '.' + end);
 
                     if (httpPostedFile != null)
                     {
                         // Construct file save path  
                         //var fileSavePath = Path.Combine(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["fileUploadFolder"]), httpPostedFile.FileName);
                         string fname = httpPostedFile.FileName.Split('\\').Last();
-                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/uploadedFiles"), name);
+                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/UploadedImageGalleries"), name);
                         // Save the uploaded file  
                         httpPostedFile.SaveAs(fileSavePath);
-                        imageLinks.Add("uploadedFiles/" + name);
+                        imageLinks.Add("UploadedImageGalleries/" + name);
                     }
                 }
             }

@@ -155,7 +155,7 @@ namespace MakeAble.Models.DAL
 
             command = prefix + sb.ToString();
 
-            if (user.Profession.Length > 0)
+            if (user.Profession.Length > 0 && user.Profession != null)
             {
                 for (int i = 0; i < user.Profession.Length; i++)
                 {
@@ -168,7 +168,7 @@ namespace MakeAble.Models.DAL
             }
             return command;
         }
-      
+
         public int Update(User user)
         {
 
@@ -213,7 +213,7 @@ namespace MakeAble.Models.DAL
         private String BuildUpdateCommand(User user)
         {
             String command;
-            if (user.ProfilePhoto!=null)
+            if (user.ProfilePhoto != null)
             {
                 command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
                    "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone + "', ProfilePhoto='" + user.ProfilePhoto +
@@ -225,9 +225,9 @@ namespace MakeAble.Models.DAL
                 command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
                    "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone +
                    "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
-                   "' " + "WHERE Email='" + user.Email + "'";              
+                   "' " + "WHERE Email='" + user.Email + "'";
             }
-                return command;
+            return command;
         }
 
         public int Insert(Gallery gallery)
@@ -266,12 +266,8 @@ namespace MakeAble.Models.DAL
                     con.Close();
                 }
             }
-
         }
 
-        //--------------------------------------------------------------------
-        // Build the Insert command String
-        //--------------------------------------------------------------------
         private String BuildInsertCommand(Gallery gallery)
         {
             String command;
@@ -279,23 +275,11 @@ namespace MakeAble.Models.DAL
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values( '{0}','{1}','{2}','{3}')", gallery.GalleryName, gallery.Date, gallery.Time, gallery.Description);
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}')", gallery.GalleryName, ((DateTime)gallery.Time).ToString("t"), ((DateTime)gallery.Date).ToString("u"), gallery.Description, gallery.Email);
 
-            String prefix = "INSERT INTO Gallery " + "([GalleryName],[UploadTime],[UploadDate],[Description])";
+            String prefix = "INSERT INTO Gallery " + "([GalleryName],[UploadTime],[UploadDate],[Description],[UserEmail])";
 
             command = prefix + sb.ToString();
-
-            if (gallery.Profession.Length > 0)
-            {
-                for (int i = 0; i < gallery.Profession.Length; i++)
-                {
-                    sb = new StringBuilder();
-                    sb.AppendFormat("Values('{0}')", gallery.Profession[i]);
-                    prefix = "INSERT INTO Professions_Gallery" + "([ProfessionName])";
-
-                    command += prefix + sb.ToString();
-                }
-            }
             return command;
         }
 
@@ -317,11 +301,13 @@ namespace MakeAble.Models.DAL
                 while (dr.Read())
                 {   // Read till the end of the data into a row
                     Gallery g = new Gallery();
+                   
                     g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
                     g.GalleryName = Convert.ToString(dr["GalleryName"]);
                     g.Url = Convert.ToString(dr["Url"]);
-                    g.Time = Convert.ToDateTime(dr["UploadTime"]);
                     g.Date = Convert.ToDateTime(dr["UploadDate"]);
+                    g.Time = Convert.ToDateTime(dr["UploadTime"]);
+
                     g.Description = Convert.ToString(dr["Description"]);
 
                     gList.Add(g);
@@ -343,5 +329,61 @@ namespace MakeAble.Models.DAL
             }
         }
 
+        public int InsertProffesion_Gallery(Gallery gallery,int id)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertProfCommand(gallery, id);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new gallery, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private String BuildInsertProfCommand(Gallery gallery,int id)
+        {
+            String command = "";
+            if (gallery.Profession != null && gallery.Profession.Length > 0  )
+            {
+                
+                for (int i = 0; i < gallery.Profession.Length; i++)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendFormat("Values('{0}','{1}')", id, gallery.Profession[i]);
+                    String prefix = "INSERT INTO Professions_Gallery" + "([GalleryId],[ProfessionName])";
+
+                    command += prefix + sb.ToString();
+                }
+            }
+           
+            return command;
+        }
     }
 }

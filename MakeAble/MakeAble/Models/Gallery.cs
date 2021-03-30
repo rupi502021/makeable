@@ -17,6 +17,7 @@ namespace MakeAble.Models
         string[] profession;
         string[] images;
         bool isActive;
+        string email;
 
         public int GalleryId { get => galleryId; set => galleryId = value; }
         public string GalleryName { get => galleryName; set => galleryName = value; }
@@ -27,10 +28,10 @@ namespace MakeAble.Models
         public string[] Profession { get => profession; set => profession = value; }
         public string[] Images { get => images; set => images = value; }
         public bool IsActive { get => isActive; set => isActive = value; }
-
+        public string Email { get => email; set => email = value; }
         public Gallery() { }
 
-        public Gallery(int galleryId, string galleryName, string url, DateTime date, DateTime time, string description, string[] profession, string[] images, bool isActive)
+        public Gallery(int galleryId, string galleryName, string url, DateTime date, DateTime time, string description, string[] profession, string[] images, bool isActive, string email)
         {
             this.GalleryId = galleryId;
             this.GalleryName = galleryName;
@@ -41,6 +42,7 @@ namespace MakeAble.Models
             this.Profession = profession;
             this.Images = images;
             this.IsActive = isActive;
+            this.Email = email;
         }
 
         public List<Gallery> Read()
@@ -53,6 +55,11 @@ namespace MakeAble.Models
         {
             DBServices dbs = new DBServices();
             dbs.Insert(this);
+        }
+        public void InsertProffesion_Gallery(Gallery gallery,int id)
+        {
+            DBServices dbs = new DBServices();
+            dbs.InsertProffesion_Gallery(gallery, id);
         }
     }
 }

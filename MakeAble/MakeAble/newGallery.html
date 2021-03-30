@@ -17,16 +17,18 @@
     <script src="Scripts/ajaxCalls.js"></script>
     <script src="Scripts/ajaxCallsWithKey.js"></script>
     <style>
-        .container .form-horizontal{
+        .container .form-horizontal {
             font-family: Calibri;
             margin-top: 30px;
             margin-left: auto;
             margin-right: auto;
             outline: solid;
         }
+
         .container h1 {
-            text-align:center;
+            text-align: center;
         }
+
         #center #stars {
             text-align: right;
         }
@@ -63,7 +65,7 @@
             text-shadow: 1px 1px goldenrod;
         }
 
-        #galleyBTN{
+        #galleyBTN {
             padding: 3px;
         }
 
@@ -71,7 +73,10 @@
             color: orange;
         }
 
-    body { background: url('https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg') fixed; background-size: cover; }
+        body {
+            background: url('https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg') fixed;
+            background-size: cover;
+        }
 
         input {
             text-align: right;
@@ -115,22 +120,49 @@
         function AddGallery() {
             var stars_range;
             if ($("input[type='radio'].starRange-input").is(':checked')) {
-                var stars_range = $("input[type='radio'].starRange-input:checked").val();
+                stars_range = $("input[type='radio'].starRange-input:checked").val();
             }//דירוג כוכבים לחלל העבודה
 
             var makerspace;
             if (document.getElementById('checkboxes-1').checked) {
-                makerspace = document.getElementById('selectbasic').value;
+                makerspace = document.getElementById('selectbasic1').value;
             }
             else if (document.getElementById('checkboxes-2').checked) {
-                makespace = document.getElementById('selectbasic').value;
+                makespace = document.getElementById('selectbasic2').value;
             } //בחירת חלל העבודה
 
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            var date = yyyy + '-' + mm + '-' + dd;
+
+            var time1 = new Date().toLocaleTimeString('en-US', {
+                hour12: false,
+                hour: "numeric",
+                minute: "numeric"
+            });
+            var time = time1;
             gallery = {
                 GalleryName: $("#galleryName").val(), //שם גלריה
                 Profession: $("#selectmultiple").val(), //תחומי עיסוק
                 Description: $("#textarea").val(), //תיאור קצר
+                Date: date,
+                Time: time,
+                IsActive: false,
+                
             }
+            
+            if (localStorage.getItem("user") == null) {
+                l = JSON.parse(sessionStorage.getItem('user'));
+            }
+            else {
+                l = JSON.parse(localStorage.getItem('user'));
+            }
+            gallery = { ...gallery, Email: l.Email };
+           
             upload() //הוספת תמונות
             console.log(JSON.stringify(gallery));
         }
@@ -140,11 +172,11 @@
             var files = $("#filebutton").get(0).files;
             if (files.length > 0) {
                 for (f = 0; f < files.length; f++) {
-                    data.append("UploadedImage", files[f]);
+                    data.append("UploadedImageGalleries", files[f]);
                 }
-                data.append("name", gallery.galleryName + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                data.append("name", gallery.GalleryName + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
             }
-            // Ajax upload  
+            // Ajax upload
             $.ajax({
                 type: "POST",
                 url: "../Api/FileUpload",
@@ -181,8 +213,8 @@
 
         function clear() {
             $("#galleryName").val(''),
-            $("#selectmultiple").val(''),
-            $("#textarea").val('')
+                $("#selectmultiple").val(''),
+                $("#textarea").val('')
         }
 
         function saveGallery() { //הוספת גלריה כשמורה ולא כמפורסמת
@@ -226,7 +258,7 @@
                         <label for="checkboxes-0">
                             <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
                             <label class="control-label" for="selectbasic">
-                                <select id="selectbasic" name="selectbasic" class="דform-control">
+                                <select id="selectbasic1" name="selectbasic" class="דform-control">
                                     <option value="0">חללי העבודה שלי</option>
                                     <option value="1">חלל עבודה 1</option>
                                 </select>
@@ -237,7 +269,7 @@
                         <label for="checkboxes-0">
                             <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
                             <label class="control-label" for="selectbasic">
-                                <select id="selectbasic" name="selectbasic" class="דform-control">
+                                <select id="selectbasic2" name="selectbasic" class="דform-control">
                                     <option value="0">כל חללי העבודה</option>
                                     <option value="1">חלל עבודה 11</option>
                                 </select>
@@ -247,7 +279,7 @@
                 </div>
                 <label class="col-sm-3 control-label" for="checkboxes">הוספת מקום</label>
             </div>
-        <br />
+            <br />
 
             <!-- File Button -->
             <div class="form-group">
@@ -275,7 +307,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <textarea class="form-control" id="textarea" name="textarea">תיאור קצר</textarea>
+                    <textarea class="form-control" id="textarea" name="textarea" placeholder="תיאור קצר"></textarea>
                 </div>
                 <label class="col-sm-3 control-label" for="textarea">תיאור קצר</label>
             </div>
