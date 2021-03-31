@@ -14,6 +14,9 @@
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!------ Include the above in your HEAD tag ---------->
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script src="Scripts/ajaxCalls.js"></script>
     <script src="Scripts/ajaxCallsWithKey.js"></script>
     <style>
@@ -152,9 +155,9 @@
                 Date: date,
                 Time: time,
                 IsActive: false,
-                
+
             }
-            
+
             if (localStorage.getItem("user") == null) {
                 l = JSON.parse(sessionStorage.getItem('user'));
             }
@@ -162,7 +165,7 @@
                 l = JSON.parse(localStorage.getItem('user'));
             }
             gallery = { ...gallery, Email: l.Email };
-           
+
             upload() //הוספת תמונות
             console.log(JSON.stringify(gallery));
         }
@@ -174,23 +177,23 @@
                 for (f = 0; f < files.length; f++) {
                     data.append("UploadedImageGalleries", files[f]);
                 }
-                data.append("name", gallery.GalleryName + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                data.append("name", gallery.Email + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                // Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/FileUpload",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: successfile,
+                    error: error
+                });
             }
-            // Ajax upload
-            $.ajax({
-                type: "POST",
-                url: "../Api/FileUpload",
-                contentType: false,
-                processData: false,
-                data: data,
-                success: successfile,
-                error: error
-            });
-            return false;
+
         }
 
         function successfile(data) {
-            gallery = { ...gallery, Images: data[0] };
+            gallery = { ...gallery, Images: data };
             console.log(JSON.stringify(gallery));
             ajaxCall("POST", "../api/Galleries", JSON.stringify(gallery), success, error);
         }
@@ -229,7 +232,7 @@
             <h1>הוספת גלריה חדשה</h1>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="text" id="galleryName" placeholder="שם הגלריה" class="form-control" autofocus>
+                    <input type="text" id="galleryName" placeholder="שם הגלריה" class="form-control" autofocus required>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">שם הגלריה</label>
             </div>
@@ -238,7 +241,7 @@
             <div class="form-group">
                 <div class="col-sm-9">
 
-                    <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
+                    <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
                         <option value="אומנות">אומנות</option>
                         <option value="מדפסות תל מימד">מדפסות תל מימד</option>
                         <option value="נגרות">נגרות</option>
@@ -284,7 +287,7 @@
             <!-- File Button -->
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input id="filebutton" name="filebutton" class="input-file" type="file" multiple>
+                    <input id="filebutton" name="filebutton" class="input-file" type="file" multiple required>
                 </div>
                 <label class="col-sm-3 control-label" for="filebutton">הוספת תמונה</label>
             </div>

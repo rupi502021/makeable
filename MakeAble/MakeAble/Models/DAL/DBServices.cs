@@ -280,6 +280,8 @@ namespace MakeAble.Models.DAL
             String prefix = "INSERT INTO Gallery " + "([GalleryName],[UploadTime],[UploadDate],[Description],[UserEmail])";
 
             command = prefix + sb.ToString();
+
+            
             return command;
         }
 
@@ -382,7 +384,13 @@ namespace MakeAble.Models.DAL
                     command += prefix + sb.ToString();
                 }
             }
-           
+            for (int i = 0; i < gallery.Images.Length; i++)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("Values('{0}','{1}')", id, gallery.Images[i]);
+                String prefix = "INSERT INTO Gallery_Photo " + "([GalleryId],[PhotoUrl])";
+                command += prefix + sb.ToString();
+            }
             return command;
         }
     }

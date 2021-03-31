@@ -25,6 +25,7 @@ namespace MakeAble.Controllers
             try
             {
                 gallery.Insert();
+
                 List<Gallery> gList = gallery.Read();
                 for (int i = gList.Count; i <= gList.Count; i++)
                 {
