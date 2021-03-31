@@ -211,24 +211,24 @@
             $("#textarea").val(data.Description);
 
 
-            const select = document.getElementById('selectmultiple')
-            const selectValues = data.Profession;
+            //const select = document.getElementById('selectmultiple')
+            //const selectValues = data.Profession;
 
-            /* Iterate options of select element */
-            for (const option of document.querySelectorAll('#selectmultiple option')) {
+            ///* Iterate options of select element */
+            //for (const option of document.querySelectorAll('#selectmultiple option')) {
 
-                /* Parse value to integer */
-                const value = Number.parseInt(option.value);
+            //    /* Parse value to integer */
+            //    const value = Number.parseInt(option.value);
 
-                /* If option value contained in values, set selected attribute */
-                if (selectValues.indexOf(value) !== -1) {
-                    option.setAttribute('selected', 'selected');
-                }
-                /* Otherwise ensure no selected attribute on option */
-                else {
-                    option.removeAttribute('selected');
-                }
-            }
+            //    /* If option value contained in values, set selected attribute */
+            //    if (selectValues.indexOf(value) !== -1) {
+            //        option.setAttribute('selected', 'selected');
+            //    }
+            //    /* Otherwise ensure no selected attribute on option */
+            //    else {
+            //        option.removeAttribute('selected');
+            //    }
+            //}
         }
 
         function updateUser() {
