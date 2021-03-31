@@ -45,6 +45,13 @@ namespace MakeAble.Models
             this.Email = email;
         }
 
+        public List<Gallery> ReadFavGal()
+        {
+            DBServices dbs = new DBServices();
+            List<Gallery> g = dbs.getFavGallery();
+            return g;
+        }
+
         public List<Gallery> Read()
         {
             DBServices dbs = new DBServices();
@@ -60,6 +67,18 @@ namespace MakeAble.Models
         {
             DBServices dbs = new DBServices();
             dbs.InsertProffesion_Gallery(gallery, id);
+        }
+
+        public void InsertToFav()
+        {
+            DBServices dbs = new DBServices();
+            dbs.InsertToFav(this);
+        }
+
+        public int Delete(int id)
+        {
+            DBServices dbs = new DBServices();
+            return dbs.Delete(id);
         }
     }
 }

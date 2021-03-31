@@ -109,7 +109,7 @@
             $("#submitLogin").click(fLogin);
             $('.fa-heart-o').click(togglefunc);
             checklogin();
-           <!-- render();-->
+            render();
         });
 
         function fLogin() {
@@ -181,95 +181,110 @@
             location.reload();
         }
 
-        function togglefunc() {           
-                $(this).toggleClass('fa-heart');
-                $(this).toggleClass('fa-heart-o');
-           
+        function togglefunc() {
+            $(this).toggleClass('fa-heart');
+            $(this).toggleClass('fa-heart-o');
+            if ($(this).hasClass('fa-heart-o')) {
+                addToFavorite(this);
+            }
+            else {
+                removeFromFavorite(this.id);
+            }
         }
 
-        //function render() {
-        //    ajaxCall("GET", "../api/Galleries", "", getSuccessRender, getErrorRender);
-        //}
+        function render() {
+            ajaxCall("GET", "../api/Galleries", "", getSuccessRender, getErrorRender);
+        }
 
-        //function getSuccessRender(data) {
-        //    console.log(data);
-        //    var d = data;
-        //    renderGalleries(d);
-        //    renderGalleriesSaved(d);
-        //}
+        function getSuccessRender(data) {
+            console.log(data);
+            var d = data;
+            renderGalleries(d);
+            renderGalleriesSaved(d);
+        }
 
-        //function getErrorRender(err) {
-        //    console.log(err);
-        //}
+        function getErrorRender(err) {
+            console.log(err);
+        }
 
-        //function renderGalleries(d) { //רנדור גלריות שפורסמו
-        //    $("#ph1").html("");
-        //    let str = "";
-        //    listGal = new Array();
-        //    for (var i = 0; i < d.length; i++) {
-        //        if (d[i].isActive == true) {
-        //            for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
-        //                let _id = d[i].galleryId
-        //                str += "<div class='col-sm-'>";
-        //                str += "<div class='card'>";
-        //                str += "<div class='para'><br />";
-        //                let _name = d[i].galleryName;
-        //                str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + _name + "</h1>"; //שם
-        //                let _place = "???";
-        //                str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + _place + "</p>"; //מקום
-        //                let _profession = d[i].profession
-        //                str += "<p>" + _profession + "</p></div>"; //תחומי עיסוק
-        //                let _photo1 = d[i].images[0];
-        //                let _photo2 = d[i].images[1];
-        //                str += "<div id='photo' class='row'><img src='" + _photo1 + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
-        //                str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
-        //                let _description = d[i].description;
-        //                str += "<div class='para'><p>" + _description + "</p>"; //תיאור
-        //                let _time = d[i].time;
-        //                str += "<p>" + _time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
-        //                listGal.push(_name, _place, _profession, _photo1, _photo2, _description, _time)
-        //                //אייקונים
-        //                str += "<div class='row'><div class='icon-bar'>";
-        //                str += "<a ref='#' onclick='togglefunc()'><i id='" + _id + "class='fa fa-heart-o'></i></a>";
-        //                str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
-        //                str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
-        //                str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
-        //                str += "</div></div></div></div>";
-        //            }
-        //            k = 0;
-        //        }
-        //    }
-        //    $("#ph1").append(str);
-        //}
+        function renderGalleries(d) { //רנדור גלריות שפורסמו
+            $("#ph1").html("");
+            let str = "";
+            listGal = new Array();
+            for (var i = 0; i < d.length; i++) {
+                if (d[i].isActive == true) {
 
-        //function addToFavorite(glr) {
-        //    for (var i = 0; i < lisrGal.length; i++) {
-        //        if (listGal[i][0] == glr.galleryId) {
-        //            gallery = {
-        //                GalleryId = listGal[i][0],
-        //                GalleryName = listGal[i][1],
-        //                //איך מכניסים מקום?
-        //                Time = listGal[i][3],
-        //                Description = listGal[i][4],
-        //                Images = listGal[i][5]
-        //            }
-        //        }
+                    let _id = d[i].galleryId;
+                    let _email = d[i].email; //זה לא האימייל הנכון - צריך פה עבודה עם לוקאל סטורג
+                    listGal.push(_name, _email);
 
-        //    }
-        //    console.log(JSON.stringify(gallery));
+                    for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
+                        str += "<div class='col-sm-'>";
+                        str += "<div class='card'>";
+                        str += "<div class='para'><br />";
+                        let _name = d[i].galleryName;
+                        str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + _name + "</h1>"; //שם
+                        let _place = "???";
+                        str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + _place + "</p>"; //מקום
+                        let _profession = d[i].profession
+                        str += "<p>" + _profession + "</p></div>"; //תחומי עיסוק
+                        let _photo1 = d[i].images[0];
+                        let _photo2 = d[i].images[1];
+                        str += "<div id='photo' class='row'><img src='" + _photo1 + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
+                        str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
+                        let _description = d[i].description;
+                        str += "<div class='para'><p>" + _description + "</p>"; //תיאור
+                        let _time = d[i].time;
+                        str += "<p>" + _time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                        //אייקונים
+                        str += "<div class='row'><div class='icon-bar'>";
+                        str += "<a ref='#' onclick='togglefunc()'><i id='" + _id + "class='fa fa-heart-o'></i></a>";
+                        str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
+                        str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
+                        str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
+                        str += "</div></div></div></div>";
+                    }
+                    k = 0;
+                }
+            }
+            $("#ph1").append(str);
+        }
 
-        //    ajaxCall("POST", "../api/Galleries", JSON.stringify(gallery), postSuccess, postError);
-        //}
+        function addToFavorite(glr) {
+            for (var i = 0; i < lisrGal.length; i++) {
+                if (listGal[i][0] == glr.galleryId) {
+                    galleryFav = {
+                        GalleryId = listGal[i][0],
+                        Email = lisrGal[i][1]
+                        //זה צריך להיות האימייל של המשתמש שלחץ - עכשיו זה של המשתמש שהעלה
+                        //עבודה עם לוקאל סטורג
+                    }
+                }
+            }
+            console.log(JSON.stringify(galleryFav));
 
-        //function postSuccess(data) {
+            ajaxCall("POST", "../api/Galleries/fav", JSON.stringify(galleryFav), postSuccess, postError);
+        }
 
-        //    alert("גלריה הוספה למועדפים בהצלחה!");
+        function postSuccess(data) {
+            alert("גלריה הוספה למועדפים בהצלחה!");
+        }
 
-        //}
+        function postError(err) {
+            alert(err.responseJSON);
+        }
 
-        //function postError(err) {
-        //    alert(err.responseJSON);
-        //}
+        function removeFromFavorite(id) {
+            ajaxCall("DELETE", "../api/Galleries" + id, "", deleteSuccess, deleteError);
+        }
+
+        function deleteSuccess(data) {
+            alert("גלריה הוסרה מהמועדפים בהצלחה!");
+        }
+
+        function deleteError(err) {
+            alert(err.responseJSON);
+        }
     </script>
 </head>
 <body class="host_version" dir="rtl">
@@ -372,6 +387,9 @@
             <h1 style="text-align:right; font-size:70px">גלריית עבודות</h1>
             <br />
             <div class="row">
+
+                <div id="ph1"></div>
+
                 <div class="col-sm-4">
                     <div class="card">
                         <div class="para">
@@ -416,7 +434,7 @@
                         </div>
                         <div class="row">
                             <div class="icon-bar">
-                                <a ref="#" ><i class="fa fa-heart-o"></i></a>
+                                <a ref="#"><i class="fa fa-heart-o"></i></a>
                                 <a href="#"><i class="fa fa-comment-o"></i></a>
                                 <a href="#"><i class="fa fa-paper-plane"></i></a>
                                 <a href="#"><i class="fa fa-share-alt"></i></a>
@@ -442,7 +460,7 @@
                         </div>
                         <div class="row">
                             <div class="icon-bar">
-                                <a ref="#" ><i class="fa fa-heart-o"></i></a>
+                                <a ref="#"><i class="fa fa-heart-o"></i></a>
                                 <a href="#"><i class="fa fa-comment-o"></i></a>
                                 <a href="#"><i class="fa fa-paper-plane"></i></a>
                                 <a href="#"><i class="fa fa-share-alt"></i></a>
@@ -472,7 +490,7 @@
                         </div>
                         <div class="row">
                             <div class="icon-bar">
-                                <a ref="#" ><i class="fa fa-heart-o"></i></a>
+                                <a ref="#"><i class="fa fa-heart-o"></i></a>
                                 <a href="#"><i class="fa fa-comment-o"></i></a>
                                 <a href="#"><i class="fa fa-paper-plane"></i></a>
                                 <a href="#"><i class="fa fa-share-alt"></i></a>
@@ -498,7 +516,7 @@
                         </div>
                         <div class="row">
                             <div class="icon-bar">
-                                <a ref="#" ><i class="fa fa-heart-o"></i></a>
+                                <a ref="#"><i class="fa fa-heart-o"></i></a>
                                 <a href="#"><i class="fa fa-comment-o"></i></a>
                                 <a href="#"><i class="fa fa-paper-plane"></i></a>
                                 <a href="#"><i class="fa fa-share-alt"></i></a>
@@ -524,7 +542,7 @@
                         </div>
                         <div class="row">
                             <div class="icon-bar">
-                                <a ref="#" ><i class="fa fa-heart-o"></i></a>
+                                <a ref="#"><i class="fa fa-heart-o"></i></a>
                                 <a href="#"><i class="fa fa-comment-o"></i></a>
                                 <a href="#"><i class="fa fa-paper-plane"></i></a>
                                 <a href="#"><i class="fa fa-share-alt"></i></a>
