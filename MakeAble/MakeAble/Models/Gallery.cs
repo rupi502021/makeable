@@ -58,12 +58,20 @@ namespace MakeAble.Models
             List<Gallery> g = dbs.getgallery();
             return g;
         }
+
+        //public List<Gallery> ReadAllGalleriesAl()
+        //{
+        //    DBServices dbs = new DBServices();
+        //    List<Gallery> g = dbs.getAllGalleriesAl();
+        //    return g;
+        //}
+
         public void Insert()
         {
             DBServices dbs = new DBServices();
             dbs.Insert(this);
         }
-        public void InsertProffesion_Gallery(Gallery gallery,int id)
+        public void InsertProffesion_Gallery(Gallery gallery, int id)
         {
             DBServices dbs = new DBServices();
             dbs.InsertProffesion_Gallery(gallery, id);

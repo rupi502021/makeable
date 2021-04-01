@@ -26,8 +26,15 @@ namespace MakeAble.Controllers
                 List<Gallery> gList = gallery.Read();
                 return gList;
         }
+        //[HttpGet]
+        //[Route("api/Users/{email}/")]
+        //public List<Gallery> GetAllGalleriesAl()
+        //{
+        //    Gallery gallery = new Gallery();
+        //    List<Gallery> gList = gallery.ReadAllGalleriesAl();
+        //    return gList;
+        //}
 
-        
         // POST api/<controller>
 
         [HttpPost]
