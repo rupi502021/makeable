@@ -12,14 +12,14 @@ namespace MakeAble.Controllers
     {
         // GET api/<controller>
 
-        [HttpGet]
-        [Route("api/Galleries/fav")]
-        public List<Gallery> GetFav()
-        {
-            Gallery gallery = new Gallery();
-            List<Gallery> gList = gallery.ReadFavGal();
-            return gList;
-        }
+        //[HttpGet]
+        //[Route("api/Galleries/fav")]
+        //public List<Gallery> GetFav()
+        //{
+        //    Gallery gallery = new Gallery();
+        //    List<Gallery> gList = gallery.ReadFavGal();
+        //    return gList;
+        //}
         public List<Gallery> Get()
         {
                 Gallery gallery = new Gallery();
@@ -37,12 +37,12 @@ namespace MakeAble.Controllers
 
         // POST api/<controller>
 
-        [HttpPost]
-        [Route("api/Galleries/fav")]
-        public void PostFav([FromBody] Gallery gallery)
-        {
-                gallery.InsertToFav();
-        }
+        //[HttpPost]
+        //[Route("api/Galleries/fav")]
+        //public void PostFav([FromBody] Gallery gallery)
+        //{
+        //        gallery.InsertToFav();
+        //}
 
         public HttpResponseMessage Post([FromBody] Gallery gallery)
         {
@@ -69,19 +69,19 @@ namespace MakeAble.Controllers
         }
 
         // DELETE api/<controller>/5
-        public HttpResponseMessage Delete(int id)
-        {
-            Gallery g = new Gallery();
-            int num = g.Delete(id);
-            List<Gallery> gList = g.ReadFavGal();
-            if (num == 0)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "id: " + id + " does not exist");
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, gList);
-            }
-        }
+        //public HttpResponseMessage Delete(int id)
+        //{
+        //    Gallery g = new Gallery();
+        //    int num = g.Delete(id);
+        //    List<Gallery> gList = g.ReadFavGal();
+        //    if (num == 0)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "id: " + id + " does not exist");
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, gList);
+        //    }
+        //}
     }
 }
