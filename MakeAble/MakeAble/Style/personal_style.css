@@ -1,0 +1,57 @@
+﻿
+a#logout::before {
+    background: red;
+}
+
+.sidebar-nav {
+    text-align: right;
+    font-family: Calibri;
+    font-size: 30px;
+}
+
+.nav.navbar.navbar-expand.navbar-dark.bg-primary {
+    background-color: #333333;
+}
+
+input {
+    text-align: right;
+}
+
+*[role="form"] {
+    max-width: 100%;
+    padding: 15px;
+    margin: 0 auto;
+    border-radius: 0.3em;
+    background-color: #f2f2f2;
+    text-align: right;
+}
+
+    *[role="form"] h2 {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 50px;
+        font-weight: 600;
+        color: #000000;
+        margin-top: 5%;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+    }
+
+#btn_save {
+    width: 30%;
+    margin: auto;
+}
+
+img#PP {
+    max-width: 25%;
+}
+
+#nav_menu {
+    position: sticky;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+

@@ -1,0 +1,20 @@
+﻿
+a#logout::before {
+    background: red;
+}
+
+.sidebar-nav {
+    text-align: right;
+    font-family: Calibri;
+    font-size: 30px;
+}
+
+.nav.navbar.navbar-expand.navbar-dark.bg-primary {
+    background-color: #333333;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+

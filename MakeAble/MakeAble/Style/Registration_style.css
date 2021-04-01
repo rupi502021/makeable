@@ -1,0 +1,46 @@
+﻿
+.container .form-horizontal {
+    font-family: Calibri;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    outline: solid;
+}
+
+input {
+    text-align: right;
+}
+
+label.col-sm-3.control-label {
+    text-align: center;
+}
+
+*[role="form"] {
+    max-width: 700px;
+    padding: 15px;
+    margin: 0 auto;
+    border-radius: 0.3em;
+    background-color: #f2f2f2;
+    text-align: right;
+}
+
+    *[role="form"] h2 {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 40px;
+        font-weight: 600;
+        color: #000000;
+        margin-top: 5%;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+    }
+
+img#PP {
+    max-width: 25%;
+}
+
+body {
+    background: url('https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg') fixed;
+    background-size: cover;
+}
+

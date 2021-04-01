@@ -31,81 +31,7 @@
     <link href="css/person.css" rel="stylesheet" />
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
-    <style>
-        a#logout::before {
-            background: red;
-        }
-
-        .sidebar-nav {
-            text-align: right;
-            font-family: Calibri;
-            font-size: 30px;
-        }
-
-        .nav.navbar.navbar-expand.navbar-dark.bg-primary{
-            background-color: #333333;
-        }
-        .container {
-            font-family: Calibri;
-        }
-
-        a#logout::before {
-            background: red;
-        }
-
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            height: 100%;
-            margin: 0 auto;
-            text-align: center;
-            font-family: arial;
-        }
-
-            .card .icon-bar {
-                border: none;
-                outline: 0;
-                padding: 12px;
-                text-align: center;
-                cursor: pointer;
-                width: 100%;
-                font-size: 18px;
-                direction: ltr;
-            }
-
-            .card #photo {
-                margin: 0 auto;
-            }
-
-            .card .para {
-                font-family: Calibri;
-            }
-
-        #newGalleryBTN{
-            float:right;
-        }
-
-        #photo img{
-            width:45%;
-        }
-
-        .container button{
-            width:40%;
-            margin: 0 auto;
-        }
-
-        .fa-heart-o {
-            color: dodgerblue;
-        }
-        .fa-heart{
-            color: deeppink;
-        }
-        #logo_top {
-            width: 200px;
-            height: 51px;
-        }
-    </style>
-  
+    <link href="Style/personal_gallery_style.css" rel="stylesheet" />
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -229,7 +155,7 @@
                         str += "<button type='button' class='btn btn - primary btn - block' style='background - color: white; color: dodgerblue'>הסתר</button>"; //כפתור הסתר
                         str += "</div></div></div></div>";
                     }
-                    k = 0; 
+                    k = 0;
                 }
             }
             $("#ph1").append(str);

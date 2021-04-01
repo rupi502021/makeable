@@ -326,6 +326,16 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="style.css" />
+    <Content Include="Style\galleries_style.css" />
+    <Content Include="Style\galleryPage_style.css" />
+    <Content Include="Style\index_style.css" />
+    <Content Include="Style\newGallery_style.css" />
+    <Content Include="Style\personal_favorites_gallery_style.css" />
+    <Content Include="Style\personal_favorites_space_style.css" />
+    <Content Include="Style\personal_gallery_style.css" />
+    <Content Include="Style\personal_style.css" />
+    <Content Include="Style\Registration_style.css" />
+    <Content Include="test.html" />
     <Content Include="uploadedFiles\rhhhon%40gmail.com_1616590368362.jpg" />
     <Content Include="uploadedFiles\rhhhon%40gmail.com_1616590383780.jpg" />
     <Content Include="uploadedFiles\ron%40gmail.com_1616589174633.jpg" />

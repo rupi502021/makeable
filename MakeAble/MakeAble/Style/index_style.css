@@ -1,0 +1,26 @@
+﻿
+a#logout::before {
+    background: red;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+
+div#logofront {
+    padding-top: 6%;
+}
+
+.big-tagline {
+    padding-top: 10%;
+}
+
+img {
+    height: 120px;
+}
+
+#btn_search {
+    background-color: red;
+}
+

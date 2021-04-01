@@ -31,61 +31,8 @@
     <link href="css/person.css" rel="stylesheet" />
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
-
     <script src="Scripts/ajaxCalls.js"></script>
-    <style>
-        a#logout::before {
-            background: red;
-        }
-
-        .sidebar-nav {
-            text-align: right;
-            font-family: Calibri;
-            font-size: 30px;
-        }
-
-        .nav.navbar.navbar-expand.navbar-dark.bg-primary {
-            background-color: #333333;
-        }
-
-        input {
-            text-align: right;
-        }
-
-        *[role="form"] {
-            max-width: 100%;
-            padding: 15px;
-            margin: 0 auto;
-            border-radius: 0.3em;
-            background-color: #f2f2f2;
-            text-align: right;
-        }
-
-            *[role="form"] h2 {
-                font-family: 'Open Sans', sans-serif;
-                font-size: 50px;
-                font-weight: 600;
-                color: #000000;
-                margin-top: 5%;
-                text-align: center;
-                text-transform: uppercase;
-                letter-spacing: 4px;
-            }
-
-        #btn_save {
-            width: 30%;
-            margin: auto;
-        }
-
-        img#PP {
-            max-width: 25%;
-        }
-
-        #nav_menu {
-            position:sticky;
-        }
-    </style>
-
+    <link href="Style/personal_style.css" rel="stylesheet" />
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -140,7 +87,7 @@
             });
             $("#formUsers").submit(updateUser);
             fLogin();
-           
+
         });
 
         //להכניס תמונה לתצוגה מקדימה
@@ -160,12 +107,12 @@
             var l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l == null) {
                 let email = l1.Email;
-                
+
                 var api = "../api/Users/" + email + "/";
             }
             else {
                 let email = l.Email;
-               
+
                 var api = "../api/Users/" + email + "/";
             }
             ajaxCall("GET", api, "", getSuccess, error);
@@ -174,7 +121,7 @@
 
         function getSuccess(data) {
             console.log(data);
-            checked =  JSON.parse(localStorage.getItem('user')); 
+            checked = JSON.parse(localStorage.getItem('user'));
             if (checked) {
                 localStorage.setItem("user", JSON.stringify(data));
             }
@@ -193,7 +140,7 @@
                 var today = tmp.getFullYear() + "-" + (month) + "-" + (day);
 
             }
-         
+
             document.getElementsByName('mylist')[0].value = data.City;
 
             $("#firstName").val(data.Fname);
@@ -203,7 +150,7 @@
             $("#confirm_password").val(data.Password);
             $("#birthDate").val(today);
             $("#phoneNumber").val(data.Phone);
-            if (data.ProfilePhoto != "" ) {
+            if (data.ProfilePhoto != "") {
                 $("#CPP").text('תצוגה מקדימה:');
                 $("#PP").attr('src', data.ProfilePhoto);
             }
@@ -327,7 +274,7 @@
         function logout() {
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
-            
+
             window.location.href = "index.html";
         }
         function validatePassword() {
@@ -359,7 +306,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.html">
-                    <img src="images/logo-hosting.png" alt="" />
+                    <img id="logo_top" src="images/make.png" alt="" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
