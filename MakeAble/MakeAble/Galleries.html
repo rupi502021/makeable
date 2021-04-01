@@ -93,10 +93,7 @@
             height: 51px;
         }
     </style>
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -200,7 +197,7 @@
             console.log(data);
             var d = data;
             renderGalleries(d);
-            renderGalleriesSaved(d);
+            //renderGalleriesSaved(d);
         }
 
         function getErrorRender(err) {
@@ -212,11 +209,11 @@
             let str = "";
             listGal = new Array();
             for (var i = 0; i < d.length; i++) {
-                if (d[i].isActive == true) {
+                if (d[i].IsActive == false) {
 
-                    let _id = d[i].galleryId;
-                    let _email = d[i].email; //זה לא האימייל הנכון - צריך פה עבודה עם לוקאל סטורג
-                    listGal.push(_name, _email);
+                    let _id = d[i].GalleryId;
+                    let _email = d[i].Email; //זה לא האימייל הנכון - צריך פה עבודה עם לוקאל סטורג
+                    listGal.push(_id, _email);
 
                     for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
                         str += "<div class='col-sm-'>";
@@ -224,14 +221,14 @@
                         str += "<div class='para'><br />";
                         let _name = d[i].galleryName;
                         str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + _name + "</h1>"; //שם
-                        let _place = "???";
-                        str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + _place + "</p>"; //מקום
-                        let _profession = d[i].profession
-                        str += "<p>" + _profession + "</p></div>"; //תחומי עיסוק
-                        let _photo1 = d[i].images[0];
-                        let _photo2 = d[i].images[1];
-                        str += "<div id='photo' class='row'><img src='" + _photo1 + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
-                        str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
+                        //let _place = "???";
+                        //str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + _place + "</p>"; //מקום
+                        //let _profession = d[i].profession
+                        //str += "<p>" + _profession + "</p></div>"; //תחומי עיסוק
+                        //let _photo1 = d[i].images[0];
+                        //let _photo2 = d[i].images[1];
+                        //str += "<div id='photo' class='row'><img src='" + _photo1 + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
+                        //str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
                         let _description = d[i].description;
                         str += "<div class='para'><p>" + _description + "</p>"; //תיאור
                         let _time = d[i].time;
@@ -244,27 +241,27 @@
                         str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
                         str += "</div></div></div></div>";
                     }
-                    k = 0;
+                    //k = 0;
                 }
             }
             $("#ph1").append(str);
         }
 
-        function addToFavorite(glr) {
-            for (var i = 0; i < lisrGal.length; i++) {
-                if (listGal[i][0] == glr.galleryId) {
-                    galleryFav = {
-                        GalleryId = listGal[i][0],
-                        Email = lisrGal[i][1]
-                        //זה צריך להיות האימייל של המשתמש שלחץ - עכשיו זה של המשתמש שהעלה
-                        //עבודה עם לוקאל סטורג
-                    }
-                }
-            }
-            console.log(JSON.stringify(galleryFav));
+        //function addToFavorite(glr) {
+        //    for (var i = 0; i < lisrGal.length; i++) {
+        //        if (listGal[i][0] == glr.galleryId) {
+        //            galleryFav = {
+        //                GalleryId = listGal[i][0],
+        //                Email = lisrGal[i][1]
+        //                //זה צריך להיות האימייל של המשתמש שלחץ - עכשיו זה של המשתמש שהעלה
+        //                //עבודה עם לוקאל סטורג
+        //            }
+        //        }
+        //    }
+        //    console.log(JSON.stringify(galleryFav));
 
-            ajaxCall("POST", "../api/Galleries/fav", JSON.stringify(galleryFav), postSuccess, postError);
-        }
+        //    ajaxCall("POST", "../api/Galleries/fav", JSON.stringify(galleryFav), postSuccess, postError);
+        //}
 
         function postSuccess(data) {
             alert("גלריה הוספה למועדפים בהצלחה!");
@@ -390,7 +387,7 @@
 
                 <div id="ph1"></div>
 
-                <div class="col-sm-4">
+                <!--<div class="col-sm-4">
                     <div class="card">
                         <div class="para">
                             <br />
@@ -550,9 +547,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
+        </div>
 
 
 

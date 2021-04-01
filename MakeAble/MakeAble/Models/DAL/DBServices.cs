@@ -277,9 +277,9 @@ namespace MakeAble.Models.DAL
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}')", gallery.GalleryName, ((DateTime)gallery.Time).ToString("t"), ((DateTime)gallery.Date).ToString("u"), gallery.Description, gallery.Email);
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}')", gallery.GalleryName, ((DateTime)gallery.Time).ToString("t"), ((DateTime)gallery.Date).ToString("u"), gallery.Description, gallery.Email,gallery.IsActive);
 
-            String prefix = "INSERT INTO Gallery " + "([GalleryName],[UploadTime],[UploadDate],[Description],[UserEmail])";
+            String prefix = "INSERT INTO Gallery " + "([GalleryName],[UploadTime],[UploadDate],[Description],[UserEmail],[IsActive])";
 
             command = prefix + sb.ToString();
 
@@ -346,7 +346,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId";
+                String selectSTR = "SELECT * FROM Gallery";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -362,8 +362,7 @@ namespace MakeAble.Models.DAL
                     g.Date = Convert.ToDateTime(dr["UploadDate"]);
                     g.Time = Convert.ToDateTime(dr["UploadTime"]);
                     g.Description = Convert.ToString(dr["Description"]);
-                    g.Profession = Convert.ToString(dr["ProfessionName"]).Split(' ');
-                    g.Images = Convert.ToString(dr["PhotoUrl"]).Split(' ');             
+                   
                     g.IsActive = Convert.ToBoolean(dr["IsActive"]);
                     g.Email = Convert.ToString(dr["UserEmail"]);
                     gList.Add(g);

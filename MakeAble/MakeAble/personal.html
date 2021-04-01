@@ -383,137 +383,139 @@
     </header>
     <!-- End header -->
 
-    <nav id="nav_menu" class="navbar navbar-expand navbar-dark bg-primary">
-        <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-    </nav>
+    <div >
+        <nav id="nav_menu" class="navbar navbar-expand navbar-dark bg-primary">
+            <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+        </nav>
 
-    <div id="wrapper" class="toggled">
+        <div id="wrapper" class="toggled">
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li><a href="personal.html"> עדכון פרטים אישים </a><br /></li>
-                <li> <a href="personal - gallery.html">הגלריות שלי</a><br /></li>
-                <li> <a href="personal - favorits - gallery.html">המועדפים</a><br /></li>
-                <li> <a href="#">ניהול חלל עבודה</a><br /></li>
-                <li> <a href="#">הצ'אטים שלי</a> </li>
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li><a href="personal.html"> עדכון פרטים אישים </a><br /></li>
+                    <li> <a href="personal - gallery.html">הגלריות שלי</a><br /></li>
+                    <li> <a href="personal - favorits - gallery.html">המועדפים</a><br /></li>
+                    <li> <a href="#">ניהול חלל עבודה</a><br /></li>
+                    <li> <a href="#">הצ'אטים שלי</a> </li>
 
-            </ul>
-        </div> <!-- /#sidebar-wrapper -->
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container">
-                <form id="formUsers" class="form-horizontal" role="form">
-                    <label for="firstName" class="col-sm-3 control-label">שם פרטי</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="text" id="firstName" placeholder="שם פרטי" class="form-control" autofocus maxlength="10" required>
-                        </div>
-
-                    </div>
-                    <label for="lastName" class="col-sm-3 control-label">שם משפחה</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="text" id="lastName" placeholder="שם משפחה" class="form-control" autofocus maxlength="20" required>
-                        </div>
-
-                    </div>
-                    <label for="email" class="col-sm-3 control-label" hidden>Email </label>
-                    <div class="form-group" hidden>
-                        <div class="col-sm-9">
-                            <input type="email" id="email" placeholder="Email" class="form-control" name="email" required
-                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                   oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
-                                   oninput="this.setCustomValidity('')">
-                        </div>
-                    </div>
-                    <label for="password" class="col-sm-3 control-label">סיסמא</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="text" id="password" placeholder="סיסמא" class="form-control" required>
-                        </div>
-
-                    </div>
-                    <label for="password" class="col-sm-3 control-label">אמת סיסמא</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="text" id="confirm_password" placeholder=" סיסמא בשנית" class="form-control" onblur="validatePassword()">
-                        </div>
-
-                    </div>
-                    <label for="birthDate" class="col-sm-3 control-label">תאריך לידה</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="date" id="birthDate" class="form-control">
-                        </div>
-                    </div>
-                    <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input type="tel" id="phoneNumber" placeholder="מספר טלפון" class="form-control" required
-                                   pattern="[0-9]{3}-[0-9]{7}"
-                                   oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
-                                   oninput="this.setCustomValidity('')">
-                        </div>
-                    </div>
-
-                    <label for="cities" class="col-sm-3 control-label" style="bottom:8px">עיר</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input class="dropdown-input" list="mylist" name="mylist" />
-                            <datalist id="mylist">
-                            </datalist>
-                        </div>
-                    </div>
-                    <!-- File Button -->
-                    <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה פרופיל</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <input id="filebutton" name="filebutton" class="input-file" type="file">
-                            <span id="CPP"></span>
-                           
-                            <img id="PP" src="images/notfoundPic.jpg"  alt="ProfilePhoto" />
-                        </div>
-                    </div>
-                    <label for="text" class="col-sm-3 control-label">תיאור</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-                            <textarea class="form-control" id="textarea" name="textarea" placeholder="תיאור קצר עלייך"></textarea>
-                        </div>
-
-                    </div>
-
-                    <!-- Select Multiple -->
-                    <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
-                    <div class="form-group">
-                        <div class="col-sm-9">
-
-                            <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
-                                <option value="1">אומנות</option>
-                                <option value="2">מדפסות תל מימד</option>
-                                <option value="3">נגרות</option>
-                                <option value="4">תכנות</option>
-                            </select>
-
+                </ul>
+            </div> <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container">
+                    <form id="formUsers" class="form-horizontal" role="form">
+                        <label for="firstName" class="col-sm-3 control-label">שם פרטי</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="text" id="firstName" placeholder="שם פרטי" class="form-control" autofocus maxlength="10" required>
+                            </div>
 
                         </div>
-                        <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
-                    </div>
+                        <label for="lastName" class="col-sm-3 control-label">שם משפחה</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="text" id="lastName" placeholder="שם משפחה" class="form-control" autofocus maxlength="20" required>
+                            </div>
 
-                    <label class="col-sm-10 control-label" for="checkboxes">האם את/ה בעל/ת מייקרספייס?*</label>
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label class="checkbox-inline" for="checkboxes-0">
-                                <input type="checkbox" name="checkboxes" id="Have_makerspace" value="1">
-                                סמן אם כן
-                            </label>
                         </div>
-                    </div>
-                    <button id="btn_save" type="submit" class="btn btn-primary btn-block">שמירת שינויים</button>
-                </form> <!-- /form -->
-            </div> <!-- ./container -->
-        </div> <!-- /#page-content-wrapper -->
-    </div> <!-- /#wrapper -->
+                        <label for="email" class="col-sm-3 control-label" hidden>Email </label>
+                        <div class="form-group" hidden>
+                            <div class="col-sm-9">
+                                <input type="email" id="email" placeholder="Email" class="form-control" name="email" required
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                       oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
+                                       oninput="this.setCustomValidity('')">
+                            </div>
+                        </div>
+                        <label for="password" class="col-sm-3 control-label">סיסמא</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="text" id="password" placeholder="סיסמא" class="form-control" required>
+                            </div>
+
+                        </div>
+                        <label for="password" class="col-sm-3 control-label">אמת סיסמא</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="text" id="confirm_password" placeholder=" סיסמא בשנית" class="form-control" onblur="validatePassword()">
+                            </div>
+
+                        </div>
+                        <label for="birthDate" class="col-sm-3 control-label">תאריך לידה</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="date" id="birthDate" class="form-control">
+                            </div>
+                        </div>
+                        <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="tel" id="phoneNumber" placeholder="מספר טלפון" class="form-control" required
+                                       pattern="[0-9]{3}-[0-9]{7}"
+                                       oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
+                                       oninput="this.setCustomValidity('')">
+                            </div>
+                        </div>
+
+                        <label for="cities" class="col-sm-3 control-label" style="bottom:8px">עיר</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input class="dropdown-input" list="mylist" name="mylist" />
+                                <datalist id="mylist">
+                                </datalist>
+                            </div>
+                        </div>
+                        <!-- File Button -->
+                        <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה פרופיל</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input id="filebutton" name="filebutton" class="input-file" type="file">
+                                <span id="CPP"></span>
+
+                                <img id="PP" src="images/notfoundPic.jpg" alt="ProfilePhoto" />
+                            </div>
+                        </div>
+                        <label for="text" class="col-sm-3 control-label">תיאור</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="textarea" name="textarea" placeholder="תיאור קצר עלייך"></textarea>
+                            </div>
+
+                        </div>
+
+                        <!-- Select Multiple -->
+                        <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+
+                                <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
+                                    <option value="1">אומנות</option>
+                                    <option value="2">מדפסות תל מימד</option>
+                                    <option value="3">נגרות</option>
+                                    <option value="4">תכנות</option>
+                                </select>
+
+
+                            </div>
+                            <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
+                        </div>
+
+                        <label class="col-sm-10 control-label" for="checkboxes">האם את/ה בעל/ת מייקרספייס?*</label>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="checkbox-inline" for="checkboxes-0">
+                                    <input type="checkbox" name="checkboxes" id="Have_makerspace" value="1">
+                                    סמן אם כן
+                                </label>
+                            </div>
+                        </div>
+                        <button id="btn_save" type="submit" class="btn btn-primary btn-block">שמירת שינויים</button>
+                    </form> <!-- /form -->
+                </div> <!-- ./container -->
+            </div> <!-- /#page-content-wrapper -->
+        </div> <!-- /#wrapper -->
+    </div>
     <!-- Bootstrap core JavaScript -->
     <!--<script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>-->
