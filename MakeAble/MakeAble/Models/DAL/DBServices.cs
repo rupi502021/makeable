@@ -288,54 +288,54 @@ namespace MakeAble.Models.DAL
         }
 
         
-        public List<Gallery> getFavGallery()
-        {
-            SqlConnection con = null;
-            List<Gallery> gList = new List<Gallery>();
+        //public List<Gallery> getFavGallery()
+        //{
+        //    SqlConnection con = null;
+        //    List<Gallery> gList = new List<Gallery>();
 
-            try
-            {
-                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+        //    try
+        //    {
+        //        con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select gl.GalleryId, gl.GalleryName, gl.Url, gl.UploadTime, gl.UploadDate, gl.UserEmail as ownergalleryEmail, gl.IsActive, ugf.Email as userfavEmail from Gallery as gl left join Users_Gallery_Fav ugf on gl.GalleryId = ugf.GalleryId";
-                SqlCommand cmd = new SqlCommand(selectSTR, con);
+        //        String selectSTR = "select gl.GalleryId, gl.GalleryName, gl.Url, gl.UploadTime, gl.UploadDate, gl.UserEmail as ownergalleryEmail, gl.IsActive, ugf.Email as userfavEmail from Gallery as gl left join Users_Gallery_Fav ugf on gl.GalleryId = ugf.GalleryId";
+        //        SqlCommand cmd = new SqlCommand(selectSTR, con);
 
-                // get a reader
-                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+        //        // get a reader
+        //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
 
-                while (dr.Read())
-                {   // Read till the end of the data into a row
-                    Gallery g = new Gallery();
+        //        while (dr.Read())
+        //        {   // Read till the end of the data into a row
+        //            Gallery g = new Gallery();
 
-                    g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
-                    g.GalleryName = Convert.ToString(dr["GalleryName"]);
-                    g.Url = Convert.ToString(dr["Url"]);
-                    g.Date = Convert.ToDateTime(dr["UploadDate"]);
-                    g.Time = Convert.ToDateTime(dr["UploadTime"]);
-                    g.Description = Convert.ToString(dr["Description"]);
-                    g.Profession = Convert.ToString(dr["ProfessionName"]).Split(' ');
-                    g.Images = Convert.ToString(dr["PhotoUrl"]).Split(' ');
-                    g.IsActive = Convert.ToBoolean(dr["IsActive"]);
-                    g.Email = Convert.ToString(dr["ownergalleryEmail"]);
-                    gList.Add(g);
+        //            g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
+        //            g.GalleryName = Convert.ToString(dr["GalleryName"]);
+        //            g.Url = Convert.ToString(dr["Url"]);
+        //            g.Date = Convert.ToDateTime(dr["UploadDate"]);
+        //            g.Time = Convert.ToDateTime(dr["UploadTime"]);
+        //            g.Description = Convert.ToString(dr["Description"]);
+        //            g.Profession = Convert.ToString(dr["ProfessionName"]).Split(' ');
+        //            g.Images = Convert.ToString(dr["PhotoUrl"]).Split(' ');
+        //            g.IsActive = Convert.ToBoolean(dr["IsActive"]);
+        //            g.Email = Convert.ToString(dr["ownergalleryEmail"]);
+        //            gList.Add(g);
 
-                    string userfavEmail = Convert.ToString(dr["userfavEmail"]);
-                }
-                return gList;
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-            finally
-            {
-                if (con != null)
-                {
-                    con.Close();
-                }
-            }
-        }
+        //            string userfavEmail = Convert.ToString(dr["userfavEmail"]);
+        //        }
+        //        return gList;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // write to log
+        //        throw (ex);
+        //    }
+        //    finally
+        //    {
+        //        if (con != null)
+        //        {
+        //            con.Close();
+        //        }
+        //    }
+        //}
 
         public List<Gallery> getgallery()
         {
@@ -493,108 +493,108 @@ namespace MakeAble.Models.DAL
             return command;
         }
 
-        public int InsertToFav(Gallery gallery)
-        {
-            SqlConnection con;
-            SqlCommand cmd;
+        //public int InsertToFav(Gallery gallery)
+        //{
+        //    SqlConnection con;
+        //    SqlCommand cmd;
 
-            try
-            {
-                con = connect("DBConnectionString"); // create the connection
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("You didnt succeed to connect to DB", ex);
-            }
+        //    try
+        //    {
+        //        con = connect("DBConnectionString"); // create the connection
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("You didnt succeed to connect to DB", ex);
+        //    }
 
-            String cStr = BuildInsertToFavCommand(gallery);      // helper method to build the insert string
+        //    String cStr = BuildInsertToFavCommand(gallery);      // helper method to build the insert string
 
-            cmd = CreateCommand(cStr, con);             // create the command
+        //    cmd = CreateCommand(cStr, con);             // create the command
 
-            try
-            {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                return numEffected;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("You didnt succeed to add a new gallery to favorite, Try again!", ex);
-            }
+        //    try
+        //    {
+        //        int numEffected = cmd.ExecuteNonQuery(); // execute the command
+        //        return numEffected;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("You didnt succeed to add a new gallery to favorite, Try again!", ex);
+        //    }
 
-            finally
-            {
-                if (con != null)
-                {
-                    // close the db connection
-                    con.Close();
-                }
-            }
-        }
+        //    finally
+        //    {
+        //        if (con != null)
+        //        {
+        //            // close the db connection
+        //            con.Close();
+        //        }
+        //    }
+        //}
 
-        private String BuildInsertToFavCommand(Gallery gallery)
-        {
-            String command;
+        //private String BuildInsertToFavCommand(Gallery gallery)
+        //{
+        //    String command;
 
-            StringBuilder sb = new StringBuilder();
-            // use a string builder to create the dynamic string
+        //    StringBuilder sb = new StringBuilder();
+        //    // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values('{0}','{1}')", gallery.GalleryId, gallery.Email);
+        //    sb.AppendFormat("Values('{0}','{1}')", gallery.GalleryId, gallery.Email);
 
-            String prefix = "INSERT INTO User_Gallery_Fav " + "([GalleryId],[Email])";
+        //    String prefix = "INSERT INTO User_Gallery_Fav " + "([GalleryId],[Email])";
 
-            command = prefix + sb.ToString();
+        //    command = prefix + sb.ToString();
 
 
-            return command;
-        }
+        //    return command;
+        //}
 
-        public int Delete(int id)
-        {
+        //public int Delete(int id)
+        //{
 
-            SqlConnection con;
-            SqlCommand cmd;
+        //    SqlConnection con;
+        //    SqlCommand cmd;
 
-            try
-            {
-                con = connect("DBConnectionString"); // create the connection
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
+        //    try
+        //    {
+        //        con = connect("DBConnectionString"); // create the connection
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // write to log
+        //        throw (ex);
+        //    }
 
-            String cStr = BuildDeleteCommand(id);      // helper method to build the insert string
+        //    String cStr = BuildDeleteCommand(id);      // helper method to build the insert string
 
-            cmd = CreateCommand(cStr, con);             // create the command
+        //    cmd = CreateCommand(cStr, con);             // create the command
 
-            try
-            {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                return numEffected;
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
+        //    try
+        //    {
+        //        int numEffected = cmd.ExecuteNonQuery(); // execute the command
+        //        return numEffected;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // write to log
+        //        throw (ex);
+        //    }
 
-            finally
-            {
-                if (con != null)
-                {
-                    // close the db connection
-                    con.Close();
-                }
-            }
+        //    finally
+        //    {
+        //        if (con != null)
+        //        {
+        //            // close the db connection
+        //            con.Close();
+        //        }
+        //    }
 
-        }
+        //}
 
-        private String BuildDeleteCommand(int id)
-        {
-            String command;
-            command = "DELETE FROM Users_Gallery_Fav WHERE GalleryId = " + id;
-            return command;
-        }
+        //private String BuildDeleteCommand(int id)
+        //{
+        //    String command;
+        //    command = "DELETE FROM Users_Gallery_Fav WHERE GalleryId = " + id;
+        //    return command;
+        //}
     }
 }
