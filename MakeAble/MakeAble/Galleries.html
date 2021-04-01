@@ -190,6 +190,19 @@
         }
 
         function render() {
+            var l = JSON.parse(localStorage.getItem('user'));
+            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l == null) {
+                let email = l1.Email;
+
+                var api = "../api/Galleries/" + email + "/";
+            }
+            else {
+                let email = l.Email;
+
+                var api = "../api/Galleries/" + email + "/";
+            }
+
             ajaxCall("GET", "../api/Galleries", "", getSuccessRender, getErrorRender);
         }
 

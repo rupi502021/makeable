@@ -112,11 +112,15 @@
 
     <script>
         $(document).ready(function () {
-            $("#pForm").submit(f1);
+            $("#galleyBTNsave").click(f1);
+            $("#galleyBTNpub").click(f1);
+            
         });
-
+        var ClickOrSave;
         function f1() {
-            AddGallery();
+            console.log("click choosen" + this.id);
+            ClickOrSave = this.id;
+            AddGallery(ClickOrSave);
             return false;
         }
 
@@ -124,6 +128,7 @@
             var stars_range;
             if ($("input[type='radio'].starRange-input").is(':checked')) {
                 stars_range = $("input[type='radio'].starRange-input:checked").val();
+                stars_range = 6 - stars_range;
             }//דירוג כוכבים לחלל העבודה
 
             var makerspace;
@@ -134,27 +139,35 @@
                 makespace = document.getElementById('selectbasic2').value;
             } //בחירת חלל העבודה
 
-
+            //מחזיר תאריך עכשווי
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();
 
             var date = yyyy + '-' + mm + '-' + dd;
-
+            //מחזיר שעה עכשווית
             var time1 = new Date().toLocaleTimeString('en-US', {
                 hour12: false,
                 hour: "numeric",
                 minute: "numeric"
             });
             var time = time1;
+
+            if (ClickOrSave == "galleyBTNsave") {
+               var isActive = false;
+            }
+            else {
+               var isActive = true;
+            }
+
             gallery = {
                 GalleryName: $("#galleryName").val(), //שם גלריה
                 Profession: $("#selectmultiple").val(), //תחומי עיסוק
                 Description: $("#textarea").val(), //תיאור קצר
                 Date: date,
                 Time: time,
-                IsActive: false,
+                IsActive: isActive,
             }
 
             if (localStorage.getItem("user") == null) {
@@ -219,9 +232,7 @@
                 $("#textarea").val('')
         }
 
-        function saveGallery() { //הוספת גלריה כשמורה ולא כמפורסמת
-
-        }
+       
     </script>
 </head>
 
@@ -316,11 +327,11 @@
             <div>
                 <table id="tableBTN">
                     <tr>
-                        <td id="galleyBTN">
-                            <button type="button" class="btn btn-primary btn-block" onclick="saveGallery()">שמור</button>
+                        <td >
+                            <button id="galleyBTNsave" type="submit" class="btn btn-primary btn-block" >שמור</button>
                         </td>
-                        <td id="galleyBTN">
-                            <button type="submit" class="btn btn-primary btn-block">פרסם</button>
+                        <td >
+                            <button id="galleyBTNpub" type="submit" class="btn btn-primary btn-block">פרסם</button>
                         </td>
                     </tr>
                 </table>
