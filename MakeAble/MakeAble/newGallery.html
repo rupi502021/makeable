@@ -99,7 +99,7 @@
                 for (f = 0; f < files.length; f++) {
                     data.append("UploadedImageGalleries", files[f]);
                 }
-                data.append("name", gallery.Email + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                data.append("name","Gallery_"+ gallery.Email + '_' +  Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
                 // Ajax upload
                 $.ajax({
                     type: "POST",
