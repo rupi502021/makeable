@@ -476,11 +476,12 @@ a img.aligncenter {
 	font-weight: 500;
 }
 
-.top-navbar .navbar-light .navbar-nav .nav-item{
-	position: relative;
-	display: inline-block;
-	padding: 15px 0px;
-	margin: 0px 20px;
+.top-navbar .navbar-light .navbar-nav .nav-item {
+    position: relative;
+    display: inline-block;
+    padding: 15px 0px;
+    margin: 0px 20px;
+  
 }
 .top-navbar .navbar-light .navbar-nav .nav-item .nav-link{
 	padding: 6px 0px;

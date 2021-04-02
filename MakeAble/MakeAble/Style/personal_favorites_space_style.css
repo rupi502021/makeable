@@ -18,12 +18,24 @@ a#logout::before {
     height: 51px;
 }
 
-.top-navbar.fixed-menu #nav_menu {
+#nav1 {
     position: fixed;
+    top: 0;
     width: 100%;
-    top: 101px;
-    visibility: visible;
     z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+
+#nav_menu {
+    position: fixed;
+    top: 101px;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
 }
 
 button.navbar-toggler {
