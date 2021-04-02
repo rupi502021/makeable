@@ -29,7 +29,22 @@ a#logout::before {
     text-align: center;
     font-family: arial;
 }
+.top-navbar.fixed-menu #nav_menu {
+    position: fixed;
+    width: 100%;
+    top: 101px;
+    visibility: visible;
+    z-index: 9999;
+}
 
+button.navbar-toggler {
+    background-color: white;
+}
+
+div#sidebar-wrapper {
+    top: 159.5px;
+    position: fixed;
+}
     .card .icon-bar {
         border: none;
         outline: 0;
