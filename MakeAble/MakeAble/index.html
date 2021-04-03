@@ -37,7 +37,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+    <link href="Style/galleries_style.css" rel="stylesheet" />
     <style>
         nav#nav1 {
             position: fixed;
@@ -60,6 +60,21 @@
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
             checklogin();
+
+            $("a").on('click', function (event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+
+                    var hash = this.hash;
+
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+
+                        window.location.hash = hash;
+                    });
+                }
+            });
         });
 
         function fLogin() {
@@ -129,6 +144,8 @@
             sessionStorage.removeItem('user');
             location.reload();
         }
+
+      
     </script>
 
 
@@ -243,15 +260,17 @@
                             </div>
                         
                             <div class="row">
-                                <div class="col-md-12 col-sm-12 text-center">
+                                <div class="col-lg-12 col-4 text-center" style="margin: 0 auto">
+                                <!--<div class="col-md-12 col-sm-12 text-center">-->
 
                                     <div class="big-tagline">
                         
-                                        <a href="#" class="hover-btn-new"><span>חיפוש MakerSpace</span></a>
+                                        <a href="#SearchToScroll" class="hover-btn-new" style="white-space:normal !important"><span>חיפוש MakerSpace</span></a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="Galleries.html" class="hover-btn-new"><span>גלריית עבודות</span></a>
+                                        <!--<a href="Galleries.html" class="hover-btn-new"><span>גלריית עבודות</span></a>-->
+                                        <a href="#GalleryToScroll" class="hover-btn-new" style="white-space:normal !important"><span>גלריית עבודות</span></a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="#" class="hover-btn-new"><span>הוספת MakerSpace</span></a>
+                                        <a href="#" class="hover-btn-new" style="white-space:normal !important"><span>הוספת MakerSpace</span></a>
                                     </div>
                                 </div>
                             </div><!-- end row -->
@@ -264,112 +283,202 @@
 		</div>
 	</div>
 	
-	
-	<!--<div id="domain" class="section wb">
+
+
+	<div id="SearchToScroll" class="section wb">
         <div class="container">
+            
             <div class="row text-center">
 
-                <div class="col-lg-12">
-                    <form class="checkdomain form-inline">
-                        <div class="checkdomain-wrapper">
-                            <div class="form-group">
-                                <label class="sr-only" for="domainnamehere">Domain name</label>
-                                <input type="text" class="form-control" id="domainnamehere" placeholder="Enter domain name here..">
-                                <button type="submit" class="btn btn-primary grd1"><i class="fa fa-search"></i></button>
-                            </div>
-                            <hr>
-                            <div class="clearfix"></div>
-                            <div class="checkbox checkbox-warning">
-                                <input id="domaincom" type="checkbox" class="styled" checked>
-                                <label for="domaincom">.com</label>
-                            </div>
-                            <div class="checkbox checkbox-warning">
-                                <input id="domainnet" type="checkbox" class="styled" checked>
-                                <label for="domainnet">.net</label>
-                            </div>
-                            <div class="checkbox checkbox-warning">
-                                <input id="domainorg" type="checkbox" class="styled">
-                                <label for="domainorg">.org</label>
-                            </div>
-                            <div class="checkbox checkbox-warning">
-                                <input id="domaintv" type="checkbox" class="styled">
-                                <label for="domaintv">.tv</label>
-                            </div>
-                            <div class="checkbox checkbox-warning">
-                                <input id="domaininfo" type="checkbox" class="styled">
-                                <label for="domaininfo">.info</label>
-                            </div>
-                        </div>--><!-- end checkdomain-wrapper -->
-                    <!--</form>
+            <div class="col-lg-12">
+                <form class="checkdomain form-inline">
+                    <!--<div class="checkdomain-wrapper">
+                        <div class="form-group">
+                            <label class="sr-only" for="domainnamehere">Domain name</label>
+                            <input type="text" class="form-control" id="domainnamehere" placeholder="Enter domain name here..">
+                            <button type="submit" class="btn btn-primary grd1"><i class="fa fa-search"></i></button>
+                        </div>
+                        <hr>-->
+                        <!--<div class="clearfix"></div>
+                        <div class="checkbox checkbox-warning">
+                            <input id="domaincom" type="checkbox" class="styled" checked>
+                            <label for="domaincom">.com</label>
+                        </div>
+                        <div class="checkbox checkbox-warning">
+                            <input id="domainnet" type="checkbox" class="styled" checked>
+                            <label for="domainnet">.net</label>
+                        </div>
+                        <div class="checkbox checkbox-warning">
+                            <input id="domainorg" type="checkbox" class="styled">
+                            <label for="domainorg">.org</label>
+                        </div>
+                        <div class="checkbox checkbox-warning">
+                            <input id="domaintv" type="checkbox" class="styled">
+                            <label for="domaintv">.tv</label>
+                        </div>
+                        <div class="checkbox checkbox-warning">
+                            <input id="domaininfo" type="checkbox" class="styled">
+                            <label for="domaininfo">.info</label>
+                        </div>
+                    </div> end checkdomain-wrapper-->
+                </form>
+            </div>
+            <div class="col-lg-12">
+                <div class="customwidget text-center">
+                    <h1 style="text-align:right; font-size:50px">חיפוש חלל עבודה</h1>
+                    <h1>שלב 1</h1>
+                    <h1>שלב 2</h1>
+                    <h1>שלב 3</h1>
+                    <br />
+                    <br />
+                    <!--<p>With our awesome domain name search form, you can search any domain names with tons of extensions.</p>
+    <p>Pursuing high quality standards, my greatest efforts are focused on producing semantic, SEO-friendly, valid and clean code. In order to stay effective and relevant in this constantly evolving sphere I always try to be in touch with the latest news and recent approaches in programming.</p>
+    <ul class="list-inline">
+        <li><i class="fa fa-check"></i> 20k Domains Sold in 2017</li>
+        <li><i class="fa fa-check"></i> 4k Website Created</li>
+    </ul>
+    end list-->
+                    <a href="#" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
                 </div>
-				<div class="col-lg-12">
-                    <div class="customwidget text-center">
-                        <h1>Find Your Domain</h1>
-                        <p>With our awesome domain name search form, you can search any domain names with tons of extensions.</p>
-						<p>Pursuing high quality standards, my greatest efforts are focused on producing semantic, SEO-friendly, valid and clean code. In order to stay effective and relevant in this constantly evolving sphere I always try to be in touch with the latest news and recent approaches in programming.</p>
-                        <ul class="list-inline">
-                            <li><i class="fa fa-check"></i> 20k Domains Sold in 2017</li>
-                            <li><i class="fa fa-check"></i> 4k Website Created</li>
-                        </ul>-->
-                        <!-- end list -->
-                        <!--<a href="#" class="hover-btn-new"><span>Hosting Packages</span></a>
-                    </div>
-                </div>-->
-				
-                <!-- end col -->
-            <!--</div>--><!-- end row -->
-        <!--</div>--><!-- end container -->
-    <!--</div>--><!-- end section -->
+            </div>
+
+            <!--end col-->
+        </div> <!--end row-->
+        </div> <!--end container--> 
+    </div> <!--end section--> 
 	
-    <!--<div id="overviews" class="section lb">
+    <div id="GalleryToScroll" class="section lb">
         <div class="container">
-            <div class="section-title row text-center">
-                <div class="col-md-8 offset-md-2">
-                    <h3>About</h3>
-                    <p class="lead">Lorem Ipsum dolroin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem!</p>
+
+            <h1 style="text-align:right; font-size:50px">גלריות עבודות</h1>
+            <div class="row">
+                <!-- ph1 צריכה לבוא כאן -->
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="para">
+                            <br />
+                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
+                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
+                            <p>תחום עיסוק</p>
+                        </div>
+                        <div id="photo" class="row">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                        </div>
+                        <div class="para">
+                            <p>תיאור אופציונלי</p>
+                            <p>10 דקות</p>
+                        </div>
+                        <div class="row">
+                            <div class="icon-bar">
+                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
+                                <a href="#"><i class="fa fa-comment-o"></i></a>
+                                <a href="#"><i class="fa fa-paper-plane"></i></a>
+                                <a href="#"><i class="fa fa-share-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>--><!-- end title -->
-        
-            <!--<div class="row align-items-center">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="message-box">
-                        <h4>2018 BEST WEB HOSTING COMPANY</h4>
-                        <h2>Awards Winner Support Center</h2>
-                        <p>Quisque eget nisl id nulla sagittis auctor quis id. Aliquam quis vehicula enim, non aliquam risus. Sed a tellus quis mi rhoncus dignissim.</p>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="para">
+                            <br />
+                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
+                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
+                            <p>תחום עיסוק</p>
+                        </div>
+                        <div id="photo" class="row">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                        </div>
+                        <div class="para">
+                            <p>תיאור אופציונלי</p>
+                            <p>10 דקות</p>
+                        </div>
+                        <div class="row">
+                            <div class="icon-bar">
+                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
+                                <a href="#"><i class="fa fa-comment-o"></i></a>
+                                <a href="#"><i class="fa fa-paper-plane"></i></a>
+                                <a href="#"><i class="fa fa-share-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="para">
+                            <br />
+                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
+                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
+                            <p>תחום עיסוק</p>
+                        </div>
+                        <div id="photo" class="row">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
+                        </div>
+                        <div class="para">
+                            <p>תיאור אופציונלי</p>
+                            <p>10 דקות</p>
+                        </div>
+                        <div class="row">
+                            <div class="icon-bar">
+                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
+                                <a href="#"><i class="fa fa-comment-o"></i></a>
+                                <a href="#"><i class="fa fa-paper-plane"></i></a>
+                                <a href="#"><i class="fa fa-share-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--//end row-->
+            <!--<div class="section-title row text-center">
+        <div class="col-md-8 offset-md-2">
+            <h3>About</h3>
+            <p class="lead">Lorem Ipsum dolroin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem!</p>
+        </div>
+    </div> end title
 
-                        <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis montes, nascetur ridiculus mus. Sed vitae rutrum neque. </p>
+    <div class="row align-items-center">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div class="message-box">
+                <h4>2018 BEST WEB HOSTING COMPANY</h4>
+                <h2>Awards Winner Support Center</h2>
+                <p>Quisque eget nisl id nulla sagittis auctor quis id. Aliquam quis vehicula enim, non aliquam risus. Sed a tellus quis mi rhoncus dignissim.</p>
 
-                        <a href="#" class="hover-btn-new"><span>Learn More</span></a>
-                    </div>--><!-- end messagebox -->
-                <!--</div>--><!-- end col -->
-				
-				<!--<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="post-media wow fadeIn">
-                        <img src="images/about_02.jpg" alt="" class="img-fluid img-rounded">
-                    </div>--><!-- end media -->
-                <!--</div>--><!-- end col -->
-			<!--</div>
-			<div class="row align-items-center">
-				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="post-media wow fadeIn">
-                        <img src="images/about_03.jpg" alt="" class="img-fluid img-rounded">
-                    </div>--><!-- end media -->
-                <!--</div>--><!-- end col -->
-				
-				<!--<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="message-box">
-                        <h2>The standard Lorem Ipsum passage, used since the 1500s</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis montes, nascetur ridiculus mus. Sed vitae rutrum neque. </p>
 
-                        <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum.</p>
+                <a href="#" class="hover-btn-new"><span>Learn More</span></a>
+            </div> end messagebox
+        </div> end col
 
-                        <a href="#" class="hover-btn-new"><span>Learn More</span></a>
-                    </div>--><!-- end messagebox -->
-                <!--</div>--><!-- end col -->
-				
-            <!--</div>--><!-- end row -->
-        <!--</div>--><!-- end container -->
-    <!--</div>--><!-- end section -->
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div class="post-media wow fadeIn">
+                <img src="images/about_02.jpg" alt="" class="img-fluid img-rounded">
+            </div> end media
+        </div> end col
+    </div>
+    <div class="row align-items-center">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div class="post-media wow fadeIn">
+                <img src="images/about_03.jpg" alt="" class="img-fluid img-rounded">
+            </div> end media
+        </div> end col
+
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div class="message-box">
+                <h2>The standard Lorem Ipsum passage, used since the 1500s</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum.</p>
+
+                <a href="#" class="hover-btn-new"><span>Learn More</span></a>
+            </div> end messagebox
+        </div> end col
+
+    </div> end row-->
+        </div> <!--end container--> 
+    </div> <!--end section--> 
 
     <!--<section class="page-section">
 		<div class="container">
