@@ -277,17 +277,17 @@ namespace MakeAble.Models.DAL
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}')", gallery.GalleryName, ((DateTime)gallery.Time).ToString("t"), ((DateTime)gallery.Date).ToString("u"), gallery.Description, gallery.Email,gallery.IsActive);
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}')", gallery.GalleryName, ((DateTime)gallery.Time).ToString("t"), ((DateTime)gallery.Date).ToString("u"), gallery.Description, gallery.Email, gallery.IsActive);
 
             String prefix = "INSERT INTO Gallery " + "([GalleryName],[UploadTime],[UploadDate],[Description],[UserEmail],[IsActive])";
 
             command = prefix + sb.ToString();
 
-            
+
             return command;
         }
 
-        
+
         //public List<Gallery> getFavGallery()
         //{
         //    SqlConnection con = null;
@@ -355,18 +355,18 @@ namespace MakeAble.Models.DAL
                 while (dr.Read())
                 {   // Read till the end of the data into a row
                     Gallery g = new Gallery();
-                   
+
                     g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
                     g.GalleryName = Convert.ToString(dr["GalleryName"]);
                     g.Url = Convert.ToString(dr["Url"]);
                     g.Date = Convert.ToDateTime(dr["UploadDate"]);
                     g.Time = Convert.ToDateTime(dr["UploadTime"]);
                     g.Description = Convert.ToString(dr["Description"]);
-                   
+
                     g.IsActive = Convert.ToBoolean(dr["IsActive"]);
                     g.Email = Convert.ToString(dr["UserEmail"]);
                     gList.Add(g);
-                        
+
                 }
                 return gList;
             }
@@ -388,6 +388,7 @@ namespace MakeAble.Models.DAL
             SqlConnection con = null;
             List<Gallery> gList = new List<Gallery>();
 
+
             try
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
@@ -401,19 +402,25 @@ namespace MakeAble.Models.DAL
                 while (dr.Read())
                 {   // Read till the end of the data into a row
                     Gallery g = new Gallery();
-
-                    g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
-                    g.GalleryName = Convert.ToString(dr["GalleryName"]);
-                    g.Url = Convert.ToString(dr["Url"]);
-                    g.Date = Convert.ToDateTime(dr["UploadDate"]);
-                    g.Time = Convert.ToDateTime(dr["UploadTime"]);
-                    g.Description = Convert.ToString(dr["Description"]);
-
                     g.IsActive = Convert.ToBoolean(dr["IsActive"]);
-                    g.Email = Convert.ToString(dr["UserEmail"]);
-                    gList.Add(g);
+                    if (g.IsActive == true)
+                    {
+                        g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
+                        g.GalleryName = Convert.ToString(dr["GalleryName"]);
+                        g.Url = Convert.ToString(dr["Url"]);
+                        g.Date = Convert.ToDateTime(dr["UploadDate"]);
+                        g.Time = Convert.ToDateTime(dr["UploadTime"]);
+                        g.Description = Convert.ToString(dr["Description"]);
 
+                        g.Email = Convert.ToString(dr["UserEmail"]);
+                        g.Profession = Convert.ToString(dr["ProfessionName"]);
+                        g.Image = Convert.ToString(dr["PhotoUrl"]);
+
+                        gList.Add(g);
+                    }
+                   
                 }
+
                 return gList;
             }
             catch (Exception ex)
@@ -430,7 +437,7 @@ namespace MakeAble.Models.DAL
             }
         }
 
-        public int InsertProffesion_Gallery(Gallery gallery,int id)
+        public int InsertProffesion_Gallery(Gallery gallery, int id)
         {
             SqlConnection con;
             SqlCommand cmd;
@@ -468,25 +475,25 @@ namespace MakeAble.Models.DAL
             }
         }
 
-        private String BuildInsertProfCommand(Gallery gallery,int id)
+        private String BuildInsertProfCommand(Gallery gallery, int id)
         {
             String command = "";
-            if (gallery.Profession != null && gallery.Profession.Length > 0  )
+            if (gallery.ProfArr != null && gallery.ProfArr.Length > 0)
             {
-                
-                for (int i = 0; i < gallery.Profession.Length; i++)
+
+                for (int i = 0; i < gallery.ProfArr.Length; i++)
                 {
                     StringBuilder sb = new StringBuilder();
-                    sb.AppendFormat("Values('{0}','{1}')", id, gallery.Profession[i]);
+                    sb.AppendFormat("Values('{0}','{1}')", id, gallery.ProfArr[i]);
                     String prefix = "INSERT INTO Professions_Gallery" + "([GalleryId],[ProfessionName])";
 
                     command += prefix + sb.ToString();
                 }
             }
-            for (int i = 0; i < gallery.Images.Length; i++)
+            for (int i = 0; i < gallery.ImageArr.Length; i++)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormat("Values('{0}','{1}')", id, gallery.Images[i]);
+                sb.AppendFormat("Values('{0}','{1}')", id, gallery.ImageArr[i]);
                 String prefix = "INSERT INTO Gallery_Photo " + "([GalleryId],[PhotoUrl])";
                 command += prefix + sb.ToString();
             }

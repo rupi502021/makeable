@@ -73,7 +73,7 @@
 
             gallery = {
                 GalleryName: $("#galleryName").val(), //שם גלריה
-                Profession: $("#selectmultiple").val(), //תחומי עיסוק
+                ProfArr: $("#selectmultiple").val(), //תחומי עיסוק
                 Description: $("#textarea").val(), //תיאור קצר
                 Date: date,
                 Time: time,
@@ -115,7 +115,8 @@
         }
 
         function successfile(data) {
-            gallery = { ...gallery, Images: data };
+            
+            gallery = { ...gallery, ImageArr: data };
             console.log(JSON.stringify(gallery));
             ajaxCall("POST", "../api/Galleries", JSON.stringify(gallery), success, error);
         }

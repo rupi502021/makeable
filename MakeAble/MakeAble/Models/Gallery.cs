@@ -14,8 +14,12 @@ namespace MakeAble.Models
         DateTime date;
         DateTime time;
         string description;
-        string[] profession;
-        string[] images;
+        List<string> professions;
+        string[] profArr;
+        string profession;
+        List<string> images;
+        string[] imageArr;
+        string image;
         bool isActive;
         string email;
 
@@ -25,25 +29,37 @@ namespace MakeAble.Models
         public DateTime Date { get => date; set => date = value; }
         public DateTime Time { get => time; set => time = value; }
         public string Description { get => description; set => description = value; }
-        public string[] Profession { get => profession; set => profession = value; }
-        public string[] Images { get => images; set => images = value; }
+        public List<string> Professions { get => professions; set => professions = value; }
+        public string[] ProfArr { get => profArr; set => profArr = value; }
+        public string Profession { get => profession; set => profession = value; }
+        public List<string> Images { get => images; set => images = value; }
+        public string[] ImageArr { get => imageArr; set => imageArr = value; }
+        public string Image { get => image; set => image = value; }
         public bool IsActive { get => isActive; set => isActive = value; }
         public string Email { get => email; set => email = value; }
+
         public Gallery() { }
 
-        public Gallery(int galleryId, string galleryName, string url, DateTime date, DateTime time, string description, string[] profession, string[] images, bool isActive, string email)
+        public Gallery(int galleryId, string galleryName, string url, DateTime date, DateTime time, string description, List<string> professions, string[] profArr, string profession, List<string> images, string[] imageArr, string image, bool isActive, string email)
         {
-            this.GalleryId = galleryId;
-            this.GalleryName = galleryName;
-            this.Url = url;
-            this.Date = date;
-            this.Time = time;
-            this.Description = description;
-            this.Profession = profession;
-            this.Images = images;
-            this.IsActive = isActive;
-            this.Email = email;
+            GalleryId = galleryId;
+            GalleryName = galleryName;
+            Url = url;
+            Date = date;
+            Time = time;
+            Description = description;
+            Professions = professions;
+            ProfArr = profArr;
+            Profession = profession;
+            Images = images;
+            ImageArr = imageArr;
+            Image = image;
+            IsActive = isActive;
+            Email = email;
         }
+
+
+
 
         //public List<Gallery> ReadFavGal()
         //{

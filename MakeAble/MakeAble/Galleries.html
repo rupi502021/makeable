@@ -141,7 +141,7 @@
             //    var api = "../api/Galleries/" + email + "/";
             //}
 
-            ajaxCall("GET", "../api/Galleries", "", getSuccessRender, getErrorRender);
+            ajaxCall("GET", "../api/Galleries/All", "", getSuccessRender, getErrorRender);
         }
 
         function getSuccessRender(data) {
@@ -172,11 +172,11 @@
                 str += "<a href='#'>&nbsp" + _name + "</a></h1 > "; //שם
                 //let _place = "???";
                 str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + "מיקום בו נוצרה" + "</p>"; //מקום
-                //let _profession = d[i].Profession
-                str += "<p>" + "תחום עיסוק" + "</p></div>"; //תחומי עיסוק
-                //let _photo1 = d[i].Images[0];
+                let _profession = d[i].Profession
+                str += "<p>" + _profession + "</p></div>"; //תחומי עיסוק
+                let _photo1 = d[i].Image;
                 //let _photo2 = d[i].Images[1];
-                //str += "<div id='photo' class='row'><img src='" + _photo1 + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
+                str += "<div id='photo' class='row'><img src='" + _photo1 + "' alt='Denim Jeans'>"; //תמונה ראשונה
                 //str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
                 let _description = d[i].Description;
                 str += "<div class='para'><p>" + _description + "</p>"; //תיאור

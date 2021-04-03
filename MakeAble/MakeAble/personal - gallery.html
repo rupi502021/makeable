@@ -107,6 +107,8 @@
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
             }
+
+           
         }
         function logout() {
             alert("logging out");
@@ -115,82 +117,82 @@
             location.reload();
         }
 
-        function render() {
-            ajaxCall("GET", "../api/Galleries", "", getSuccessRender, getErrorRender);
-        }
+        //function render() {
+        //    ajaxCall("GET", "../api/Galleries/All", "", getSuccessRender, getErrorRender);
+        //}
 
-        function getSuccessRender(data) {
-            console.log(data);
-            var d = data;
-            renderGalleries(d);
-            renderGalleriesSaved(d);
-        }
+        //function getSuccessRender(data) {
+        //    console.log(data);
+        //    var d = data;
+        //    renderGalleries(d);
+        //    renderGalleriesSaved(d);
+        //}
 
-        function getErrorRender(err) {
-            console.log(err);
-        }
+        //function getErrorRender(err) {
+        //    console.log(err);
+        //}
 
-        function renderGalleries(d) { //רנדור גלריות שפורסמו
-            $("#ph1").html("");
-            let str = "";
-            for (var i = 0; i < d.length; i++) {
-                if (d[i].isActive == true) {
-                    for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
-                        str += "<div class='col-sm-'>";
-                        str += "<div class='card'>";
-                        str += "<div class='para'><br />";
-                        str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].galleryName + "</h1>"; //שם
-                        str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
-                        str += "<p>" + d[i].profession + "</p></div>"; //תחומי עיסוק
-                        str += "<div id='photo' class='row'><img src='" + d[i].images[0] + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
-                        str += "<div id='photo' class='row'><img src='" + d[i].images[1] + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
-                        str += "<div class='para'><p>" + d[i].description + "</p>"; //תיאור
-                        str += "<p>" + d[i].time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
-                        //אייקונים
-                        str += "<div class='row'><div class='icon-bar'>";
-                        str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
-                        str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
-                        str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
-                        str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
-                        str += "<button type='button' class='btn btn - primary btn - block' style='background - color: white; color: dodgerblue'>הסתר</button>"; //כפתור הסתר
-                        str += "</div></div></div></div>";
-                    }
-                    k = 0;
-                }
-            }
-            $("#ph1").append(str);
-        }
+        //function renderGalleries(d) { //רנדור גלריות שפורסמו
+        //    $("#ph1").html("");
+        //    let str = "";
+        //    for (var i = 0; i < d.length; i++) {
+        //        if (d[i].isActive == true) {
+        //            for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
+        //                str += "<div class='col-sm-'>";
+        //                str += "<div class='card'>";
+        //                str += "<div class='para'><br />";
+        //                str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].galleryName + "</h1>"; //שם
+        //                str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
+        //                str += "<p>" + d[i].profession + "</p></div>"; //תחומי עיסוק
+        //                str += "<div id='photo' class='row'><img src='" + d[i].images[0] + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
+        //                str += "<div id='photo' class='row'><img src='" + d[i].images[1] + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
+        //                str += "<div class='para'><p>" + d[i].description + "</p>"; //תיאור
+        //                str += "<p>" + d[i].time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+        //                //אייקונים
+        //                str += "<div class='row'><div class='icon-bar'>";
+        //                str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
+        //                str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
+        //                str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
+        //                str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
+        //                str += "<button type='button' class='btn btn - primary btn - block' style='background - color: white; color: dodgerblue'>הסתר</button>"; //כפתור הסתר
+        //                str += "</div></div></div></div>";
+        //            }
+        //            k = 0;
+        //        }
+        //    }
+        //    $("#ph1").append(str);
+        //}
 
-        function renderGalleriesSaved(d) { //רנדור גלריות שנשמרו
-            $("#ph1").html("");
-            let str = "";
-            for (var i = 0; i < d.length; i++) {
-                if (d[i].isActive == false) {
-                    for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
-                        str += "<div class='col-sm-'>";
-                        str += "<div class='card'>";
-                        str += "<div class='para'><br />";
-                        str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].galleryName + "</h1>"; //שם
-                        str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
-                        str += "<p>" + d[i].profession + "</p></div>"; //תחומי עיסוק
-                        str += "<div id='photo' class='row'><img src='" + d[i].images[0] + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
-                        str += "<div id='photo' class='row'><img src='" + d[i].images[1] + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
-                        str += "<div class='para'><p>" + d[i].description + "</p>"; //תיאור
-                        str += "<p>" + d[i].time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
-                        //אייקונים
-                        str += "<div class='row'><div class='icon-bar'>";
-                        str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
-                        str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
-                        str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
-                        str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
-                        str += "<button type='button' class='btn btn - primary btn - block'>פרסם</button>"; //כפתור פרסם
-                        str += "</div></div></div></div>";
-                    }
-                    k = 0;
-                }
-            }
-            $("#ph1").append(str);
-        }
+        //function renderGalleriesSaved(d) { //רנדור גלריות שנשמרו
+        //    $("#ph1").html("");
+        //    let str = "";
+        //    for (var i = 0; i < d.length; i++) {
+        //        if (d[i].isActive == false) {
+        //            for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
+        //                str += "<div class='col-sm-'>";
+        //                str += "<div class='card'>";
+        //                str += "<div class='para'><br />";
+        //                str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].galleryName + "</h1>"; //שם
+        //                str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
+        //                str += "<p>" + d[i].profession + "</p></div>"; //תחומי עיסוק
+        //                str += "<div id='photo' class='row'><img src='" + d[i].images[0] + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
+        //                str += "<div id='photo' class='row'><img src='" + d[i].images[1] + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
+        //                str += "<div class='para'><p>" + d[i].description + "</p>"; //תיאור
+        //                str += "<p>" + d[i].time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+        //                //אייקונים
+        //                str += "<div class='row'><div class='icon-bar'>";
+        //                str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
+        //                str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
+        //                str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
+        //                str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
+        //                str += "<button type='button' class='btn btn - primary btn - block'>פרסם</button>"; //כפתור פרסם
+        //                str += "</div></div></div></div>";
+        //            }
+        //            k = 0;
+        //        }
+        //    }
+        //    $("#ph1").append(str);
+        //}
 
         function togglefunc() {
             $('.fa-heart-o').click(function () {
