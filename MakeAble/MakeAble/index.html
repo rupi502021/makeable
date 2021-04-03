@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 <head>
     <!-- Basic -->
     <meta charset="utf-8">
@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/custom.css">
-    <link href="Style/index_style.css" rel="stylesheet" />
+
 
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
@@ -38,7 +38,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-
+    <style>
+        nav#nav1 {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+            visibility: visible;
+            transform: translate(0,0) scale(1);
+            transition: .3s;
+        }
+        div#carouselExampleControls {
+            position: relative;
+            top: 90px;
+        }
+    </style>
+    <link href="Style/index_style.css" rel="stylesheet" />
     <script src="../Scripts/ajaxCalls.js"></script>
 
     <script>
@@ -180,7 +195,7 @@
 	
 	<!-- Start header -->
 	<header class="top-navbar">
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="index.html">
 					<img id="logo_top" src="images/make.png" alt="" />
@@ -250,7 +265,7 @@
 	</div>
 	
 	
-	<div id="domain" class="section wb">
+	<!--<div id="domain" class="section wb">
         <div class="container">
             <div class="row text-center">
 
@@ -284,8 +299,8 @@
                                 <input id="domaininfo" type="checkbox" class="styled">
                                 <label for="domaininfo">.info</label>
                             </div>
-                        </div><!-- end checkdomain-wrapper -->
-                    </form>
+                        </div>--><!-- end checkdomain-wrapper -->
+                    <!--</form>
                 </div>
 				<div class="col-lg-12">
                     <div class="customwidget text-center">
@@ -295,27 +310,27 @@
                         <ul class="list-inline">
                             <li><i class="fa fa-check"></i> 20k Domains Sold in 2017</li>
                             <li><i class="fa fa-check"></i> 4k Website Created</li>
-                        </ul>
+                        </ul>-->
                         <!-- end list -->
-                        <a href="#" class="hover-btn-new"><span>Hosting Packages</span></a>
+                        <!--<a href="#" class="hover-btn-new"><span>Hosting Packages</span></a>
                     </div>
-                </div>
+                </div>-->
 				
                 <!-- end col -->
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </div><!-- end section -->
+            <!--</div>--><!-- end row -->
+        <!--</div>--><!-- end container -->
+    <!--</div>--><!-- end section -->
 	
-    <div id="overviews" class="section lb">
+    <!--<div id="overviews" class="section lb">
         <div class="container">
             <div class="section-title row text-center">
                 <div class="col-md-8 offset-md-2">
                     <h3>About</h3>
                     <p class="lead">Lorem Ipsum dolroin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem!</p>
                 </div>
-            </div><!-- end title -->
+            </div>--><!-- end title -->
         
-            <div class="row align-items-center">
+            <!--<div class="row align-items-center">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="message-box">
                         <h4>2018 BEST WEB HOSTING COMPANY</h4>
@@ -325,23 +340,23 @@
                         <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis montes, nascetur ridiculus mus. Sed vitae rutrum neque. </p>
 
                         <a href="#" class="hover-btn-new"><span>Learn More</span></a>
-                    </div><!-- end messagebox -->
-                </div><!-- end col -->
+                    </div>--><!-- end messagebox -->
+                <!--</div>--><!-- end col -->
 				
-				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+				<!--<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="post-media wow fadeIn">
                         <img src="images/about_02.jpg" alt="" class="img-fluid img-rounded">
-                    </div><!-- end media -->
-                </div><!-- end col -->
-			</div>
+                    </div>--><!-- end media -->
+                <!--</div>--><!-- end col -->
+			<!--</div>
 			<div class="row align-items-center">
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="post-media wow fadeIn">
                         <img src="images/about_03.jpg" alt="" class="img-fluid img-rounded">
-                    </div><!-- end media -->
-                </div><!-- end col -->
+                    </div>--><!-- end media -->
+                <!--</div>--><!-- end col -->
 				
-				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+				<!--<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="message-box">
                         <h2>The standard Lorem Ipsum passage, used since the 1500s</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -349,22 +364,22 @@
                         <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum.</p>
 
                         <a href="#" class="hover-btn-new"><span>Learn More</span></a>
-                    </div><!-- end messagebox -->
-                </div><!-- end col -->
+                    </div>--><!-- end messagebox -->
+                <!--</div>--><!-- end col -->
 				
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </div><!-- end section -->
+            <!--</div>--><!-- end row -->
+        <!--</div>--><!-- end container -->
+    <!--</div>--><!-- end section -->
 
-    <section class="page-section">
+    <!--<section class="page-section">
 		<div class="container">
 			 <div class="section-title row text-center">
                 <div class="col-md-8 offset-md-2">
                     <h3>Our history</h3>
                     <p class="lead">Lorem Ipsum dolroin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem!</p>
                 </div>
-            </div><!-- end title -->
-			<div class="timeline">
+            </div>--><!-- end title -->
+			<!--<div class="timeline">
 				<div class="timeline__wrap">
 					<div class="timeline__items">
 						<div class="timeline__item">
@@ -431,31 +446,31 @@
 					<span data-scroll class="global-radius icon_wrap effect-1 alignleft"><i class="flaticon-hosting"></i></span>
 					<p class="stat_count">12000</p>
 					<h3>Hosted Sites</h3>
-				</div><!-- end col -->
+				</div>--><!-- end col -->
 
-				<div class="col-md-4 col-sm-4 col-xs-12">
+				<!--<div class="col-md-4 col-sm-4 col-xs-12">
 					<span data-scroll class="global-radius icon_wrap effect-1 alignleft"><i class="flaticon-domain-registration"></i></span>
 					<p class="stat_count">24000</p>
 					<h3>Sold Domains</h3>
-				</div><!-- end col -->
+				</div>--><!-- end col -->
 
-				<div class="col-md-4 col-sm-4 col-xs-12">
+				<!--<div class="col-md-4 col-sm-4 col-xs-12">
 					<span data-scroll class="global-radius icon_wrap effect-1 alignleft"><i class="flaticon-mail"></i></span>
 					<p class="stat_count">5000</p>
 					<h3>Email Accounts</h3>
-				</div><!-- end col -->
-			</div><!-- end row -->
-		</div><!-- end container -->
-	</div><!-- end section -->
+				</div>--><!-- end col -->
+			<!--</div>--><!-- end row -->
+		<!--</div>--><!-- end container -->
+	<!--</div>--><!-- end section -->
 
-    <div id="pricing" class="section lb">
+    <!--<div id="pricing" class="section lb">
         <div class="container">
             <div class="section-title text-center">
                 <h3>Ready to get started?</h3>
                 <p>Lorem ipsum dolor sit aet, consectetur adipisicing lit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-            </div><!-- end title -->
+            </div>--><!-- end title -->
 
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="message-box">
                         <ul class="nav nav-pills nav-stacked" id="myTabs">
@@ -463,8 +478,8 @@
                             <li><a href="#tab2" data-toggle="pill">Yearly Subscription</a></li>
                         </ul>
                     </div>
-                </div><!-- end col -->
-            </div>
+                </div>--><!-- end col -->
+            <!--</div>
 
             <hr class="invis">
 
@@ -531,10 +546,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><!-- end row -->
-                        </div><!-- end pane -->
+                            </div>--><!-- end row -->
+                        <!--</div>--><!-- end pane -->
 
-                        <div class="tab-pane fade" id="tab2">
+                        <!--<div class="tab-pane fade" id="tab2">
                             <div class="row text-center">
                                 <div class="col-md-4">
                                     <div class="pricing-table pricing-table-highlighted">
@@ -594,22 +609,22 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><!-- end row -->
-                        </div><!-- end pane -->
-                    </div><!-- end content -->
-                </div><!-- end col -->
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </div><!-- end section -->
+                            </div>--><!-- end row -->
+                        <!--</div>--><!-- end pane -->
+                    <!--</div>--><!-- end content -->
+                <!--</div>--><!-- end col -->
+            <!--</div>--><!-- end row -->
+        <!--</div>--><!-- end container -->
+    <!--</div>--><!-- end section -->
 
-    <div id="testimonials" class="parallax section db parallax-off" style="background-image:url('images/parallax_04.jpg');">
+    <!--<div id="testimonials" class="parallax section db parallax-off" style="background-image:url('images/parallax_04.jpg');">
         <div class="container">
             <div class="section-title text-center">
                 <h3>Testimonials</h3>
                 <p>Lorem ipsum dolor sit aet, consectetur adipisicing lit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-            </div><!-- end title -->
+            </div>--><!-- end title -->
 
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-md-12 col-sm-12">
                     <div class="testi-carousel owl-carousel owl-theme">
                         <div class="testimonial clearfix">
@@ -620,12 +635,12 @@
                             <div class="testi-meta">
                                 <img src="images/testi_01.png" alt="" class="img-fluid">
                                 <h4>James Fernando </h4>
-                            </div>
+                            </div>-->
                             <!-- end testi-meta -->
-                        </div>
+                        <!--</div>-->
                         <!-- end testimonial -->
 
-                        <div class="testimonial clearfix">
+                        <!--<div class="testimonial clearfix">
                             <div class="desc">
                                 <h3><i class="fa fa-quote-left"></i> Awesome Services!</h3>
                                 <p class="lead">Explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you completed.</p>
@@ -633,12 +648,12 @@
                             <div class="testi-meta">
                                 <img src="images/testi_02.png" alt="" class="img-fluid">
                                 <h4>Jacques Philips </h4>
-                            </div>
+                            </div>-->
                             <!-- end testi-meta -->
-                        </div>
+                        <!--</div>-->
                         <!-- end testimonial -->
 
-                        <div class="testimonial clearfix">
+                        <!--<div class="testimonial clearfix">
                             <div class="desc">
                                 <h3><i class="fa fa-quote-left"></i> Great & Talented Team!</h3>
                                 <p class="lead">The master-builder of human happines no one rejects, dislikes avoids pleasure itself, because it is very pursue pleasure. </p>
@@ -646,11 +661,11 @@
                             <div class="testi-meta">
                                 <img src="images/testi_03.png" alt="" class="img-fluid ">
                                 <h4>Venanda Mercy </h4>
-                            </div>
+                            </div>-->
                             <!-- end testi-meta -->
-                        </div>
+                        <!--</div>-->
                         <!-- end testimonial -->
-                        <div class="testimonial clearfix">
+                        <!--<div class="testimonial clearfix">
                             <div class="desc">
                                 <h3><i class="fa fa-quote-left"></i> Wonderful Support!</h3>
                                 <p class="lead">They have got my project on time with the competition with a sed highly skilled, and experienced & professional team.</p>
@@ -658,12 +673,12 @@
                             <div class="testi-meta">
                                 <img src="images/testi_01.png" alt="" class="img-fluid">
                                 <h4>James Fernando </h4>
-                            </div>
+                            </div>-->
                             <!-- end testi-meta -->
-                        </div>
+                        <!--</div>-->
                         <!-- end testimonial -->
 
-                        <div class="testimonial clearfix">
+                        <!--<div class="testimonial clearfix">
                             <div class="desc">
                                 <h3><i class="fa fa-quote-left"></i> Awesome Services!</h3>
                                 <p class="lead">Explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you completed.</p>
@@ -671,12 +686,12 @@
                             <div class="testi-meta">
                                 <img src="images/testi_02.png" alt="" class="img-fluid">
                                 <h4>Jacques Philips </h4>
-                            </div>
+                            </div>-->
                             <!-- end testi-meta -->
-                        </div>
+                        <!--</div>-->
                         <!-- end testimonial -->
 
-                        <div class="testimonial clearfix">
+                        <!--<div class="testimonial clearfix">
                             <div class="desc">
                                 <h3><i class="fa fa-quote-left"></i> Great & Talented Team!</h3>
                                 <p class="lead">The master-builder of human happines no one rejects, dislikes avoids pleasure itself, because it is very pursue pleasure. </p>
@@ -684,16 +699,16 @@
                             <div class="testi-meta">
                                 <img src="images/testi_03.png" alt="" class="img-fluid">
                                 <h4>Venanda Mercy </h4>
-                            </div>
+                            </div>-->
                             <!-- end testi-meta -->
-                        </div><!-- end testimonial -->
-                    </div><!-- end carousel -->
-                </div><!-- end col -->
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </div><!-- end section -->
+                        <!--</div>--><!-- end testimonial -->
+                    <!--</div>--><!-- end carousel -->
+                <!--</div>--><!-- end col -->
+            <!--</div>--><!-- end row -->
+        <!--</div>--><!-- end container -->
+    <!--</div>--><!-- end section -->
 
-    <div class="parallax section dbcolor">
+    <!--<div class="parallax section dbcolor">
         <div class="container">
             <div class="row logos">
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
@@ -714,11 +729,11 @@
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
                     <a href="#"><img src="images/logo_06.png" alt="" class="img-repsonsive"></a>
                 </div>
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </div><!-- end section -->
+            </div>--><!-- end row -->
+        <!--</div>--><!-- end container -->
+    <!--</div>--><!-- end section -->
 
-    <footer class="footer">
+    <!--<footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-xs-12">
@@ -728,10 +743,10 @@
                         </div>
                         <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>
                         <p>Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>
-                    </div><!-- end clearfix -->
-                </div><!-- end col -->
+                    </div>--><!-- end clearfix -->
+                <!--</div>--><!-- end col -->
 
-				<div class="col-lg-4 col-md-4 col-xs-12">
+				<!--<div class="col-lg-4 col-md-4 col-xs-12">
                     <div class="widget clearfix">
                         <div class="widget-title">
                             <h3>Information Link</h3>
@@ -743,11 +758,11 @@
 							<li><a href="#">About</a></li>
 							<li><a href="#">Faq</a></li>
 							<li><a href="#">Contact</a></li>
-                        </ul><!-- end links -->
-                    </div><!-- end clearfix -->
-                </div><!-- end col -->
+                        </ul>--><!-- end links -->
+                    <!--</div>--><!-- end clearfix -->
+                <!--</div>--><!-- end col -->
 				
-                <div class="col-lg-4 col-md-4 col-xs-12">
+                <!--<div class="col-lg-4 col-md-4 col-xs-12">
                     <div class="widget clearfix">
                         <div class="widget-title">
                             <h3>Contact Details</h3>
@@ -758,15 +773,15 @@
                             <li><a href="#">www.yoursite.com</a></li>
                             <li>PO Box 16122 Collins Street West Victoria 8007 Australia</li>
                             <li>+61 3 8376 6284</li>
-                        </ul><!-- end links -->
-                    </div><!-- end clearfix -->
-                </div><!-- end col -->
+                        </ul>--><!-- end links -->
+                    <!--</div>--><!-- end clearfix -->
+                <!--</div>--><!-- end col -->
 				
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </footer><!-- end footer -->
+            <!--</div>--><!-- end row -->
+        <!--</div>--><!-- end container -->
+    <!--</footer>--><!-- end footer -->
 
-    <div class="copyrights">
+    <!--<div class="copyrights">
         <div class="container">
             <div class="footer-distributed">
                 <div class="footer-left">                   
@@ -780,11 +795,11 @@
 						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 						<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
 						<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-					</ul><!-- end links -->
+					</ul> end links 
                 </div>
             </div>
-        </div><!-- end container -->
-    </div><!-- end copyrights -->
+        </div> end container 
+    </div> end copyrights--> 
 
     <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
 

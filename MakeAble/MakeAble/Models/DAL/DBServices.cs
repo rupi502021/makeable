@@ -383,52 +383,52 @@ namespace MakeAble.Models.DAL
                 }
             }
         }
-        //public List<Gallery> getAllGalleriesAl()
-        //{
-        //    SqlConnection con = null;
-        //    List<Gallery> gList = new List<Gallery>();
+        public List<Gallery> getAllGalleriesAl()
+        {
+            SqlConnection con = null;
+            List<Gallery> gList = new List<Gallery>();
 
-        //    try
-        //    {
-        //        con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-        //        String selectSTR = "SELECT * FROM Gallery";
-        //        SqlCommand cmd = new SqlCommand(selectSTR, con);
+                String selectSTR = "select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId ";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
 
-        //        // get a reader
-        //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
 
-        //        while (dr.Read())
-        //        {   // Read till the end of the data into a row
-        //            Gallery g = new Gallery();
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+                    Gallery g = new Gallery();
 
-        //            g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
-        //            g.GalleryName = Convert.ToString(dr["GalleryName"]);
-        //            g.Url = Convert.ToString(dr["Url"]);
-        //            g.Date = Convert.ToDateTime(dr["UploadDate"]);
-        //            g.Time = Convert.ToDateTime(dr["UploadTime"]);
-        //            g.Description = Convert.ToString(dr["Description"]);
+                    g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
+                    g.GalleryName = Convert.ToString(dr["GalleryName"]);
+                    g.Url = Convert.ToString(dr["Url"]);
+                    g.Date = Convert.ToDateTime(dr["UploadDate"]);
+                    g.Time = Convert.ToDateTime(dr["UploadTime"]);
+                    g.Description = Convert.ToString(dr["Description"]);
 
-        //            g.IsActive = Convert.ToBoolean(dr["IsActive"]);
-        //            g.Email = Convert.ToString(dr["UserEmail"]);
-        //            gList.Add(g);
+                    g.IsActive = Convert.ToBoolean(dr["IsActive"]);
+                    g.Email = Convert.ToString(dr["UserEmail"]);
+                    gList.Add(g);
 
-        //        }
-        //        return gList;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // write to log
-        //        throw (ex);
-        //    }
-        //    finally
-        //    {
-        //        if (con != null)
-        //        {
-        //            con.Close();
-        //        }
-        //    }
-        //}
+                }
+                return gList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+        }
 
         public int InsertProffesion_Gallery(Gallery gallery,int id)
         {

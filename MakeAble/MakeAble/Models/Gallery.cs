@@ -59,12 +59,12 @@ namespace MakeAble.Models
             return g;
         }
 
-        //public List<Gallery> ReadAllGalleriesAl()
-        //{
-        //    DBServices dbs = new DBServices();
-        //    List<Gallery> g = dbs.getAllGalleriesAl();
-        //    return g;
-        //}
+        public List<Gallery> ReadAllGalleriesAl()
+        {
+            DBServices dbs = new DBServices();
+            List<Gallery> g = dbs.getAllGalleriesAl();
+            return g;
+        }
 
         public void Insert()
         {
