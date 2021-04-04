@@ -40,6 +40,9 @@
     <script src="../Scripts/ajaxCalls.js"></script>
 
     <script>
+        var dt = new Date();
+        var current_time = dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDay();
+
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
             $(".fa-heart-o").click(togglefunc);
@@ -157,6 +160,7 @@
             console.log(err);
         }
 
+
         function renderGalleries(d) { //רנדור גלריות שפורסמו
             $("#ph1").html("");
             let str = "";
@@ -168,7 +172,7 @@
                     //let _email = d[i].Email; //זה לא האימייל הנכון - צריך פה עבודה עם לוקאל סטורג
                     //listGal.push(_id, _email);
 
-                    str += "<div class='col-sm-4'>";
+                    str += "<div class='col-md-4'>";
                     str += "<div class='card'>";
                     str += "<div class='para'><br />";
                     let _name = d[i].GalleryName;
@@ -177,15 +181,25 @@
                     //let _place = "???";
                     str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + "מיקום בו נוצרה" + "</p>"; //מקום
                     let _profession = d[i].Profession
-                    str += "<p>" + _profession + "</p></div>"; //תחומי עיסוק
+                    str += "<p>" + _profession + "</p>"; //תחומי עיסוק
+                    str += "</div>"; //סוגר את para
                     let _photo1 = d[i].Image;
                     //let _photo2 = d[i].Images[1];
                     str += "<div id='photo' class='row'><img src='" + _photo1 + "' alt='Denim Jeans'>"; //תמונה ראשונה
+                    str += "&nbsp<img src='" + _photo1 + "' alt='Denim Jeans'>";
+                    str += "</div></br>"; //סוגר את photo
                     //str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
                     let _description = d[i].Description;
                     str += "<div class='para'><p>" + _description + "</p>"; //תיאור
-                    let _time = d[i].Time;
-                    str += "<p>" + _time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+
+                    var _time = d[i].Time;
+                    var _date = d[i].Date;
+                    var date_date = _date.split('T')[0];
+                    var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
+                    var time_time = _time.split('T')[1];  
+ 
+                    str += "<p>" + date_time_ltr + "<p>" + time_time + "</p></div>";
+                    //str += "<p>" + time_time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
                     //אייקונים
                     str += "<div class='row'>";
                     str += "<div class='icon-bar'>";
@@ -196,7 +210,6 @@
                     str += "<a href='#'><i class='fa fa-share-alt'></i></a>";
                     str += "</div>"; //סוגר את האייקון בר
                     str += "</div>"; //סוגר את השורה של האייקונים
-                    str += "</div>"; //סוג את para
                     str += "</div>"; //סוג את card
                     str += "</div>"; //סוגר את col-sm-4
                     
@@ -333,7 +346,7 @@
     </header>
     <!-- End header -->
 
-    <div>
+    <div class="container">
         <div>
             <ul  id="newGalleryBTN" class="nav navbar-nav navbar-right" style="float:none">
                 <li><a  class="hover-btn-new log" href="newGallery.html"><span>הוספת גלריה חדשה</span></a></li>

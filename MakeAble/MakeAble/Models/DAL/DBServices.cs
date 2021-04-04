@@ -362,7 +362,6 @@ namespace MakeAble.Models.DAL
                     g.Date = Convert.ToDateTime(dr["UploadDate"]);
                     g.Time = Convert.ToDateTime(dr["UploadTime"]);
                     g.Description = Convert.ToString(dr["Description"]);
-
                     g.IsActive = Convert.ToBoolean(dr["IsActive"]);
                     g.Email = Convert.ToString(dr["UserEmail"]);
                     gList.Add(g);

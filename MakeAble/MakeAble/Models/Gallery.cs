@@ -60,7 +60,6 @@ namespace MakeAble.Models
 
 
 
-
         //public List<Gallery> ReadFavGal()
         //{
         //    DBServices dbs = new DBServices();
