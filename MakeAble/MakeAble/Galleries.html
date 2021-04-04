@@ -181,12 +181,18 @@
                     let _photo1 = d[i].Image;
                     //let _photo2 = d[i].Images[1];
                     str += "<div id='photo' class='row'><img src='" + _photo1 + "' alt='Denim Jeans'>"; //תמונה ראשונה
-                    //str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
+                    str += "&nbsp<img src='" + _photo1 + "' alt='Denim Jeans'>";
+                    //str += "</div>"; //סוגר את photo
                     let _description = d[i].Description;
                     str += "<div class='para'><p>" + _description + "</p>"; //תיאור
-                    let _time = d[i].Time;
-                    str += "<p>" + _time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
-                    //אייקונים
+                    var _time = d[i].Time;
+                    var _date = d[i].Date;
+                    var date_date = _date.split('T')[0];
+                    var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
+                    var time_time = _time.split('T')[1];
+
+                    str += "<p>" + date_time_ltr + "<p>" + time_time + "</p></div>";
+                     //אייקונים
                     str += "<div class='row'>";
                     str += "<div class='icon-bar'>";
                     str += "<a ref='#' onclick='togglefunc()'>";

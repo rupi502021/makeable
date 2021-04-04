@@ -30,12 +30,17 @@ a#logout::before {
 
     .card #photo {
         margin: 0 auto;
+        text-align: center;
+        display: block;
     }
 
     .card .para {
         font-family: Calibri;
     }
-
+    .card img {
+        max-width: 100%;
+        height: auto;
+    }
 
 ul#newGalleryBTN {
     position: fixed;
