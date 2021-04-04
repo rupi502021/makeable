@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="utf-8" />
+    <title>הרשמה</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.css">
+    <link href="Style/Registration_style.css" rel="stylesheet" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <script src="Scripts/ajaxCalls.js"></script>
+
+    <script src="https://cdn.rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.min.js"></script>
+
+    
+    <script>
+
+        $(document).ready(function () {
+
+            var data = {
+                resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
+
+
+            };
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+
+                    var citieslist = [];
+                    var value = " <option value='בחירת עיר'></option>";
+                    for (var i = 1; i < data.length; i++) {
+                        citieslist.push(data[i].name);
+                        value += " <option data-id='" + data[i].name+"' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
+                    }
+                    $("#mylist").append(value);
+                }
+            });
+            $("#filebutton").change(function () {
+                readURL(this);
+            });
+            $("#formUsers").submit(f1);
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#PP').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+
+        function f1() {
+            AddUser();
+           
+            return false;
+        }
+
+        function AddUser() {
+            var getvalue = document.getElementsByName('mylist')[0];
+            city=getvalue.value;
+            
+            user = {
+                Fname: $("#firstName").val(),
+                Lname: $("#lastName").val(),
+                Email: $("#email").val(),
+                Password: $("#password").val(),
+                BirthDay: $("#birthDate").val(),
+                Phone: $("#phoneNumber").val(),
+                City: city,
+                Description: $("#textarea").val(),
+                Have_makerspace: parseInt($("#Have_makerspace:checked").val()),
+                Profession: $("#selectmultiple").val()
+            }
+          
+            upload();
+            console.log(JSON.stringify(user));
+        }
+        //נשלח לקונטרולר את התמונה שהועלתה+שם פרטי+ שם משפחה+ תאריך העלה- שיהיה יוניקי
+        function upload() {
+            var data = new FormData();
+            var files = $("#filebutton").get(0).files;
+
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedImage", files[f]);
+                }
+                data.append("email", user.Email + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                // Ajax upload (image)
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/FileUpload",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: successfile,
+                    error: error
+                });
+                return false;
+            }
+            else {
+                ajaxCall("POST", "../api/Users", JSON.stringify(user), success, error);
+                return false;
+            }
+
+
+        }
+
+        function successfile(data) {
+            user = { ...user, ProfilePhoto: data[0] };
+
+            //נעלה את כול הקסטיומר כולל תכונת התמונה
+            console.log(JSON.stringify(user));
+            ajaxCall("POST", "../api/Users", JSON.stringify(user), success, error);
+
+        }
+        function success(data) {
+            alert("got post success");
+
+            swal({
+                title: "Added Successfuly!", text: "Moving to Home page", icon:
+                    "success"
+            }).then(function () {
+                window.location.href = 'index.html';
+
+                checked = document.getElementById("remember-me").checked;
+                if (checked) {
+                    localStorage.setItem("user", JSON.stringify(data));
+                }
+                else {
+                    sessionStorage.setItem("user", JSON.stringify(data));
+                }
+            }
+            );
+            clear();
+        }
+
+        function error(err) {
+            alert(err.responseJSON);
+        }
+
+        function clear() {
+            $("#firstName").val(''),
+            $("#lastName").val(''),
+            $("#email").val(''),
+            $("#password").val(''),
+            $("#birthDate").val(''),
+            $("#phoneNumber").val(''),
+            $("#cities").val(''),
+            $("#textarea").val(''),
+            $("#Have_makerspace:checked").val(''),
+            $("#selectmultiple").val('');
+        }
+        function validatePassword() {
+            var password = document.getElementById("password")
+                , confirm_password = document.getElementById("confirm_password");
+
+            if (password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+
+            } else {
+                confirm_password.setCustomValidity('');
+            }
+        }
+
+
+    </script>
+</head>
+
+<body dir="rtl">
+    <div class="container">
+        <form id="formUsers" class="form-horizontal" role="form">
+            <h2>הרשמה</h2>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="firstName" placeholder="שם פרטי" class="form-control" autofocus maxlength="10" required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">שם פרטי*</label>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="lastName" placeholder="שם משפחה" class="form-control" autofocus maxlength="20" required>
+                </div>
+                <label for="lastName" class="col-sm-3 control-label">שם משפחה*</label>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="email" id="email" placeholder="Email" class="form-control" name="email" required
+                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                           oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
+                           oninput="this.setCustomValidity('')">
+                </div>
+                <label for="email" class="col-sm-3 control-label">Email* </label>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="password" id="password" placeholder="סיסמא" class="form-control" required>
+                </div>
+                <label for="password" class="col-sm-3 control-label">סיסמא*</label>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="password" id="confirm_password" placeholder=" סיסמא בשנית" class="form-control" onblur="validatePassword()">
+                </div>
+                <label for="password" class="col-sm-3 control-label">אמת סיסמא*</label>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="date" id="birthDate" class="form-control" required>
+                </div>
+                <label for="birthDate" class="col-sm-3 control-label">תאריך לידה*</label>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="tel" id="phoneNumber" placeholder="מספר טלפון" class="form-control" required
+                           pattern="[0-9]{3}-[0-9]{7}"
+                           oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
+                           oninput="this.setCustomValidity('')">
+                </div>
+                <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input class="dropdown-input" list="mylist" name="mylist" />
+                    <datalist id="mylist">
+                        
+                    </datalist>
+                </div>
+                <label for="cities" class="col-sm-3 control-label" style="bottom:8px">עיר</label>
+            </div>
+
+            <!-- File Button -->
+            <div class="form-group">
+                <img class="col-sm-6" id="PP" src="#" alt="ProfilePhoto" />
+                <div class="col-sm-6">
+                    <input id="filebutton" name="filebutton" class="input-file" type="file">
+                </div>
+
+                <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה פרופיל</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="textarea" name="textarea" placeholder="ספר לנו עלייך"></textarea>
+                </div>
+                <label for="text" class="col-sm-3 control-label">תיאור</label>
+
+            </div>
+
+            <!-- Select Multiple -->
+            <div class="form-group">
+                <div class="col-sm-9">
+
+                    <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
+                        <option value="אומנות">אומנות</option>
+                        <option value="מדפסות תל מימד">מדפסות תל מימד</option>
+                        <option value="נגרות">נגרות</option>
+                        <option value="תכנות">תכנות</option>
+                    </select>
+
+
+                </div>
+                <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
+                <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-10 control-label" for="checkboxes">האם את/ה בעל/ת מייקרספייס?</label>
+
+                <div class="col-sm-2">
+                    <label class="checkbox-inline" for="checkboxes-0" style="padding-right:70px">
+                        <input type="checkbox" name="checkboxes" id="Have_makerspace" value="1">
+                        1
+                    </label>
+                </div>
+            </div>
+            <!-- Multiple Checkboxes (inline) -->
+            <div class="form-group">
+                <label class="col-sm-10 control-label" for="checkboxes">אני מסכים לתנאי השימוש</label>
+
+                <div class="col-sm-2">
+                    <label class="checkbox-inline" for="checkboxes-0" style="padding-right:70px">
+                        <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1" onchange="document.getElementById('submitBTN').disabled = !this.checked;">
+                        1
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-10 control-label" for="checkboxes">זכור אותי לכניסות הבאות</label>
+
+                <div class="col-sm-2">
+                    <label class="checkbox-inline" for="checkboxes-0" style="padding-right:70px">
+                        <input id="remember-me" name="remember-me" type="checkbox">
+                        1
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-9 col-sm-offset-3">
+                    <span class="help-block">שדות חובה*</span>
+                </div>
+            </div>
+            <button type="submit" id="submitBTN" class="btn btn-primary btn-block" disabled>הירשם!</button>
+        </form> <!-- /form -->
+    </div> <!-- ./container -->
+
+</body>
+</html>

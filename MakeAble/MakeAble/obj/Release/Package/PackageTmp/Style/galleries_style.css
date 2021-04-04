@@ -1,0 +1,74 @@
+﻿
+.container {
+    font-family: Calibri;
+    padding-top:105px;
+}
+
+a#logout::before {
+    background: red;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-family: arial;
+}
+
+    .card .icon-bar {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+        direction: ltr;
+    }
+
+    .card #photo {
+        margin: 0 auto;
+    }
+
+    .card .para {
+        font-family: Calibri;
+    }
+
+
+ul#newGalleryBTN {
+    position: fixed;
+    top: 100px;
+    left: 0px;
+
+}
+    #photo img {
+    width: 45%;
+}
+
+.container button {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.fa-heart {
+    color: deeppink;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+#nav1 {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+
+
+

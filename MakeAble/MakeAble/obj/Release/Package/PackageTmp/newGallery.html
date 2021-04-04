@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="utf-8" />
+    <title>הוספת גלריה</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!------ Include the above in your HEAD tag ---------->
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="Scripts/ajaxCalls.js"></script>
+   
+    <link href="Style/newGallery_style.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            $("#galleyBTNsave").click(f1);
+            $("#galleyBTNpub").click(f1);
+            
+        });
+        var ClickOrSave;
+        function f1() {
+            console.log("click choosen" + this.id);
+            ClickOrSave = this.id;
+            AddGallery(ClickOrSave);
+            return false;
+        }
+
+        function AddGallery() {
+            var stars_range;
+            if ($("input[type='radio'].starRange-input").is(':checked')) {
+                stars_range = $("input[type='radio'].starRange-input:checked").val();
+                stars_range = 6 - stars_range;
+            }//דירוג כוכבים לחלל העבודה
+
+            var makerspace;
+            if (document.getElementById('checkboxes-1').checked) {
+                makerspace = document.getElementById('selectbasic1').value;
+            }
+            else if (document.getElementById('checkboxes-2').checked) {
+                makespace = document.getElementById('selectbasic2').value;
+            } //בחירת חלל העבודה
+
+            //מחזיר תאריך עכשווי
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            var date = yyyy + '-' + mm + '-' + dd;
+            //מחזיר שעה עכשווית
+            var time1 = new Date().toLocaleTimeString('en-US', {
+                hour12: false,
+                hour: "numeric",
+                minute: "numeric"
+            });
+            var time = time1;
+
+            if (ClickOrSave == "galleyBTNsave") {
+               var isActive = false;
+            }
+            else {
+               var isActive = true;
+            }
+
+            gallery = {
+                GalleryName: $("#galleryName").val(), //שם גלריה
+                ProfArr: $("#selectmultiple").val(), //תחומי עיסוק
+                Description: $("#textarea").val(), //תיאור קצר
+                Date: date,
+                Time: time,
+                IsActive: isActive,
+            }
+
+            if (localStorage.getItem("user") == null) {
+                l = JSON.parse(sessionStorage.getItem('user'));
+            }
+            else {
+                l = JSON.parse(localStorage.getItem('user'));
+            }
+            gallery = { ...gallery, Email: l.Email };
+
+            upload() //הוספת תמונות
+            console.log(JSON.stringify(gallery));
+        }
+
+        function upload() {
+            var data = new FormData();
+            var files = $("#filebutton").get(0).files;
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedImageGalleries", files[f]);
+                }
+                data.append("name","Gallery_"+ gallery.Email + '_' +  Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                // Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/FileUpload",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: successfile,
+                    error: error
+                });
+            }
+
+        }
+
+        function successfile(data) {
+            
+            gallery = { ...gallery, ImageArr: data };
+            console.log(JSON.stringify(gallery));
+            ajaxCall("POST", "../api/Galleries", JSON.stringify(gallery), success, error);
+        }
+
+        function success(data) {
+            //swal("Added Successfuly!", "Great Job", "success");
+            swal({
+                title: "Added Successfuly!", text: "Moving to All Galleries", type:
+                    "success"
+            }).then(function () {
+                window.location.href = 'Galleries.html';
+            }
+            );
+            clear();
+        }
+
+        function error(err) {
+            alert(err.responseJSON);
+        }
+
+        function clear() {
+            $("#galleryName").val(''),
+                $("#selectmultiple").val(''),
+                $("#textarea").val('')
+        }
+
+       
+    </script>
+</head>
+
+<body dir="rtl">
+
+    <div class="container">
+        <form class="form-horizontal" id="pForm" role="form">
+            <h1>הוספת גלריה חדשה</h1>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="galleryName" placeholder="שם הגלריה" class="form-control" autofocus required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">שם הגלריה</label>
+            </div>
+
+            <!-- Select Multiple -->
+            <div class="form-group">
+                <div class="col-sm-9">
+
+                    <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
+                        <option value="אומנות">אומנות</option>
+                        <option value="מדפסות תל מימד">מדפסות תל מימד</option>
+                        <option value="נגרות">נגרות</option>
+                        <option value="תכנות">תכנות</option>
+                    </select>
+
+
+                </div>
+                <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
+                <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
+            </div>
+
+            <!-- Multiple Checkboxes -->
+            <div class="form-group">
+                <div class="col-sm-9 places">
+                    <div class="checkbox">
+                        <label for="checkboxes-0">
+                            <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
+                            <label class="control-label" for="selectbasic">
+                                <select id="selectbasic1" name="selectbasic" class="דform-control">
+                                    <option value="0">חללי העבודה שלי</option>
+                                    <option value="1">חלל עבודה 1</option>
+                                </select>
+                            </label>
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label for="checkboxes-0">
+                            <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
+                            <label class="control-label" for="selectbasic">
+                                <select id="selectbasic2" name="selectbasic" class="דform-control">
+                                    <option value="0">כל חללי העבודה</option>
+                                    <option value="1">חלל עבודה 11</option>
+                                </select>
+                            </label>
+                        </label>
+                    </div>
+                </div>
+                <label class="col-sm-3 control-label" for="checkboxes">הוספת מקום</label>
+            </div>
+            <br />
+
+            <!-- File Button -->
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input id="filebutton" name="filebutton" class="input-file" type="file" multiple required>
+                </div>
+                <label class="col-sm-3 control-label" for="filebutton">הוספת תמונה</label>
+            </div>
+
+            <!-- Multiple Checkboxes (inline) -->
+            <div class="form-group" id="center">
+                <div class="col-sm-9 starRange-checkbox" id="stars">
+                    <input type="radio" id="one" class="starRange-input" name="rate" value="1">
+                    <label for="one" class="starRange-lable"></label>
+                    <input type="radio" id="two" class="starRange-input" name="rate" value="2">
+                    <label for="two" class="starRange-lable"></label>
+                    <input type="radio" id="three" class="starRange-input" name="rate" value="3">
+                    <label for="three" class="starRange-lable"></label>
+                    <input type="radio" id="four" class="starRange-input" name="rate" value="4">
+                    <label for="four" class="starRange-lable"></label>
+                    <input type="radio" id="five" class="starRange-input" name="rate" value="5">
+                    <label for="five" class="starRange-lable"></label>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">דירוג המקום</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="textarea" name="textarea" placeholder="תיאור קצר"></textarea>
+                </div>
+                <label class="col-sm-3 control-label" for="textarea">תיאור קצר</label>
+            </div>
+            <div>
+                <table id="tableBTN">
+                    <tr>
+                        <td >
+                            <button id="galleyBTNsave" type="submit" class="btn btn-primary btn-block" >שמור</button>
+                        </td>
+                        <td >
+                            <button id="galleyBTNpub" type="submit" class="btn btn-primary btn-block">פרסם</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </form> <!-- /form -->
+    </div> <!-- ./container -->
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿
+a#logout::before {
+    background: red;
+}
+
+.sidebar-nav {
+    text-align: right;
+    font-family: Calibri;
+    font-size: 30px;
+}
+
+.nav.navbar.navbar-expand.navbar-dark.bg-primary {
+    background-color: #333333;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+
+#nav1 {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+
+#nav_menu {
+    position: fixed;
+    top: 101px;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+
+button.navbar-toggler {
+    background-color: white;
+}
+
+div#sidebar-wrapper {
+    top: 159.5px;
+    position: fixed;
+}
