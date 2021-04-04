@@ -36,6 +36,29 @@ namespace MakeAble.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/Users/{email}/{pass}")]
+        public HttpResponseMessage Get(string email,string pass)
+        {
+            try
+            {
+                User user = new User();
+                List<User> uList = user.ReadUsers();
+                foreach (var item in uList)
+                {
+                    if (email == item.Email&& pass ==item.Password)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK, item);
+                    }
+                }
+                user = null;
+                return Request.CreateResponse(HttpStatusCode.OK, user);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+        }
         public HttpResponseMessage Post([FromBody] User user)
         {
 

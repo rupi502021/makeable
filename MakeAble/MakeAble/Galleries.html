@@ -46,7 +46,7 @@
             checklogin();
             render();
         });
-
+     
         function fLogin() {
             let email = $("#email1").val();
             let pass = $("#pass1").val();
@@ -92,6 +92,7 @@
             var l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
                 $("ul.nav.navbar-nav.navbar-right").hide();
+                $("#newGalleryBTN").show();
                 $("#per_area").show();
                 var hi = "היי, ";
                 if (l == null) {
@@ -107,6 +108,7 @@
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
                 $("#per_area").hide();
+                $("ul#newGalleryBTN").hide();
             }
         }
         function logout() {
@@ -148,7 +150,7 @@
             console.log(data);
             var d = data;
             renderGalleries(d);
-            //renderGalleriesSaved(d);
+            
         }
 
         function getErrorRender(err) {
@@ -160,42 +162,46 @@
             let str = "";
             listGal = new Array();
             for (var i = 0; i < d.length; i++) {
-                let _id = d[i].GalleryId;
-                let _email = d[i].Email; //זה לא האימייל הנכון - צריך פה עבודה עם לוקאל סטורג
-                listGal.push(_id, _email);
+                str += "<div class='row'>"
+                for (var k = 0; k < 3; k++, i++) { //עד 3 גלריות בשורה
+                    //let _id = d[i].GalleryId;
+                    //let _email = d[i].Email; //זה לא האימייל הנכון - צריך פה עבודה עם לוקאל סטורג
+                    //listGal.push(_id, _email);
 
-                str += "<div class='col-sm-4'>";
-                str += "<div class='card'>";
-                str += "<div class='para'><br />";
-                let _name = d[i].GalleryName;
-                str += "<h1><a href='#'><i class='fa fa-user'></i></a>";
-                str += "<a href='#'>&nbsp" + _name + "</a></h1 > "; //שם
-                //let _place = "???";
-                str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + "מיקום בו נוצרה" + "</p>"; //מקום
-                let _profession = d[i].Profession
-                str += "<p>" + _profession + "</p></div>"; //תחומי עיסוק
-                let _photo1 = d[i].Image;
-                //let _photo2 = d[i].Images[1];
-                str += "<div id='photo' class='row'><img src='" + _photo1 + "' alt='Denim Jeans'>"; //תמונה ראשונה
-                //str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
-                let _description = d[i].Description;
-                str += "<div class='para'><p>" + _description + "</p>"; //תיאור
-                let _time = d[i].Time;
-                str += "<p>" + _time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
-                //אייקונים
-                str += "<div class='row'>";
-                str += "<div class='icon-bar'>";
-                str += "<a ref='#' onclick='togglefunc()'>";
-                str += "<i class='fa fa-heart-o'></i></a > ";
-                str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
-                str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
-                str += "<a href='#'><i class='fa fa-share-alt'></i></a>";
-                str += "</div>"; //סוגר את האייקון בר
-                str += "</div>"; //סוגר את השורה של האייקונים
-                str += "</div>"; //סוג את para
-                str += "</div>"; //סוג את card
-                str += "</div>"; //סוגר את col-sm-4
-
+                    str += "<div class='col-sm-4'>";
+                    str += "<div class='card'>";
+                    str += "<div class='para'><br />";
+                    let _name = d[i].GalleryName;
+                    str += "<h1><a href='#'><i class='fa fa-user'></i></a>";
+                    str += "<a href='#'>&nbsp" + _name + "</a></h1 > "; //שם
+                    //let _place = "???";
+                    str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + "מיקום בו נוצרה" + "</p>"; //מקום
+                    let _profession = d[i].Profession
+                    str += "<p>" + _profession + "</p></div>"; //תחומי עיסוק
+                    let _photo1 = d[i].Image;
+                    //let _photo2 = d[i].Images[1];
+                    str += "<div id='photo' class='row'><img src='" + _photo1 + "' alt='Denim Jeans'>"; //תמונה ראשונה
+                    //str += "<div id='photo' class='row'><img src='" + _photo2 + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
+                    let _description = d[i].Description;
+                    str += "<div class='para'><p>" + _description + "</p>"; //תיאור
+                    let _time = d[i].Time;
+                    str += "<p>" + _time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                    //אייקונים
+                    str += "<div class='row'>";
+                    str += "<div class='icon-bar'>";
+                    str += "<a ref='#' onclick='togglefunc()'>";
+                    str += "<i class='fa fa-heart-o'></i></a > ";
+                    str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
+                    str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
+                    str += "<a href='#'><i class='fa fa-share-alt'></i></a>";
+                    str += "</div>"; //סוגר את האייקון בר
+                    str += "</div>"; //סוגר את השורה של האייקונים
+                    str += "</div>"; //סוג את para
+                    str += "</div>"; //סוג את card
+                    str += "</div>"; //סוגר את col-sm-4
+                    
+                }
+                str += "</div>"; //סוגר את row
             }
 
             $("#ph1").append(str);
@@ -297,7 +303,7 @@
     <!-- END LOADER -->
     <!-- Start header -->
     <header class="top-navbar">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light" >
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.html">
                     <img id="logo_top" src="images/make.png" alt="" />
@@ -311,7 +317,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
                         <li class="nav-item active"><a class="nav-link" href="Galleries.html">גלריה</a></li>
-                        <li class="nav-item"><a class="nav-link" href="personal.html">איזור אישי </a></li>
+                        <li class="nav-item"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
                     </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
                         <li><a><span id="perHello" style="color:white"></span></a></li>
@@ -328,9 +334,9 @@
     <!-- End header -->
 
     <div>
-        <div id="newGalleryBTN">
-            <ul class="nav navbar-nav navbar-right" style="float:none">
-                <li><a class="hover-btn-new log" href="newGallery.html"><span>הוספת גלריה חדשה</span></a></li>
+        <div>
+            <ul  id="newGalleryBTN" class="nav navbar-nav navbar-right" style="float:none">
+                <li><a  class="hover-btn-new log" href="newGallery.html"><span>הוספת גלריה חדשה</span></a></li>
             </ul>
         </div>
         <div class="container">

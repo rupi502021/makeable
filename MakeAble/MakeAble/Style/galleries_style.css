@@ -1,6 +1,7 @@
 ﻿
 .container {
     font-family: Calibri;
+    padding-top:105px;
 }
 
 a#logout::before {
@@ -35,12 +36,14 @@ a#logout::before {
         font-family: Calibri;
     }
 
-#newGalleryBTN {
-    float: left;
-    outline-color: gray;
-}
 
-#photo img {
+ul#newGalleryBTN {
+    position: fixed;
+    top: 100px;
+    left: 0px;
+
+}
+    #photo img {
     width: 45%;
 }
 
@@ -57,4 +60,15 @@ a#logout::before {
     width: 180px;
     height: 51px;
 }
+#nav1 {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+
+
 
