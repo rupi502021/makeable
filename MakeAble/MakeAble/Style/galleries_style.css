@@ -29,17 +29,11 @@ a#logout::before {
     }
 
     .card #photo {
-        text-align: center;
-        display: block;
+        margin: 0 auto;
     }
 
     .card .para {
         font-family: Calibri;
-    }
-
-    .card img{
-        max-width: 100%;
-        height: auto;
     }
 
 
@@ -75,7 +69,6 @@ ul#newGalleryBTN {
     transform: translate(0,0) scale(1);
     transition: .3s;
 }
-
 
 
 
