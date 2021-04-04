@@ -155,7 +155,10 @@
             for (var i = 0; i < d.length; i++) {
                 if (d[i].IsActive == true) {
                     str+="<div class='row'>"
-                    for (var k = 0; k < 3; k++,i++) { //עד 3 גלריות בשורה
+                    for (var k = 0; k < 3; k++, i++) { //עד 3 גלריות בשורה
+                        if (d[i] == null) {
+                            break;
+                        }
                         str += "<div class='col-sm-4'>";
                         str += "<div class='card'>";
                         str += "<div class='para'><br />";
@@ -163,10 +166,9 @@
                         str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
                         //str += "<p>" + d[i].profession + "</p>"; //תחומי עיסוק
                         str += "</div >";
-                        str+="<div id='photo' class='row'>";
-                        //str += "<div id='photo' class='row'><img src='" + d[i].images[0] + ".jpg' alt='Denim Jeans'>"; //תמונה ראשונה
-                        //str += "<div id='photo' class='row'><img src='" + d[i].images[1] + ".jpg' alt='Denim Jeans'></div>"; //תמונה שניה
-                        str += "</div><div class='para'><p>" + d[i].Description + "</p>"; //תיאור
+                   
+                        str += "<div id='photo' class='row'><img src='" + d[i].Images[0] + "'</div>"; //תמונה ראשונה
+                        str += "<div class='para'><p>" + d[i].Description + "</p>"; //תיאור
                         str += "<p>" + d[i].Time+d[i].Date + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
                         //אייקונים
                         str += "<div class='row'><div class='icon-bar'>";
