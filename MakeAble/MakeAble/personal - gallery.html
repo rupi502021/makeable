@@ -167,7 +167,7 @@
                         //str += "<p>" + d[i].profession + "</p>"; //תחומי עיסוק
                         str += "</div >";
                    
-                        str += "<div id='photo' class='row'><img src='" + d[i].Images[0] + "'</div>"; //תמונה ראשונה
+                        str += "<div id='photo' class='row'><img src='" + d[i].Images[0]+"'>"  ; //תמונה ראשונה
                         str += "<div class='para'><p>" + d[i].Description + "</p>"; //תיאור
                         str += "<p>" + d[i].Time+d[i].Date + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
                         //אייקונים
@@ -175,7 +175,7 @@
                         str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
                         str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
                         str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
-                        str += "<a href='#'><i class='fa fa - share - alt'></i></a>";
+                        str += "<a href='#'><i class='fa fa - share - alt'></i></a></div>";
                         str += "<button type='button' class='btn btn - primary btn - block' style='background - color: white; color: dodgerblue'>הסתר</button>"; //כפתור הסתר
                         str += "</div></div></div></div>";
                     }

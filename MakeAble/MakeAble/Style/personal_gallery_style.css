@@ -72,9 +72,12 @@ div#sidebar-wrapper {
         direction: ltr;
     }
 
-    .card #photo {
-        margin: 0 auto;
-    }
+.card #photo {
+   
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+}
 
     .card .para {
         font-family: Calibri;
