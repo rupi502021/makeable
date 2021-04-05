@@ -84,7 +84,7 @@ namespace MakeAble.Models
         public List<Gallery> ReadPubGalleries(string email)
         {
             DBServices dbs = new DBServices();
-            List<Gallery> g = dbs.getAllGalleriesAl();
+            List<Gallery> g = dbs.getPubGalleries(email);
             return g;
         }
         public void Insert()

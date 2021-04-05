@@ -35,7 +35,7 @@ namespace MakeAble.Controllers
             {
 
                 Gallery gallery = new Gallery();
-                List<Gallery> gList = gallery.ReadAllGalleriesAl();
+                List<Gallery> gList = gallery.ReadPubGalleries(email);
                 List<Gallery> gFinal = new List<Gallery>();
 
                 List<string> professions = new List<string>();
@@ -44,28 +44,24 @@ namespace MakeAble.Controllers
 
                 for (int i = 0; i < gList.Count; i++)
                 {
-                    if (email == gList[i].Email)
-                    {
+                    
                         if (gList[i].GalleryId == id || id == 0)
                         {
 
                         }
                         else
                         {
-                            //for (int j = 0; j < professions.Count; j++)
-                            //{
-                            //    Console.WriteLine(professions[j]);
-                            //    (gList[i - 1].Professions).Add(professions[j]);
-                            //}
+                           
                             List<string> p = new List<string>(professions);
                             List<string> im = new List<string>(images);
 
-
-                            gList[i - 1].Professions = p;
-                            gList[i - 1].Images = im;
-                            gFinal.Add(gList[i - 1]);
-
-
+                            if (email == gList[i-1].Email)
+                            {
+                                gList[i - 1].Professions = p;
+                                gList[i - 1].Images = im;
+                                gFinal.Add(gList[i - 1]);
+                            }
+                             
                             professions.Clear();
                             images.Clear();
                         }
@@ -114,7 +110,7 @@ namespace MakeAble.Controllers
 
                         id = gList[i].GalleryId;
                     }
-                }
+                
                 
                 return Request.CreateResponse(HttpStatusCode.Created, gFinal);
             }
