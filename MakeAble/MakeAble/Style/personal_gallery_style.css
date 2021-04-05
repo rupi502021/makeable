@@ -8,7 +8,9 @@ a#logout::before {
     font-family: Calibri;
     font-size: 30px;
 }
-
+.row {
+    margin-bottom: 20px;
+}
 .nav.navbar.navbar-expand.navbar-dark.bg-primary {
     background-color: #333333;
 }

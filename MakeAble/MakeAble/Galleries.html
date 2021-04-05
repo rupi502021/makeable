@@ -163,7 +163,13 @@
             listGal = new Array();
             for (var i = 0; i < d.length; i++) {
                 str += "<div class='row'>"
-                for (var k = 0; k < 3; k++, i++) { //עד 3 גלריות בשורה
+                for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
+                    if (k != 0) {
+                        i++;
+                    }
+                    if (d[i] == null) {
+                        break;
+                    }
                     //let _id = d[i].GalleryId;
                     //let _email = d[i].Email; //זה לא האימייל הנכון - צריך פה עבודה עם לוקאל סטורג
                     //listGal.push(_id, _email);
