@@ -90,13 +90,10 @@ namespace MakeAble.Models
         public void Insert()
         {
             DBServices dbs = new DBServices();
-            dbs.Insert(this);
+            int id = dbs.Insert(this);
+            dbs.InsertProffesion_Gallery(this, id);
         }
-        public void InsertProffesion_Gallery(Gallery gallery, int id)
-        {
-            DBServices dbs = new DBServices();
-            dbs.InsertProffesion_Gallery(gallery, id);
-        }
+        
 
         //public void InsertToFav()
         //{

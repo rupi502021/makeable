@@ -228,12 +228,7 @@ namespace MakeAble.Controllers
             try
             {
                 gallery.Insert();
-
-                List<Gallery> gList = gallery.Read();
-                for (int i = gList.Count; i <= gList.Count; i++)
-                {
-                    gList[i - 1].InsertProffesion_Gallery(gallery, gList[i - 1].GalleryId);
-                }
+              
                 return Request.CreateResponse(HttpStatusCode.Created, gallery);
             }
             catch (Exception ex)

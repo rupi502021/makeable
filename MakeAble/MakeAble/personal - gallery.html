@@ -41,7 +41,7 @@
     <link href="Style/personal_gallery_style.css" rel="stylesheet" />
 
     <script src="Scripts/ajaxCalls.js"></script>
-
+  
     <script>
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
@@ -323,7 +323,9 @@
     </header>
 
     <div id="wrapper" class="toggled">
-
+        <ul id="newGalleryBTN" class="nav  navbar-right">
+            <li><a class="hover-btn-new log" href="newGallery.html"><span>הוספת גלריה חדשה</span></a></li>
+        </ul>
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -338,6 +340,7 @@
         <!-- Page Content -->
 
         <div class="container">
+
             <h1 style="text-align:right">גלריות שפורסמו</h1>
             <div id="ph1">
                 <div class="row">

@@ -252,7 +252,7 @@ namespace MakeAble.Models.DAL
 
             try
             {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                int numEffected = (int)cmd.ExecuteScalar(); // execute the command
                 return numEffected;
             }
             catch (Exception ex)
