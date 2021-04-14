@@ -31,6 +31,59 @@ namespace MakeAble.Models.DAL
             con.Open();
             return con;
         }
+        public List<User> getusersPro(string email)
+        {
+
+            SqlConnection con = null;
+            List<User> uList = new List<User>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "  SELECT * FROM Users inner join Users_Professions on Users_Professions.Email=Users.Email where Users.Email='" + email + "'";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    User u = new User();
+                    u.UserId = Convert.ToInt32(dr["UserId"]);
+                    u.Fname = Convert.ToString(dr["Fname"]);
+                    u.Lname = Convert.ToString(dr["Lname"]);
+                    u.Email = Convert.ToString(dr["Email"]);
+                    u.Password = Convert.ToString(dr["Password"]);
+                    u.City = Convert.ToString(dr["City"]);
+                    u.Phone = Convert.ToString(dr["Phone"]);
+                    u.ProfilePhoto = Convert.ToString(dr["ProfilePhoto"]);
+                    u.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
+                    u.Description = Convert.ToString(dr["Description"]);
+                    u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);
+                    u.Profession = Convert.ToString(dr["ProfessionName"]);
+
+                    uList.Add(u);
+
+                }
+
+                return uList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
+        }
         public List<User> getusers()
         {
 
@@ -61,7 +114,7 @@ namespace MakeAble.Models.DAL
                     u.ProfilePhoto = Convert.ToString(dr["ProfilePhoto"]);
                     u.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
                     u.Description = Convert.ToString(dr["Description"]);
-                    u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);
+                    u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);                    
 
                     uList.Add(u);
 
@@ -157,13 +210,13 @@ namespace MakeAble.Models.DAL
 
             command = prefix + sb.ToString();
 
-            if (user.Profession.Length > 0 && user.Profession != null)
+            if (user.Professions.Count > 0 && user.Professions != null)
             {
-                for (int i = 0; i < user.Profession.Length; i++)
+                for (int i = 0; i < user.Professions.Count; i++)
                 {
                     sb = new StringBuilder();
-                    sb.AppendFormat("Values('{0}','{1}')", user.Profession[i], user.Email);
-                    prefix = "INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
+                    sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
+                    prefix = ";INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
 
                     command += prefix + sb.ToString();
                 }
@@ -252,7 +305,7 @@ namespace MakeAble.Models.DAL
 
             try
             {
-                int numEffected = (int)cmd.ExecuteScalar(); // execute the command
+                int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // execute the command
                 return numEffected;
             }
             catch (Exception ex)
@@ -273,7 +326,7 @@ namespace MakeAble.Models.DAL
         private String BuildInsertCommand(Gallery gallery)
         {
             String command;
-
+            String end = "; SELECT CAST(scope_identity() AS int)";
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
@@ -281,7 +334,7 @@ namespace MakeAble.Models.DAL
 
             String prefix = "INSERT INTO Gallery " + "([GalleryName],[UploadTime],[UploadDate],[Description],[UserEmail],[IsActive])";
 
-            command = prefix + sb.ToString();
+            command = prefix + sb.ToString() + end;
 
 
             return command;
@@ -418,7 +471,7 @@ namespace MakeAble.Models.DAL
 
                         gList.Add(g);
                     }
-                   
+
                 }
 
                 return gList;
@@ -446,7 +499,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId Where gl.UserEmail='"+email+"'";
+                String selectSTR = "select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId Where gl.UserEmail='" + email + "'";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -456,21 +509,19 @@ namespace MakeAble.Models.DAL
                 {   // Read till the end of the data into a row
                     Gallery g = new Gallery();
                     g.IsActive = Convert.ToBoolean(dr["IsActive"]);
-                    if (g.IsActive == true)
-                    {
-                        g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
-                        g.GalleryName = Convert.ToString(dr["GalleryName"]);
-                        g.Url = Convert.ToString(dr["Url"]);
-                        g.Date = Convert.ToDateTime(dr["UploadDate"]);
-                        g.Time = Convert.ToDateTime(dr["UploadTime"]);
-                        g.Description = Convert.ToString(dr["Description"]);
 
-                        g.Email = Convert.ToString(dr["UserEmail"]);
-                        g.Profession = Convert.ToString(dr["ProfessionName"]);
-                        g.Image = Convert.ToString(dr["PhotoUrl"]);
+                    g.GalleryId = Convert.ToInt32(dr["GalleryId"]);
+                    g.GalleryName = Convert.ToString(dr["GalleryName"]);
+                    g.Url = Convert.ToString(dr["Url"]);
+                    g.Date = Convert.ToDateTime(dr["UploadDate"]);
+                    g.Time = Convert.ToDateTime(dr["UploadTime"]);
+                    g.Description = Convert.ToString(dr["Description"]);
+                    g.Email = Convert.ToString(dr["UserEmail"]);
+                    g.Profession = Convert.ToString(dr["ProfessionName"]);
+                    g.Image = Convert.ToString(dr["PhotoUrl"]);
 
-                        gList.Add(g);
-                    }
+                    gList.Add(g);
+
 
                 }
 

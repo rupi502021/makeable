@@ -19,13 +19,18 @@ namespace MakeAble.Controllers
             try
             {
                 User user = new User();
-                List<User> uList = user.ReadUsers();
+                List<User> uList = user.ReadUsersPro(email);
+                List<string> professions = new List<string>();
+                var last = uList.LastOrDefault();
                 foreach (var item in uList)
                 {
-                    if (email == item.Email)
+                    professions.Add(item.Profession);
+                    if (item.Equals(last))
                     {
+                        item.Professions = professions;
                         return Request.CreateResponse(HttpStatusCode.OK, item);
                     }
+
                 }
                 user = null;
                 return Request.CreateResponse(HttpStatusCode.OK, user);
