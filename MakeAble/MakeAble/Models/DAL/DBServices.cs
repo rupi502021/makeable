@@ -268,12 +268,29 @@ namespace MakeAble.Models.DAL
         private String BuildUpdateCommand(User user)
         {
             String command;
+            String prefix;
+            StringBuilder sb = new StringBuilder();
+            String delete = "; delete from Users_Professions where Email = '" + user.Email + "'";
             if (user.ProfilePhoto != null)
             {
                 command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
                    "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone + "', ProfilePhoto='" + user.ProfilePhoto +
                    "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
+
+                if (user.Professions.Count > 0 && user.Professions != null)
+                {
+                    command += delete;
+                    for (int i = 0; i < user.Professions.Count; i++)
+                    {
+                        sb = new StringBuilder();
+                        sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
+                        prefix = "; INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
+
+                        command += prefix + sb.ToString();
+                    }
+                    
+                }
             }
             else
             {
@@ -281,6 +298,20 @@ namespace MakeAble.Models.DAL
                    "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone +
                    "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
+
+                if (user.Professions.Count > 0 && user.Professions != null)
+                {
+                    command += delete;
+                    for (int i = 0; i < user.Professions.Count; i++)
+                    {
+                        sb = new StringBuilder();
+                        sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
+                        prefix = ";INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
+
+                        command += prefix + sb.ToString();
+                    }
+                   
+                }
             }
             return command;
         }
