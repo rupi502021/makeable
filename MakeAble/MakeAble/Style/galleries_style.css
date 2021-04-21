@@ -29,7 +29,9 @@ a#logout::before {
         font-size: 18px;
         direction: ltr;
     }
-
+i.icon.fa {
+    padding: 5px;
+}
     .card #photo {
         margin: 0 auto;
         text-align: center;

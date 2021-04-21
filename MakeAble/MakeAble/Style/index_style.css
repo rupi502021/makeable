@@ -32,3 +32,6 @@ nav#nav1 {
     transform: translate(0,0) scale(1);
     transition: .3s;
 }
+i.icon.fa {
+    padding: 5px;
+}
