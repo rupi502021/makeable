@@ -237,9 +237,39 @@ namespace MakeAble.Controllers
             }
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [Route("api/Galleries/publish/{id}")]
+        public HttpResponseMessage Put([FromBody] int id)
         {
+            Gallery gallery = new Gallery();
+            gallery.GalleryId = id;
+            int num = gallery.UpdateGalPublish();
+
+            if (num == 0)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "gallery: " + gallery + " does not exist");
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, gallery);
+            }
+        }
+        [HttpPut]
+        [Route("api/Galleries/save/{id}")]
+        public HttpResponseMessage Put([FromBody] string id)
+        {
+            Gallery gallery = new Gallery();
+            gallery.GalleryId = Convert.ToInt32(id);
+            int num = gallery.UpdateGalSave();
+
+            if (num == 0)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "gallery: " + gallery + " does not exist");
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, gallery);
+            }
         }
 
         // DELETE api/<controller>/5

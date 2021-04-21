@@ -93,7 +93,18 @@ namespace MakeAble.Models
             int id = dbs.Insert(this);
             dbs.InsertProffesion_Gallery(this, id);
         }
+        public int UpdateGalPublish()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.UpdateGalPublish(this);
+
+        }
         
+        public int UpdateGalSave()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.UpdateGalSave(this);
+        }
 
         //public void InsertToFav()
         //{

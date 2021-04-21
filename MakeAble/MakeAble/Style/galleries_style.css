@@ -50,6 +50,10 @@ ul#newGalleryBTN {
     left: 0px;
 
 }
+div#ph1 {
+    position: relative;
+    z-index: -1;
+}
     #photo img {
     width: 45%;
 }

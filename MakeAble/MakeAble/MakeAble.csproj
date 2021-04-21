@@ -277,7 +277,7 @@
     <Content Include="images\Tools.jpg" />
     <Content Include="personal - favorites - space.html" />
     <Content Include="personal - favorites - gallery.html" />
-    <Content Include="personal - gallery.html" />
+    <Content Include="personal-gallery.html" />
     <Content Include="personal.html" />
     <Content Include="fonts\Flaticon.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />

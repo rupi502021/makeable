@@ -114,7 +114,7 @@ namespace MakeAble.Models.DAL
                     u.ProfilePhoto = Convert.ToString(dr["ProfilePhoto"]);
                     u.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
                     u.Description = Convert.ToString(dr["Description"]);
-                    u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);                    
+                    u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);
 
                     uList.Add(u);
 
@@ -289,7 +289,7 @@ namespace MakeAble.Models.DAL
 
                         command += prefix + sb.ToString();
                     }
-                    
+
                 }
             }
             else
@@ -310,7 +310,7 @@ namespace MakeAble.Models.DAL
 
                         command += prefix + sb.ToString();
                     }
-                   
+
                 }
             }
             return command;
@@ -633,7 +633,98 @@ namespace MakeAble.Models.DAL
             }
             return command;
         }
+        public int UpdateGalPublish(Gallery gallery)
+        {
 
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            String cStr = BuildUpdateGalPublish(gallery);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+        private String BuildUpdateGalPublish(Gallery gallery)
+        {
+            String command;
+            command = "UPDATE Gallery SET IsActive='1' WHERE GalleryId='" + gallery.GalleryId + "'";
+            return command;
+        }
+        public int UpdateGalSave(Gallery gallery)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            String cStr = BuildUpdateGalSave(gallery);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+        private String BuildUpdateGalSave(Gallery gallery)
+        {
+            String command;
+            command = "UPDATE Gallery SET IsActive='0' WHERE GalleryId='" + gallery.GalleryId + "'";
+            return command;
+        }
         //public int InsertToFav(Gallery gallery)
         //{
         //    SqlConnection con;

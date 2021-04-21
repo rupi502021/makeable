@@ -30,17 +30,17 @@
     <link rel="stylesheet" href="css/custom.css">
     <link href="css/person.css" rel="stylesheet" />
     <!-- Modernizer for Portfolio -->
-    <script src="js/modernizer.js"></script>
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link href="Style/personal_gallery_style.css" rel="stylesheet" />
+    <link href="../Style/personal_gallery_style.css" rel="stylesheet" />
 
-    <script src="Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -136,8 +136,8 @@
 
         function getSuccessRender(data) {
             console.log(data);
-            var dPub=[];
-            var dSave=[];
+            var dPub = [];
+            var dSave = [];
             for (var i = 0; i < data.length; i++) {
                 if (data[i].IsActive == true) {
                     dPub.push(data[i]);
@@ -163,7 +163,10 @@
             for (var i = 0; i < d.length; i++) {
                 if (d[i].IsActive == true) {
                     str += "<div class='row'>"
-                    for (var k = 0; k < 3; k++, i++) { //עד 3 גלריות בשורה
+                    for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
+                        if (k != 0) {
+                            i++;
+                        }
                         if (d[i] == null) {
                             break;
                         }
@@ -188,8 +191,8 @@
                         str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
                         str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
                         str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
-                        str += "<a href='#'><i class='fa fa - share - alt'></i></a></div>";
-                        str += "<button type='button' class='btn btn - primary btn - block' style='background - color: white; color: dodgerblue'>הסתר</button>"; //כפתור הסתר
+                        str += "<a href='#'><i class='fa fa-share-alt'></i></a></div>";
+                        str += "<button type='button' onclick='save(" + d[i].GalleryId +")' class='btn btn-primary btn-block' >הסתר</button>"; //כפתור הסתר
                         str += "</div></div></div></div>";
                     }
                     str += "</div>"; //סוגר את row
@@ -203,8 +206,11 @@
             let str = "";
             for (var i = 0; i < d.length; i++) {
                 if (d[i].IsActive == false) {
-                    str += "<div class='row'>"
-                    for (var k = 0; k < 3; k++, i++) { //עד 3 גלריות בשורה
+                    str += "<div class='row'>";
+                    for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
+                        if (k != 0) {
+                            i++;
+                        }
                         if (d[i] == null) {
                             break;
                         }
@@ -230,8 +236,8 @@
                         str += "<a ref='#' onclick='togglefunc()'><i class='fa fa-heart-o'></i></a>";
                         str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
                         str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
-                        str += "<a href='#'><i class='fa fa - share - alt'></i></a></div>";
-                        str += "<button type='button' class='btn btn - primary btn - block' style='background - color: white; color: dodgerblue'>פרסם</button>"; //כפתור הסתר
+                        str += "<a href='#'><i class='fa fa-share-alt'></i></a></div>";
+                        str += "<button type='button' onclick='publish("+d[i].GalleryId+")' class='btn btn-primary btn-block' >פרסם</button>"; //כפתור הסתר
                         str += "</div></div></div></div>";
                     }
                     str += "</div>"; //סוגר את row
@@ -239,7 +245,32 @@
             }
             $("#ph2").append(str);
         }
+        function publish(id) {
+            console.log(id);           
+            var api = "../api/Galleries/publish/" + id;           
+            ajaxCall("PUT", api, id.toString(), success, error);
+            return false;
+        }
+        function save(id) {
+            console.log(id);
+            var api = "../api/Galleries/save/" + id;
+            ajaxCall("PUT", api, id.toString(), success, error);
+            return false;
+        }
 
+        function success(data) {
+           
+            swal({
+                title: "הצלחה!", text: "בוצעו השינויים", icon:
+                    "success"
+            }).then(function () {
+                window.location.href = "personal-gallery.html";
+            });
+        }
+
+        function error(err) {
+            console.log(err);
+        }
         function togglefunc() {
             $('.fa-heart-o').click(function () {
                 $(this).toggleClass('fa-heart');
