@@ -244,8 +244,6 @@
     <Content Include="bin\System.Web.WebPages.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\WebGrease.dll" />
-    <Content Include="chat.html" />
-    <Content Include="config.js" />
     <Content Include="css\chat.css" />
     <Content Include="css\person.css" />
     <Content Include="GalleryPage.html" />
