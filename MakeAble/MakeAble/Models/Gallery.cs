@@ -81,6 +81,20 @@ namespace MakeAble.Models
             List<Gallery> g = dbs.getAllGalleriesAl();
             return g;
         }
+        public List<Gallery> ReadAllGalleriesAlWithoutUser(string email)
+        {
+            DBServices dbs = new DBServices();
+            List<Gallery> g = dbs.getAllGalleriesAl();
+            for (int i = 0; i < g.Count; i++)
+            {
+                if (email == g[i].Email)
+                {
+                    g.Remove(g[i]);
+                    i--;
+                }
+            }
+            return g;
+        }
         public List<Gallery> ReadPubGalleries(string email)
         {
             DBServices dbs = new DBServices();
@@ -106,11 +120,11 @@ namespace MakeAble.Models
             return dbs.UpdateGalSave(this);
         }
 
-        //public void InsertToFav()
-        //{
-        //    DBServices dbs = new DBServices();
-        //    dbs.InsertToFav(this);
-        //}
+        public void InsertUserFavGal()
+        {
+            DBServices dbs = new DBServices();
+            dbs.InsertUserFavGal(this);
+        }
 
         //public int Delete(int id)
         //{

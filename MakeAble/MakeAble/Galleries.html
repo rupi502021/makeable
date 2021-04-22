@@ -120,29 +120,40 @@
         }
 
         function togglefunc(galId) {
-              $('.fa-heart').click(function () {
-                $(this).removeClass('fa-heart');
-                  $(this).addClass('fa-heart-o');
-                  console.log("in1");
-            });
-            $('.fa-heart-o').click(function () {
-                $(this).addClass('fa-heart');
-                $(this).removeClass('fa-heart-o');
-                console.log("in2");
-            });
-          
+
+            //  $('.fa-heart').click(function () {
+            //    $(this).removeClass('fa-heart');
+            //      $(this).addClass('fa-heart-o');
+                 
+            //});
+            //$('.fa-heart-o').click(function () {
+            //    $(this).addClass('fa-heart');
+            //    $(this).removeClass('fa-heart-o');
+                
+            //});
+
+            addToFavorite(galId);
             console.log(galId)
             //if ($(this).hasClass('fa-heart-o')) {
-            //    addToFavorite(this);
+            //    addToFavorite(galId);
             //}
             //else {
-            //    removeFromFavorite(this.id);
+            //    removeFromFavorite(galId);
             //}
         };
 
         function render() {
-
-            ajaxCall("GET", "../api/Galleries/All", "", getSuccessRender, getErrorRender);
+            var l = JSON.parse(localStorage.getItem('user'));
+            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l == null) {
+                var email = l1.Email;
+            }
+            else {
+                var email = l.Email;
+            }
+            let api = "../api/Galleries/All/" + email+"/";
+            ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+            //ajaxCall("GET", "../api/Galleries/All", "", getSuccessRender, getErrorRender);
         }
 
         function getSuccessRender(data) {
@@ -186,15 +197,16 @@
                     str += "<p>" + date_time_ltr + "</p><p>" + time_time + "</p></div>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
 
                     //אייקונים
-                    str += "<div class='row'>";
-                    str += "<div class='icon-bar'>";
-                    str += "<a  onclick='togglefunc("+d[i].GalleryId+")'>";
-                    str += "<i class='icon fa fa-heart-o'></i></a > ";
-                    str += "<a><i class='icon fa fa-comment-o'></i></a>";
-                    str += "<a ><i class='icon fa fa-paper-plane'></i></a>";
-                    str += "<a><i class='icon fa fa-share-alt'></i></a>";
-                    str += "</div>"; //סוגר את האייקון בר
-                    str += "</div>"; //סוגר את השורה של האייקונים
+                    str += "<button onclick='togglefunc(" + d[i].GalleryId + ")'>Click me</button>";
+                    //str += "<div class='row'>";
+                    //str += "<div class='icon-bar'>";
+                    //str += "<a  onclick='togglefunc("+d[i].GalleryId+")'>";
+                    //str += "<i class='icon fa fa-heart-o'></i></a > ";
+                    //str += "<a><i class='icon fa fa-comment-o'></i></a>";
+                    //str += "<a ><i class='icon fa fa-paper-plane'></i></a>";
+                    //str += "<a><i class='icon fa fa-share-alt'></i></a>";
+                    //str += "</div>"; //סוגר את האייקון בר
+                    //str += "</div>"; //סוגר את השורה של האייקונים
                     str += "</div>"; //סוג את para
                     str += "</div>"; //סוג את card
                     str += "</div>"; //סוגר את col-sm-4
@@ -206,7 +218,22 @@
             $("#ph1").append(str);
         }
 
-
+        function addToFavorite(id) {
+            var l = JSON.parse(localStorage.getItem('user'));
+            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l == null) {
+                var email = l1.Email;           
+            }
+            else {
+                var email = l.Email;
+            }
+           
+            gallery={
+                Email: email,
+                GalleryId: id
+            };
+            ajaxCall("POST", "../api/Galleries/fav", JSON.stringify(gallery), postSuccess, postError);
+        }
 
         function postSuccess(data) {
             alert("גלריה הוספה למועדפים בהצלחה!");
@@ -214,6 +241,7 @@
 
         function postError(err) {
             alert(err.responseJSON);
+      
         }
 
         //function removeFromFavorite(id) {

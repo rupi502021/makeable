@@ -725,60 +725,60 @@ namespace MakeAble.Models.DAL
             command = "UPDATE Gallery SET IsActive='0' WHERE GalleryId='" + gallery.GalleryId + "'";
             return command;
         }
-        //public int InsertToFav(Gallery gallery)
-        //{
-        //    SqlConnection con;
-        //    SqlCommand cmd;
+        public int InsertUserFavGal(Gallery gallery)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
 
-        //    try
-        //    {
-        //        con = connect("DBConnectionString"); // create the connection
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("You didnt succeed to connect to DB", ex);
-        //    }
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
 
-        //    String cStr = BuildInsertToFavCommand(gallery);      // helper method to build the insert string
+            String cStr = BuildInsertUserFavGalCommand(gallery);      // helper method to build the insert string
 
-        //    cmd = CreateCommand(cStr, con);             // create the command
+            cmd = CreateCommand(cStr, con);             // create the command
 
-        //    try
-        //    {
-        //        int numEffected = cmd.ExecuteNonQuery(); // execute the command
-        //        return numEffected;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("You didnt succeed to add a new gallery to favorite, Try again!", ex);
-        //    }
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new gallery to favorite, Try again!", ex);
+            }
 
-        //    finally
-        //    {
-        //        if (con != null)
-        //        {
-        //            // close the db connection
-        //            con.Close();
-        //        }
-        //    }
-        //}
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
 
-        //private String BuildInsertToFavCommand(Gallery gallery)
-        //{
-        //    String command;
+        private String BuildInsertUserFavGalCommand(Gallery gallery)
+        {
+            String command;
 
-        //    StringBuilder sb = new StringBuilder();
-        //    // use a string builder to create the dynamic string
+            StringBuilder sb = new StringBuilder();
+            // use a string builder to create the dynamic string
 
-        //    sb.AppendFormat("Values('{0}','{1}')", gallery.GalleryId, gallery.Email);
+            sb.AppendFormat("Values('{0}','{1}')", gallery.GalleryId, gallery.Email);
 
-        //    String prefix = "INSERT INTO User_Gallery_Fav " + "([GalleryId],[Email])";
+            String prefix = "INSERT INTO Users_Gallery_Fav " + "([GalleryId],[Email])";
 
-        //    command = prefix + sb.ToString();
+            command = prefix + sb.ToString();
 
 
-        //    return command;
-        //}
+            return command;
+        }
 
         //public int Delete(int id)
         //{
