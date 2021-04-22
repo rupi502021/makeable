@@ -273,8 +273,8 @@
     <Content Include="images\makeable.jpg" />
     <Content Include="images\notfoundPic.jpg" />
     <Content Include="images\Tools.jpg" />
-    <Content Include="personal - favorites - space.html" />
-    <Content Include="personal - favorites - gallery.html" />
+    <Content Include="personal-favorites-space.html" />
+    <Content Include="personal-favorites-gallery.html" />
     <Content Include="personal-gallery.html" />
     <Content Include="personal.html" />
     <Content Include="fonts\Flaticon.svg" />

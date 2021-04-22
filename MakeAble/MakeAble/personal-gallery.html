@@ -186,12 +186,8 @@
                         var time_time = _time.split('T')[1];
 
                         str += "<p>" + date_time_ltr + "<p>" + time_time + "</p></div>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
-                        //אייקונים
-                        str += "<div class='row'><div class='icon-bar'>";
-                        str += "<a ref='#' onclick='togglefunc()'><i class='icon fa fa-heart-o'></i></a>";
-                        str += "<a ref='#'><i class='icon fa fa-comment-o'></i></a>";
-                        str += "<a ref='#'><i class='icon fa fa-paper-plane'></i></a>";
-                        str += "<a href='#'><i class='icon fa fa-share-alt'></i></a></div>";
+                        
+                        str += "<div class='row'>";
                         str += "<button type='button' onclick='save(" + d[i].GalleryId +")' class='btn btn-primary btn-block' >הסתר</button>"; //כפתור הסתר
                         str += "</div></div></div></div>";
                     }
@@ -231,12 +227,7 @@
                         var time_time = _time.split('T')[1];
 
                         str += "<p>" + date_time_ltr + "<p>" + time_time + "</p></div>"; //זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
-                        //אייקונים
-                        str += "<div class='row'><div class='icon-bar'>";
-                        str += "<a  ref='#' onclick='togglefunc()'><i class='icon fa fa-heart-o'></i></a>";
-                        str += "<a ref='#'><i class='icon fa fa-comment-o'></i></a>";
-                        str += "<a ref='#'><i class='icon fa fa-paper-plane'></i></a>";
-                        str += "<a href='#'><i class='icon fa fa-share-alt'></i></a></div>";
+                        str += "<div class='row'>";
                         str += "<button type='button' onclick='publish("+d[i].GalleryId+")' class='btn btn-primary btn-block' >פרסם</button>"; //כפתור הסתר
                         str += "</div></div></div></div>";
                     }
@@ -271,12 +262,7 @@
         function error(err) {
             console.log(err);
         }
-        function togglefunc() {
-            $('.fa-heart-o').click(function () {
-                $(this).toggleClass('fa-heart');
-                $(this).toggleClass('fa-heart-o');
-            });
-        }
+      
 
     </script>
 </head>
@@ -385,8 +371,8 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li><a href="personal.html"> עדכון פרטים אישים </a><br /></li>
-                <li> <a href="personal - gallery.html">הגלריות שלי</a><br /></li>
-                <li> <a href="personal - favorits - gallery.html">המועדפים</a><br /></li>
+                <li> <a style="color:aliceblue" href="personal-gallery.html">הגלריות שלי</a><br /></li>
+                <li> <a href="personal-favorites-gallery.html">המועדפים</a><br /></li>
                 <li> <a href="#">ניהול חלל עבודה</a><br /></li>
                 <li> <a href="#">הצ'אטים שלי</a> </li>
             </ul>
@@ -397,90 +383,7 @@
 
             <h1 style="text-align:right">גלריות שפורסמו</h1>
             <div id="ph1">
-                <div class="row">
-                    <!-- ph1 צריכה לבוא כאן -->
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="para">
-                                <br />
-                                <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
-                                <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
-                                <p>תחום עיסוק</p>
-                            </div>
-                            <div id="photo" class="row">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                            </div>
-                            <div class="para">
-                                <p>תיאור אופציונלי</p>
-                                <p>10 דקות</p>
-                            </div>
-                            <div class="row">
-                                <div class="icon-bar">
-                                    <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
-                                    <a href="#"><i class="fa fa-comment-o"></i></a>
-                                    <a href="#"><i class="fa fa-paper-plane"></i></a>
-                                    <a href="#"><i class="fa fa-share-alt"></i></a>
-                                    <button type="button" class="btn btn-primary btn-block" style="background-color:white; color:dodgerblue">הסתר</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="para">
-                                <br />
-                                <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
-                                <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
-                                <p>תחום עיסוק</p>
-                            </div>
-                            <div id="photo" class="row">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                            </div>
-                            <div class="para">
-                                <p>תיאור אופציונלי</p>
-                                <p>10 דקות</p>
-                            </div>
-                            <div class="row">
-                                <div class="icon-bar">
-                                    <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
-                                    <a href="#"><i class="fa fa-comment-o"></i></a>
-                                    <a href="#"><i class="fa fa-paper-plane"></i></a>
-                                    <a href="#"><i class="fa fa-share-alt"></i></a>
-                                    <button type="button" class="btn btn-primary btn-block" style="background-color:white; color:dodgerblue">הסתר</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="para">
-                                <br />
-                                <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
-                                <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
-                                <p>תחום עיסוק</p>
-                            </div>
-                            <div id="photo" class="row">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                            </div>
-                            <div class="para">
-                                <p>תיאור אופציונלי</p>
-                                <p>10 דקות</p>
-                            </div>
-                            <div class="row">
-                                <div class="icon-bar">
-                                    <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
-                                    <a href="#"><i class="fa fa-comment-o"></i></a>
-                                    <a href="#"><i class="fa fa-paper-plane"></i></a>
-                                    <a href="#"><i class="fa fa-share-alt"></i></a>
-                                    <button type="button" class="btn btn-primary btn-block" style="background-color:white; color:dodgerblue">הסתר</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!--//end row-->
+               
             </div>
         </div>
         <br />
@@ -489,63 +392,7 @@
         <div class="container">
             <h1 style="text-align:right">גלריות שנשמרו</h1>
             <div id="ph2">
-                <div class="row">
-                    <!-- ph2 צריכה לבוא כאן -->
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="para">
-                                <br />
-                                <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
-                                <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
-                                <p>תחום עיסוק</p>
-                            </div>
-                            <div id="photo" class="row">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                            </div>
-                            <div class="para">
-                                <p>תיאור אופציונלי</p>
-                                <p>10 דקות</p>
-                            </div>
-                            <div class="row">
-                                <div class="icon-bar">
-                                    <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
-                                    <a href="#"><i class="fa fa-comment-o"></i></a>
-                                    <a href="#"><i class="fa fa-paper-plane"></i></a>
-                                    <a href="#"><i class="fa fa-share-alt"></i></a>
-                                    <button type="button" class="btn btn-primary btn-block">פרסם</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="para">
-                                <br />
-                                <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
-                                <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
-                                <p>תחום עיסוק</p>
-                            </div>
-                            <div id="photo" class="row">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                                <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                            </div>
-                            <div class="para">
-                                <p>תיאור אופציונלי</p>
-                                <p>10 דקות</p>
-                            </div>
-                            <div class="row">
-                                <div class="icon-bar">
-                                    <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
-                                    <a href="#"><i class="fa fa-comment-o"></i></a>
-                                    <a href="#"><i class="fa fa-paper-plane"></i></a>
-                                    <a href="#"><i class="fa fa-share-alt"></i></a>
-                                    <button type="button" class="btn btn-primary btn-block">פרסם</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
             </div> <!-- /#page-content-wrapper -->
         </div>
 
