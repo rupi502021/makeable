@@ -42,7 +42,6 @@
     <script>
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
-           
             checklogin();
             render();
 
@@ -89,9 +88,10 @@
         }
 
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+             l = JSON.parse(localStorage.getItem('user'));
+             l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
+                login = true;
                 $("ul.nav.navbar-nav.navbar-right").hide();
                 $("#newGalleryBTN").show();
                 $("#per_area").show();
@@ -105,6 +105,7 @@
                 $("#loginperson").show();
             }
             else {
+                login = false;
                 $("#loginperson").hide();
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
@@ -120,40 +121,43 @@
         }
 
         function togglefunc(galId) {
+            
+            var liked = document.getElementById("likeBTN" + galId).innerHTML;
+            if (liked == "אהבתי") {
+                $('#likeBTN' + galId).css('color', 'red');
+                //אפשר לעשות פה משחקים של class שישמור על הצבע
+                addToFavorite(galId);
+               
+            }
+            else {
+                //removeFromFavorite(galId);
 
-            //  $('.fa-heart').click(function () {
-            //    $(this).removeClass('fa-heart');
-            //      $(this).addClass('fa-heart-o');
-                 
-            //});
-            //$('.fa-heart-o').click(function () {
-            //    $(this).addClass('fa-heart');
-            //    $(this).removeClass('fa-heart-o');
-                
-            //});
-
-            addToFavorite(galId);
+            }        
             console.log(galId)
-            //if ($(this).hasClass('fa-heart-o')) {
-            //    addToFavorite(galId);
-            //}
-            //else {
-            //    removeFromFavorite(galId);
-            //}
+           
         };
 
         function render() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
-            if (l == null) {
-                var email = l1.Email;
+            if (login) {
+                if (l == null) {
+                    email = l1.Email;
+
+                    let api = "../api/Galleries/All/" + email + "/";
+                    ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+                }
+                if (l1 == null) {
+                    email = l.Email;
+
+                    let api = "../api/Galleries/All/" + email + "/";
+                    ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+                }
             }
             else {
-                var email = l.Email;
+                let api = "../api/Galleries/All";
+                ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
             }
-            let api = "../api/Galleries/All/" + email+"/";
-            ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
-            //ajaxCall("GET", "../api/Galleries/All", "", getSuccessRender, getErrorRender);
+           
+            
         }
 
         function getSuccessRender(data) {
@@ -170,7 +174,7 @@
         function renderGalleries(d) { //רנדור גלריות שפורסמו
             $("#ph1").html("");
             let str = "";
-            listGal = new Array();
+
             for (var i = 0; i < d.length; i++) {
                 str += "<div class='row'>";
                 for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
@@ -197,7 +201,10 @@
                     str += "<p>" + date_time_ltr + "</p><p>" + time_time + "</p></div>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
 
                     //אייקונים
-                    str += "<button onclick='togglefunc(" + d[i].GalleryId + ")'>Click me</button>";
+                    if (login) {
+                        str += "<button class='fa fa-heart-o' id='likeBTN" + d[i].GalleryId + "' onclick='togglefunc(" + d[i].GalleryId + ")'>אהבתי</button>";
+
+                    }
                     //str += "<div class='row'>";
                     //str += "<div class='icon-bar'>";
                     //str += "<a  onclick='togglefunc("+d[i].GalleryId+")'>";
@@ -218,17 +225,8 @@
             $("#ph1").append(str);
         }
 
-        function addToFavorite(id) {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
-            if (l == null) {
-                var email = l1.Email;           
-            }
-            else {
-                var email = l.Email;
-            }
-           
-            gallery={
+        function addToFavorite(id) {      
+            gallery = {
                 Email: email,
                 GalleryId: id
             };
@@ -241,20 +239,21 @@
 
         function postError(err) {
             alert(err.responseJSON);
-      
+
         }
 
-        //function removeFromFavorite(id) {
-        //    ajaxCall("DELETE", "../api/Galleries" + id, "", deleteSuccess, deleteError);
-        //}
+        function removeFromFavorite(id) {
+            let api = "../api/Galleries/deleteFav/" + id + "/" + email+"/";
+            ajaxCall("DELETE",api, "", deleteSuccess, deleteError);
+        }
 
-        //function deleteSuccess(data) {
-        //    alert("גלריה הוסרה מהמועדפים בהצלחה!");
-        //}
+        function deleteSuccess(data) {
+            alert("גלריה הוסרה מהמועדפים בהצלחה!");
+        }
 
-        //function deleteError(err) {
-        //    alert(err.responseJSON);
-        //}
+        function deleteError(err) {
+            alert(err.responseJSON);
+        }
     </script>
 </head>
 <body class="host_version" dir="rtl">

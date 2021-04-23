@@ -95,6 +95,14 @@ namespace MakeAble.Models
             }
             return g;
         }
+
+        public List<Gallery> ReadGalleriesliked(string email)
+        {
+            DBServices dbs = new DBServices();
+            List<Gallery> g = dbs.getGalleriesliked(email);
+            
+            return g;
+        }
         public List<Gallery> ReadPubGalleries(string email)
         {
             DBServices dbs = new DBServices();
@@ -113,7 +121,7 @@ namespace MakeAble.Models
             return dbs.UpdateGalPublish(this);
 
         }
-        
+
         public int UpdateGalSave()
         {
             DBServices dbs = new DBServices();
@@ -126,10 +134,10 @@ namespace MakeAble.Models
             dbs.InsertUserFavGal(this);
         }
 
-        //public int Delete(int id)
-        //{
-        //    DBServices dbs = new DBServices();
-        //    return dbs.Delete(id);
-        //}
+        public int Delete()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.Delete(this);
+        }
     }
 }
