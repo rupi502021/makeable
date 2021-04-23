@@ -118,7 +118,7 @@
             window.location.href = 'index.html';
         }
 
-        function togglefunc() {
+        function togglefunc(heartId) {
             $(this).toggleClass('fa-heart');
             $(this).toggleClass('fa-heart-o');
             //if ($(this).hasClass('fa-heart-o')) {
@@ -127,6 +127,11 @@
             //else {
             //    removeFromFavorite(this.id);
             //}
+        }
+
+        function toggleHeart(i) {
+            $('#h' + i).toggleClass('fa-heart');
+            addToFavorite(i);
         }
 
         function render() {
@@ -145,10 +150,11 @@
 
             ajaxCall("GET", "../api/Galleries/All", "", getSuccessRender, getErrorRender);
         }
-
+        var galleries = [];
         function getSuccessRender(data) {
             console.log(data);
             var d = data;
+            galleries = data;
             renderGalleries(d);
             
         }
@@ -156,6 +162,8 @@
         function getErrorRender(err) {
             console.log(err);
         }
+
+
 
         function renderGalleries(d) { //רנדור גלריות שפורסמו
             $("#ph1").html("");
@@ -197,12 +205,14 @@
                     var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
                     var time_time = _time.split('T')[1];
 
+                    var heartId = 'h' + i;
                     str += "<p>" + date_time_ltr + "<p>" + time_time + "</p></div>";
                      //אייקונים
                     str += "<div class='row'>";
                     str += "<div class='icon-bar'>";
                     str += "<a ref='#' onclick='togglefunc()'>";
-                    str += "<i class='fa fa-heart-o'></i></a > ";
+                    //str += "<i id='" + heartId + "' class='fa fa-heart-o' onClick='toggleHeart(\"" + heartId + "\")'></i></a > ";
+                    str += "<i id='h" + i + "' class='fa fa-heart-o' onClick='toggleHeart(\"" + i + "\")'></i></a > ";
                     str += "<a ref='#'><i class='fa fa-comment-o'></i></a>";
                     str += "<a ref='#'><i class='fa fa-paper-plane'></i></a>";
                     str += "<a href='#'><i class='fa fa-share-alt'></i></a>";
@@ -234,6 +244,16 @@
 
         //    ajaxCall("POST", "../api/Galleries/fav", JSON.stringify(galleryFav), postSuccess, postError);
         //}
+
+        function addToFavorite(i) {
+            galleryFav = {
+                GalleryId = listGal[i][0],
+                Email = lisrGal[i][1]
+            }
+            ajaxCall("POST", "../api/Galleries/fav", JSON.stringify(galleryFav), postSuccess, postError);
+            localStorage
+            galleries[i]
+        }
 
         function postSuccess(data) {
             alert("גלריה הוספה למועדפים בהצלחה!");
