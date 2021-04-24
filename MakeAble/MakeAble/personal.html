@@ -35,9 +35,9 @@
     
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="Style/personal_style.css" rel="stylesheet" />
 
@@ -238,10 +238,13 @@
         }
 
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
+                login = true;
                 $("ul.nav.navbar-nav.navbar-right").hide();
+                $("#newGalleryBTN").show();
+                $("#per_area").show();
                 var hi = "היי, ";
                 if (l == null) {
                     $("#perHello").append(hi + l1.Fname);
@@ -252,16 +255,19 @@
                 $("#loginperson").show();
             }
             else {
+                login = false;
                 $("#loginperson").hide();
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
+                $("#per_area").hide();
+                $("ul#newGalleryBTN").hide();
             }
         }
         function logout() {
+            alert("logging out");
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
-
-            window.location.href = "index.html";
+            window.location.href = 'index.html';
         }
         function validatePassword() {
             var password = document.getElementById("password")

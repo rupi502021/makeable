@@ -35,3 +35,7 @@ nav#nav1 {
 i.icon.fa {
     padding: 5px;
 }
+#photo img {
+    width: 45%;
+    height: 35%;
+}

@@ -39,10 +39,181 @@
 
     <script src="../Scripts/ajaxCalls.js"></script>
 
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .row > .column {
+            padding: 0 8px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        div#myModal {
+            /* position: relative; */
+            top: 100px;
+        }
+
+        /*.column {
+            float: left;
+            width: 25%;
+        }*/
+
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: black;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* The Close Button */
+        .close {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #999;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .mySlides {
+            display: none;
+        }
+
+        .cursor {
+            cursor: pointer;
+        }
+
+        /* Next & previous buttons */
+        
+        a.prev {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -50px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        a.next {
+            cursor: pointer;
+            position: absolute;
+            left: -1150px;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -50px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+            /* On hover, add a black background color with a little bit see-through */
+/*            .prev:hover,
+            .next:hover {
+                background-color: rgba(0, 0, 0, 0.8);
+            }*/
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: dimgray;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        img {
+            margin-bottom: -4px;
+        }
+
+        .caption-container {
+            text-align: center;
+            background-color: black;
+            padding: 2px 16px;
+            color: white;
+        }
+
+        .demo {
+            opacity: 0.6;
+        }
+
+            .active,
+            .demo:hover {
+                opacity: 1;
+            }
+
+        img.hover-shadow {
+            transition: 0.3s;
+        }
+
+        .hover-shadow:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        div img{
+            width:45%;
+        }
+
+        img#test {
+            width: 40%;
+            margin:auto;
+        }
+    </style>
+    
     <script>
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
-           
             checklogin();
             render();
 
@@ -89,9 +260,10 @@
         }
 
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
+                login = true;
                 $("ul.nav.navbar-nav.navbar-right").hide();
                 $("#newGalleryBTN").show();
                 $("#per_area").show();
@@ -105,6 +277,7 @@
                 $("#loginperson").show();
             }
             else {
+                login = false;
                 $("#loginperson").hide();
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
@@ -120,29 +293,43 @@
         }
 
         function togglefunc(galId) {
-              $('.fa-heart').click(function () {
-                $(this).removeClass('fa-heart');
-                  $(this).addClass('fa-heart-o');
-                  console.log("in1");
-            });
-            $('.fa-heart-o').click(function () {
-                $(this).addClass('fa-heart');
-                $(this).removeClass('fa-heart-o');
-                console.log("in2");
-            });
-          
+
+            var liked = document.getElementById("likeBTN" + galId).innerHTML;
+            if (liked == "אהבתי") {
+                $('#likeBTN' + galId).css('color', 'red');
+                //אפשר לעשות פה משחקים של class שישמור על הצבע
+                addToFavorite(galId);
+
+            }
+            else {
+                //removeFromFavorite(galId);
+
+            }
             console.log(galId)
-            //if ($(this).hasClass('fa-heart-o')) {
-            //    addToFavorite(this);
-            //}
-            //else {
-            //    removeFromFavorite(this.id);
-            //}
+
         };
 
         function render() {
+            if (login) {
+                if (l == null) {
+                    email = l1.Email;
 
-            ajaxCall("GET", "../api/Galleries/All", "", getSuccessRender, getErrorRender);
+                    let api = "../api/Galleries/All/" + email + "/";
+                    ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+                }
+                if (l1 == null) {
+                    email = l.Email;
+
+                    let api = "../api/Galleries/All/" + email + "/";
+                    ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+                }
+            }
+            else {
+                let api = "../api/Galleries/All";
+                ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+            }
+
+
         }
 
         function getSuccessRender(data) {
@@ -159,9 +346,9 @@
         function renderGalleries(d) { //רנדור גלריות שפורסמו
             $("#ph1").html("");
             let str = "";
-            listGal = new Array();
+
             for (var i = 0; i < d.length; i++) {
-                str += "<div class='row'>";
+                str += "<div class='row'>";//*
                 for (var k = 0; k < 3; k++) { //עד 3 גלריות בשורה
                     if (k != 0) {
                         i++;
@@ -169,33 +356,78 @@
                     if (d[i] == null) {
                         break;
                     }
-                    str += "<div class='col-sm-4'>";
-                    str += "<div class='card'>";
+                    str += "<div class='col-sm-4'>";//*
+                    str += "<div class='card'>";//*
                     str += "<div class='para'><br />";
                     str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].GalleryName + "</h1>"; //שם
                     str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
                     str += "<p>" + d[i].Professions + "</p>"; //תחומי עיסוק
-                    str += "</div >";
-                    str += "<div id='photo' class='row'><img src='" + d[i].Images[0] + "'>"; //תמונה ראשונה
-                    str += "<div class='para'><p>" + d[i].Description + "</p>"; //תיאור
+                    str += "</div>";
+                    //str += "<div id='photo' class='row'><img src='" + d[i].Images[0] + "'>"; //תמונה ראשונה
+
+
+                    str += "<div id='photo'>";
+                    str += "<div class='column'>";
+                    str += "<img src = '" + d[i].Images[0] + "' onclick='openModal();currentSlide(1)' class='hover-shadow cursor'>";
+                    str += "</div>";
+                    str += "</div>";
+
+                    str += "<div id='myModal' class='modal'>";
+                    str += "<span class='close cursor' onclick='closeModal()'>&times;</span>";
+                    str += "<div class='row'>";
+                    str += "<div class='modal-content'>";
+
+
+                    for (var j = 0; j < d[i].Images.length; j++) {
+                        var no = j + 1;
+                        console.log(d[i].Images)
+                        n = d[i].Images[j];
+
+                        str += "<div class='mySlides'>";
+                        str += "<div class='numbertext'> " + d[i].Images.length + " / " + no + "</div>";
+                        str += "<img id='test' src='" + n + "'>";
+                        str += "</div>";
+
+                    }
+
+                    str += "<a class='prev' id='pr1' onclick='plusSlides(-1)'>&#10094;</a>";
+                    str += "<a class='next' id='pr2' onclick='plusSlides(1)'>&#10095;</a>";
+                    str += "</div>";
+
+                    //str += "<div class='caption-container'>";
+                    //str += "<p id='caption'></p>";
+                    //str += "</div >";
+
+                    str += "</div>";//myModal
+                    str += "</div>";//modal-content
+
+
+                    str += "<div class='para'>";
+                    str += "<p>" + d[i].Description + "</p>"; //תיאור
+
                     var _time = d[i].Time;
                     var _date = d[i].Date;
                     var date_date = _date.split('T')[0];
                     var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
                     var time_time = _time.split('T')[1];
-                    str += "<p>" + date_time_ltr + "</p><p>" + time_time + "</p></div>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+
+                    str += "<p>" + date_time_ltr + "</p>";
+                    str+="<p>" + time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                    str += "</div > ";//para
 
                     //אייקונים
-                    str += "<div class='row'>";
-                    str += "<div class='icon-bar'>";
-                    str += "<a  onclick='togglefunc("+d[i].GalleryId+")'>";
-                    str += "<i class='icon fa fa-heart-o'></i></a > ";
-                    str += "<a><i class='icon fa fa-comment-o'></i></a>";
-                    str += "<a ><i class='icon fa fa-paper-plane'></i></a>";
-                    str += "<a><i class='icon fa fa-share-alt'></i></a>";
-                    str += "</div>"; //סוגר את האייקון בר
-                    str += "</div>"; //סוגר את השורה של האייקונים
-                    str += "</div>"; //סוג את para
+                    if (login) {
+                        str += "<button class='fa fa-heart-o' id='likeBTN" + d[i].GalleryId + "' onclick='togglefunc(" + d[i].GalleryId + ")'>אהבתי</button>";
+                    }
+                    //str += "<div class='row'>";
+                    //str += "<div class='icon-bar'>";
+                    //str += "<a  onclick='togglefunc("+d[i].GalleryId+")'>";
+                    //str += "<i class='icon fa fa-heart-o'></i></a > ";
+                    //str += "<a><i class='icon fa fa-comment-o'></i></a>";
+                    //str += "<a ><i class='icon fa fa-paper-plane'></i></a>";
+                    //str += "<a><i class='icon fa fa-share-alt'></i></a>";
+                    //str += "</div>"; //סוגר את האייקון בר
+                    //str += "</div>"; //סוגר את השורה של האייקונים
                     str += "</div>"; //סוג את card
                     str += "</div>"; //סוגר את col-sm-4
 
@@ -206,7 +438,13 @@
             $("#ph1").append(str);
         }
 
-
+        function addToFavorite(id) {
+            gallery = {
+                Email: email,
+                GalleryId: id
+            };
+            ajaxCall("POST", "../api/Galleries/fav", JSON.stringify(gallery), postSuccess, postError);
+        }
 
         function postSuccess(data) {
             alert("גלריה הוספה למועדפים בהצלחה!");
@@ -214,19 +452,61 @@
 
         function postError(err) {
             alert(err.responseJSON);
+
         }
 
-        //function removeFromFavorite(id) {
-        //    ajaxCall("DELETE", "../api/Galleries" + id, "", deleteSuccess, deleteError);
-        //}
+        function removeFromFavorite(id) {
+            let api = "../api/Galleries/deleteFav/" + id + "/" + email + "/";
+            ajaxCall("DELETE", api, "", deleteSuccess, deleteError);
+        }
 
-        //function deleteSuccess(data) {
-        //    alert("גלריה הוסרה מהמועדפים בהצלחה!");
-        //}
+        function deleteSuccess(data) {
+            alert("גלריה הוסרה מהמועדפים בהצלחה!");
+        }
 
-        //function deleteError(err) {
-        //    alert(err.responseJSON);
-        //}
+        function deleteError(err) {
+            alert(err.responseJSON);
+        }
+
+
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("demo");
+            var captionText = document.getElementById("caption");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
+            captionText.innerHTML = dots[slideIndex - 1].alt;
+        }
+
+
     </script>
 </head>
 <body class="host_version" dir="rtl">
