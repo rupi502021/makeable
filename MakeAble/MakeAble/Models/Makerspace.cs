@@ -22,8 +22,10 @@ namespace MakeAble.Models
         bool online_payment;
         bool free_parking;
         string[] profession;
+        string makerspaceName;
+        string descrip;
 
-        public Makerspace(int makerspaceId, string address, string phoneNumber, string url, string[] days_hours, int noPepole, double size, double price, double rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession)
+        public Makerspace(int makerspaceId, string address, string phoneNumber, string url, string[] days_hours, int noPepole, double size, double price, double rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession, string makerspaceName, string descrip)
         {
             MakerspaceId = makerspaceId;
             Address = address;
@@ -40,9 +42,9 @@ namespace MakeAble.Models
             Online_payment = online_payment;
             Free_parking = free_parking;
             Profession = profession;
+            MakerspaceName = makerspaceName;
+            Descrip = descrip;
         }
-
-        public Makerspace() { }
 
         public int MakerspaceId { get => makerspaceId; set => makerspaceId = value; }
         public string Address { get => address; set => address = value; }
@@ -59,5 +61,9 @@ namespace MakeAble.Models
         public bool Online_payment { get => online_payment; set => online_payment = value; }
         public bool Free_parking { get => free_parking; set => free_parking = value; }
         public string[] Profession { get => profession; set => profession = value; }
+        public string MakerspaceName { get => makerspaceName; set => makerspaceName = value; }
+        public string Descrip { get => descrip; set => descrip = value; }
+
+        public Makerspace() { }
     }
 }
