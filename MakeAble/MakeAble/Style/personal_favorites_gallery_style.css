@@ -94,4 +94,8 @@ a#logout::before {
     width: 180px;
     height: 51px;
 }
+#photo img {
+    width: 45%;
+    height: 35%;
+}
 
