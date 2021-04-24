@@ -63,77 +63,38 @@
 
     <script>
         $(document).ready(function () {
+            checklogin();
+        });
 
 
-
-            function fLogin() {
-                var l = JSON.parse(localStorage.getItem('user'));
-                var l1 = JSON.parse(sessionStorage.getItem('user'));
-                if (l == null) {
-                    let email = l1.Email;
-
-                    var api = "../api/Users/" + email + "/";
-                }
-                else {
-                    let email = l.Email;
-
-                    var api = "../api/Users/" + email + "/";
-                }
-                ajaxCall("GET", api, "", getSuccess, error);
-
-            }
-
-            function getSuccess(data) {
-                console.log(data);
-                checked = JSON.parse(localStorage.getItem('user'));
-                if (checked) {
-                    localStorage.setItem("user", JSON.stringify(data));
-                }
-                else {
-                    sessionStorage.removeItem('user');
-                    sessionStorage.setItem("user", JSON.stringify(data));
-                }
-
-                checklogin();
-
-
-                function checklogin() {
-                    var l = JSON.parse(localStorage.getItem('user'));
-                    var l1 = JSON.parse(sessionStorage.getItem('user'));
-                    if (l != null || l1 != null) {
-                        $("ul.nav.navbar-nav.navbar-right").hide();
-                        var hi = "היי, ";
-                        if (l == null) {
-                            $("#perHello").append(hi + l1.Fname);
-                        }
-                        else {
-                            $("#perHello").append(hi + l.Fname);
-                        }
-                        $("#loginperson").show();
+            function checklogin() {
+                 l = JSON.parse(localStorage.getItem('user'));
+                 l1 = JSON.parse(sessionStorage.getItem('user'));
+                if (l != null || l1 != null) {
+                    $("ul.nav.navbar-nav.navbar-right").hide();
+                    var hi = "היי, ";
+                    if (l == null) {
+                        $("#perHello").append(hi + l1.Fname);
                     }
                     else {
-                        $("#loginperson").hide();
-                        $("a#logout").hide();
-                        $("ul.nav.navbar-nav.navbar-right").show();
+                        $("#perHello").append(hi + l.Fname);
                     }
+                    $("#loginperson").show();
                 }
-                function logout() {
-                    localStorage.removeItem('user');
-                    sessionStorage.removeItem('user');
-
-                    window.location.href = "index.html";
+                else {
+                    $("#loginperson").hide();
+                    $("a#logout").hide();
+                    $("ul.nav.navbar-nav.navbar-right").show();
                 }
-                function validatePassword() {
-                    var password = document.getElementById("password")
-                        , confirm_password = document.getElementById("confirm_password");
 
-                    if (password.value != confirm_password.value) {
-                        confirm_password.setCustomValidity("Passwords Don't Match");
 
-                    } else {
-                        confirm_password.setCustomValidity('');
-                    }
-                }
+            }
+            function logout() {
+                alert("logging out");
+                localStorage.removeItem('user');
+                sessionStorage.removeItem('user');
+                window.location.href = 'index.html';
+            }
 
     </script>
 </head>
