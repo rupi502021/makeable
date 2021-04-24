@@ -81,6 +81,28 @@ namespace MakeAble.Models
             List<Gallery> g = dbs.getAllGalleriesAl();
             return g;
         }
+        public List<Gallery> ReadAllGalleriesAlWithoutUser(string email)
+        {
+            DBServices dbs = new DBServices();
+            List<Gallery> g = dbs.getAllGalleriesAl();
+            for (int i = 0; i < g.Count; i++)
+            {
+                if (email == g[i].Email)
+                {
+                    g.Remove(g[i]);
+                    i--;
+                }
+            }
+            return g;
+        }
+
+        public List<Gallery> ReadGalleriesliked(string email)
+        {
+            DBServices dbs = new DBServices();
+            List<Gallery> g = dbs.getGalleriesliked(email);
+            
+            return g;
+        }
         public List<Gallery> ReadPubGalleries(string email)
         {
             DBServices dbs = new DBServices();
@@ -93,18 +115,29 @@ namespace MakeAble.Models
             int id = dbs.Insert(this);
             dbs.InsertProffesion_Gallery(this, id);
         }
-        
+        public int UpdateGalPublish()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.UpdateGalPublish(this);
 
-        //public void InsertToFav()
-        //{
-        //    DBServices dbs = new DBServices();
-        //    dbs.InsertToFav(this);
-        //}
+        }
 
-        //public int Delete(int id)
-        //{
-        //    DBServices dbs = new DBServices();
-        //    return dbs.Delete(id);
-        //}
+        public int UpdateGalSave()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.UpdateGalSave(this);
+        }
+
+        public void InsertUserFavGal()
+        {
+            DBServices dbs = new DBServices();
+            dbs.InsertUserFavGal(this);
+        }
+
+        public int Delete()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.Delete(this);
+        }
     }
 }

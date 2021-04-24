@@ -244,8 +244,6 @@
     <Content Include="bin\System.Web.WebPages.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\WebGrease.dll" />
-    <Content Include="chat.html" />
-    <Content Include="config.js" />
     <Content Include="css\chat.css" />
     <Content Include="css\person.css" />
     <Content Include="GalleryPage.html" />
@@ -275,9 +273,9 @@
     <Content Include="images\makeable.jpg" />
     <Content Include="images\notfoundPic.jpg" />
     <Content Include="images\Tools.jpg" />
-    <Content Include="personal - favorites - space.html" />
-    <Content Include="personal - favorites - gallery.html" />
-    <Content Include="personal - gallery.html" />
+    <Content Include="personal-favorites-space.html" />
+    <Content Include="personal-favorites-gallery.html" />
+    <Content Include="personal-gallery.html" />
     <Content Include="personal.html" />
     <Content Include="fonts\Flaticon.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
