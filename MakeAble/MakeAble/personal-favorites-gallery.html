@@ -32,15 +32,16 @@
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
 
-    <link href="Style/personal_favorites_gallery_style.css" rel="stylesheet" />
-    <link href="Style/personal_gallery_style.css" rel="stylesheet" />
+
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+    <link href="../Style/modal_photos.css" rel="stylesheet" />
+    <link href="../Style/personal_favorites_gallery_style.css" rel="stylesheet" />
+    <link href="../Style/personal_gallery_style.css" rel="stylesheet" />
 
     <script src="../Scripts/ajaxCalls.js"></script>
 
@@ -91,10 +92,10 @@
             console.log(err);
         }
         function checklogin() {
-             l = JSON.parse(localStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
             l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
-                
+
                 $("ul.nav.navbar-nav.navbar-right").hide();
                 var hi = "היי, ";
                 if (l == null) {
@@ -121,7 +122,7 @@
         }
 
         function render() {
-            
+
             if (l == null) {
                 email = l1.Email;
             }
@@ -130,7 +131,7 @@
             }
             let api = "../api/Galleries/like/" + email + "/";
             ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
-           
+
         }
 
         function getSuccessRender(data) {
@@ -164,30 +165,51 @@
                     str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
                     str += "<p>" + d[i].Professions + "</p>"; //תחומי עיסוק
                     str += "</div >";
-                    str += "<div id='photo' class='row'><img src='" + d[i].Images[0] + "'>"; //תמונה ראשונה
-                    str += "<div class='para'><p>" + d[i].Description + "</p>"; //תיאור
+                    //גלריית תמונות
+                    str += "<div id='photo'>";
+                    str += "<div class='column'>";
+                    str += "<img src = '" + d[i].Images[0] + "' onclick='openModal(myModal" + i + ");currentSlide(" + i + ",1)' class='hover-shadow cursor'>";
+                    str += "</div>";
+                    str += "</div>";
+
+                    str += "<div id='myModal" + i + "' class='modal-photo'>";
+                    str += "<span class='close-photo cursor' onclick='closeModal(myModal" + i + ")'>&times;</span>";
+                    str += "<div class='row'>";
+                    str += "<div class='modal-content-photo'>";
+
+                    for (var j = 0; j < d[i].Images.length; j++) {
+                        var no = j + 1;
+                        console.log(d[i].Images)
+                        n = d[i].Images[j];
+                        str += "<div class='mySlides" + i + "'>";
+                        str += "<div class='numbertext'> " + d[i].Images.length + " / " + no + "</div>";
+                        str += "<img id='test' src='" + n + "'>";
+                        str += "</div>";
+                    }
+
+                    str += "<a class='prev' id='pr1' onclick='plusSlides(" + i + ",-1)'>&#10094;</a>";
+                    str += "<a class='next' id='pr2' onclick='plusSlides(" + i + ",1)'>&#10095;</a>";
+                    str += "</div>";
+
+                    str += "</div>";//myModal
+                    str += "</div>";//modal-content
+
+                    str += "<div class='para'>";
+                    str += "<p>" + d[i].Description + "</p>"; //תיאור
+
                     var _time = d[i].Time;
                     var _date = d[i].Date;
                     var date_date = _date.split('T')[0];
                     var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
                     var time_time = _time.split('T')[1];
-                    str += "<p>" + date_time_ltr + "</p><p>" + time_time + "</p></div>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
 
-                    //אייקונים
-                    str += "<button onclick='removeFromFavorite(" + d[i].GalleryId + ")'>הסר לייק</button>";
-                    //str += "<div class='row'>";
-                    //str += "<div class='icon-bar'>";
-                    //str += "<a  onclick='togglefunc("+d[i].GalleryId+")'>";
-                    //str += "<i class='icon fa fa-heart-o'></i></a > ";
-                    //str += "<a><i class='icon fa fa-comment-o'></i></a>";
-                    //str += "<a ><i class='icon fa fa-paper-plane'></i></a>";
-                    //str += "<a><i class='icon fa fa-share-alt'></i></a>";
-                    //str += "</div>"; //סוגר את האייקון בר
-                    //str += "</div>"; //סוגר את השורה של האייקונים
-                    str += "</div>"; //סוג את para
+                    str += "<p>" + date_time_ltr + "</p>";
+                    str += "<p>" + time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                    str += "</div > ";//para
+                    str += "<button class='btn btn-primary btn-block' onclick='removeFromFavorite(" + d[i].GalleryId + ")'>הסר לייק</button>";
+                   
                     str += "</div>"; //סוג את card
                     str += "</div>"; //סוגר את col-sm-4
-
                 }
                 str += "</div>"; //סוגר את row
             }
@@ -208,6 +230,44 @@
             alert(err.responseJSON);
         }
 
+        function openModal(id) {
+            document.getElementById(id.id).style.display = "block";
+            $("nav#nav_menu").css("display", "none");
+            $("div#sidebar-wrapper").css("display", "none");
+        }
+
+        function closeModal(id) {
+            document.getElementById(id.id).style.display = "none";
+            $("nav#nav_menu").css("display", "block");
+            $("div#sidebar-wrapper").css("display", "block");
+        }
+
+        var slideIndex = 1;
+        //showSlides(slideIndex);
+
+        function plusSlides(id, n) {
+            showSlides(id, slideIndex += n);
+        }
+
+        function currentSlide(id, n) {
+            showSlides(id, slideIndex = n);
+        }
+
+        function showSlides(id, n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides" + id);
+
+
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+
+
+        }
     </script>
 </head>
 <body class="host_version" dir="rtl">

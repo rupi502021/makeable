@@ -37,7 +37,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link href="Style/galleries_style.css" rel="stylesheet" />
+    <link href="../Style/galleries_style.css" rel="stylesheet" />
+    <link href="../Style/modal_photos.css" rel="stylesheet" />
+
+
     <style>
         nav#nav1 {
             position: fixed;
@@ -54,8 +57,8 @@
             top: 90px;
         }
     </style>
-    <link href="Style/index_style.css" rel="stylesheet" />
-    <script src="Scripts/ajaxCalls.js"></script>
+    <link href="../Style/index_style.css" rel="stylesheet" />
+    <script src="../Scripts/ajaxCalls.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -195,24 +198,56 @@
             str += "<div class='row'>";
             for (var i = 0; i < 3 && i < lengthArr; i++) { //עד 3 גלריות בשורה
 
-                str += "<div class='col-sm-4'>";
-                str += "<div class='card'>";
+                str += "<div class='col-sm-4'>";//*
+                str += "<div class='card'>";//*
                 str += "<div class='para'><br />";
                 str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].GalleryName + "</h1>"; //שם
                 str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
                 str += "<p>" + d[i].Professions + "</p>"; //תחומי עיסוק
-                str += "</div >";
-                str += "<div id='photo' class='row'><img src='" + d[i].Images[0] + "'>"; //תמונה ראשונה
-                str += "<div class='para'><p>" + d[i].Description + "</p>"; //תיאור
+                str += "</div>";
+                //גלריית תמונות
+                str += "<div id='photo'>";
+                str += "<div class='column'>";
+                str += "<img src = '" + d[i].Images[0] + "' onclick='openModal(myModal" + i + ");currentSlide(" + i + ",1)' class='hover-shadow cursor'>";
+                str += "</div>";
+                str += "</div>";
+
+                str += "<div id='myModal" + i + "' class='modal-photo'>";
+                str += "<span class='close-photo cursor' onclick='closeModal(myModal" + i + ")'>&times;</span>";
+                str += "<div class='row'>";
+                str += "<div class='modal-content-photo'>";
+
+                for (var j = 0; j < d[i].Images.length; j++) {
+                    var no = j + 1;
+                    console.log(d[i].Images)
+                    n = d[i].Images[j];
+                    str += "<div class='mySlides" + i + "'>";
+                    str += "<div class='numbertext'> " + d[i].Images.length + " / " + no + "</div>";
+                    str += "<img id='test' src='" + n + "'>";
+                    str += "</div>";
+                }
+
+                str += "<a class='prev' id='pr1' onclick='plusSlides(" + i + ",-1)'>&#10094;</a>";
+                str += "<a class='next' id='pr2' onclick='plusSlides(" + i + ",1)'>&#10095;</a>";
+                str += "</div>";
+
+
+
+                str += "</div>";//myModal
+                str += "</div>";//modal-content
+
+                str += "<div class='para'>";
+                str += "<p>" + d[i].Description + "</p>"; //תיאור
+
                 var _time = d[i].Time;
                 var _date = d[i].Date;
                 var date_date = _date.split('T')[0];
                 var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
                 var time_time = _time.split('T')[1];
-                str += "<p>" + date_time_ltr + "</p><p>" + time_time + "</p></div>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
 
-
-                str += "</div>"; //סוג את para
+                str += "<p>" + date_time_ltr + "</p>";
+                str += "<p>" + time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                str += "</div > ";//para
                 str += "</div>"; //סוג את card
                 str += "</div>"; //סוגר את col-sm-4
 
@@ -223,7 +258,42 @@
             $("#ph1").append(str);
         }
 
+        function openModal(id) {
+            document.getElementById(id.id).style.display = "block";
 
+        }
+
+        function closeModal(id) {
+            document.getElementById(id.id).style.display = "none";
+
+        }
+
+        var slideIndex = 1;
+        //showSlides(slideIndex);
+
+        function plusSlides(id, n) {
+            showSlides(id, slideIndex += n);
+        }
+
+        function currentSlide(id, n) {
+            showSlides(id, slideIndex = n);
+        }
+
+        function showSlides(id, n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides" + id);
+
+
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+
+
+        }
     </script>
 
 
@@ -235,7 +305,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content" style="font-family:Calibri">
                 <div class="modal-header tit-up">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="right:750px">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="right: 93%;bottom: 15%;">&times;</button>
                     <h4 class="modal-title">התחברות</h4>
                 </div>
                 <div class="modal-body customer-box">

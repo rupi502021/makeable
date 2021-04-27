@@ -412,6 +412,7 @@
     <Content Include="Style\galleries_style.css" />
     <Content Include="Style\galleryPage_style.css" />
     <Content Include="Style\index_style.css" />
+    <Content Include="Style\modal_photos.css" />
     <Content Include="Style\newMakerSpace_style.css" />
     <Content Include="Style\personal_my_spaces.css" />
     <Content Include="Style\newGallery_style.css" />

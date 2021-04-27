@@ -117,3 +117,6 @@ ul#newGalleryBTN {
     width: 180px;
     height: 51px;
 }
+div.modal-photo {
+    top: 100px;
+}
