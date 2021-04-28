@@ -208,7 +208,7 @@
 
                     for (var j = 0; j < d[i].Images.length; j++) {
                         var no = j + 1;
-                        console.log(d[i].Images)
+                       
                         n = d[i].Images[j];
 
                         str += "<div class='mySlides"+i+"'>";
@@ -241,11 +241,20 @@
                     str+="<p>" + time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
                     str += "</div > ";//para
 
+                    btn = "";
                     //אייקונים
                     if (login) {
-                        str += "<button class='fa fa-heart-o' id='likeBTN" + d[i].GalleryId + "' onclick='togglefunc(" + d[i].GalleryId + ")'>אהבתי</button>";
+                        btn = "<button class='btn btn-primary btn-block' id='likeBTN" + d[i].GalleryId + "' onclick='togglefunc(" + d[i].GalleryId + ")'>אהבתי</button>";
+                        for (var h = 0; h < d[i].Emails_likedList.length; h++) {
+                            if (d[i].Emails_likedList[h] == email) {
+                                btn = "<button class='btn btn-primary btn-block' onclick='removeFromFavorite(" + d[i].GalleryId + ")'>הסר לייק</button>";
+
+                            }
+                        }
                     }
-                   
+                    
+
+                    str += btn;
                     str += "</div>"; //סוג את card
                     str += "</div>"; //סוגר את col-sm-4
 

@@ -429,7 +429,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId ";
+                String selectSTR = " select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName , usFav.Email as Email_liked from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId left join Users_Gallery_Fav as usFav on usFav.GalleryId=gl.GalleryId";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -451,6 +451,8 @@ namespace MakeAble.Models.DAL
                         g.Email = Convert.ToString(dr["UserEmail"]);
                         g.Profession = Convert.ToString(dr["ProfessionName"]);
                         g.Image = Convert.ToString(dr["PhotoUrl"]);
+
+                        g.Email_liked= Convert.ToString(dr["Email_liked"]);
 
                         gList.Add(g);
                     }

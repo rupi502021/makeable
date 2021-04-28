@@ -22,6 +22,9 @@ namespace MakeAble.Models
         string image;
         bool isActive;
         string email;
+        string email_liked;
+        string emails_liked;
+        List<string> emails_likedList;
 
         public int GalleryId { get => galleryId; set => galleryId = value; }
         public string GalleryName { get => galleryName; set => galleryName = value; }
@@ -37,10 +40,13 @@ namespace MakeAble.Models
         public string Image { get => image; set => image = value; }
         public bool IsActive { get => isActive; set => isActive = value; }
         public string Email { get => email; set => email = value; }
+        public string Email_liked { get => email_liked; set => email_liked = value; }
+        public string Emails_liked { get => emails_liked; set => emails_liked = value; }
+        public List<string> Emails_likedList { get => emails_likedList; set => emails_likedList = value; }
 
         public Gallery() { }
 
-        public Gallery(int galleryId, string galleryName, string url, DateTime date, DateTime time, string description, List<string> professions, string[] profArr, string profession, List<string> images, string[] imageArr, string image, bool isActive, string email)
+        public Gallery(int galleryId, string galleryName, string url, DateTime date, DateTime time, string description, List<string> professions, string[] profArr, string profession, List<string> images, string[] imageArr, string image, bool isActive, string email, string email_liked, string emails_liked, List<string> emails_likedList)
         {
             GalleryId = galleryId;
             GalleryName = galleryName;
@@ -56,8 +62,10 @@ namespace MakeAble.Models
             Image = image;
             IsActive = isActive;
             Email = email;
+            Email_liked = email_liked;
+            Emails_liked = emails_liked;
+            Emails_likedList = emails_likedList;
         }
-
 
         public List<Gallery> Read()
         {

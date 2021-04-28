@@ -122,6 +122,7 @@ namespace MakeAble.Controllers
                 List<Gallery> gList = gallery.ReadAllGalleriesAlWithoutUser(email);
                 List<Gallery> gFinal = new List<Gallery>();
 
+                List<string> emails_likedList = new List<string>();
                 List<string> professions = new List<string>();
                 List<string> images = new List<string>();
                 var id = 0;
@@ -135,14 +136,16 @@ namespace MakeAble.Controllers
                     }
                     else
                     {
-                       
+                        List<string> em = new List<string>(emails_likedList);
                         List<string> p = new List<string>(professions);
                         List<string> im = new List<string>(images);
-                        
+
+                        gList[i - 1].Emails_likedList = em;
                         gList[i - 1].Professions = p;
                         gList[i - 1].Images = im;
                         gFinal.Add(gList[i - 1]);
 
+                        emails_likedList.Clear();
                         professions.Clear();
                         images.Clear();
                     }
@@ -180,9 +183,28 @@ namespace MakeAble.Controllers
                     {
                         images.Add(gList[i].Image);
                     }
+
+                    //לייקים
+                    if (emails_likedList.Count == 0)
+                    {
+                        emails_likedList.Add(gList[i].Email_liked);
+                    }
+                    exist = false;
+                    foreach (var item in images)
+                    {
+                        if (item == gList[i].Email_liked)
+                        {
+                            exist = true;
+                        }
+                    }
+                    if (exist != true)
+                    {
+                        emails_likedList.Add(gList[i].Email_liked);
+                    }
                     //בודק איבר אחרון
                     if (gList.Count == i + 1)
                     {
+                        gList[i].Emails_likedList = emails_likedList;
                         gList[i].Professions = professions;
                         gList[i].Images = images;
                         gFinal.Add(gList[i]);
