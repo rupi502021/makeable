@@ -10,16 +10,7 @@ namespace MakeAble.Controllers
 {
     public class GalleriesController : ApiController
     {
-        // GET api/<controller>
-
-        //[HttpGet]
-        //[Route("api/Galleries/fav")]
-        //public List<Gallery> GetFav()
-        //{
-        //    Gallery gallery = new Gallery();
-        //    List<Gallery> gList = gallery.ReadFavGal();
-        //    return gList;
-        //}
+        
         public List<Gallery> Get()
         {
             Gallery gallery = new Gallery();

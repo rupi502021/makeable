@@ -59,15 +59,6 @@ namespace MakeAble.Models
         }
 
 
-
-
-        //public List<Gallery> ReadFavGal()
-        //{
-        //    DBServices dbs = new DBServices();
-        //    List<Gallery> g = dbs.getFavGallery();
-        //    return g;
-        //}
-
         public List<Gallery> Read()
         {
             DBServices dbs = new DBServices();
