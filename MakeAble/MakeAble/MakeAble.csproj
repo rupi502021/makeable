@@ -274,6 +274,9 @@
     <Content Include="images\notfoundPic.jpg" />
     <Content Include="images\Tools.jpg" />
     <Content Include="newMakerSpace.html" />
+    <Content Include="order-request-approved.html" />
+    <Content Include="order-history.html" />
+    <Content Include="order-request.html" />
     <Content Include="personal-my_spaces.html" />
     <Content Include="personal-favorites-space.html" />
     <Content Include="personal-favorites-gallery.html" />

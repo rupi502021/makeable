@@ -1,0 +1,430 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>QuickCloud - Hosting Responsive HTML5 Template</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link href="css/person.css" rel="stylesheet" />
+    <!-- Modernizer for Portfolio -->
+    <script src="js/modernizer.js"></script>
+    <script src="Scripts/ajaxCalls.js"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="Style/personal_my_spaces.css" rel="stylesheet" />
+
+    <style>
+
+        /*$bg-color:#78ACCD;
+        $white: #ffffff;
+        $black: #333333;
+        $gray: #7D8994;
+        $orange: #DE6E46;
+        $purple: #AE5989;
+
+        $radius: 50%;*/
+
+        table, td, th {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+        }
+
+        th {
+            background-color: #1ba61e;
+            color: white;
+        }
+
+        td {
+            background-color: #8fe7a9;
+        }
+
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 10px;
+            font-family: sans-serif;
+            line-height: 1.6;
+        }
+
+        body {
+            font-size: 1.5rem;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .card {
+            background: $white;
+            width: 90%;
+            max-width: 40rem;
+            min-height: 40rem;
+            margin: 5rem auto;
+            display: grid;
+            /*grid-template-rows: 8rem auto 10rem;*/
+            box-shadow: 0 1rem 2.5rem rgb(27, 64, 94);
+        }
+
+        .card__header {
+            padding: 0 1.25rem;
+            color: #7D8994;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card__body {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .card__body--days {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+        }
+
+            .card__body--days li {
+                flex: 1;
+                font-weight: bold;
+                text-transform: uppercase;
+                text-align: center;
+                color: $gray;
+                margin: 0 1px;
+            }
+
+        .card__body--dates {
+            display: grid;
+            gap: 3px;
+            grid-template-columns: repeat(7, 1fr);
+            justify-items: center;
+            text-align: center;
+        }
+
+            .card__body--dates li {
+                width: 3.5rem;
+                height: 3.5rem;
+                display: grid;
+                place-items: center;
+                font-weight: bold;
+                position: relative;
+            }
+
+        li.prev,
+        li.next {
+            color: #ccc;
+        }
+
+        .today {
+            background: #DE6E46;
+            color: #ffff;
+            border-radius: 50%;
+        }
+
+        li.circle {
+            border: 2px solid;
+            border-radius: 50%;
+        }
+
+            li.circle span {
+                position: absolute;
+                top: -0.75rem;
+                right: -0.5rem;
+                width: 1.75rem;
+                height: 1.75rem;
+                font-size: 1.2rem;
+                color: white;
+                border-radius: 50%;
+            }
+
+        .circle.orange {
+            border-color: #DE6E46;
+        }
+
+            .circle.orange span {
+                background: #DE6E46;
+            }
+
+        .circle.purple {
+            border-color: #AE5989;
+        }
+
+            .circle.purple span {
+                background: #AE5989;
+            }
+
+        .card__footer {
+            /*extend: .card__header;*/
+            color: black;
+            font-weight: bold;
+        }
+
+            .card__footer.add {
+                text-decoration: none;
+                color: inherit;
+                border: 2px solid #DE6E46;
+                border-radius: 50%;
+                width: 3.5rem;
+                height: 3.5rem;
+                padding-top: 0.25rem;
+                display: grid;
+                place-items: center;
+            }
+    </style>
+
+
+    <script>
+        $(function () {
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            $(window).resize(function (e) {
+                if ($(window).width() <= 768) {
+                    $("#wrapper").removeClass("toggled");
+                } else {
+                    $("#wrapper").addClass("toggled");
+                }
+            });
+        });
+
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            checklogin();
+        });
+
+
+        function checklogin() {
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l != null || l1 != null) {
+                $("ul.nav.navbar-nav.navbar-right").hide();
+                var hi = "היי, ";
+                if (l == null) {
+                    $("#perHello").append(hi + l1.Fname);
+                }
+                else {
+                    $("#perHello").append(hi + l.Fname);
+                }
+                $("#loginperson").show();
+            }
+            else {
+                $("#loginperson").hide();
+                $("a#logout").hide();
+                $("ul.nav.navbar-nav.navbar-right").show();
+            }
+
+
+        }
+        function logout() {
+            alert("logging out");
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+    </script>
+</head>
+<body class="host_version" dir="rtl">
+    <!-- LOADER -->
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="progress-br float shadow">
+                <div class="progress__item"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END LOADER -->
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
+                        <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="personal.html">איזור אישי </a></li>
+                    </ul>
+                    <ul id="loginperson" class="nav navbar-nav navbar-right">
+                        <li><a><span id="perHello" style="color:white"></span></a></li>
+                        <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
+
+
+    <header class="top-navbar">
+        <nav id="nav_menu" class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a>
+        </nav>
+    </header>
+    <div id="wrapper" class="toggled">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" style="top:139px">
+            <ul class="sidebar-nav">
+                <li><a href="order-request.html"> הזמנות שטרם אושרו </a><br /></li>
+                <li> <a style="color:aliceblue" href="order-request-approved.html">הזמנות שאושרו</a><br /></li>
+                <li> <a href="order-history.html">היסטוריית הזמנות</a><br /></li>
+                <li> <a href="#">סטטיסטיקת הזמנות</a><br /></li>
+
+            </ul>
+        </div> <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+
+        <div class="container">
+
+            <h1 style="text-align:center; font-size:80px">הזמנות שאושרו</h1>
+
+            <table>
+                <tr>
+                    <th>שם</th>
+                    <th>תאריך</th>
+                    <th>שעות</th>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
+                    <td>24/08/2020</td>
+                    <td>10:00-13:00</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
+                    <td>24/08/2020</td>
+                    <td>10:00-13:00</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
+                    <td>24/08/2020</td>
+                    <td>10:00-13:00</td>
+                </tr>
+            </table>
+        </div>
+
+        <main class="card">
+            <section class="card__header">
+                <h3>אפריל-21</h3>
+            </section>
+            <section class="card__body">
+                <ul class="card__body--days">
+                    <li>ראשון</li>
+                    <li>שני</li>
+                    <li>שלישי</li>
+                    <li>רביעי</li>
+                    <li>חמישי</li>
+                    <li>שישי</li>
+                    <li>שבת</li>
+                </ul>
+                <ul class="card__body--dates">
+                    <li class="prev">28</li>
+                    <li class="prev">29</li>
+                    <li class="prev">30</li>
+                    <li class="prev">31</li>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                    <li>11</li>
+                    <li>12</li>
+                    <li>13</li>
+                    <li>14</li>
+                    <li>15</li>
+                    <li class="circle orange">16 <span>5</span></li>
+                    <li>17</li>
+                    <li>18</li>
+                    <li class="circle purple">19 <span>6</span></li>
+                    <li>20</li>
+                    <li>21</li>
+                    <li>22</li>
+                    <li>23</li>
+                    <li>24</li>
+                    <li>25</li>
+                    <li>26</li>
+                    <li>27</li>
+                    <li>28</li>
+                    <li class="today">29</li>
+                    <li>30</li>
+                    <li class="next">1</li>
+                </ul>
+            </section>
+        </main>
+
+
+    </div> <!-- /#page-content-wrapper -->
+    <!-- Bootstrap core JavaScript -->
+    <!--<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>-->
+    <!-- Menu Toggle Script -->
+    <!-- ALL JS FILES -->
+    <script src="js/all.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="js/custom.js"></script>
+
+</body>
+</html>
