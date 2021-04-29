@@ -856,7 +856,7 @@ namespace MakeAble.Models.DAL
                 throw new Exception("You didnt succeed to connect to DB", ex);
             }
 
-            String cStr = BuildInsertCommand(makerspace);      // helper method to build the insert string
+            String cStr = BuildInsertMakerspaceCommand(makerspace);      // helper method to build the insert string
 
             cmd = CreateCommand(cStr, con);             // create the command
 
@@ -881,40 +881,26 @@ namespace MakeAble.Models.DAL
 
         }
 
-        private SqlCommand CreateCommand(String CommandSTR, SqlConnection con)
-        {
-
-            SqlCommand cmd = new SqlCommand(); // create the command object
-
-            cmd.Connection = con;              // assign the connection to the command object
-
-            cmd.CommandText = CommandSTR;      // can be Select, Insert, Update, Delete 
-
-            cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
-
-            cmd.CommandType = System.Data.CommandType.Text; // the type of the command, can also be stored procedure
-
-            return cmd;
-        }
+      
 
         //--------------------------------------------------------------------
         // Build the Insert command String
         //--------------------------------------------------------------------
-        private String BuildInsertCommand(Makerspace makerspace)
+        private String BuildInsertMakerspaceCommand(Makerspace makerspace)
         {
             String command;
 
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}'",
-            makerspace.PhoneNumber, makerspace.Url, makerspace.NoPepole,
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')",
+            makerspace.User_email,makerspace.PhoneNumber, makerspace.Url, makerspace.NoPepole,
             makerspace.Size, makerspace.Price, makerspace.Rating, makerspace.Aircondition,
             makerspace.Accessibility, makerspace.Serving_coffee, makerspace.Online_payment, makerspace.Free_parking,
             makerspace.MakerspaceName, makerspace.Descrip, makerspace.City, makerspace.Street,
             makerspace.Num_street);
 
-            String prefix = "INSERT INTO Makerspace " + "([PhoneNumber],[Url],[NoPepole],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street])";
+            String prefix = "INSERT INTO Makerspace " + "([UserEmail],[PhoneNumber],[Url],[NoPepole],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street])";
 
             command = prefix + sb.ToString();
             return command;

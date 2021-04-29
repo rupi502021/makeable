@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MakeAble.Models.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace MakeAble.Models
     public class Makerspace
     {
         int makerspaceId;
+        string user_email;
         string city;
         string street;
         int num_street;
@@ -15,9 +17,9 @@ namespace MakeAble.Models
         string url;
         string[] days_hours;//ימים ושעות פעילות
         int noPepole;
-        double size;
-        double price;
-        double rating;
+        int size;
+        int price;
+        int rating;
         bool aircondition;
         bool accessibility;
         bool serving_coffee;
@@ -27,9 +29,13 @@ namespace MakeAble.Models
         string makerspaceName;
         string descrip;
 
-        public Makerspace(int makerspaceId, string city, string street, int num_street, string phoneNumber, string url, string[] days_hours, int noPepole, double size, double price, double rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession, string makerspaceName, string descrip)
+      
+        public Makerspace() { }
+
+        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string[] days_hours, int noPepole, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession, string makerspaceName, string descrip)
         {
             MakerspaceId = makerspaceId;
+            User_email = user_email;
             City = city;
             Street = street;
             Num_street = num_street;
@@ -51,6 +57,7 @@ namespace MakeAble.Models
         }
 
         public int MakerspaceId { get => makerspaceId; set => makerspaceId = value; }
+        public string User_email { get => user_email; set => user_email = value; }
         public string City { get => city; set => city = value; }
         public string Street { get => street; set => street = value; }
         public int Num_street { get => num_street; set => num_street = value; }
@@ -58,9 +65,9 @@ namespace MakeAble.Models
         public string Url { get => url; set => url = value; }
         public string[] Days_hours { get => days_hours; set => days_hours = value; }
         public int NoPepole { get => noPepole; set => noPepole = value; }
-        public double Size { get => size; set => size = value; }
-        public double Price { get => price; set => price = value; }
-        public double Rating { get => rating; set => rating = value; }
+        public int Size { get => size; set => size = value; }
+        public int Price { get => price; set => price = value; }
+        public int Rating { get => rating; set => rating = value; }
         public bool Aircondition { get => aircondition; set => aircondition = value; }
         public bool Accessibility { get => accessibility; set => accessibility = value; }
         public bool Serving_coffee { get => serving_coffee; set => serving_coffee = value; }
@@ -70,6 +77,11 @@ namespace MakeAble.Models
         public string MakerspaceName { get => makerspaceName; set => makerspaceName = value; }
         public string Descrip { get => descrip; set => descrip = value; }
 
-        public Makerspace() { }
+        public void Insert()
+        {
+            DBServices dbs = new DBServices();
+            dbs.Insert(this);
+           
+        }
     }
 }

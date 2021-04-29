@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MakeAble.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -21,7 +22,8 @@ namespace MakeAble.Controllers
             return "value";
         }
 
-        // POST api/<controller>
+        [HttpPost]
+        [Route("api/Makerspaces")]
         public HttpResponseMessage Post([FromBody] Makerspace makerspace)
         {
 
