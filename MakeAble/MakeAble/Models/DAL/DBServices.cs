@@ -837,5 +837,89 @@ namespace MakeAble.Models.DAL
             command = "DELETE FROM Users_Gallery_Fav WHERE GalleryId = " + gallery.GalleryId +"AND Email='"+gallery.Email+"'" ;
             return command;
         }
+
+
+        //--------MakerSpace---------
+
+        public int Insert(Makerspace makerspace)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertCommand(makerspace);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new user, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        private SqlCommand CreateCommand(String CommandSTR, SqlConnection con)
+        {
+
+            SqlCommand cmd = new SqlCommand(); // create the command object
+
+            cmd.Connection = con;              // assign the connection to the command object
+
+            cmd.CommandText = CommandSTR;      // can be Select, Insert, Update, Delete 
+
+            cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+            cmd.CommandType = System.Data.CommandType.Text; // the type of the command, can also be stored procedure
+
+            return cmd;
+        }
+
+        //--------------------------------------------------------------------
+        // Build the Insert command String
+        //--------------------------------------------------------------------
+        private String BuildInsertCommand(Makerspace makerspace)
+        {
+            String command;
+
+            StringBuilder sb = new StringBuilder();
+            // use a string builder to create the dynamic string
+
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}'",
+            makerspace.PhoneNumber, makerspace.Url, makerspace.NoPepole,
+            makerspace.Size, makerspace.Price, makerspace.Rating, makerspace.Aircondition,
+            makerspace.Accessibility, makerspace.Serving_coffee, makerspace.Online_payment, makerspace.Free_parking,
+            makerspace.MakerspaceName, makerspace.Descrip, makerspace.City, makerspace.Street,
+            makerspace.Num_street);
+
+            String prefix = "INSERT INTO Makerspace " + "([PhoneNumber],[Url],[NoPepole],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street])";
+
+            command = prefix + sb.ToString();
+            return command;
+        }
     }
 }
+
+

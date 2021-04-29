@@ -22,8 +22,22 @@ namespace MakeAble.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody] string value)
+        public HttpResponseMessage Post([FromBody] Makerspace makerspace)
         {
+
+            try
+            {
+                {
+                    makerspace.Insert();
+
+                }
+
+                return Request.CreateResponse(HttpStatusCode.Created, makerspace);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
 
         // PUT api/<controller>/5

@@ -8,7 +8,9 @@ namespace MakeAble.Models
     public class Makerspace
     {
         int makerspaceId;
-        string address;
+        string city;
+        string street;
+        int num_street;
         string phoneNumber;
         string url;
         string[] days_hours;//ימים ושעות פעילות
@@ -25,10 +27,12 @@ namespace MakeAble.Models
         string makerspaceName;
         string descrip;
 
-        public Makerspace(int makerspaceId, string address, string phoneNumber, string url, string[] days_hours, int noPepole, double size, double price, double rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession, string makerspaceName, string descrip)
+        public Makerspace(int makerspaceId, string city, string street, int num_street, string phoneNumber, string url, string[] days_hours, int noPepole, double size, double price, double rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession, string makerspaceName, string descrip)
         {
             MakerspaceId = makerspaceId;
-            Address = address;
+            City = city;
+            Street = street;
+            Num_street = num_street;
             PhoneNumber = phoneNumber;
             Url = url;
             Days_hours = days_hours;
@@ -47,7 +51,9 @@ namespace MakeAble.Models
         }
 
         public int MakerspaceId { get => makerspaceId; set => makerspaceId = value; }
-        public string Address { get => address; set => address = value; }
+        public string City { get => city; set => city = value; }
+        public string Street { get => street; set => street = value; }
+        public int Num_street { get => num_street; set => num_street = value; }
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public string Url { get => url; set => url = value; }
         public string[] Days_hours { get => days_hours; set => days_hours = value; }

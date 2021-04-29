@@ -45,28 +45,15 @@
             });
         });
 
-        //int makerspaceId;
-        //string address;
-        //string phoneNumber;
-        //string url;
-        //string[] days_hours;//ימים ושעות פעילות
-        //int noPepole;
-        //double size;
-        //double price;
-        //double rating;
-        //bool aircondition;
-        //bool accessibility;
-        //bool serving_coffee;
-        //bool online_payment;
-        //bool free_parking;
-        //string[] profession;
-        //var ClickOrSave;
 
         function f1() {
             var getvalue = document.getElementsByName('mylist')[0];
             city = getvalue.value;
 
             makerspace = {
+                City: city,
+                Street: $("#MakerSpace_address_s").val(),
+                Num_street: $("#MakerSpace_address_n").val(),
                 MakerspaceName: $("#MakerSpace_Name").val(),
                 PhoneNumber: $("#MakerSpace_Tel").val(),
                 Url: $("#MakerSpace_Url").val(),
@@ -74,95 +61,20 @@
                 Size: $("#MakerSpace_Size").val(),
                 Price: $("#MakerSpace_Price").val(),
                 Descrip: $("#textarea").val(),
+                Profession: $("#selectmultiple").val(),
+                Aircondition: parseInt($("#fa1:checked").val()),
+                Accessibility: parseInt($("#fa5:checked").val()),
+                Serving_coffee: parseInt($("#fa2:checked").val()),
+                Online_payment: parseInt($("#fa4:checked").val()),
+                Free_parking: parseInt($("#fa3:checked").val()),
             }
+            upload();
         }
 
-        //function AddGallery() {
-        //    var stars_range;
-        //    if ($("input[type='radio'].starRange-input").is(':checked')) {
-        //        stars_range = $("input[type='radio'].starRange-input:checked").val();
-        //        stars_range = 6 - stars_range;
-        //    }//דירוג כוכבים לחלל העבודה
+        function upload() {
+            ajaxCall("POST", "../api/Makerspace", JSON.stringify(makerspace), success, error);
+        }
 
-        //    var makerspace;
-        //    if (document.getElementById('checkboxes-1').checked) {
-        //        makerspace = document.getElementById('selectbasic1').value;
-        //    }
-        //    else if (document.getElementById('checkboxes-2').checked) {
-        //        makerspace = document.getElementById('selectbasic2').value;
-        //    } //בחירת חלל העבודה
-
-        //    //מחזיר תאריך עכשווי
-        //    var today = new Date();
-        //    var dd = String(today.getDate()).padStart(2, '0');
-        //    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        //    var yyyy = today.getFullYear();
-
-        //    var date = yyyy + '-' + mm + '-' + dd;
-        //    //מחזיר שעה עכשווית
-        //    var time1 = new Date().toLocaleTimeString('en-US', {
-        //        hour12: false,
-        //        hour: "numeric",
-        //        minute: "numeric"
-        //    });
-        //    var time = time1;
-
-        //    if (ClickOrSave == "galleyBTNsave") {
-        //        var isActive = false;
-        //    }
-        //    else {
-        //        var isActive = true;
-        //    }
-
-        //    gallery = {
-        //        GalleryName: $("#galleryName").val(), //שם גלריה
-        //        ProfArr: $("#selectmultiple").val(), //תחומי עיסוק
-        //        Description: $("#textarea").val(), //תיאור קצר
-        //        Date: date,
-        //        Time: time,
-        //        IsActive: isActive,
-        //    }
-
-        //    if (localStorage.getItem("user") == null) {
-        //        l = JSON.parse(sessionStorage.getItem('user'));
-        //    }
-        //    else {
-        //        l = JSON.parse(localStorage.getItem('user'));
-        //    }
-        //    gallery = { ...gallery, Email: l.Email };
-
-        //    upload() //הוספת תמונות
-        //    console.log(JSON.stringify(gallery));
-        //}
-
-        //function upload() {
-        //    var data = new FormData();
-        //    var files = $("#filebutton").get(0).files;
-        //    if (files.length > 0) {
-        //        for (f = 0; f < files.length; f++) {
-        //            data.append("UploadedImageGalleries", files[f]);
-        //        }
-        //        data.append("name", "Gallery_" + gallery.Email + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
-        //        // Ajax upload
-        //        $.ajax({
-        //            type: "POST",
-        //            url: "../Api/FileUpload",
-        //            contentType: false,
-        //            processData: false,
-        //            data: data,
-        //            success: successfile,
-        //            error: error
-        //        });
-        //    }
-
-        //}
-
-        //function successfile(data) {
-
-        //    gallery = { ...gallery, ImageArr: data };
-        //    console.log(JSON.stringify(gallery));
-        //    ajaxCall("POST", "../api/Galleries", JSON.stringify(gallery), success, error);
-        //}
 
         function success(data) {
             //swal("Added Successfuly!", "Great Job", "success");
@@ -202,7 +114,7 @@
             <h1>הוספת חלל עבודה חדש</h1>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="text" id="MakerSpace_Name" placeholder="שם החלל" class="form-control" autofocus maxlength="10" require>
+                    <input type="text" id="MakerSpace_Name" placeholder="שם החלל" class="form-control" autofocus maxlength="25" require>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">שם החלל</label>
             </div>
@@ -211,10 +123,10 @@
                     <table>
                         <tr>
                             <td>
-                                        <input class="form-control" list="mylist" name="mylist" placeholder="עיר" require>
-                                        <datalist id="mylist">
-                                        </datalist>
-      
+                                <input class="form-control" list="mylist" name="mylist" placeholder="עיר" require>
+                                <datalist id="mylist">
+                                </datalist>
+
                             </td>
                             <td>
                                 <input type="text" id="MakerSpace_address_s" placeholder="רחוב" class="form-control" autofocus required>
@@ -223,10 +135,9 @@
                                 <input type="number" id="MakerSpace_address_n" placeholder="מספר" class="form-control" autofocus required>
                             </td>
                             <td>
-                                
                             </td>
                         </tr>
-                    </table>   
+                    </table>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">כתובת</label>
             </div>
@@ -390,95 +301,95 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="checkbox" id="fa1" name="fa1" value="air">
+                    <input type="checkbox" id="fa1" name="fa1" value="1">
                     <label for="fa1"> מיזוג אוויר</label><br>
-                    <input type="checkbox" id="fa2" name="fa2" value="parking">
+                    <input type="checkbox" id="fa2" name="fa2" value="1">
                     <label for="fa2"> עמדת קפה וכיבוד</label><br>
-                    <input type="checkbox" id="fa3" name="fa3" value="coffe">
+                    <input type="checkbox" id="fa3" name="fa3" value="1">
                     <label for="fa3"> חניה חינם</label><br>
-                    <input type="checkbox" id="fa4" name="fa4" value="online">
-                    <label for="fa4"> תשלום אונליין</label><br><br>
-                    <input type="checkbox" id="fa5" name="fa5" value="access">
+                    <input type="checkbox" id="fa4" name="fa4" value="1">
+                    <label for="fa4"> תשלום אונליין</label><br>
+                    <input type="checkbox" id="fa5" name="fa5" value="1">
                     <label for="fa5"> נגישות</label><br>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">מתקנים</label>
             </div>
-            <!-- File Button -->
-            <div class="form-group">
-                <div class="col-sm-9">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal2">הוסף כלי עבודה</button>
-                </div>
-                <label for="firstName" class="col-sm-3 control-label">כלי עבודה</label>
-            </div>
-            <div class="container2">
-                <!-- Modal -->
-                <div class="modal fade" id="myModal2" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <table class="col-sm-9">
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">שם הכלי</label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="Tool_Name" placeholder="שם הכלי" class="form-control" autofocus required>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">מותג</label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="Tool_Brand" placeholder="מותג" class="form-control" autofocus required>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">דגם</label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="Tool_Model" placeholder="דגם" class="form-control" autofocus required>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">תיאור</label>
-                                        </td>
-                                        <td>
-                                            <textarea class="form-control" id="textarea2" name="textarea" placeholder="תיאור"></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">תמונות הכלי</label>
-                                        </td>
-                                        <td>
-                                            <input id="filebutton" name="filebutton" class="input-file" type="file" multiple required>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">האם נידרשת הכשרה?</label>
-                                        </td>
-                                        <td>
-                                            <input type="radio" name="colors" id="Learn_yes">כן<br>
-                                            <input type="radio" name="colors" id="Learn_no">לא
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">הוספת כלי נוסף</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">אישור וסיום</button>
-                            </div>
-                        </div>
+            <!--File Button
+    <div class="form-group">
+        <div class="col-sm-9">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal2">הוסף כלי עבודה</button>
+        </div>
+        <label for="firstName" class="col-sm-3 control-label">כלי עבודה</label>
+    </div>
+    <div class="container2">
+         Modal
+        <div class="modal fade" id="myModal2" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="col-sm-9">
+                            <tr>
+                                <td>
+                                    <label for="appt-time">שם הכלי</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="Tool_Name" placeholder="שם הכלי" class="form-control" autofocus required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="appt-time">מותג</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="Tool_Brand" placeholder="מותג" class="form-control" autofocus required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="appt-time">דגם</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="Tool_Model" placeholder="דגם" class="form-control" autofocus required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="appt-time">תיאור</label>
+                                </td>
+                                <td>
+                                    <textarea class="form-control" id="textarea2" name="textarea" placeholder="תיאור"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="appt-time">תמונות הכלי</label>
+                                </td>
+                                <td>
+                                    <input id="filebutton" name="filebutton" class="input-file" type="file" multiple required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="appt-time">האם נידרשת הכשרה?</label>
+                                </td>
+                                <td>
+                                    <input type="radio" name="colors" id="Learn_yes">כן<br>
+                                    <input type="radio" name="colors" id="Learn_no">לא
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">הוספת כלי נוסף</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">אישור וסיום</button>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>-->
             <div>
                 <button id="finish" type="submit" class="btn btn-primary btn-block">הוספת חלל</button>
             </div>
