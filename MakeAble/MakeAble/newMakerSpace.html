@@ -56,6 +56,18 @@
             else {
                 l = JSON.parse(localStorage.getItem('user'));
             }
+
+            days_hours = {
+                "Sunday": [$("#Sunday_from").val(), $("#Sunday_to").val()],  
+                "Monday": [$("#Monday_from").val(), $("#Monday_to").val()],  
+                "Tuesday": [$("#Tuesday_from").val(), $("#Tuesday_to").val()],  
+                "Wednesday": [$("#Wednesday_from").val(), $("#Wednesday_to").val()],  
+                "Thursday": [$("#Thursday_from").val(), $("#Thursday_to").val()],  
+                "Friday": [$("#Friday_from").val(), $("#Friday_to").val()],  
+                "Saturday": [$("#Saturday_from").val(), $("#Saturday_to").val()]  
+            }
+            
+            
             makerspace = {
                 City: city,
                 User_email: l.Email,
@@ -74,6 +86,7 @@
                 Serving_coffee: parseInt($("#fa2:checked").val()),
                 Online_payment: parseInt($("#fa4:checked").val()),
                 Free_parking: parseInt($("#fa3:checked").val()),
+                Days_hours: JSON.stringify(days_hours)
             }
 
             ajaxCall("POST", "../api/Makerspaces", JSON.stringify(makerspace), success, error);
@@ -184,79 +197,79 @@
                                 <table class="col-sm-9">
                                     <tr>
                                         <td>
-                                            <label for="appt-time">יום ראשון: </label>
+                                            <label>יום ראשון: </label>
                                         </td>
                                         <td>
-                                            מ:<input id="appt-time" type="time" name="appt-time">
+                                            מ:<input id="Sunday_from" type="time" name="appt-time">
                                         </td>
                                         <td>
-                                            עד:<input id="appt-time" type="time" name="appt-time">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">יום שני: </label>
-                                        </td>
-                                        <td>
-                                            מ:<input id="appt-time" type="time" name="appt-time">
-                                        </td>
-                                        <td>
-                                            עד:<input id="appt-time" type="time" name="appt-time">
+                                            עד:<input id="Sunday_to" type="time" name="appt-time">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="appt-time">יום שלישי: </label>
+                                            <label>יום שני: </label>
                                         </td>
                                         <td>
-                                            מ:<input id="appt-time" type="time" name="appt-time">
+                                            מ:<input id="Monday_from" type="time" name="appt-time">
                                         </td>
                                         <td>
-                                            עד:<input id="appt-time" type="time" name="appt-time">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">יום רביעי: </label>
-                                        </td>
-                                        <td>
-                                            מ:<input id="appt-time" type="time" name="appt-time">
-                                        </td>
-                                        <td>
-                                            עד:<input id="appt-time" type="time" name="appt-time">
+                                            עד:<input id="Monday_to" type="time" name="appt-time">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="appt-time">יום חמישי: </label>
+                                            <label>יום שלישי: </label>
                                         </td>
                                         <td>
-                                            מ:<input id="appt-time" type="time" name="appt-time">
+                                            מ:<input id="Tuesday_from" type="time" name="appt-time">
                                         </td>
                                         <td>
-                                            עד:<input id="appt-time" type="time" name="appt-time">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="appt-time">יום שישי: </label>
-                                        </td>
-                                        <td>
-                                            מ:<input id="appt-time" type="time" name="appt-time">
-                                        </td>
-                                        <td>
-                                            עד:<input id="appt-time" type="time" name="appt-time">
+                                            עד:<input id="Tuesday_to" type="time" name="appt-time">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="appt-time">יום שבת: </label>
+                                            <label>יום רביעי: </label>
                                         </td>
                                         <td>
-                                            מ:<input id="appt-time" type="time" name="appt-time">
+                                            מ:<input id="Wednesday_from" type="time" name="appt-time">
                                         </td>
                                         <td>
-                                            עד:<input id="appt-time" type="time" name="appt-time">
+                                            עד:<input id="Wednesday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>יום חמישי: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Thursday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Thursday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>יום שישי: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Friday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Friday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>יום שבת: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Saturday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Saturday_to" type="time" name="appt-time">
                                         </td>
                                     </tr>
                                 </table>

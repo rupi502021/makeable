@@ -5,6 +5,8 @@ using System.Web.Configuration;
 using System.Data;
 using System.Text;
 using System.Web.Razor.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MakeAble.Models.DAL
 {
@@ -841,7 +843,7 @@ namespace MakeAble.Models.DAL
 
         //--------MakerSpace---------
 
-        public int Insert(Makerspace makerspace)
+        public int InsertMakerspace(Makerspace makerspace)
         {
 
             SqlConnection con;
@@ -862,7 +864,7 @@ namespace MakeAble.Models.DAL
 
             try
             {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // execute the command
                 return numEffected;
             }
             catch (Exception ex)
@@ -889,11 +891,11 @@ namespace MakeAble.Models.DAL
         private String BuildInsertMakerspaceCommand(Makerspace makerspace)
         {
             String command;
-
+            String end = "; SELECT CAST(scope_identity() AS int)";
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')",
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}');",
             makerspace.User_email,makerspace.PhoneNumber, makerspace.Url, makerspace.NoPepole,
             makerspace.Size, makerspace.Price, makerspace.Rating, makerspace.Aircondition,
             makerspace.Accessibility, makerspace.Serving_coffee, makerspace.Online_payment, makerspace.Free_parking,
@@ -902,7 +904,83 @@ namespace MakeAble.Models.DAL
 
             String prefix = "INSERT INTO Makerspace " + "([UserEmail],[PhoneNumber],[Url],[NoPepole],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street])";
 
-            command = prefix + sb.ToString();
+            command = prefix + sb.ToString()+end;
+           
+            return command;
+        }
+
+        public int InsertMakerspaceOpenningHours(Makerspace makerspace,int id)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertMakerspaceOpenningHours(makerspace,id);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a openning hours, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private String BuildInsertMakerspaceOpenningHours(Makerspace makerspace,int id)
+        {
+            String command="";
+           
+            dynamic stuff = JObject.Parse(makerspace.Days_hours);
+            String Sunday_start = stuff.Sunday[0];
+            String Sunday_end = stuff.Sunday[1];
+            String Monday_start = stuff.Monday[0];
+            String Monday_end = stuff.Monday[1];
+            String Tuesday_start = stuff.Tuesday[0];
+            String Tuesday_end = stuff.Tuesday[1];
+            String Wednesday_start = stuff.Wednesday[0];
+            String Wednesday_end = stuff.Wednesday[1];
+            String Thursday_start = stuff.Thursday[0];
+            String Thursday_end = stuff.Thursday[1];
+            String Friday_start = stuff.Friday[0];
+            String Friday_end = stuff.Friday[1];
+            String Saturday_start = stuff.Saturday[0];
+            String Saturday_end = stuff.Saturday[1];
+
+            string[] hours_start = new string[] { Sunday_start, Monday_start, Tuesday_start, Wednesday_start, Thursday_start, Friday_start, Saturday_start };
+            string[] hours_end= new string[] { Sunday_end, Monday_end, Tuesday_end, Wednesday_end, Thursday_end, Friday_end, Saturday_end };
+            // use a string builder to create the dynamic string
+            for (int i = 0; i < 7; i++)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", id, (i+1), hours_start[i], hours_end[i]);
+                String prefix = "INSERT INTO MakerSpace_OpenningHours" + "([MakerspaceId],[DayonWeek],[Hour_start],[Hour_end])";
+
+                command += prefix + sb.ToString();
+            }
+           
+
+           
             return command;
         }
     }
