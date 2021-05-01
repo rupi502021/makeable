@@ -1,4 +1,6 @@
 ﻿using MakeAble.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +32,8 @@ namespace MakeAble.Controllers
             try
             {
                 {
-                    makerspace.Insert();
+                    
+                    makerspace.InsertMakerspace();
 
                 }
 
