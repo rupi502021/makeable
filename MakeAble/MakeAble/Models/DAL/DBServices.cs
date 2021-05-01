@@ -869,7 +869,7 @@ namespace MakeAble.Models.DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("You didnt succeed to add a new user, Try again!", ex);
+                throw new Exception("You didnt succeed to add a new makerspace, Try again!", ex);
             }
 
             finally
@@ -895,7 +895,7 @@ namespace MakeAble.Models.DAL
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}');",
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')",
             makerspace.User_email,makerspace.PhoneNumber, makerspace.Url, makerspace.NoPepole,
             makerspace.Size, makerspace.Price, makerspace.Rating, makerspace.Aircondition,
             makerspace.Accessibility, makerspace.Serving_coffee, makerspace.Online_payment, makerspace.Free_parking,

@@ -24,7 +24,7 @@
 
     <script>
         $(document).ready(function () {
-            $("#finish").click(f1);
+           
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -43,6 +43,7 @@
                     $("#mylist").append(value);
                 }
             });
+            $("#MakerForm").submit(f1);
         });
 
 
@@ -58,16 +59,16 @@
             }
 
             days_hours = {
-                "Sunday": [$("#Sunday_from").val(), $("#Sunday_to").val()],  
-                "Monday": [$("#Monday_from").val(), $("#Monday_to").val()],  
-                "Tuesday": [$("#Tuesday_from").val(), $("#Tuesday_to").val()],  
-                "Wednesday": [$("#Wednesday_from").val(), $("#Wednesday_to").val()],  
-                "Thursday": [$("#Thursday_from").val(), $("#Thursday_to").val()],  
-                "Friday": [$("#Friday_from").val(), $("#Friday_to").val()],  
-                "Saturday": [$("#Saturday_from").val(), $("#Saturday_to").val()]  
+                "Sunday": [$("#Sunday_from").val(), $("#Sunday_to").val()],
+                "Monday": [$("#Monday_from").val(), $("#Monday_to").val()],
+                "Tuesday": [$("#Tuesday_from").val(), $("#Tuesday_to").val()],
+                "Wednesday": [$("#Wednesday_from").val(), $("#Wednesday_to").val()],
+                "Thursday": [$("#Thursday_from").val(), $("#Thursday_to").val()],
+                "Friday": [$("#Friday_from").val(), $("#Friday_to").val()],
+                "Saturday": [$("#Saturday_from").val(), $("#Saturday_to").val()]
             }
-            
-            
+
+
             makerspace = {
                 City: city,
                 User_email: l.Email,
@@ -77,8 +78,8 @@
                 PhoneNumber: $("#MakerSpace_Tel").val(),
                 Url: $("#MakerSpace_Url").val(),
                 NoPepole: parseInt($("#MakerSpace_Max").val()),
-                Size: parseInt( $("#MakerSpace_Size").val()),
-                Price: parseInt( $("#MakerSpace_Price").val()),
+                Size: parseInt($("#MakerSpace_Size").val()),
+                Price: parseInt($("#MakerSpace_Price").val()),
                 Descrip: $("#textarea").val(),
                 Profession: $("#selectmultiple").val(),
                 Aircondition: parseInt($("#fa1:checked").val()),
@@ -91,13 +92,12 @@
 
             ajaxCall("POST", "../api/Makerspaces", JSON.stringify(makerspace), success, error);
             return false;
-            
+
         }
 
-       
 
         function success(data) {
-            
+
             swal({
                 title: "Added Successfuly!", text: "Moving to Your MakerSpaces", type:
                     "success"
@@ -113,7 +113,7 @@
         }
 
         function clear() {
-                $("#MakerSpace_Name").val(''),
+            $("#MakerSpace_Name").val(''),
                 $("#MakerSpace_address_s").val(''),
                 $("#MakerSpace_address_n").val(''),
                 $("#MakerSpace_Tel").val(''),
@@ -130,11 +130,11 @@
 
 <body dir="rtl">
     <div class="container">
-        <form class="form-horizontal" id="pForm" role="form">
+        <form class="form-horizontal" id="MakerForm" role="form">
             <h1>הוספת חלל עבודה חדש</h1>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="text" id="MakerSpace_Name" placeholder="שם החלל" class="form-control" autofocus maxlength="25" require>
+                    <input type="text" id="MakerSpace_Name" placeholder="שם החלל" class="form-control" autofocus maxlength="25" required>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">שם החלל</label>
             </div>
@@ -164,18 +164,18 @@
             <div class="form-group">
                 <div class="col-sm-9">
                     <input type="text" id="MakerSpace_Tel" placeholder="טלפון" class="form-control" autofocus required />
-                           <!--pattern="[0-9]{3}-[0-9]{7}"
-                           oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
-                           oninput="this.setCustomValidity('')">-->
+                    <!--pattern="[0-9]{3}-[0-9]{7}"
+                    oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
+                    oninput="this.setCustomValidity('')">-->
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">טלפון</label>
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
                     <input type="text" id="MakerSpace_Url" placeholder="אתר אינטרנט" class="form-control" autofocus required />
-                           <!--pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                           oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
-                           oninput="this.setCustomValidity('')">-->
+                    <!--pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
+                    oninput="this.setCustomValidity('')">-->
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">אתר אינטרנט</label>
             </div>
@@ -335,84 +335,84 @@
                 <label for="firstName" class="col-sm-3 control-label">מתקנים</label>
             </div>
             <!--File Button
-    <div class="form-group">
-        <div class="col-sm-9">
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal2">הוסף כלי עבודה</button>
-        </div>
-        <label for="firstName" class="col-sm-3 control-label">כלי עבודה</label>
-    </div>
-    <div class="container2">
-         Modal
-        <div class="modal fade" id="myModal2" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="col-sm-9">
-                            <tr>
-                                <td>
-                                    <label for="appt-time">שם הכלי</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="Tool_Name" placeholder="שם הכלי" class="form-control" autofocus required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="appt-time">מותג</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="Tool_Brand" placeholder="מותג" class="form-control" autofocus required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="appt-time">דגם</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="Tool_Model" placeholder="דגם" class="form-control" autofocus required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="appt-time">תיאור</label>
-                                </td>
-                                <td>
-                                    <textarea class="form-control" id="textarea2" name="textarea" placeholder="תיאור"></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="appt-time">תמונות הכלי</label>
-                                </td>
-                                <td>
-                                    <input id="filebutton" name="filebutton" class="input-file" type="file" multiple required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="appt-time">האם נידרשת הכשרה?</label>
-                                </td>
-                                <td>
-                                    <input type="radio" name="colors" id="Learn_yes">כן<br>
-                                    <input type="radio" name="colors" id="Learn_no">לא
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">הוספת כלי נוסף</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">אישור וסיום</button>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal2">הוסף כלי עבודה</button>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">כלי עבודה</label>
+            </div>
+            <div class="container2">
+                 Modal
+                <div class="modal fade" id="myModal2" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="col-sm-9">
+                                    <tr>
+                                        <td>
+                                            <label for="appt-time">שם הכלי</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Tool_Name" placeholder="שם הכלי" class="form-control" autofocus required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="appt-time">מותג</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Tool_Brand" placeholder="מותג" class="form-control" autofocus required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="appt-time">דגם</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Tool_Model" placeholder="דגם" class="form-control" autofocus required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="appt-time">תיאור</label>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" id="textarea2" name="textarea" placeholder="תיאור"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="appt-time">תמונות הכלי</label>
+                                        </td>
+                                        <td>
+                                            <input id="filebutton" name="filebutton" class="input-file" type="file" multiple required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="appt-time">האם נידרשת הכשרה?</label>
+                                        </td>
+                                        <td>
+                                            <input type="radio" name="colors" id="Learn_yes">כן<br>
+                                            <input type="radio" name="colors" id="Learn_no">לא
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">הוספת כלי נוסף</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">אישור וסיום</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>-->
-            <div>
-                <button id="finish" type="submit" class="btn btn-primary btn-block">הוספת חלל</button>
-            </div>
+            </div>-->
+
+            <button id="finish" type="submit" class="btn btn-primary btn-block">הוספת חלל</button>
+
         </form> <!-- /form -->
     </div> <!-- ./container -->
 </body>
