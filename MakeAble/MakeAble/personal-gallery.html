@@ -45,53 +45,15 @@
 
     <script>
         $(document).ready(function () {
-            $("#submitLogin").click(fLogin);
+            
             checklogin();
             render();
         });
 
-        function fLogin() {
-            let email = $("#email1").val();
-            let pass = $("#pass1").val();
-            let api = "../api/Users/" + email + "/" + pass;
-
-            ajaxCall("GET", api, "", getSuccess, getError);
-        }
-
-        function getSuccess(data) {
-            console.log(data);
-
-            if (data != null) {
-                swal({
-                    title: "You are logged in!", text: "####", icon:
-                        "success"
-                }).then(function () {
-                    window.location.href = 'index.html';
-                }
-                );
-
-                checked = document.getElementById("remember-me").checked;
-                if (checked) {
-                    localStorage.setItem("user", JSON.stringify(data));
-                }
-                else {
-                    sessionStorage.setItem("user", JSON.stringify(data));
-                }
-            }
-            else {
-                swal({
-                    title: "Wrong credentials", text: "Try again", icon:
-                        "error"
-                })
-            }
-        }
-
-        function getError(err) {
-            console.log(err);
-        }
+       
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
                 $("ul.nav.navbar-nav.navbar-right").hide();
                 var hi = "היי, ";
@@ -119,9 +81,6 @@
         }
 
         function render() {
-
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l == null) {
                 let email = l1.Email;
 
@@ -380,52 +339,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content" style="font-family:Calibri">
-                <div class="modal-header tit-up">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="right:750px">&times;</button>
-                    <h4 class="modal-title">התחברות</h4>
-                </div>
-                <div class="modal-body customer-box">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="Login" dir="rtl">
-                            <form role="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="email1" placeholder="שם משתמש (אימייל)" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="pass1" placeholder="סיסמא" type="password">
-                                    </div>
-                                    <div class="col-sm-12 row">
-                                        <label for="remember-me" class="for-pwd" style="direction:rtl">
-                                            <span><input id="remember-me" name="remember-me" type="checkbox"></span>
-                                            <span>זכור אותי</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <button type="button" id="submitLogin" class="btn btn-light btn-radius btn-brd grd1">
-                                            התחברות
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <a class="for-pwd" href="javascript:;">שכחת סיסמא?</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <!-- LOADER -->
     <div id="preloader">
         <div class="loader-container">

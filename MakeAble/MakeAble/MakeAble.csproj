@@ -268,7 +268,7 @@
     <Content Include="css\responsive.css" />
     <Content Include="css\timeline.min.css" />
     <Content Include="css\versions.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="images\favicon.ico" />
     <Content Include="images\make.png" />
     <Content Include="images\makeable.jpg" />
     <Content Include="images\notfoundPic.jpg" />

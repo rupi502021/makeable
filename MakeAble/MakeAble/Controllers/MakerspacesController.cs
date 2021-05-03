@@ -12,17 +12,24 @@ namespace MakeAble.Controllers
 {
     public class MakerspacesController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [HttpGet]
+        [Route("api/Makerspaces/{email}/")]
+        public HttpResponseMessage ReadUserMakers(string email)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                Makerspace makerspace = new Makerspace();
+                List<Makerspace> mList = makerspace.ReadUserMakers(email);
+
+                return Request.CreateResponse(HttpStatusCode.Created, mList);
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         [HttpPost]
         [Route("api/Makerspaces")]
@@ -32,7 +39,7 @@ namespace MakeAble.Controllers
             try
             {
                 {
-                    
+
                     makerspace.InsertMakerspace();
 
                 }

@@ -82,5 +82,13 @@ namespace MakeAble.Models
             int id=dbs.InsertMakerspace(this);
             dbs.InsertMakerspaceOpenningHours(this, id);
         }
+
+      
+            public List<Makerspace> ReadUserMakers()
+        {
+            DBServices dbs = new DBServices();
+            List<Makerspace> m = dbs.getMakerspaceUser();
+            return m;
+        }
     }
 }

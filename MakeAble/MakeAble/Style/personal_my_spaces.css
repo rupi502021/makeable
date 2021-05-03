@@ -27,7 +27,7 @@ a#logout::before {
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 400px;
+    max-width: 100%;
     height: 100%;
     margin: 0 auto;
     text-align: center;
@@ -92,7 +92,7 @@ i.icon.fa {
     font-family: Calibri;
 }
 
-ul#newGalleryBTN {
+ul#newSpaceBTN {
     display: unset;
 }
 

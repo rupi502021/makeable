@@ -983,6 +983,59 @@ namespace MakeAble.Models.DAL
            
             return command;
         }
+
+        public List<Makerspace> getMakerspaceUser(string email)
+        {
+
+            SqlConnection con = null;
+            List<Makerspace> mList = new List<Makerspace>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR =/* "SELECT * FROM Users";*/
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    Makerspace m = new Makerspace();
+                    //u.UserId = Convert.ToInt32(dr["UserId"]);
+                    //u.Fname = Convert.ToString(dr["Fname"]);
+                    //u.Lname = Convert.ToString(dr["Lname"]);
+                    //u.Email = Convert.ToString(dr["Email"]);
+                    //u.Password = Convert.ToString(dr["Password"]);
+                    //u.City = Convert.ToString(dr["City"]);
+                    //u.Phone = Convert.ToString(dr["Phone"]);
+                    //u.ProfilePhoto = Convert.ToString(dr["ProfilePhoto"]);
+                    //u.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
+                    //u.Description = Convert.ToString(dr["Description"]);
+                    //u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);
+
+                    mList.Add(m);
+
+                }
+
+                return mList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
+        }
     }
 }
 
