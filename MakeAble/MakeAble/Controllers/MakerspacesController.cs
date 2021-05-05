@@ -24,7 +24,8 @@ namespace MakeAble.Controllers
                 List<Makerspace> mFinal = new List<Makerspace>();
 
                 List<string> professions = new List<string>();
-               
+                List<string> dailyhours = new List<string>();
+
                 var id = 0;
                 for (int i = 0; i < mList.Count; i++)
                 {
@@ -37,19 +38,21 @@ namespace MakeAble.Controllers
                     {
 
                         List<string> p = new List<string>(professions);
-                        
+                        List<string> d = new List<string>(dailyhours);
 
                         if (email == mList[i - 1].User_email)
                         {
                             mList[i - 1].Professions = p;
-                            
+                            mList[i - 1].Daily_hours = d;
+
                             mFinal.Add(mList[i - 1]);
                         }
 
                         professions.Clear();
+                        dailyhours.Clear();
                        
                     }
-
+                    //תחומי עיסוק
                     if (professions.Count == 0)
                     {
                         professions.Add(mList[i].Profession);
@@ -66,13 +69,33 @@ namespace MakeAble.Controllers
                     {
                         professions.Add(mList[i].Profession);
                     }
-                   
+                    //שעות פעילות
+                    if (dailyhours.Count == 0)
+                    {
+                        string str = mList[i].Dayonweek+"/"+ mList[i].H_start+" - "+mList[i].H_end;
+                        dailyhours.Add(str);
+                    }
+                    exist = false;
+                    foreach (var item in dailyhours)
+                    {
+                        string str = mList[i].Dayonweek + "/" + mList[i].H_start + " - " + mList[i].H_end;
+                        if (item == str)
+                        {
+                            exist = true;
+                        }
+                    }
+                    if (exist != true)
+                    {
+                        string str = mList[i].Dayonweek + "/" + mList[i].H_start + " - " + mList[i].H_end;
+                        dailyhours.Add(str);
+                    }
                     //בודק איבר אחרון
                     if (mList.Count == i + 1)
                     {
                         mList[i].Professions = professions;
-                      
-                        mFinal.Add(mList[i]);
+                        mList[i].Daily_hours = dailyhours;
+
+                         mFinal.Add(mList[i]);
 
                     }
 

@@ -972,11 +972,15 @@ namespace MakeAble.Models.DAL
             // use a string builder to create the dynamic string
             for (int i = 0; i < 7; i++)
             {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", id, (i + 1), hours_start[i], hours_end[i]);
-                String prefix = "INSERT INTO MakerSpace_OpenningHours" + "([MakerspaceId],[DayonWeek],[Hour_start],[Hour_end])";
+                if((hours_start[i]!="") && (hours_end[i] != ""))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", id, (i + 1), hours_start[i], hours_end[i]);
+                    String prefix = "INSERT INTO MakerSpace_OpenningHours" + "([MakerspaceId],[DayonWeek],[Hour_start],[Hour_end])";
 
-                command += prefix + sb.ToString();
+                    command += prefix + sb.ToString();
+                }
+              
             }
 
 
@@ -994,7 +998,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select * from Makerspace  inner join Makerspace_Professions as MP on Makerspace.MakerspaceId=MP.MakerspaceId where UserEmail='" + email + "'";
+                String selectSTR = "select * from Makerspace inner join Makerspace_Professions as MP on Makerspace.MakerspaceId=MP.MakerspaceId inner join MakerSpace_OpenningHours as MOH on Makerspace.MakerspaceId=MOH.MakerspaceId where UserEmail ='" + email + "' order by Makerspace.MakerspaceId asc";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -1022,10 +1026,9 @@ namespace MakeAble.Models.DAL
                     m.Street = Convert.ToString(dr["Street"]);
                     m.Num_street = Convert.ToInt32(dr["Num_street"]);
                     m.Profession = Convert.ToString(dr["ProfessionName"]);
-
-
-
-
+                    m.Dayonweek = Convert.ToInt32(dr["DayonWeek"]);
+                    m.H_start = Convert.ToString(dr["Hour_start"]);
+                    m.H_end = Convert.ToString(dr["Hour_end"]);
 
                     mList.Add(m);
 

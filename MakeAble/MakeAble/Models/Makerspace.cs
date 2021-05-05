@@ -30,10 +30,14 @@ namespace MakeAble.Models
         string profession;
         string makerspaceName;
         string descrip;
+        List<string> daily_hours;
+        int dayonweek;
+        string h_start;
+        string h_end;
 
         public Makerspace() { }
 
-        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip)
+        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip, List<string> daily_hours, int dayonweek, string h_start, string h_end)
         {
             MakerspaceId = makerspaceId;
             User_email = user_email;
@@ -57,6 +61,10 @@ namespace MakeAble.Models
             Profession = profession;
             MakerspaceName = makerspaceName;
             Descrip = descrip;
+            Daily_hours = daily_hours;
+            Dayonweek = dayonweek;
+            H_start = h_start;
+            H_end = h_end;
         }
 
         public int MakerspaceId { get => makerspaceId; set => makerspaceId = value; }
@@ -81,6 +89,10 @@ namespace MakeAble.Models
         public string Profession { get => profession; set => profession = value; }
         public string MakerspaceName { get => makerspaceName; set => makerspaceName = value; }
         public string Descrip { get => descrip; set => descrip = value; }
+        public List<string> Daily_hours { get => daily_hours; set => daily_hours = value; }
+        public int Dayonweek { get => dayonweek; set => dayonweek = value; }
+        public string H_start { get => h_start; set => h_start = value; }
+        public string H_end { get => h_end; set => h_end = value; }
 
         public void InsertMakerspace()
         {
