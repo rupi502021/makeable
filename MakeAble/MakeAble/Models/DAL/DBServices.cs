@@ -374,7 +374,7 @@ namespace MakeAble.Models.DAL
         }
 
 
-        
+
         public List<Gallery> getgallery()
         {
             SqlConnection con = null;
@@ -454,7 +454,7 @@ namespace MakeAble.Models.DAL
                         g.Profession = Convert.ToString(dr["ProfessionName"]);
                         g.Image = Convert.ToString(dr["PhotoUrl"]);
 
-                        g.Email_liked= Convert.ToString(dr["Email_liked"]);
+                        g.Email_liked = Convert.ToString(dr["Email_liked"]);
 
                         gList.Add(g);
                     }
@@ -836,7 +836,7 @@ namespace MakeAble.Models.DAL
         private String BuildDeleteCommand(Gallery gallery)
         {
             String command;
-            command = "DELETE FROM Users_Gallery_Fav WHERE GalleryId = " + gallery.GalleryId +"AND Email='"+gallery.Email+"'" ;
+            command = "DELETE FROM Users_Gallery_Fav WHERE GalleryId = " + gallery.GalleryId + "AND Email='" + gallery.Email + "'";
             return command;
         }
 
@@ -883,7 +883,7 @@ namespace MakeAble.Models.DAL
 
         }
 
-      
+
 
         //--------------------------------------------------------------------
         // Build the Insert command String
@@ -896,20 +896,20 @@ namespace MakeAble.Models.DAL
             // use a string builder to create the dynamic string
 
             sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')",
-            makerspace.User_email,makerspace.PhoneNumber, makerspace.Url, makerspace.NoPepole,
+            makerspace.User_email, makerspace.PhoneNumber, makerspace.Url, makerspace.NoPeople,
             makerspace.Size, makerspace.Price, makerspace.Rating, makerspace.Aircondition,
             makerspace.Accessibility, makerspace.Serving_coffee, makerspace.Online_payment, makerspace.Free_parking,
             makerspace.MakerspaceName, makerspace.Descrip, makerspace.City, makerspace.Street,
             makerspace.Num_street);
 
-            String prefix = "INSERT INTO Makerspace " + "([UserEmail],[PhoneNumber],[Url],[NoPepole],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street])";
+            String prefix = "INSERT INTO Makerspace " + "([UserEmail],[PhoneNumber],[Url],[NoPeople],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street])";
 
-            command = prefix + sb.ToString()+end;
-           
+            command = prefix + sb.ToString() + end;
+
             return command;
         }
 
-        public int InsertMakerspaceOpenningHours(Makerspace makerspace,int id)
+        public int InsertMakerspaceOpenningHours(Makerspace makerspace, int id)
         {
             SqlConnection con;
             SqlCommand cmd;
@@ -923,7 +923,7 @@ namespace MakeAble.Models.DAL
                 throw new Exception("You didnt succeed to connect to DB", ex);
             }
 
-            String cStr = BuildInsertMakerspaceOpenningHours(makerspace,id);      // helper method to build the insert string
+            String cStr = BuildInsertMakerspaceOpenningHours(makerspace, id);      // helper method to build the insert string
 
             cmd = CreateCommand(cStr, con);             // create the command
 
@@ -947,10 +947,10 @@ namespace MakeAble.Models.DAL
             }
         }
 
-        private String BuildInsertMakerspaceOpenningHours(Makerspace makerspace,int id)
+        private String BuildInsertMakerspaceOpenningHours(Makerspace makerspace, int id)
         {
-            String command="";
-           
+            String command = "";
+
             dynamic stuff = JObject.Parse(makerspace.Days_hours);
             String Sunday_start = stuff.Sunday[0];
             String Sunday_end = stuff.Sunday[1];
@@ -968,19 +968,19 @@ namespace MakeAble.Models.DAL
             String Saturday_end = stuff.Saturday[1];
 
             string[] hours_start = new string[] { Sunday_start, Monday_start, Tuesday_start, Wednesday_start, Thursday_start, Friday_start, Saturday_start };
-            string[] hours_end= new string[] { Sunday_end, Monday_end, Tuesday_end, Wednesday_end, Thursday_end, Friday_end, Saturday_end };
+            string[] hours_end = new string[] { Sunday_end, Monday_end, Tuesday_end, Wednesday_end, Thursday_end, Friday_end, Saturday_end };
             // use a string builder to create the dynamic string
             for (int i = 0; i < 7; i++)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", id, (i+1), hours_start[i], hours_end[i]);
+                sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", id, (i + 1), hours_start[i], hours_end[i]);
                 String prefix = "INSERT INTO MakerSpace_OpenningHours" + "([MakerspaceId],[DayonWeek],[Hour_start],[Hour_end])";
 
                 command += prefix + sb.ToString();
             }
-           
 
-           
+
+
             return command;
         }
 
@@ -994,7 +994,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR =/* "SELECT * FROM Users";*/
+                String selectSTR = "select * from Makerspace  inner join Makerspace_Professions as MP on Makerspace.MakerspaceId=MP.MakerspaceId where UserEmail='" + email + "'";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -1004,17 +1004,28 @@ namespace MakeAble.Models.DAL
                 {   // Read till the end of the data into a row
 
                     Makerspace m = new Makerspace();
-                    //u.UserId = Convert.ToInt32(dr["UserId"]);
-                    //u.Fname = Convert.ToString(dr["Fname"]);
-                    //u.Lname = Convert.ToString(dr["Lname"]);
-                    //u.Email = Convert.ToString(dr["Email"]);
-                    //u.Password = Convert.ToString(dr["Password"]);
-                    //u.City = Convert.ToString(dr["City"]);
-                    //u.Phone = Convert.ToString(dr["Phone"]);
-                    //u.ProfilePhoto = Convert.ToString(dr["ProfilePhoto"]);
-                    //u.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
-                    //u.Description = Convert.ToString(dr["Description"]);
-                    //u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);
+                    m.MakerspaceId = Convert.ToInt32(dr["MakerspaceId"]);
+                    m.MakerspaceName = Convert.ToString(dr["MakerspaceName"]);
+                    m.PhoneNumber = Convert.ToString(dr["PhoneNumber"]);
+                    m.Url = Convert.ToString(dr["Url"]);
+                    m.User_email = Convert.ToString(dr["UserEmail"]);
+                    m.NoPeople = Convert.ToInt32(dr["NoPeople"]);
+                    m.Size = Convert.ToInt32(dr["SizeInM"]);
+                    m.Price = Convert.ToInt32(dr["PricePerHour"]);
+                    m.Aircondition = Convert.ToBoolean(dr["Aircondition"]);
+                    m.Accessibility = Convert.ToBoolean(dr["Accessibility"]);
+                    m.Serving_coffee = Convert.ToBoolean(dr["Serving_coffee"]);
+                    m.Online_payment = Convert.ToBoolean(dr["Online_payment"]);
+                    m.Free_parking = Convert.ToBoolean(dr["Free_parking"]);
+                    m.Descrip = Convert.ToString(dr["Descrip"]);
+                    m.City = Convert.ToString(dr["City"]);
+                    m.Street = Convert.ToString(dr["Street"]);
+                    m.Num_street = Convert.ToInt32(dr["Num_street"]);
+                    m.Profession = Convert.ToString(dr["ProfessionName"]);
+
+
+
+
 
                     mList.Add(m);
 
@@ -1035,6 +1046,60 @@ namespace MakeAble.Models.DAL
                 }
             }
 
+        }
+        public int InsertMakerspaceProf(Makerspace makerspace, int id)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertMakerspaceProfCommand(makerspace, id);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new gallery, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private String BuildInsertMakerspaceProfCommand(Makerspace makerspace, int id)
+        {
+            String command = "";
+
+            for (int i = 0; i < makerspace.ProfessionArr.Length; i++)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("Values('{0}','{1}')", id, makerspace.ProfessionArr[i]);
+                String prefix = "INSERT INTO Makerspace_Professions" + "([MakerspaceId],[ProfessionName])";
+
+                command += prefix + sb.ToString();
+            }
+
+
+            return command;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace MakeAble.Models
         string phoneNumber;
         string url;
         string days_hours;//ימים ושעות פעילות
-        int noPepole;
+        int noPeople;
         int size;
         int price;
         int rating;
@@ -25,13 +25,15 @@ namespace MakeAble.Models
         bool serving_coffee;
         bool online_payment;
         bool free_parking;
-        string[] profession;
+        string[] professionArr;
+        List<string> professions;       
+        string profession;
         string makerspaceName;
         string descrip;
 
         public Makerspace() { }
 
-        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string days_hours, int noPepole, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] profession, string makerspaceName, string descrip)
+        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip)
         {
             MakerspaceId = makerspaceId;
             User_email = user_email;
@@ -41,7 +43,7 @@ namespace MakeAble.Models
             PhoneNumber = phoneNumber;
             Url = url;
             Days_hours = days_hours;
-            NoPepole = noPepole;
+            NoPeople = noPeople;
             Size = size;
             Price = price;
             Rating = rating;
@@ -50,6 +52,8 @@ namespace MakeAble.Models
             Serving_coffee = serving_coffee;
             Online_payment = online_payment;
             Free_parking = free_parking;
+            ProfessionArr = professionArr;
+            Professions = professions;
             Profession = profession;
             MakerspaceName = makerspaceName;
             Descrip = descrip;
@@ -63,7 +67,7 @@ namespace MakeAble.Models
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public string Url { get => url; set => url = value; }
         public string Days_hours { get => days_hours; set => days_hours = value; }
-        public int NoPepole { get => noPepole; set => noPepole = value; }
+        public int NoPeople { get => noPeople; set => noPeople = value; }
         public int Size { get => size; set => size = value; }
         public int Price { get => price; set => price = value; }
         public int Rating { get => rating; set => rating = value; }
@@ -72,7 +76,9 @@ namespace MakeAble.Models
         public bool Serving_coffee { get => serving_coffee; set => serving_coffee = value; }
         public bool Online_payment { get => online_payment; set => online_payment = value; }
         public bool Free_parking { get => free_parking; set => free_parking = value; }
-        public string[] Profession { get => profession; set => profession = value; }
+        public string[] ProfessionArr { get => professionArr; set => professionArr = value; }
+        public List<string> Professions { get => professions; set => professions = value; }
+        public string Profession { get => profession; set => profession = value; }
         public string MakerspaceName { get => makerspaceName; set => makerspaceName = value; }
         public string Descrip { get => descrip; set => descrip = value; }
 
@@ -81,13 +87,14 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             int id=dbs.InsertMakerspace(this);
             dbs.InsertMakerspaceOpenningHours(this, id);
+            dbs.InsertMakerspaceProf(this, id);
         }
 
       
-            public List<Makerspace> ReadUserMakers()
+            public List<Makerspace> ReadUserMakers(string email)
         {
             DBServices dbs = new DBServices();
-            List<Makerspace> m = dbs.getMakerspaceUser();
+            List<Makerspace> m = dbs.getMakerspaceUser(email);
             return m;
         }
     }
