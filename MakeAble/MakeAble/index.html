@@ -33,38 +33,37 @@
 
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../Style/galleries_style.css" rel="stylesheet" />
     <link href="../Style/modal_photos.css" rel="stylesheet" />
-
-
-    <style>
-        nav#nav1 {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 9999;
-            visibility: visible;
-            transform: translate(0,0) scale(1);
-            transition: .3s;
-        }
-
-        div#carouselExampleControls {
-            position: relative;
-            top: 90px;
-        }
-    </style>
     <link href="../Style/index_style.css" rel="stylesheet" />
     <script src="../Scripts/ajaxCalls.js"></script>
+
+
+
 
     <script>
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
             checklogin();
             render();
+
+            $("#BTNAddMaker").click(function () {
+                if (login) {
+                    window.location.href = 'newMakerSpace.html';
+                }
+                else {
+                    swal({
+                        title: "!Wrong Way", text: "You must login first", icon:
+                            "error"
+                    })
+                }
+            });
 
             $("a").on('click', function (event) {
                 if (this.hash !== "") {
@@ -156,7 +155,11 @@
             window.location.href = 'index.html';
         }
 
+        function BTNAddMaker() {
+            if (login) {
 
+            }
+        }
         function render() {
             if (login) {
                 if (l == null) {
@@ -419,7 +422,7 @@
                                     <!--<a href="Galleries.html" class="hover-btn-new"><span>גלריית עבודות</span></a>-->
                                     <a href="#GalleryToScroll" class="hover-btn-new" style="white-space:normal !important"><span>גלריית עבודות</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="hover-btn-new" style="white-space:normal !important"><span>הוספת MakerSpace</span></a>
+                                    <a id="BTNAddMaker" class="hover-btn-new" style="white-space:normal !important"><span>הוספת MakerSpace</span></a>
                                 </div>
                             </div>
                         </div><!-- end row -->

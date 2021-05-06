@@ -19,6 +19,7 @@ a#logout::before {
 }
 
 #nav1 {
+  
     position: fixed;
     top: 0;
     width: 100%;
@@ -32,7 +33,7 @@ a#logout::before {
     position: fixed;
     top: 101px;
     width: 100%;
-    z-index: 9999;
+    z-index: 9998;
     visibility: visible;
     transform: translate(0,0) scale(1);
     transition: .3s;

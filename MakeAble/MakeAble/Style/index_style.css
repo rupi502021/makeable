@@ -11,7 +11,9 @@ a#logout::before {
 div#logofront {
     padding-top: 6%;
 }
-
+button.navbar-toggler {
+    background-color: white;
+}
 .big-tagline {
     padding-top: 10%;
 }
@@ -24,6 +26,7 @@ img {
     background-color: red;
 }
 nav#nav1 {
+   
     position: fixed;
     top: 0;
     width: 100%;
@@ -38,4 +41,10 @@ i.icon.fa {
 #photo img {
     width: 45%;
     height: 35%;
+}
+
+
+div#carouselExampleControls {
+    position: relative;
+    top: 90px;
 }

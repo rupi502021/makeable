@@ -972,7 +972,7 @@ namespace MakeAble.Models.DAL
             // use a string builder to create the dynamic string
             for (int i = 0; i < 7; i++)
             {
-                if((hours_start[i]!="") && (hours_end[i] != ""))
+                if((hours_start[i]!="") || (hours_end[i] != ""))
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", id, (i + 1), hours_start[i], hours_end[i]);

@@ -52,8 +52,9 @@ i.icon.fa {
 }
 
 ul#newGalleryBTN {
-    position: fixed;
-    top: 100px;
+    position: relative;
+    
+    top: 0px;
     left: 0px;
 }
 

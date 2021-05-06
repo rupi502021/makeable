@@ -70,15 +70,41 @@ namespace MakeAble.Controllers
                         professions.Add(mList[i].Profession);
                     }
                     //שעות פעילות
+                    String day="";
+                    switch (mList[i].Dayonweek)
+                    {                        
+                        case 1:
+                            day = "יום ראשון";
+                            break;
+                        case 2:
+                            day = "יום שני";
+                            break;
+                        case 3:
+                            day = "יום שלישי";
+                            break;
+                        case 4:
+                            day = "יום רביעי";
+                            break;
+                        case 5:
+                            day = "יום חמישי";
+                            break;
+                        case 6:
+                            day = "יום שישי";
+                            break;
+                        case 7:
+                            day = "יום שבת";
+                            break;
+                    }
+
                     if (dailyhours.Count == 0)
                     {
-                        string str = mList[i].Dayonweek+"/"+ mList[i].H_start+" - "+mList[i].H_end;
+                        string str = day + " "+ mList[i].H_start+" - "+mList[i].H_end;
                         dailyhours.Add(str);
                     }
                     exist = false;
                     foreach (var item in dailyhours)
                     {
-                        string str = mList[i].Dayonweek + "/" + mList[i].H_start + " - " + mList[i].H_end;
+                        string str = day + " " + mList[i].H_start + " - " + mList[i].H_end;
                         if (item == str)
                         {
                             exist = true;
@@ -86,7 +112,7 @@ namespace MakeAble.Controllers
                     }
                     if (exist != true)
                     {
-                        string str = mList[i].Dayonweek + "/" + mList[i].H_start + " - " + mList[i].H_end;
+                        string str = day + " " + mList[i].H_start + " - " + mList[i].H_end;
                         dailyhours.Add(str);
                     }
                     //בודק איבר אחרון
