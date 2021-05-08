@@ -40,7 +40,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="Style/personal_my_spaces.css" rel="stylesheet" />
-
+  
     <script>
         $(function () {
             $("#menu-toggle").click(function (e) {
@@ -131,20 +131,23 @@
             $("#ph1").html("");
             let str = "";
             for (var i = 0; i < d.length; i++) {
-                    str += "<div class='row'>"
-                    
-                        str += "<div class='col-sm-4'>";
-                        str += "<div class='card'>";
-                        str += "<div class='para'><br />";
-                        str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].MakerspaceName + "</h1>"; //שם
-                        str += "<p><i class='fa fa-map-marker'></i>&nbsp" + "<b> כתובת + </b>" + "רחוב" + d[i].Street + d[i].Num_street + "," + d[i].City + "</p>"; //מקום
-                        str += "<p><i class='fa fa-map-marker'></i>&nbsp" + "<b> טלפון + </b>" + d[i].PhoneNumber + "</p>"; //טלפון
-                        str += "<p><i class='fa fa-map-marker'></i>&nbsp" + "<b> אתר אינטרנט + </b>" + d[i].Url + "</p>"; //אתר אינטרנט
-                        str += "</div>";//para
-                        str += "</div>"; //סוג את card
-                        str += "</div>"; //סוגר את col-sm-4
-                    
-                    str += "</div>"; //סוגר את row
+                str += "<div class='card'>";
+                str += "<table class='table'>";
+                str += "<tr class='row'>";
+                str += "<td class='col'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1></td>"; //שם
+                str += "<td class='col'>" + "" + "</td>"; //רווח
+                str += "<td class='col'><ul id='" + d[i].MakerspaceName +"' class='nav  navbar-right' style= 'padding-right: 50%'>";
+                str += "<li id='M_ordersbtn'><a class='hover-btn-new log' href='#'><span>ניהול הזמנות</span></a></li></ul></td>";
+                str += "</tr>";
+                str += "<tr class='row'>";
+                str += "<td class='col'><p><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</p></td>"; //מקום
+                str += "</tr>";
+                str += "<tr class='row'>";
+                str += "<td class='col'><p><b> טלפון: </b>" + d[i].PhoneNumber + "</p>"; //טלפון
+                str += "</tr>";
+                str += "</table>";
+                //        str += "<p><i class='fa fa-map-marker'></i>&nbsp" + "<b> אתר אינטרנט + </b>" + d[i].Url + "</p>"; //אתר אינטרנט
+                str += "</div><br/>"; //סוג את card
             }
 
             $("#ph1").append(str);
@@ -208,8 +211,6 @@
                     <li> <a href="personal-gallery.html">הגלריות שלי</a><br /></li>
                     <li> <a href="personal-favorites-gallery.html">המועדפים</a><br /></li>
                     <li> <a style="color:aliceblue" href="personal-my_spaces.html">ניהול חלל עבודה</a><br /></li>
-                   
-
                 </ul>
             </div> <!-- /#sidebar-wrapper -->
             <!-- Page Content -->
