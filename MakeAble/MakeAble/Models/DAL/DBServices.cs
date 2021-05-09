@@ -1075,7 +1075,7 @@ namespace MakeAble.Models.DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("You didnt succeed to add a new gallery, Try again!", ex);
+                throw new Exception("You didnt succeed to add a new makerProf, Try again!", ex);
             }
 
             finally
@@ -1104,6 +1104,62 @@ namespace MakeAble.Models.DAL
 
             return command;
         }
+
+        //Tools
+        //public int InsertTool(Tool tool)
+        //{
+        //    SqlConnection con;
+        //    SqlCommand cmd;
+
+        //    try
+        //    {
+        //        con = connect("DBConnectionString"); // create the connection
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("You didnt succeed to connect to DB", ex);
+        //    }
+
+        //    String cStr = BuildInsertTool(tool);      // helper method to build the insert string
+
+        //    cmd = CreateCommand(cStr, con);             // create the command
+
+        //    try
+        //    {
+        //        int numEffected = cmd.ExecuteNonQuery(); // execute the command
+        //        return numEffected;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("You didnt succeed to add a new gallery, Try again!", ex);
+        //    }
+
+        //    finally
+        //    {
+        //        if (con != null)
+        //        {
+        //            // close the db connection
+        //            con.Close();
+        //        }
+        //    }
+        //}
+
+        //private String BuildInsertTool(Tool tool)
+        //{
+        //    String command = "";
+
+        //    for (int i = 0; i < makerspace.ProfessionArr.Length; i++)
+        //    {
+        //        StringBuilder sb = new StringBuilder();
+        //        sb.AppendFormat("Values('{0}','{1}')", id, makerspace.ProfessionArr[i]);
+        //        String prefix = "INSERT INTO Makerspace_Professions" + "([MakerspaceId],[ProfessionName])";
+
+        //        command += prefix + sb.ToString();
+        //    }
+
+
+        //    return command;
+        //}
     }
 }
 

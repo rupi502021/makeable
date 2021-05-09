@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MakeAble.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -21,9 +22,22 @@ namespace MakeAble.Controllers
             return "value";
         }
 
-        // POST api/<controller>
-        public void Post([FromBody] string value)
+        [HttpPost]
+        [Route("api/Tools")]
+        public HttpResponseMessage Post([FromBody] Tool tool)
         {
+
+            try
+            {
+
+                tool.InsertTool();
+
+                return Request.CreateResponse(HttpStatusCode.Created, tool);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
 
         // PUT api/<controller>/5

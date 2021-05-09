@@ -50,7 +50,7 @@ namespace MakeAble.Controllers
 
                         professions.Clear();
                         dailyhours.Clear();
-                       
+
                     }
                     //תחומי עיסוק
                     if (professions.Count == 0)
@@ -70,9 +70,9 @@ namespace MakeAble.Controllers
                         professions.Add(mList[i].Profession);
                     }
                     //שעות פעילות
-                    String day="";
+                    String day = "";
                     switch (mList[i].Dayonweek)
-                    {                        
+                    {
                         case 1:
                             day = "יום ראשון";
                             break;
@@ -98,7 +98,7 @@ namespace MakeAble.Controllers
 
                     if (dailyhours.Count == 0)
                     {
-                        string str = day + " "+ mList[i].H_start+" - "+mList[i].H_end;
+                        string str = day + " " + mList[i].H_start + " - " + mList[i].H_end;
                         dailyhours.Add(str);
                     }
                     exist = false;
@@ -121,7 +121,7 @@ namespace MakeAble.Controllers
                         mList[i].Professions = professions;
                         mList[i].Daily_hours = dailyhours;
 
-                         mFinal.Add(mList[i]);
+                        mFinal.Add(mList[i]);
 
                     }
 
@@ -147,13 +147,10 @@ namespace MakeAble.Controllers
 
             try
             {
-                {
 
-                    makerspace.InsertMakerspace();
+                int id = makerspace.InsertMakerspace();
 
-                }
-
-                return Request.CreateResponse(HttpStatusCode.Created, makerspace);
+                return Request.CreateResponse(HttpStatusCode.Created, id);
             }
             catch (Exception ex)
             {

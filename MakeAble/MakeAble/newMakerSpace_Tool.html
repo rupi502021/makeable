@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="utf-8" />
+    <title>הוספת חלל עבודה</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!------ Include the above in your HEAD tag ---------->
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="../Scripts/ajaxCalls.js"></script>
+
+    <link href="../Style/newMakerSpace_style.css" rel="stylesheet" />
+    <style>
+        img#PP {
+            max-width: 25%;
+            float:left;
+        }
+        input#filebutton {
+            float: inherit;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $("#filebutton").change(function () {
+                readURL(this);
+            });
+
+            $("#ToolForm").submit(f1);
+        });
+        //להכניס תמונה לתצוגה מקדימה
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#PP').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        function f1() {
+
+           
+            MakerspaceId_FromLS = JSON.parse(localStorage.getItem('MakerSpaceID'));
+            tool = {
+                MakerspaceId: MakerspaceId_FromLS,
+                Quantity: parseInt($("#Tool_Quantity").val()),
+                ToolName: $("#Tool_Name").val(),
+                Model: $("#Tool_Model").val(),
+                Brand: $("#Tool_Brand").val(),
+                Description: $("#textarea").val(),
+                Qualifications: parseInt($("#fa1:checked").val()),
+                
+
+            }
+
+            upload();
+
+        }
+
+        function upload() {
+            var data = new FormData();
+            var files = $("#filebutton").get(0).files;
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedImageTools", files[f]);
+                }
+                data.append("name", "Tool_" + tool.ToolName + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                // Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/FileUpload",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: successfile,
+                    error: error
+                });
+
+            }
+
+        }
+
+        function successfile(data) {
+
+            tool = { ...tool, Url_photo: data[0] };
+            ajaxCall("POST", "../api/Tools", JSON.stringify(tool), success, error);
+        }
+
+
+
+
+        function success(data) {
+          
+            swal({
+                title: "Added Successfuly!", text: "Moving to Your MakerSpaces", type:
+                    "success"
+            }).then(function () {
+                window.location.href = 'newMakerSpace_Tool.html';
+            }
+            );
+          
+        }
+
+        function error(err) {
+            alert(err.responseJSON);
+        }
+
+     
+
+    </script>
+</head>
+
+<body dir="rtl">
+    <div class="container">
+        <form class="form-horizontal" id="ToolForm" role="form">
+            <h1>הוספת כלי עבודה </h1>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="Tool_Name" placeholder="שם כלי העבודה" class="form-control" autofocus maxlength="25" required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">שם כלי העבודה</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="Tool_Brand" placeholder="שם המותג" class="form-control" autofocus maxlength="25" required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">שם המותג</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="Tool_Model" placeholder="שם הדגם" class="form-control" autofocus maxlength="25" required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">שם הדגם</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="number" id="Tool_Quantity" placeholder="כמות במלאי" class="form-control" autofocus maxlength="25" required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">כמות במלאי</label>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <span id="CPP"></span>
+                    <img id="PP" src="images/notfoundPic.jpg" alt="ToolPhoto" />
+                    <div class="col-sm-6">
+                        <input id="filebutton" name="filebutton" class="input-file" type="file">
+                    </div>
+                </div>
+                <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="textarea" name="textarea" placeholder="תיאור קצר"></textarea>
+                </div>
+                <label class="col-sm-3 control-label" for="textarea">תיאור קצר</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="checkbox" id="fa1" name="fa1" value="1">
+                    <label for="fa1"> נדרשת הכשרה?</label><br>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">הכשרה</label>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <button id="ToolForm" type="submit" class="btn btn-primary btn-block">הוספת כלי</button>
+                </div>
+                <div class="col-5">
+                    <button id="ToolForm_finish" type="button" class="btn btn-primary btn-block">סיום ויצירת חלל העבודה </button>
+                </div>
+            </div>
+
+        </form> <!-- /form -->
+    </div> <!-- ./container -->
+</body>
+</html>

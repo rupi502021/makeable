@@ -94,18 +94,20 @@ namespace MakeAble.Models
         public string H_start { get => h_start; set => h_start = value; }
         public string H_end { get => h_end; set => h_end = value; }
 
-        public void InsertMakerspace()
+        public int InsertMakerspace()
         {
             DBServices dbs = new DBServices();
             int id=dbs.InsertMakerspace(this);
             dbs.InsertMakerspaceOpenningHours(this, id);
             dbs.InsertMakerspaceProf(this, id);
+            return id;
         }
 
       
             public List<Makerspace> ReadUserMakers(string email)
         {
             DBServices dbs = new DBServices();
+            
             List<Makerspace> m = dbs.getMakerspaceUser(email);
             return m;
         }
