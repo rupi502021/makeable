@@ -17,7 +17,7 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="Scripts/ajaxCalls.js"></script>
 
     <link href="../Style/newMakerSpace_style.css" rel="stylesheet" />
     <style>
@@ -37,6 +37,15 @@
             });
 
             $("#ToolForm").submit(f1);
+            $("#ToolForm_finish").click(function () {
+                swal({
+                    title: "Finish to add tools", text: "Moving to Your MakerSpaces", type:"info"
+                        
+                }).then(function () {
+                    window.location.href = 'personal-my_spaces.html';
+                }
+                );
+            });
         });
         //להכניס תמונה לתצוגה מקדימה
         function readURL(input) {
@@ -51,8 +60,13 @@
         }
 
         function f1() {
-
+            AddTool();
+            return false;
+        }
            
+          
+
+        function AddTool() {
             MakerspaceId_FromLS = JSON.parse(localStorage.getItem('MakerSpaceID'));
             tool = {
                 MakerspaceId: MakerspaceId_FromLS,
@@ -62,12 +76,11 @@
                 Brand: $("#Tool_Brand").val(),
                 Description: $("#textarea").val(),
                 Qualifications: parseInt($("#fa1:checked").val()),
-                
+
 
             }
 
             upload();
-
         }
 
         function upload() {
@@ -75,32 +88,33 @@
             var files = $("#filebutton").get(0).files;
             if (files.length > 0) {
                 for (f = 0; f < files.length; f++) {
-                    data.append("UploadedImageTools", files[f]);
+                    data.append("UploadedImage", files[f]);
                 }
                 data.append("name", "Tool_" + tool.ToolName + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
                 // Ajax upload
                 $.ajax({
                     type: "POST",
-                    url: "../Api/FileUpload",
+                    url: "../Api/FileUploadTool",
                     contentType: false,
                     processData: false,
                     data: data,
                     success: successfile,
                     error: error
                 });
-
+                return false;
             }
-
+            else {
+                ajaxCall("POST", "../api/Tools", JSON.stringify(tool), success, error);
+                return false;
+            }
         }
 
         function successfile(data) {
 
             tool = { ...tool, Url_photo: data[0] };
             ajaxCall("POST", "../api/Tools", JSON.stringify(tool), success, error);
+            return false;
         }
-
-
-
 
         function success(data) {
           

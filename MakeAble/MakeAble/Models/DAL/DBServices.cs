@@ -972,7 +972,7 @@ namespace MakeAble.Models.DAL
             // use a string builder to create the dynamic string
             for (int i = 0; i < 7; i++)
             {
-                if((hours_start[i]!="") || (hours_end[i] != ""))
+                if ((hours_start[i] != "") || (hours_end[i] != ""))
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", id, (i + 1), hours_start[i], hours_end[i]);
@@ -980,7 +980,7 @@ namespace MakeAble.Models.DAL
 
                     command += prefix + sb.ToString();
                 }
-              
+
             }
 
 
@@ -1106,60 +1106,117 @@ namespace MakeAble.Models.DAL
         }
 
         //Tools
-        //public int InsertTool(Tool tool)
-        //{
-        //    SqlConnection con;
-        //    SqlCommand cmd;
+        public int InsertTool(Tool tool)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
 
-        //    try
-        //    {
-        //        con = connect("DBConnectionString"); // create the connection
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("You didnt succeed to connect to DB", ex);
-        //    }
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
 
-        //    String cStr = BuildInsertTool(tool);      // helper method to build the insert string
+            String cStr = BuildInsertTool(tool);      // helper method to build the insert string
 
-        //    cmd = CreateCommand(cStr, con);             // create the command
+            cmd = CreateCommand(cStr, con);             // create the command
 
-        //    try
-        //    {
-        //        int numEffected = cmd.ExecuteNonQuery(); // execute the command
-        //        return numEffected;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("You didnt succeed to add a new gallery, Try again!", ex);
-        //    }
+            try
+            {
+                int numEffected = Convert.ToInt32(cmd.ExecuteScalar());  // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new Tool, Try again!", ex);
+            }
 
-        //    finally
-        //    {
-        //        if (con != null)
-        //        {
-        //            // close the db connection
-        //            con.Close();
-        //        }
-        //    }
-        //}
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
 
-        //private String BuildInsertTool(Tool tool)
-        //{
-        //    String command = "";
+        private String BuildInsertTool(Tool tool)
+        {
+            String command = "";
+            String end = "; SELECT CAST(scope_identity() AS int)";
+            StringBuilder sb = new StringBuilder();
 
-        //    for (int i = 0; i < makerspace.ProfessionArr.Length; i++)
-        //    {
-        //        StringBuilder sb = new StringBuilder();
-        //        sb.AppendFormat("Values('{0}','{1}')", id, makerspace.ProfessionArr[i]);
-        //        String prefix = "INSERT INTO Makerspace_Professions" + "([MakerspaceId],[ProfessionName])";
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}')", tool.Model, tool.Brand, tool.Qualifications, tool.Description, tool.ToolName);
+            String prefix = "INSERT INTO Tool" + "([Model],[Brand],[Qualifications],[Description],[ToolName])";
 
-        //        command += prefix + sb.ToString();
-        //    }
+            command += prefix + sb.ToString()+end;
+            return command;
+        }
+        public int InsertTool_Makerspace(Tool tool, int id)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
 
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
 
-        //    return command;
-        //}
+            String cStr = BuildInsertTool_MakerspaceCommand(tool, id);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new Tool_makerspace, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private String BuildInsertTool_MakerspaceCommand(Tool tool, int id)
+        {
+            String command = "";
+            String prefix;
+            StringBuilder sb = new StringBuilder();
+            
+            if (tool.Url_photo != null)
+            {
+                sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}');", tool.MakerspaceId,id ,tool.Quantity, tool.Url_photo, tool.Description);
+                prefix = "INSERT INTO Makerspace_Tool" + "([MakerspaceId],[ToolId],[Quantity],[Photo_Tool],[Description])";
+
+                command += prefix + sb.ToString();
+            }
+            else
+            {
+                sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", tool.MakerspaceId,id, tool.Quantity, tool.Description);
+                prefix = "INSERT INTO Makerspace_Tool" + "([MakerspaceId],[ToolId],[Quantity],[Description])";
+
+                command += prefix + sb.ToString();
+            }
+
+            return command;
+        }
     }
 }
 

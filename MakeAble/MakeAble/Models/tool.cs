@@ -48,7 +48,8 @@ namespace MakeAble.Models
         public void InsertTool()
         {
             DBServices dbs = new DBServices();
-            dbs.InsertTool(this);
+            int ToolId=dbs.InsertTool(this);
+            dbs.InsertTool_Makerspace(this, ToolId);
         }
     }
 }
