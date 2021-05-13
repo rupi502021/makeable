@@ -86,7 +86,7 @@
             });
             $("#formUsers").submit(updateUser);
             fLogin();
-
+            
         });
 
         //להכניס תמונה לתצוגה מקדימה
@@ -102,8 +102,8 @@
         }
 
         function fLogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l == null) {
                 let email = l1.Email;
 
@@ -118,6 +118,21 @@
 
         }
 
+        function checkMakerspaceOwner() {
+            if (l != null || l1 != null) {
+                if (l == null) {
+                    if (l1.Have_makerspace == false) {
+                        $("#manageMKR").hide();
+                    }
+                }
+                else {
+                    if (l.Have_makerspace == false) {
+                        $("#manageMKR").hide();
+                    }
+                }
+            }
+        }
+
         function getSuccess(data) {
             console.log(data);
             checked = JSON.parse(localStorage.getItem('user'));
@@ -130,6 +145,7 @@
             }
 
             checklogin();
+            checkMakerspaceOwner();
 
             //להחזיר את התאריך לאינפוט
             if (data.BirthDay != null) {
@@ -229,7 +245,8 @@
                 title: "הצלחה!", text: "בוצעו השינויים", icon:
                     "success"
             }).then(function () {
-                window.location.href = "personal.html";
+                //window.location.href = "personal.html";
+                window.location.reload();
             });
         }
 
@@ -336,9 +353,7 @@
                     <li ><a style="color:aliceblue" href="personal.html"> עדכון פרטים אישים </a><br /></li>
                     <li> <a href="personal-gallery.html">הגלריות שלי</a><br /></li>
                     <li> <a href="personal-favorites-gallery.html">המועדפים</a><br /></li>
-                    <li> <a href="personal-my_spaces.html">ניהול חלל עבודה</a><br /></li>
-                   
-
+                    <li id="manageMKR"> <a href="personal-my_spaces.html">ניהול חלל עבודה</a><br /></li>
                 </ul>
             </div> <!-- /#sidebar-wrapper -->
             <!-- Page Content -->

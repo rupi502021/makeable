@@ -26,7 +26,7 @@ namespace MakeAble.Models
         bool online_payment;
         bool free_parking;
         string[] professionArr;
-        List<string> professions;       
+        List<string> professions;
         string profession;
         string makerspaceName;
         string descrip;
@@ -97,19 +97,24 @@ namespace MakeAble.Models
         public int InsertMakerspace()
         {
             DBServices dbs = new DBServices();
-            int id=dbs.InsertMakerspace(this);
+            int id = dbs.InsertMakerspace(this);
             dbs.InsertMakerspaceOpenningHours(this, id);
             dbs.InsertMakerspaceProf(this, id);
             return id;
         }
 
-      
-            public List<Makerspace> ReadUserMakers(string email)
+
+        public List<Makerspace> ReadUserMakers(string email)
         {
             DBServices dbs = new DBServices();
-            
+
             List<Makerspace> m = dbs.getMakerspaceUser(email);
             return m;
+        }
+        public int Delete()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.DeleteMakerspace(this);
         }
     }
 }

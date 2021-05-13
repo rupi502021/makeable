@@ -44,13 +44,12 @@
     <script src="../Scripts/ajaxCalls.js"></script>
 
     <script>
-        $(document).ready(function () {
-            
+        $(document).ready(function () {           
             checklogin();
+            checkMakerspaceOwner();
             render();
         });
-
-       
+      
         function checklogin() {
             l = JSON.parse(localStorage.getItem('user'));
             l1 = JSON.parse(sessionStorage.getItem('user'));
@@ -70,9 +69,22 @@
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
             }
-
-
         }
+        function checkMakerspaceOwner() {
+            if (l != null || l1 != null) {
+                if (l == null) {
+                    if (l1.Have_makerspace == false) {
+                        $("#manageMKR").hide();
+                    }
+                }
+                else {
+                    if (l.Have_makerspace == false) {
+                        $("#manageMKR").hide();
+                    }
+                }
+            }
+        }
+
         function logout() {
             alert("logging out");
             localStorage.removeItem('user');
@@ -397,7 +409,7 @@
                 <li><a href="personal.html"> עדכון פרטים אישים </a><br /></li>
                 <li> <a style="color:aliceblue" href="personal-gallery.html">הגלריות שלי</a><br /></li>
                 <li> <a href="personal-favorites-gallery.html">המועדפים</a><br /></li>
-                <li> <a href="personal-my_spaces.html">ניהול חלל עבודה</a><br /></li>
+                <li id="manageMKR"> <a href="personal-my_spaces.html">ניהול חלל עבודה</a><br /></li>
                
             </ul>
         </div> <!-- /#sidebar-wrapper -->

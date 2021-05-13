@@ -163,9 +163,23 @@ namespace MakeAble.Controllers
         {
         }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
+        //מחיקת מייקרספייס
+        [HttpDelete]
+        [Route("api/Makerspaces/delete/{id}/")]
+        public HttpResponseMessage Delete(int id)
         {
+            Makerspace m = new Makerspace();
+            m.MakerspaceId = id;
+            int num = m.Delete();
+
+            if (num == 0)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "id: " + id + " does not exist");
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, m);
+            }
         }
     }
 }
