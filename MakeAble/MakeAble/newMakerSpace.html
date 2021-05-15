@@ -130,6 +130,8 @@
 
 <body dir="rtl">
     <div class="container">
+        <input type="button" onclick="location.href='personal-my_spaces.html';" value="חזור לדף מייקרספייס" />
+
         <form class="form-horizontal" id="MakerForm" role="form">
             <h1>הוספת חלל עבודה חדש</h1>
             <div class="form-group">
@@ -165,8 +167,8 @@
                 <div class="col-sm-9">
                     <input type="text" id="MakerSpace_Tel" placeholder="טלפון" class="form-control" autofocus required />
                     <!--pattern="[0-9]{3}-[0-9]{7}"
-                    oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
-                    oninput="this.setCustomValidity('')">-->
+                oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
+                oninput="this.setCustomValidity('')">-->
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">טלפון</label>
             </div>
@@ -174,8 +176,8 @@
                 <div class="col-sm-9">
                     <input type="text" id="MakerSpace_Url" placeholder="אתר אינטרנט" class="form-control" autofocus required />
                     <!--pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                    oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
-                    oninput="this.setCustomValidity('')">-->
+                oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
+                oninput="this.setCustomValidity('')">-->
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">אתר אינטרנט</label>
             </div>
@@ -333,7 +335,7 @@
                     <label for="fa5"> נגישות</label><br>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">מתקנים</label>
-            </div>           
+            </div>
 
             <button id="finish" type="submit" class="btn btn-primary btn-block">הוספת חלל</button>
 

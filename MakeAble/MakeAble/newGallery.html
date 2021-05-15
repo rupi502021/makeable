@@ -111,7 +111,6 @@
                     error: error
                 });
             }
-
         }
 
         function successfile(data) {
@@ -141,15 +140,14 @@
             $("#galleryName").val(''),
                 $("#selectmultiple").val(''),
                 $("#textarea").val('')
-        }
-
-       
+        }      
     </script>
 </head>
 
 <body dir="rtl">
-
     <div class="container">
+        <input type="button" onclick="location.href='Galleries.html';" value="חזור לדף גלריות" />
+
         <form class="form-horizontal" id="pForm" role="form">
             <h1>הוספת גלריה חדשה</h1>
             <div class="form-group">
@@ -162,15 +160,12 @@
             <!-- Select Multiple -->
             <div class="form-group">
                 <div class="col-sm-9">
-
                     <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
                         <option value="אומנות">אומנות</option>
                         <option value="מדפסות תל מימד">מדפסות תל מימד</option>
                         <option value="נגרות">נגרות</option>
                         <option value="תכנות">תכנות</option>
                     </select>
-
-
                 </div>
                 <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
                 <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
@@ -239,10 +234,10 @@
             <div>
                 <table id="tableBTN">
                     <tr>
-                        <td >
-                            <button id="galleyBTNsave" type="submit" class="btn btn-primary btn-block" >שמור</button>
+                        <td>
+                            <button id="galleyBTNsave" type="submit" class="btn btn-primary btn-block">שמור</button>
                         </td>
-                        <td >
+                        <td>
                             <button id="galleyBTNpub" type="submit" class="btn btn-primary btn-block">פרסם</button>
                         </td>
                     </tr>
