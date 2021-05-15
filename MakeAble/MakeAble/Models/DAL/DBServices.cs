@@ -1030,6 +1030,8 @@ namespace MakeAble.Models.DAL
                     m.H_start = Convert.ToString(dr["Hour_start"]);
                     m.H_end = Convert.ToString(dr["Hour_end"]);
 
+                   
+
                     mList.Add(m);
 
                 }
@@ -1264,6 +1266,53 @@ namespace MakeAble.Models.DAL
             }
 
             return command;
+        }
+        public List<Tool> getToolsUser(string email)
+        {
+
+            SqlConnection con = null;
+            List<Tool> tList = new List<Tool>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "select * from Makerspace_Tool as MT inner join Tool on Tool.ToolId=MT.ToolId inner join Makerspace as M on M.MakerspaceId=MT.MakerspaceId where UserEmail ='" + email + "' order by M.MakerspaceId asc";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    Tool t = new Tool();
+                    t.ToolId= Convert.ToInt32(dr["ToolId"]);
+                    t.MakerspaceId = Convert.ToInt32(dr["MakerspaceId"]);
+                    t.ToolName = Convert.ToString(dr["ToolName"]);
+                    t.Brand = Convert.ToString(dr["Brand"]);
+                    t.Model = Convert.ToString(dr["Model"]);
+                    t.Url_photo = Convert.ToString(dr["Photo_Tool"]);
+                    t.Qualifications = Convert.ToBoolean(dr["Qualifications"]);
+                    t.Description = Convert.ToString(dr["Description"]);
+                    t.Quantity = Convert.ToInt32(dr["Quantity"]);
+                    tList.Add(t);
+                }
+                return tList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
         }
     }
 }

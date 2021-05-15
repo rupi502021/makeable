@@ -34,38 +34,7 @@ namespace MakeAble.Models
         int dayonweek;
         string h_start;
         string h_end;
-
-        public Makerspace() { }
-
-        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip, List<string> daily_hours, int dayonweek, string h_start, string h_end)
-        {
-            MakerspaceId = makerspaceId;
-            User_email = user_email;
-            City = city;
-            Street = street;
-            Num_street = num_street;
-            PhoneNumber = phoneNumber;
-            Url = url;
-            Days_hours = days_hours;
-            NoPeople = noPeople;
-            Size = size;
-            Price = price;
-            Rating = rating;
-            Aircondition = aircondition;
-            Accessibility = accessibility;
-            Serving_coffee = serving_coffee;
-            Online_payment = online_payment;
-            Free_parking = free_parking;
-            ProfessionArr = professionArr;
-            Professions = professions;
-            Profession = profession;
-            MakerspaceName = makerspaceName;
-            Descrip = descrip;
-            Daily_hours = daily_hours;
-            Dayonweek = dayonweek;
-            H_start = h_start;
-            H_end = h_end;
-        }
+        List<Tool> toolsList;
 
         public int MakerspaceId { get => makerspaceId; set => makerspaceId = value; }
         public string User_email { get => user_email; set => user_email = value; }
@@ -93,6 +62,40 @@ namespace MakeAble.Models
         public int Dayonweek { get => dayonweek; set => dayonweek = value; }
         public string H_start { get => h_start; set => h_start = value; }
         public string H_end { get => h_end; set => h_end = value; }
+        public List<Tool> ToolsList { get => toolsList; set => toolsList = value; }
+
+        public Makerspace() { }
+
+        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip, List<string> daily_hours, int dayonweek, string h_start, string h_end, List<Tool> toolsList)
+        {
+            MakerspaceId = makerspaceId;
+            User_email = user_email;
+            City = city;
+            Street = street;
+            Num_street = num_street;
+            PhoneNumber = phoneNumber;
+            Url = url;
+            Days_hours = days_hours;
+            NoPeople = noPeople;
+            Size = size;
+            Price = price;
+            Rating = rating;
+            Aircondition = aircondition;
+            Accessibility = accessibility;
+            Serving_coffee = serving_coffee;
+            Online_payment = online_payment;
+            Free_parking = free_parking;
+            ProfessionArr = professionArr;
+            Professions = professions;
+            Profession = profession;
+            MakerspaceName = makerspaceName;
+            Descrip = descrip;
+            Daily_hours = daily_hours;
+            Dayonweek = dayonweek;
+            H_start = h_start;
+            H_end = h_end;
+            ToolsList = toolsList;
+        }
 
         public int InsertMakerspace()
         {

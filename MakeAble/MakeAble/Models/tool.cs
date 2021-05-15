@@ -51,5 +51,11 @@ namespace MakeAble.Models
             int ToolId=dbs.InsertTool(this);
             dbs.InsertTool_Makerspace(this, ToolId);
         }
+        public List<Tool> ReadToolsUser(string email)
+        {
+            DBServices dbs = new DBServices();
+            List<Tool> t = dbs.getToolsUser(email);
+            return t;
+        }
     }
 }

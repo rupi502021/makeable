@@ -130,25 +130,65 @@
         function renderMyMakers(d) { //רנדור מקיירספייסים
             $("#ph1").html("");
             let str = "";
+            
             for (var i = 0; i < d.length; i++) {
+                let prof = "";
+                let openh = "<br/>";
+                let facilities = "<br/>";
                 str += "<div class='card'>";
                 str += "<table class='table'>";
                 str += "<tr class='row'>";
                 str += "<td class='col'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1></td>"; //שם
                 str += "<button type='button' onclick='deleteMakerspace(" + d[i].MakerspaceId + ")' class='btn btn-primary btn-block' >מחק חלל</button>"; //כפתור הסתר
-
                 str += "<td class='col'>" + "" + "</td>"; //רווח
                 str += "<td class='col'><ul id='" + d[i].MakerspaceName + "' class='nav  navbar-right' style= 'padding-right: 50%'>";
                 str += "<li id='M_ordersbtn'><a class='hover-btn-new log' href='#'><span>ניהול הזמנות</span></a></li></ul></td>";
                 str += "</tr>";
                 str += "<tr class='row'>";
-                str += "<td class='col'><p><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</p></td>"; //מקום
-                str += "</tr>";
+                str += "<td class='col-6'><h6><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</h6>"; //מקום
+                str += "<h6><b>טלפון: </b>" + d[i].PhoneNumber +"</h6>";
+                str += "<h6><b>אתר אינטרנט: </b>" + d[i].Url + "</h6>";
+                for (var j = 0; j < d[i].Professions.length; j++) {
+                    if (d[i].Professions.length == (j + 1)) {
+                        prof += d[i].Professions[j];
+                    } else {
+                        prof += d[i].Professions[j] + ",";
+                    }                    
+                }
+                str += "<h6><b>תחומי עיסוק: </b>" + prof + "</h6>";
+                for (var h = 0; h < d[i].Daily_hours.length; h++) {
+                    openh += d[i].Daily_hours[h] + "<br/>";        
+                }
+                str += "<h6><b>שעות פתיחה: </b>" + openh + "</h6>";
+                str += "<h6><b>תיאור: </b>" + d[i].Descrip + "</h6>";
+                str += "</td>";
+                str += "<td class='col-6'>";
+                str += "<h6><b>מספר אנשים מותר בחלל: </b>" + d[i].NoPeople + "</h6>";
+                str += "<h6><b>גודל חלל העבודה במטר רבוע: </b>" + d[i].Size + "</h6>";
+                str += "<h6><b>מחיר לשעת עבודה: </b>" + d[i].Price + "</h6>";
+                if (d[i].Aircondition) {
+                    facilities += "מיזוג אוויר"+"<br/>";
+                }
+                if (d[i].Accessibility) {
+                    facilities += "נגישות" + "<br/>";
+                }
+                if (d[i].Free_parking) {
+                    facilities += "חנייה חינם" + "<br/>";
+                }
+                if (d[i].Online_payment) {
+                    facilities += "תשלום אונליין" + "<br/>";
+                }
+                if (d[i].Serving_coffee) {
+                    facilities += "עמדת קפה וכיבוד";
+                }       
+                str += "<h6><b>מתקנים: </b>" + facilities + "</h6>";
+
+                str += "</td>";
+                str += "</tr >";
                 str += "<tr class='row'>";
-                str += "<td class='col'><p><b> טלפון: </b>" + d[i].PhoneNumber + "</p>"; //טלפון
+                str += "<td class='col'><h6><b> הכלים שלי: </b></h6>"; //טלפון
                 str += "</tr>";
                 str += "</table>";
-                //        str += "<p><i class='fa fa-map-marker'></i>&nbsp" + "<b> אתר אינטרנט + </b>" + d[i].Url + "</p>"; //אתר אינטרנט
                 str += "</div><br/>"; //סוג את card
             }
 

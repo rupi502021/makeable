@@ -19,12 +19,14 @@ namespace MakeAble.Controllers
             try
             {
                 Makerspace makerspace = new Makerspace();
-                List<Makerspace> mList = makerspace.ReadUserMakers(email);
-
+                List<Makerspace> mList = makerspace.ReadUserMakers(email);              
                 List<Makerspace> mFinal = new List<Makerspace>();
 
                 List<string> professions = new List<string>();
                 List<string> dailyhours = new List<string>();
+
+                Tool tool = new Tool();
+                List<Tool> tList = tool.ReadToolsUser(email);
 
                 var id = 0;
                 for (int i = 0; i < mList.Count; i++)
@@ -44,6 +46,16 @@ namespace MakeAble.Controllers
                         {
                             mList[i - 1].Professions = p;
                             mList[i - 1].Daily_hours = d;
+
+                            List<Tool> tL = new List<Tool>();
+                            for (int h = 0; h < tList.Count; h++)
+                            {
+                                if(mList[i - 1].MakerspaceId == tList[h].MakerspaceId)
+                                {
+                                    tL.Add(tList[h]);
+                                }                             
+                            }
+                            mList[i - 1].ToolsList=tL;
 
                             mFinal.Add(mList[i - 1]);
                         }
@@ -121,24 +133,29 @@ namespace MakeAble.Controllers
                         mList[i].Professions = professions;
                         mList[i].Daily_hours = dailyhours;
 
+                        List<Tool> tL = new List<Tool>();
+                        for (int h = 0; h < tList.Count; h++)
+                        {
+                            if (mList[i].MakerspaceId == tList[h].MakerspaceId)
+                            {
+                                tL.Add(tList[h]);
+                            }
+                        }
+                        mList[i].ToolsList = tL;
+
                         mFinal.Add(mList[i]);
 
                     }
 
                     id = mList[i].MakerspaceId;
                 }
-
-
-
                 return Request.CreateResponse(HttpStatusCode.Created, mFinal);
-
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
             }
         }
-
 
         [HttpPost]
         [Route("api/Makerspaces")]
