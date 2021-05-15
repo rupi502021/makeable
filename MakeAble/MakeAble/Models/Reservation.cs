@@ -51,5 +51,11 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             return dbs.getRequest();
         }
+
+        public int Delete()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.DeleteRQ(this);
+        }
     }
 }

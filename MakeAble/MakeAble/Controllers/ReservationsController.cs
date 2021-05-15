@@ -35,8 +35,23 @@ namespace MakeAble.Controllers
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("api/Reservations/deleteRQ/{id}")]
+        public HttpResponseMessage Delete(int id)
         {
+            Reservation r = new Reservation();
+            r.ReservationId = id;
+
+            int num = r.Delete();
+
+            if (num == 0)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "id: " + id + " does not exist");
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, r);
+            }
         }
     }
 }

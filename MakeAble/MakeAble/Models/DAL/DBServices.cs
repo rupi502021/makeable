@@ -1365,6 +1365,56 @@ namespace MakeAble.Models.DAL
             }
 
         }
+
+
+        public int DeleteRQ(Reservation request)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            String cStr = BuildDeleteCommand(request);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        private String BuildDeleteCommand(Reservation request)
+        {
+            String command;
+            command = "delete from Reservation where ReservationId =" + request.ReservationId;
+            return command;
+        }
     }
 }
 

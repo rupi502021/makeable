@@ -348,7 +348,20 @@
         function deleteRequest(id) {
             console.log("delete request munber " + id);
             //מחיקת השורה מהדאטה לפי ID
+            let api = "../api/Reservations/deleteRQ/" + id;
+            ajaxCall("DELETE", api, "", deleteSuccess, deleteError);
         }
+
+        function deleteSuccess(data) {
+            alert("בקשה נמחקה בהצלחה!");
+            location.reload();
+        }
+
+        function deleteError(err) {
+            alert("בקשה לא הצליחה להימחק!");
+        }
+
+
 
         function aproveRequest(id) {
             console.log("aprove request munber " + id);
