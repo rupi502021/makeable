@@ -57,5 +57,11 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             return dbs.DeleteRQ(this);
         }
+
+        public int Update()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.UpdateRES(this);
+        }
     }
 }

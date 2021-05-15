@@ -30,8 +30,18 @@ namespace MakeAble.Controllers
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
+        public HttpResponseMessage Put([FromBody] Reservation res)
         {
+            int num = res.Update();
+
+            if (num == 0)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "reservation: " + res + " does not exist");
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, res);
+            }
         }
 
         // DELETE api/<controller>/5

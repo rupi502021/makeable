@@ -345,20 +345,27 @@
             $("#ph1").append(str);
         }
 
+
         function deleteRequest(id) {
             console.log("delete request munber " + id);
             //מחיקת השורה מהדאטה לפי ID
             let api = "../api/Reservations/deleteRQ/" + id;
             ajaxCall("DELETE", api, "", deleteSuccess, deleteError);
         }
-
         function deleteSuccess(data) {
-            alert("בקשה נמחקה בהצלחה!");
+            alert("delete success!");
+
+            swal({
+                title: "הצלחה!", text: "בקשה אושרה", icon:
+                    "success"
+            }).then(function () {
+                //window.location.href = "personal.html";
+                window.location.reload();
+            });
             location.reload();
         }
-
         function deleteError(err) {
-            alert("בקשה לא הצליחה להימחק!");
+            console.log(err);
         }
 
 
@@ -366,9 +373,38 @@
         function aproveRequest(id) {
             console.log("aprove request munber " + id);
             //שינוי סטטוס ל1 והוספת תאריך + שעת התחלה + שעת סיום להזמנה בדאטה
+
+            reservation = {
+                ReservationId: id,
+                //StartTime_res: _stratTime ,
+                //EndTime_res: _endTime,
+                //StatusApproved: 1
+            }
+
+            ajaxCall("PUT", "../api/Reservations", JSON.stringify(reservation), success, error);
+
+        }
+        function success(data) {
+            alert("update success");
+
+            swal({
+                title: "הצלחה!", text: "בקשה אושרה", icon:
+                    "success"
+            }).then(function () {
+                //window.location.href = "personal.html";
+                window.location.reload();
+            });
+        }
+        function error(err) {
+            console.log(err);
         }
 
+
     </script>
+
+
+
+
 </head>
 <body class="host_version" dir="rtl">
     <!-- LOADER -->

@@ -1030,7 +1030,7 @@ namespace MakeAble.Models.DAL
                     m.H_start = Convert.ToString(dr["Hour_start"]);
                     m.H_end = Convert.ToString(dr["Hour_end"]);
 
-                   
+
 
                     mList.Add(m);
 
@@ -1151,7 +1151,7 @@ namespace MakeAble.Models.DAL
         private String BuildDeleteMakerspaceCommand(Makerspace makerspace)
         {
             String command;
-            command = "DELETE FROM Makerspace WHERE MakerspaceId = " + makerspace.MakerspaceId ;
+            command = "DELETE FROM Makerspace WHERE MakerspaceId = " + makerspace.MakerspaceId;
             return command;
         }
 
@@ -1203,7 +1203,7 @@ namespace MakeAble.Models.DAL
             sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}')", tool.Model, tool.Brand, tool.Qualifications, tool.Description, tool.ToolName);
             String prefix = "INSERT INTO Tool" + "([Model],[Brand],[Qualifications],[Description],[ToolName])";
 
-            command += prefix + sb.ToString()+end;
+            command += prefix + sb.ToString() + end;
             return command;
         }
         public int InsertTool_Makerspace(Tool tool, int id)
@@ -1249,17 +1249,17 @@ namespace MakeAble.Models.DAL
             String command = "";
             String prefix;
             StringBuilder sb = new StringBuilder();
-            
+
             if (tool.Url_photo != null)
             {
-                sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}');", tool.MakerspaceId,id ,tool.Quantity, tool.Url_photo, tool.Description);
+                sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}');", tool.MakerspaceId, id, tool.Quantity, tool.Url_photo, tool.Description);
                 prefix = "INSERT INTO Makerspace_Tool" + "([MakerspaceId],[ToolId],[Quantity],[Photo_Tool],[Description])";
 
                 command += prefix + sb.ToString();
             }
             else
             {
-                sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", tool.MakerspaceId,id, tool.Quantity, tool.Description);
+                sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", tool.MakerspaceId, id, tool.Quantity, tool.Description);
                 prefix = "INSERT INTO Makerspace_Tool" + "([MakerspaceId],[ToolId],[Quantity],[Description])";
 
                 command += prefix + sb.ToString();
@@ -1287,7 +1287,7 @@ namespace MakeAble.Models.DAL
                 {   // Read till the end of the data into a row
 
                     Tool t = new Tool();
-                    t.ToolId= Convert.ToInt32(dr["ToolId"]);
+                    t.ToolId = Convert.ToInt32(dr["ToolId"]);
                     t.MakerspaceId = Convert.ToInt32(dr["MakerspaceId"]);
                     t.ToolName = Convert.ToString(dr["ToolName"]);
                     t.Brand = Convert.ToString(dr["Brand"]);
@@ -1345,7 +1345,7 @@ namespace MakeAble.Models.DAL
                     //r.Description = Convert.ToString(dr["Description"]);
                     r.Span = Convert.ToDouble(dr["Span"]);
                     r.StatusApproved = Convert.ToBoolean(dr["StatusApproved"]);
-                    r.UserName =  Convert.ToString(dr["Fname"]) + " " + Convert.ToString(dr["Lname"]);
+                    r.UserName = Convert.ToString(dr["Fname"]) + " " + Convert.ToString(dr["Lname"]);
 
                     rList.Add(r);
                 }
@@ -1415,6 +1415,81 @@ namespace MakeAble.Models.DAL
             command = "delete from Reservation where ReservationId =" + request.ReservationId;
             return command;
         }
+
+
+        public int UpdateRES(Reservation res)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            String cStr = BuildUpdateCommand(res);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private String BuildUpdateCommand(Reservation res)
+        {
+            String command;
+
+            command = "update Reservation set StartTime_res = StartTime_req, EndTime_res = EndTime_req, StatusApproved = 1 where ReservationId ='" + res.ReservationId + "'";
+
+            return command;
+        }
+
+        //private String BuildInsertTool_MakerspaceCommand(Tool tool, int id)
+        //{
+        //    String command = "";
+        //    String prefix;
+        //    StringBuilder sb = new StringBuilder();
+
+        //    if (tool.Url_photo != null)
+        //    {
+        //        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}');", tool.MakerspaceId, id, tool.Quantity, tool.Url_photo, tool.Description);
+        //        prefix = "INSERT INTO Makerspace_Tool" + "([MakerspaceId],[ToolId],[Quantity],[Photo_Tool],[Description])";
+
+        //        command += prefix + sb.ToString();
+        //    }
+        //    else
+        //    {
+        //        sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", tool.MakerspaceId, id, tool.Quantity, tool.Description);
+        //        prefix = "INSERT INTO Makerspace_Tool" + "([MakerspaceId],[ToolId],[Quantity],[Description])";
+
+        //        command += prefix + sb.ToString();
+        //    }
+
+        //    return command;
+        //}
     }
 }
 
