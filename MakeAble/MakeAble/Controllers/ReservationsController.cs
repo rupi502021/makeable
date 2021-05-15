@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MakeAble.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,16 +11,18 @@ namespace MakeAble.Controllers
     public class ReservationsController : ApiController
     {
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public List<Reservation> Get()
         {
-            return new string[] { "value1", "value2" };
+            Reservation request = new Reservation();
+            List<Reservation> rList = request.Read();
+            return rList;
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/<controller>
         public void Post([FromBody] string value)

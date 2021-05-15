@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MakeAble.Models.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,10 +15,10 @@ namespace MakeAble.Models
         string description;
         DateTime startTime_req;
         DateTime endTime_req;
-        float span;
+        double span;
         bool statusApproved;
 
-        public Reservation(int reservationId, DateTime date, DateTime startTime_res, DateTime endTime_res, string description, DateTime startTime_req, DateTime endTime_req, float span,bool statusApproved)
+        public Reservation(int reservationId, DateTime date, DateTime startTime_res, DateTime endTime_res, string description, DateTime startTime_req, DateTime endTime_req, double span, bool statusApproved)
         {
             this.reservationId = reservationId;
             this.date = date;
@@ -39,7 +40,15 @@ namespace MakeAble.Models
         public string Description { get => description; set => description = value; }
         public DateTime StartTime_req { get => startTime_req; set => startTime_req = value; }
         public DateTime EndTime_req { get => endTime_req; set => endTime_req = value; }
-        public float Span { get => span; set => span = value; }
+        public double Span { get => span; set => span = value; }
         public bool StatusApproved { get => statusApproved; set => statusApproved = value; }
+
+
+
+        public List<Reservation> Read()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.getRequest();
+        }
     }
 }

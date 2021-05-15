@@ -98,7 +98,7 @@
         }
 
         .card {
-            background: $white;
+            background: white;
             width: 90%;
             max-width: 40rem;
             min-height: 40rem;
@@ -134,7 +134,7 @@
                 font-weight: bold;
                 text-transform: uppercase;
                 text-align: center;
-                color: $gray;
+                color: #808080;
                 margin: 0 1px;
             }
 
@@ -150,7 +150,7 @@
                 width: 3.5rem;
                 height: 3.5rem;
                 display: grid;
-                place-items: center;
+                /*place-items: center;*/
                 font-weight: bold;
                 position: relative;
             }
@@ -213,7 +213,7 @@
                 height: 3.5rem;
                 padding-top: 0.25rem;
                 display: grid;
-                place-items: center;
+                /*place-items: center;*/
             }
 
     </style>
@@ -242,6 +242,8 @@
     <script>
         $(document).ready(function () {
             checklogin();
+            getRequest();
+
         });
 
 
@@ -272,6 +274,21 @@
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             window.location.href = 'index.html';
+        }
+
+
+        function getRequest() {
+            ajaxCall("GET", "../api/Reservations", "", getSuccessRQ, getErrorRQ);
+        }
+
+        function getSuccessRQ(data) {
+            console.log(data);
+            //var d = data;
+            //renderRequest(d);
+        }
+
+        function getErrorRQ(err) {
+            console.log(err);
         }
 
     </script>

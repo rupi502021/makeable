@@ -1314,6 +1314,56 @@ namespace MakeAble.Models.DAL
             }
 
         }
+
+        public List<Reservation> getRequest()
+        {
+
+            SqlConnection con = null;
+            List<Reservation> rList = new List<Reservation>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "select * from Reservation where StatusApproved=0";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    Reservation r = new Reservation();
+
+                    r.ReservationId = Convert.ToInt32(dr["reservationId"]);
+                    r.Date = Convert.ToDateTime(dr["reservationDate"]);
+                    r.StartTime_req = Convert.ToDateTime(dr["StartTime_req"]);
+                    r.EndTime_req = Convert.ToDateTime(dr["EndTime_req"]);
+                    //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
+                    //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
+                    //r.Description = Convert.ToString(dr["Description"]);
+                    r.Span = Convert.ToDouble(dr["Span"]);
+                    r.StatusApproved = Convert.ToBoolean(dr["StatusApproved"]);
+
+                    rList.Add(r);
+                }
+                return rList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
+        }
     }
 }
 
