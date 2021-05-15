@@ -165,19 +165,19 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="text" id="MakerSpace_Tel" placeholder="טלפון" class="form-control" autofocus required />
-                    <!--pattern="[0-9]{3}-[0-9]{7}"
-                oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
-                oninput="this.setCustomValidity('')">-->
+                    <input type="text" id="MakerSpace_Tel" placeholder="טלפון" class="form-control" autofocus required
+                           pattern="[0-9]{3}-[0-9]{7}"
+                           oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
+                           oninput="this.setCustomValidity('')" />
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">טלפון</label>
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="text" id="MakerSpace_Url" placeholder="אתר אינטרנט" class="form-control" autofocus required />
-                    <!--pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                oninvalid="this.setCustomValidity('Format should be characters@characters.domain')"
-                oninput="this.setCustomValidity('')">-->
+                    <input type="text" id="MakerSpace_Url" placeholder="אתר אינטרנט" class="form-control" autofocus required 
+                    pattern="[a-z0-9._%+-]+\.[a-z]{2,}$"
+                    oninvalid="this.setCustomValidity('Format should be characters.domain')"
+                    oninput="this.setCustomValidity('')" />
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">אתר אינטרנט</label>
             </div>
