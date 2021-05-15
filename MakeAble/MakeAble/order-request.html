@@ -39,7 +39,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
+
 
     <style>
 
@@ -50,7 +50,11 @@
         $orange: #DE6E46;
         $purple: #AE5989;
 
-        $radius: 50%;*/ 
+        $radius: 50%;*/
+        #logo_top {
+            width: 180px;
+            height: 51px;
+        }
 
         table, td, th {
             border: 1px solid black;
@@ -215,7 +219,6 @@
                 display: grid;
                 /*place-items: center;*/
             }
-
     </style>
 
 
@@ -283,12 +286,51 @@
 
         function getSuccessRQ(data) {
             console.log(data);
-            //var d = data;
-            //renderRequest(d);
+            var d = data;
+            renderRequest(d);
         }
 
         function getErrorRQ(err) {
             console.log(err);
+        }
+
+        function renderRequest(d) {
+            //רנדור טבלה
+            $("#ph1").html("");
+            let str = "<div class='container'>";
+            str += "<h1 style='text-align:center; font-size:80px'>הזמנות שטרם אושרו</h1>";
+            str += "<table>";
+            str += "<tr>";
+            str += "<th>שם</th>";
+            str += "<th>תאריך</th>";
+            str += "<th>שעות</th>";
+            str += "<th>אישור/דחיית בקשה</th>";
+            str += "</tr>";
+
+            for (var i = 0; i < d.length; i++) {
+                str += "<tr>";
+                str += "<td><i class='fa fa-user' aria-hidden='true'></i>&nbsp;" + "אבי לוי" + "</td>";
+                str += "<td>" + d[i].Date + "</td>";
+                str += "<td>" + d[i].StartTime_req + "-" + d[i].EndTime_req + "</td>";
+                str += "<td>";
+                str += "<button class='aproveRequest' onclick='aproveRequest()'><i class='fa fa-check' aria-hidden='true'></i></></button>";
+                str += "<button class='deletRequest' onclick='deletRequest()'><i class='fa fa-times' aria-hidden='true'></i></></button>";
+                str += "</td>";
+                str += "</tr>";
+
+            }
+
+            str += "</table>";
+            str += "</div>";
+            $("#ph1").append(str);
+        }
+
+        function deletRequest() {
+            //מחיקת השורה מהדאטה לפי ID
+        }
+
+        function aproveRequest() {
+            //שינוי סטטוס ל1 והוספת תאריך + שעת התחלה + שעת סיום להזמנה בדאטה
         }
 
     </script>
@@ -340,7 +382,7 @@
     </header>
     <div id="wrapper" class="toggled">
         <!-- Sidebar -->
-        <div id="sidebar-wrapper" style="top:139px">
+        <div id="sidebar-wrapper" style="text-align:center; font-size:20px">
             <ul class="sidebar-nav">
                 <li><a style="color:aliceblue" href="order-request.html"> הזמנות שטרם אושרו </a><br /></li>
                 <li> <a href="order-request-approved.html">הזמנות שאושרו</a><br /></li>
@@ -351,7 +393,9 @@
         </div> <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
 
-        <div class="container">
+        <div id="ph1"></div>
+
+        <!--<div class="container">
 
             <h1 style="text-align:center; font-size:80px">הזמנות שטרם אושרו</h1>
 
@@ -361,46 +405,18 @@
                     <th>תאריך</th>
                     <th>שעות</th>
                     <th>אישור/דחיית בקשה</th>
-                    <th>שינוי מועד</th>
                 </tr>
                 <tr>
                     <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
                     <td>24/08/2020</td>
                     <td>10:00-13:00</td>
                     <td>
-                        <button class="deletReques"><i class="fa fa-check" aria-hidden="true"></i></></button>
-                        <button class="deletReques"><i class="fa fa-times" aria-hidden="true"></i></></button>
-                    </td>
-                    <td>
-                        לפתיחת צ'אט אישי&nbsp;<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                    <td>24/08/2020</td>
-                    <td>10:00-13:00</td>
-                    <td>
-                        <button class="deletReques"><i class="fa fa-check" aria-hidden="true"></i></></button>
-                        <button class="deletReques"><i class="fa fa-times" aria-hidden="true"></i></></button>
-                    </td>
-                    <td>
-                        לפתיחת צ'אט אישי&nbsp;<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                    <td>24/08/2020</td>
-                    <td>10:00-13:00</td>
-                    <td>
-                        <button class="deletReques"><i class="fa fa-check" aria-hidden="true"></i></></button>
-                        <button class="deletReques"><i class="fa fa-times" aria-hidden="true"></i></></button>
-                    </td>
-                    <td>
-                        לפתיחת צ'אט אישי&nbsp;<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                        <button class="aproveRequest" onclick="aproveRequest()"><i class="fa fa-check" aria-hidden="true"></i></></button>
+                        <button class="deletRequest" onclick="deletRequest()"><i class="fa fa-times" aria-hidden="true"></i></></button>
                     </td>
                 </tr>
             </table>
-        </div>
+        </div>-->
 
         <main class="card">
             <section class="card__header">
