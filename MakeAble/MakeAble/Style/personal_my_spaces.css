@@ -124,3 +124,11 @@ ul#newSpaceBTN {
     width: 180px;
     height: 51px;
 }
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}
