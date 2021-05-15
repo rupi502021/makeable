@@ -1325,7 +1325,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select * from Reservation where StatusApproved=0";
+                String selectSTR = "select * from Reservation as rq inner join Users as us on rq.UserEmail=us.Email where StatusApproved=0";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -1345,6 +1345,7 @@ namespace MakeAble.Models.DAL
                     //r.Description = Convert.ToString(dr["Description"]);
                     r.Span = Convert.ToDouble(dr["Span"]);
                     r.StatusApproved = Convert.ToBoolean(dr["StatusApproved"]);
+                    r.UserName =  Convert.ToString(dr["Fname"]) + " " + Convert.ToString(dr["Lname"]);
 
                     rList.Add(r);
                 }

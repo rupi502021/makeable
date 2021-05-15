@@ -219,6 +219,16 @@
                 display: grid;
                 /*place-items: center;*/
             }
+
+        .aproveRequest {
+            padding: 15px 32px;
+            display: inline-block;
+        }
+
+        .deleteRequest {
+            padding: 15px 32px;
+            display: inline-block;
+        }
     </style>
 
 
@@ -309,12 +319,22 @@
 
             for (var i = 0; i < d.length; i++) {
                 str += "<tr>";
-                str += "<td><i class='fa fa-user' aria-hidden='true'></i>&nbsp;" + "אבי לוי" + "</td>";
-                str += "<td>" + d[i].Date + "</td>";
-                str += "<td>" + d[i].StartTime_req + "-" + d[i].EndTime_req + "</td>";
+                str += "<td><i class='fa fa-user' aria-hidden='true'></i>&nbsp;" + d[i].UserName + "</td>";
+
+                var _stratTime = d[i].StartTime_req;
+                var _endTime = d[i].EndTime_req;
+                var _date = d[i].Date;
+                var date_date = _date.split('T')[0];
+                var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
+                var time_timeS = _stratTime.split('T')[1];
+                var time_timeE = _endTime.split('T')[1];
+
+                str += "<td>" + date_time_ltr + "</td>";
+                str += "<td>" + time_timeS + "-" + time_timeE + "</td>";
                 str += "<td>";
-                str += "<button class='aproveRequest' onclick='aproveRequest()'><i class='fa fa-check' aria-hidden='true'></i></></button>";
-                str += "<button class='deletRequest' onclick='deletRequest()'><i class='fa fa-times' aria-hidden='true'></i></></button>";
+                str += "<button class='aproveRequest' onclick='aproveRequest(" + d[i].ReservationId + ")'><i class='fa fa-check' aria-hidden='true'></i></></button>";
+                str += "&nbsp;&nbsp;";
+                str += "<button class='deleteRequest' onclick='deleteRequest(" + d[i].ReservationId + ")'><i class='fa fa-times' aria-hidden='true'></i></></button>";
                 str += "</td>";
                 str += "</tr>";
 
@@ -325,11 +345,13 @@
             $("#ph1").append(str);
         }
 
-        function deletRequest() {
+        function deleteRequest(id) {
+            console.log("delete request munber " + id);
             //מחיקת השורה מהדאטה לפי ID
         }
 
-        function aproveRequest() {
+        function aproveRequest(id) {
+            console.log("aprove request munber " + id);
             //שינוי סטטוס ל1 והוספת תאריך + שעת התחלה + שעת סיום להזמנה בדאטה
         }
 
@@ -395,28 +417,6 @@
 
         <div id="ph1"></div>
 
-        <!--<div class="container">
-
-            <h1 style="text-align:center; font-size:80px">הזמנות שטרם אושרו</h1>
-
-            <table>
-                <tr>
-                    <th>שם</th>
-                    <th>תאריך</th>
-                    <th>שעות</th>
-                    <th>אישור/דחיית בקשה</th>
-                </tr>
-                <tr>
-                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                    <td>24/08/2020</td>
-                    <td>10:00-13:00</td>
-                    <td>
-                        <button class="aproveRequest" onclick="aproveRequest()"><i class="fa fa-check" aria-hidden="true"></i></></button>
-                        <button class="deletRequest" onclick="deletRequest()"><i class="fa fa-times" aria-hidden="true"></i></></button>
-                    </td>
-                </tr>
-            </table>
-        </div>-->
 
         <main class="card">
             <section class="card__header">
