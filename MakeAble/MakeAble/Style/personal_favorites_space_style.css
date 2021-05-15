@@ -47,3 +47,11 @@ div#sidebar-wrapper {
     top: 159.5px;
     position: fixed;
 }
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}

@@ -121,3 +121,11 @@ ul#newGalleryBTN {
 div.modal-photo {
     top: 100px;
 }
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}

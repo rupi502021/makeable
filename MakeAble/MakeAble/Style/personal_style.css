@@ -81,3 +81,11 @@ img#PP {
     transform: translate(0,0) scale(1);
     transition: .3s;
 }
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}

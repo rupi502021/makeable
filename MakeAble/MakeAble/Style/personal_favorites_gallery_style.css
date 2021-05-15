@@ -99,4 +99,12 @@ a#logout::before {
     width: 45%;
     height: 35%;
 }
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}
 
