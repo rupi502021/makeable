@@ -246,6 +246,7 @@
     <script>
         $(document).ready(function () {
             checklogin();
+            getReservation();
         });
 
 
@@ -276,6 +277,56 @@
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             window.location.href = 'index.html';
+        }
+
+
+        function getReservation() {
+            ajaxCall("GET", "../api/Reservations/GetReservation", "", getSuccessRQ, getErrorRQ);
+        }
+
+        function getSuccessRQ(data) {
+            console.log(data);
+            var d = data;
+            renderRequest(d);
+        }
+
+        function getErrorRQ(err) {
+            console.log(err);
+        }
+
+        function renderRequest(d) {
+            //רנדור טבלה
+            $("#ph1").html("");
+            let str = "<div class='container'>";
+            str += "<h1 style='text-align:center; font-size:80px'>הזמנות שאושרו</h1>";
+            str += "<table>";
+            str += "<tr>";
+            str += "<th>שם</th>";
+            str += "<th>תאריך</th>";
+            str += "<th>שעות</th>";
+            str += "</tr>";
+
+            for (var i = 0; i < d.length; i++) {
+                str += "<tr>";
+                str += "<td><i class='fa fa-user' aria-hidden='true'></i>&nbsp;" + d[i].UserName + "</td>";
+
+                var _stratTime = d[i].StartTime_req;
+                var _endTime = d[i].EndTime_req;
+                var _date = d[i].Date;
+                var date_date = _date.split('T')[0];
+                var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
+                var time_timeS = _stratTime.split('T')[1];
+                var time_timeE = _endTime.split('T')[1];
+
+                str += "<td>" + date_time_ltr + "</td>";
+                str += "<td>" + time_timeS + "-" + time_timeE + "</td>";
+                str += "</tr>";
+
+            }
+
+            str += "</table>";
+            str += "</div>";
+            $("#ph1").append(str);
         }
 
     </script>
@@ -337,34 +388,36 @@
             </ul>
         </div> <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
+        <!--<div class="container">
 
-        <div class="container">
+        <h1 style="text-align:center; font-size:80px">הזמנות שאושרו</h1>
 
-            <h1 style="text-align:center; font-size:80px">הזמנות שאושרו</h1>
+        <table>
+            <tr>
+                <th>שם</th>
+                <th>תאריך</th>
+                <th>שעות</th>
+            </tr>
+            <tr>
+                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
+                <td>24/08/2020</td>
+                <td>10:00-13:00</td>
+            </tr>
+            <tr>
+                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
+                <td>24/08/2020</td>
+                <td>10:00-13:00</td>
+            </tr>
+            <tr>
+                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
+                <td>24/08/2020</td>
+                <td>10:00-13:00</td>
+            </tr>
+        </table>
+    </div>-->
 
-            <table>
-                <tr>
-                    <th>שם</th>
-                    <th>תאריך</th>
-                    <th>שעות</th>
-                </tr>
-                <tr>
-                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                    <td>24/08/2020</td>
-                    <td>10:00-13:00</td>
-                </tr>
-                <tr>
-                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                    <td>24/08/2020</td>
-                    <td>10:00-13:00</td>
-                </tr>
-                <tr>
-                    <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                    <td>24/08/2020</td>
-                    <td>10:00-13:00</td>
-                </tr>
-            </table>
-        </div>
+
+        <div id="ph1"></div>
 
         <main class="card">
             <section class="card__header">

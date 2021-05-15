@@ -1467,29 +1467,56 @@ namespace MakeAble.Models.DAL
             return command;
         }
 
-        //private String BuildInsertTool_MakerspaceCommand(Tool tool, int id)
-        //{
-        //    String command = "";
-        //    String prefix;
-        //    StringBuilder sb = new StringBuilder();
+        public List<Reservation> getReservation()
+        {
 
-        //    if (tool.Url_photo != null)
-        //    {
-        //        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}');", tool.MakerspaceId, id, tool.Quantity, tool.Url_photo, tool.Description);
-        //        prefix = "INSERT INTO Makerspace_Tool" + "([MakerspaceId],[ToolId],[Quantity],[Photo_Tool],[Description])";
+            SqlConnection con = null;
+            List<Reservation> rList = new List<Reservation>();
 
-        //        command += prefix + sb.ToString();
-        //    }
-        //    else
-        //    {
-        //        sb.AppendFormat("Values('{0}','{1}','{2}','{3}');", tool.MakerspaceId, id, tool.Quantity, tool.Description);
-        //        prefix = "INSERT INTO Makerspace_Tool" + "([MakerspaceId],[ToolId],[Quantity],[Description])";
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-        //        command += prefix + sb.ToString();
-        //    }
+                String selectSTR = "select * from Reservation as rq inner join Users as us on rq.UserEmail=us.Email where StatusApproved=1";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
 
-        //    return command;
-        //}
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    Reservation r = new Reservation();
+
+                    r.ReservationId = Convert.ToInt32(dr["reservationId"]);
+                    r.Date = Convert.ToDateTime(dr["reservationDate"]);
+                    r.StartTime_req = Convert.ToDateTime(dr["StartTime_req"]);
+                    r.EndTime_req = Convert.ToDateTime(dr["EndTime_req"]);
+                    //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
+                    //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
+                    //r.Description = Convert.ToString(dr["Description"]);
+                    r.Span = Convert.ToDouble(dr["Span"]);
+                    r.StatusApproved = Convert.ToBoolean(dr["StatusApproved"]);
+                    r.UserName = Convert.ToString(dr["Fname"]) + " " + Convert.ToString(dr["Lname"]);
+
+                    rList.Add(r);
+                }
+                return rList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
+        }
     }
 }
 

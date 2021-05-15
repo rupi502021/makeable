@@ -52,6 +52,12 @@ namespace MakeAble.Models
             return dbs.getRequest();
         }
 
+        public List<Reservation> ReadReservation()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.getReservation();
+        }
+
         public int Delete()
         {
             DBServices dbs = new DBServices();

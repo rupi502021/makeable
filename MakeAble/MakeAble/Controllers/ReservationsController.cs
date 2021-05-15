@@ -18,6 +18,15 @@ namespace MakeAble.Controllers
             return rList;
         }
 
+        [HttpGet]
+        [Route("api/Reservations/GetReservation")]
+        public List<Reservation> GetReservation()
+        {
+            Reservation request = new Reservation();
+            List<Reservation> rList = request.ReadReservation();
+            return rList;
+        }
+
         // GET api/<controller>/5
         //public string Get(int id)
         //{
