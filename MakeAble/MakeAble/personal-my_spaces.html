@@ -187,7 +187,23 @@
                 str += "</td>";
                 str += "</tr >";
                 str += "<tr class='row'>";
-                str += "<td class='col'><h6><b> הכלים שלי: </b></h6>"; //טלפון
+                str += "<td class='col-12'><h5><b> הכלים שלי: </b></h5></td>";
+                for (var j = 0; j < d[i].ToolsList.length; j++) {
+                    str += "<td class='col-md-4 tool' >";
+                    str += "<h6><b>" + d[i].ToolsList[j].ToolName + "-</b></h6>";
+                    str += "<h6>" + d[i].ToolsList[j].Brand + " " + d[i].ToolsList[j].Model+"</h6>";
+                    if (d[i].ToolsList[j].Qualifications) {
+                        str += "<h6>נדרשת הכשרה </h6>";
+                    }
+                    str += "<h6>כמות: " + d[i].ToolsList[j].Quantity + "</h6>";
+                    if (d[i].ToolsList[j].Url_photo != null) {
+                        str += "<img id='PP' src='" + d[i].ToolsList[j].Url_photo + "' alt='ProfilePhoto' />";
+                    }
+                    else {
+                        str += "<img id='PP' src='images/notfoundPic.jpg' alt='ProfilePhoto' />";
+                    }
+                    str += "</td>";
+                }
                 str += "</tr>";
                 str += "</table>";
                 str += "</div><br/>"; //סוג את card

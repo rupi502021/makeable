@@ -2,6 +2,7 @@
 .container {
     font-family: Calibri;
     padding-top: 105px;
+    padding-bottom: 105px;
 }
 
 a#logout::before {
@@ -10,6 +11,13 @@ a#logout::before {
 
 .row {
     margin-bottom: 20px;
+}
+
+button.btn.btn-primary.btn-block {
+    position: absolute;
+    bottom: 0px;
+    margin-right: 30%;
+    margin-bottom: 3%;
 }
 
 .card {
@@ -42,10 +50,12 @@ i.icon.fa {
     display: block;
 }
 
-.card .para {
+.card .para .para2 {
     font-family: Calibri;
 }
-
+.para2 {
+    margin-bottom: 45px;
+}
 .card img {
     max-width: 100%;
     height: 35%;

@@ -155,11 +155,7 @@
             window.location.href = 'index.html';
         }
 
-        function BTNAddMaker() {
-            if (login) {
-
-            }
-        }
+        
         function render() {
             if (login) {
                 if (l == null) {
@@ -186,10 +182,20 @@
         function getSuccessRender(data) {
             console.log(data);
             var d = data;
+            shuffle(d);
             renderGalleries(d);
 
         }
-
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            return a;
+        }
         function getErrorRender(err) {
             console.log(err);
         }

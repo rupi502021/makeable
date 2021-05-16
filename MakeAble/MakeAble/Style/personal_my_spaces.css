@@ -3,20 +3,21 @@ a#logout::before {
     background: red;
 }
 
-h6{
-    text-align:right;
-    padding-right:50px;
-    padding-bottom:0px;
+h6 {
+    text-align: right;
+    padding-right: 50px;
+    padding-bottom: 0px;
 }
+
 .sidebar-nav {
     text-align: right;
     font-family: Calibri;
     font-size: 30px;
 }
 
-.row {
+/*.row {
     margin-bottom: 20px;
-}
+}*/
 
 .nav.navbar.navbar-expand.navbar-dark.bg-primary {
     background-color: #333333;
@@ -40,7 +41,6 @@ a#logout::before {
 }
 
 #nav1 {
-    
     position: fixed;
     top: 0;
     width: 100%;
@@ -124,6 +124,7 @@ ul#newSpaceBTN {
     width: 180px;
     height: 51px;
 }
+
 .container-fluid {
     text-align: initial;
 }
@@ -131,4 +132,33 @@ ul#newSpaceBTN {
 ul#loginperson {
     flex-direction: row-reverse;
     direction: ltr;
+}
+
+td.col-md-4.tool {
+    border-top: 0;
+}
+
+img#PP {
+    max-width: 25%;
+}
+
+.table td {
+    padding: 0px;
+}
+
+li#M_ordersbtn {
+    position: absolute;
+    left: 40px;
+}
+
+tr.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+#M_ordersbtn a.hover-btn-new.log {
+    padding-top: 5px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    padding-left: 20px;
 }

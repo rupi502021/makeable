@@ -163,8 +163,20 @@
         function getSuccessRender(data) {
             console.log(data);
             var d = data;
+            shuffle(d);
             renderGalleries(d);
 
+        }
+
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            return a;
         }
 
         function getErrorRender(err) {
@@ -228,7 +240,7 @@
                     str += "</div>";//modal-content
 
 
-                    str += "<div class='para'>";
+                    str += "<div class='para2'>";
                     str += "<p>" + d[i].Description + "</p>"; //תיאור
 
                     var _time = d[i].Time;
@@ -237,8 +249,8 @@
                     var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
                     var time_time = _time.split('T')[1];
 
-                    str += "<p>" + date_time_ltr + "</p>";
-                    str+="<p>" + time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                    str += "<p>" + date_time_ltr+" " ;
+                    str+= time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
                     str += "</div > ";//para
 
                     btn = "";
