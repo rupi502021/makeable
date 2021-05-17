@@ -53,7 +53,7 @@
 
             .progressbar li {
                 list-style-type: none;
-                width: 32.3%;
+                width: 25%;
                 display: block;
                 float: right;
                 font-size: 20px;
@@ -69,7 +69,7 @@
                     content: counter(step);
                     counter-increment: step;
                     line-height: 30px;
-                    border: 2px solid #7d7d7d;
+                    border: 5px solid #7d7d7d;
                     display: block;
                     text-align: center;
                     margin: 0 auto 10px auto;
@@ -103,19 +103,6 @@
                     .progressbar li.active + li:after {
                         background-color: #55b776;
                     }
-
-        /*.btn {
-            height: 50px;
-            line-height: 50px;
-            width: 50px;
-            font-size: 2em;
-            font-weight: bold;
-            border-radius: 50%;
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            cursor: pointer;
-        }*/
     </style>
 
 
@@ -515,32 +502,127 @@
     </div>
 
     <div id="SearchToScroll" class="container">
+        <br />
+        <h1 style='text-align:center; font-size:80px'>חיפוש MakerSpace</h1>";
+        <br />
+        <br />
+        <br />
         <ul class="progressbar">
-            <li class="active">מיקום ותחומי עיסוק</li>
+            <li class="active">מיקום</li>
+            <li>תחומי עיסוק</li>
             <li>כלי עבודה</li>
             <li>זמינות</li>
         </ul>
     </div>
+    <br />
+
+    <div class="form-group">
+        <div class="col-sm-9 places" style="border:5px solid #7d7d7d; margin:auto; text-align:right; width:25%">
+            <h1 style='text-align:right; font-size:30px; top:10px'>בחר מיקום:</h1>
+            <br />
+            <div class="checkbox" style="padding-right:180px">
+                <label for="checkboxes-0">
+                    <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
+                    <span>מיקום נוכחי&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                </label>
+            </div>
+            <br />
+            <div class="checkbox" style="padding-right:180px">
+                <label for="checkboxes-0">
+                    <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
+                    <label class="control-label" for="selectbasic">
+                        <select id="selectbasic2" name="selectbasic" class="form-control">
+                            <option value="0">ההיסטוריה שלי</option>
+                            <option value="1">חלל עבודה 1</option>
+                            <option value="2">חלל עבודה 2</option>
+                            <option value="3">חלל עבודה 3</option>
+                        </select>
+                    </label>
+                </label>
+            </div>
+            <br />
+            <div class="checkbox" style="padding-right:180px">
+                <label for="checkboxes-0">
+                    <input type="radio" name="checkboxes" id="checkboxes-3" value="3">
+                    <label class="control-label" for="selectbasic">
+                        <select id="selectbasic2" name="selectbasic" class="form-control">
+                            <option value="0">בחירת מיקום</option>
+                            <option value="1">API של ערים</option>
+                        </select>
+                    </label>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+
     <div class="customwidget text-center">
         <a href="#SearchToScroll2" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
     </div>
+
+
     <div id="SearchToScroll2" class="container">
+        <br />
+        <br />
+        <br />
+        <br />
         <ul class="progressbar">
-            <li>מיקום ותחומי עיסוק</li>
-            <li class="active">כלי עבודה</li>
+            <li>מיקום</li>
+            <li class="active">תחומי עיסוק</li>
+            <li>כלי עבודה</li>
             <li>זמינות</li>
         </ul>
     </div>
+
+    <br />
+    <br />
+
+    <div class="form-group">
+        <div class="col-sm-9 places" style="border:5px solid #7d7d7d; margin:auto; text-align:right; width:30%; height:300px">
+            <h1 style='text-align:right; font-size:30px; top:10px'>תחום עיסוק:</h1>
+            <br />
+            <br />
+            <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
+                <option value="אומנות">אומנות</option>
+                <option value="מדפסות תל מימד">מדפסות תל מימד</option>
+                <option value="נגרות">נגרות</option>
+                <option value="תכנות">תכנות</option>
+            </select>
+            <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
     <div class="customwidget text-center">
         <a href="#SearchToScroll3" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
     </div>
     <div id="SearchToScroll3" class="container">
         <ul class="progressbar">
-            <li>מיקום ותחומי עיסוק</li>
+            <li>מיקום</li>
+            <li>תחומי עיסוק</li>
+            <li class="active">כלי עבודה</li>
+            <li>זמינות</li>
+        </ul>
+    </div>
+
+    <div class="customwidget text-center">
+        <a href="#SearchToScroll4" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
+    </div>
+    <div id="SearchToScroll4" class="container">
+        <ul class="progressbar">
+            <li>מיקום</li>
+            <li>תחומי עיסוק</li>
             <li>כלי עבודה</li>
             <li class="active">זמינות</li>
         </ul>
     </div>
+
     <div class="customwidget text-center">
         <a href="#" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
     </div>
@@ -549,9 +631,8 @@
 
 
     <div id="GalleryToScroll" class="section lb">
+        <h1 style='text-align:center; font-size:80px'>גלרית עבודות</h1>";
         <div class="container">
-
-            <h1 style="text-align:right; font-size:50px">גלריות עבודות</h1>
             <div id="ph1"></div>
             <div class="customwidget text-center">
                 <a href="Galleries.html" class="hover-btn-new"><span>לגלריה המלאה</span></a>
