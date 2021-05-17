@@ -19,12 +19,18 @@ a#logout::before {
 
 .container {
     font-family: Calibri;
+    padding-bottom: 105px;
 }
 
 a#logout::before {
     background: red;
 }
-
+button.btn.btn-primary.btn-block {
+    position: absolute;
+    bottom: 0px;
+    margin-right: 35%;
+    margin-bottom: 3%;
+}
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 400px;
@@ -87,8 +93,12 @@ i.icon.fa {
     display: block;
 }
 
-.card .para {
+.card .para .para2 {
     font-family: Calibri;
+}
+
+.para2 {
+    margin-bottom: 45px;
 }
 
 ul#newGalleryBTN {

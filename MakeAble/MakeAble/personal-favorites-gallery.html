@@ -41,8 +41,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../Style/modal_photos.css" rel="stylesheet" />
-    <link href="../Style/personal_favorites_gallery_style.css" rel="stylesheet" />
+
     <link href="../Style/personal_gallery_style.css" rel="stylesheet" />
+    <link href="../Style/personal_favorites_gallery_style.css" rel="stylesheet" />
 
     <script src="../Scripts/ajaxCalls.js"></script>
 
@@ -157,7 +158,7 @@
                     str += "</div>";//myModal
                     str += "</div>";//modal-content
 
-                    str += "<div class='para'>";
+                    str += "<div class='para2'>";
                     str += "<p>" + d[i].Description + "</p>"; //תיאור
 
                     var _time = d[i].Time;
@@ -166,8 +167,8 @@
                     var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
                     var time_time = _time.split('T')[1];
 
-                    str += "<p>" + date_time_ltr + "</p>";
-                    str += "<p>" + time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                    str += "<p>" + date_time_ltr + " ";
+                    str += time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
                     str += "</div > ";//para
                     str += "<button class='btn btn-primary btn-block' onclick='removeFromFavorite(" + d[i].GalleryId + ")'>הסר לייק</button>";
 

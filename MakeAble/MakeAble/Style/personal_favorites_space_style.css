@@ -18,8 +18,9 @@ a#logout::before {
     height: 51px;
 }
 
-#nav1 {
-  
+
+
+#nav1 { 
     position: fixed;
     top: 0;
     width: 100%;
