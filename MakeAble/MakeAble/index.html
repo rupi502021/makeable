@@ -64,12 +64,12 @@
             }
 
                 .progressbar li:before {
-                    width: 40px;
-                    height: 40px;
+                    width: 50px;
+                    height: 50px;
                     content: counter(step);
                     counter-increment: step;
-                    line-height: 30px;
-                    border: 5px solid #7d7d7d;
+                    line-height: 35px;
+                    border: 6px solid #7d7d7d;
                     display: block;
                     text-align: center;
                     margin: 0 auto 10px auto;
@@ -79,7 +79,7 @@
 
                 .progressbar li:after {
                     width: 100%;
-                    height: 2px;
+                    height: 6px;
                     content: '';
                     position: absolute;
                     background-color: #7d7d7d;
@@ -93,15 +93,15 @@
                 }
 
                 .progressbar li.active {
-                    color: green;
+                    color: #0aaa5c;
                 }
 
                     .progressbar li.active:before {
-                        border-color: #55b776;
+                        border-color: #0aaa5c;
                     }
 
                     .progressbar li.active + li:after {
-                        background-color: #55b776;
+                        background-color: #0aaa5c;
                     }
     </style>
 
@@ -581,8 +581,12 @@
     <br />
 
     <div class="form-group">
-        <div class="col-sm-9 places" style="border:5px solid #7d7d7d; margin:auto; text-align:right; width:30%; height:300px">
-            <h1 style='text-align:right; font-size:30px; top:10px'>תחום עיסוק:</h1>
+        <div class="col-sm-9 places" style="        border: 5px solid #7d7d7d;
+        margin: auto;
+        text-align: right;
+        width: 30%;
+        height: 300px">
+            <h1 style='text-align:right; font-size:30px; top:10px'>בחר תחום עיסוק:</h1>
             <br />
             <br />
             <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
@@ -602,7 +606,16 @@
     <div class="customwidget text-center">
         <a href="#SearchToScroll3" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
     </div>
+
+    <br />
+    <br />
+
+
     <div id="SearchToScroll3" class="container">
+        <br />
+        <br />
+        <br />
+        <br />
         <ul class="progressbar">
             <li>מיקום</li>
             <li>תחומי עיסוק</li>
@@ -611,10 +624,29 @@
         </ul>
     </div>
 
+    <br />
+    <br />
+
+    <div class="form-group">
+        <div class="col-sm-9 places" style="border:5px solid #7d7d7d; margin:auto; text-align:right; width:50%; height:350px">
+            <h1 style='text-align:right; font-size:30px; top:10px'>בחר את הכלים שלך:</h1>
+            <br />
+            <br />
+
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
     <div class="customwidget text-center">
         <a href="#SearchToScroll4" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
     </div>
     <div id="SearchToScroll4" class="container">
+        <br />
+        <br />
+        <br />
         <ul class="progressbar">
             <li>מיקום</li>
             <li>תחומי עיסוק</li>
@@ -623,10 +655,28 @@
         </ul>
     </div>
 
+    <br />
+
+    <div class="form-group">
+        <div class="col-sm-9 places" style="border:5px solid #7d7d7d; margin:auto; text-align:right; width:20%; height:420px">
+            <h1 style='text-align:right; font-size:30px; top:10px'>בחר זמינות:</h1>
+            <br />
+            <input type="date" class="form-control" value="2021-05-17" min="2021-05-17" max="2040-05-31">
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+
     <div class="customwidget text-center">
         <a href="#" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
     </div>
 
+    <br />
+    <br />
+    <br />
+    <br />
     <br />
 
 
