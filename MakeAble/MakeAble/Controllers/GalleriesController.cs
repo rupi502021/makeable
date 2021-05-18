@@ -237,8 +237,6 @@ namespace MakeAble.Controllers
                 var id = 0;
                 for (int i = 0; i < gList.Count; i++)
                 {
-
-
                     if (gList[i].GalleryId == id || id == 0)
                     {
 
@@ -402,11 +400,9 @@ namespace MakeAble.Controllers
         [HttpPost]
         [Route("api/Galleries/fav")]
         public HttpResponseMessage addFavGal([FromBody] Gallery gallery)
-        {
-            
+        {           
             try
-            {
-              
+            {              
                 gallery.InsertUserFavGal();
 
                 return Request.CreateResponse(HttpStatusCode.Created, gallery);

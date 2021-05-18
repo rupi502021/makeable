@@ -12,6 +12,24 @@ namespace MakeAble.Controllers
 {
     public class MakerspacesController : ApiController
     {
+
+        [HttpGet]
+        [Route("api/Makerspaces/All")]
+        public HttpResponseMessage ReadAllMakers()
+        {
+            try
+            {
+                Makerspace makerspace = new Makerspace();
+                List<Makerspace> mList = makerspace.ReadAll();
+                
+                return Request.CreateResponse(HttpStatusCode.Created, mList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("api/Makerspaces/{email}/")]
         public HttpResponseMessage ReadUserMakers(string email)

@@ -114,6 +114,15 @@ namespace MakeAble.Models
             List<Makerspace> m = dbs.getMakerspaceUser(email);
             return m;
         }
+
+        public List<Makerspace> ReadAll()
+        {
+            DBServices dbs = new DBServices();
+
+            List<Makerspace> m = dbs.getAllMakerspaces();
+            return m;
+        }
+       
         public int Delete()
         {
             DBServices dbs = new DBServices();

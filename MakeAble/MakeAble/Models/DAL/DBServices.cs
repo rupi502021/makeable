@@ -431,7 +431,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = " select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName , usFav.Email as Email_liked from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId left join Users_Gallery_Fav as usFav on usFav.GalleryId=gl.GalleryId";
+                String selectSTR = " select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName , usFav.Email as Email_liked,MG.MakerspaceId,MG.MakerspaceName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId left join Users_Gallery_Fav as usFav on usFav.GalleryId=gl.GalleryId  inner join Makerspace_Gallery as MG on gl.GalleryId=MG.GalleryId";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -449,13 +449,12 @@ namespace MakeAble.Models.DAL
                         g.Date = Convert.ToDateTime(dr["UploadDate"]);
                         g.Time = Convert.ToDateTime(dr["UploadTime"]);
                         g.Description = Convert.ToString(dr["Description"]);
-
                         g.Email = Convert.ToString(dr["UserEmail"]);
                         g.Profession = Convert.ToString(dr["ProfessionName"]);
                         g.Image = Convert.ToString(dr["PhotoUrl"]);
-
                         g.Email_liked = Convert.ToString(dr["Email_liked"]);
-
+                        g.MakerspaceName = Convert.ToString(dr["MakerspaceName"]);
+                        g.MakerspaceId = Convert.ToInt32(dr["MakerspaceId"]);
                         gList.Add(g);
                     }
 
@@ -477,8 +476,6 @@ namespace MakeAble.Models.DAL
             }
         }
 
-
-
         public List<Gallery> getGalleriesliked(string email)
         {
             SqlConnection con = null;
@@ -489,7 +486,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId where exists(select GalleryId from Users_Gallery_Fav as ufav where ufav.GalleryId=gl.GalleryId AND ufav.Email='" + email + "')";
+                String selectSTR = " select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName,MG.MakerspaceId,MG.MakerspaceName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId  inner join Makerspace_Gallery as MG on gl.GalleryId=MG.GalleryId where exists(select GalleryId from Users_Gallery_Fav as ufav where ufav.GalleryId=gl.GalleryId AND ufav.Email='" + email + "')";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -509,12 +506,10 @@ namespace MakeAble.Models.DAL
                     g.Email = Convert.ToString(dr["UserEmail"]);
                     g.Profession = Convert.ToString(dr["ProfessionName"]);
                     g.Image = Convert.ToString(dr["PhotoUrl"]);
-
+                    g.MakerspaceName = Convert.ToString(dr["MakerspaceName"]);
+                    g.MakerspaceId = Convert.ToInt32(dr["MakerspaceId"]);
                     gList.Add(g);
-
-
                 }
-
                 return gList;
             }
             catch (Exception ex)
@@ -541,7 +536,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId Where gl.UserEmail='" + email + "'";
+                String selectSTR = "select gl.GalleryId, gl.GalleryName , gl.Url, gl.UploadTime, gl.UploadDate, gl.Description, gl.UserEmail, gl.IsActive, glp.PhotoUrl, ProfessionName,MG.MakerspaceId,MG.MakerspaceName from Gallery as gl left join Gallery_Photo as glp on gl.GalleryId = glp.GalleryId left join Professions_Gallery as progl on gl.GalleryId = progl.GalleryId inner join Makerspace_Gallery as MG on gl.GalleryId=MG.GalleryId Where gl.UserEmail='" + email + "'";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -561,10 +556,10 @@ namespace MakeAble.Models.DAL
                     g.Email = Convert.ToString(dr["UserEmail"]);
                     g.Profession = Convert.ToString(dr["ProfessionName"]);
                     g.Image = Convert.ToString(dr["PhotoUrl"]);
+                    g.MakerspaceName= Convert.ToString(dr["MakerspaceName"]);
+                    g.MakerspaceId= Convert.ToInt32(dr["MakerspaceId"]);
 
                     gList.Add(g);
-
-
                 }
 
                 return gList;
@@ -644,6 +639,60 @@ namespace MakeAble.Models.DAL
             }
             return command;
         }
+
+        public int InsertMakerspace_Gallery(Gallery gallery, int id)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertMakerspace_GalleryCommand(gallery, id);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new gallery, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private String BuildInsertMakerspace_GalleryCommand(Gallery gallery, int id)
+        {
+            String command;
+           
+            StringBuilder sb = new StringBuilder();
+            // use a string builder to create the dynamic string
+
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}')",id,gallery.MakerspaceId,gallery.MakerspaceName, gallery.GalleryName);
+
+            String prefix = "INSERT INTO Makerspace_Gallery " + "([GalleryId],[MakerspaceId],[MakerspaceName],[GalleryName])";
+
+            command = prefix + sb.ToString() ;
+            return command;
+        }
+
         public int UpdateGalPublish(Gallery gallery)
         {
 
@@ -1032,6 +1081,64 @@ namespace MakeAble.Models.DAL
 
 
 
+                    mList.Add(m);
+
+                }
+
+                return mList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
+        }
+        public List<Makerspace> getAllMakerspaces()
+        {
+
+            SqlConnection con = null;
+            List<Makerspace> mList = new List<Makerspace>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "select * from Makerspace order by Makerspace.MakerspaceId asc";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    Makerspace m = new Makerspace();
+                    m.MakerspaceId = Convert.ToInt32(dr["MakerspaceId"]);
+                    m.MakerspaceName = Convert.ToString(dr["MakerspaceName"]);
+                    m.PhoneNumber = Convert.ToString(dr["PhoneNumber"]);
+                    m.Url = Convert.ToString(dr["Url"]);
+                    m.User_email = Convert.ToString(dr["UserEmail"]);
+                    m.NoPeople = Convert.ToInt32(dr["NoPeople"]);
+                    m.Size = Convert.ToInt32(dr["SizeInM"]);
+                    m.Price = Convert.ToInt32(dr["PricePerHour"]);
+                    m.Aircondition = Convert.ToBoolean(dr["Aircondition"]);
+                    m.Accessibility = Convert.ToBoolean(dr["Accessibility"]);
+                    m.Serving_coffee = Convert.ToBoolean(dr["Serving_coffee"]);
+                    m.Online_payment = Convert.ToBoolean(dr["Online_payment"]);
+                    m.Free_parking = Convert.ToBoolean(dr["Free_parking"]);
+                    m.Descrip = Convert.ToString(dr["Descrip"]);
+                    m.City = Convert.ToString(dr["City"]);
+                    m.Street = Convert.ToString(dr["Street"]);
+                    m.Num_street = Convert.ToInt32(dr["Num_street"]);
+                   
                     mList.Add(m);
 
                 }

@@ -24,7 +24,9 @@
         $(document).ready(function () {
             $("#galleyBTNsave").click(f1);
             $("#galleyBTNpub").click(f1);
-            
+
+            getAllMakerspaces();
+
         });
         var ClickOrSave;
         function f1() {
@@ -41,13 +43,13 @@
                 stars_range = 6 - stars_range;
             }//דירוג כוכבים לחלל העבודה
 
-            var makerspace;
-            if (document.getElementById('checkboxes-1').checked) {
-                makerspace = document.getElementById('selectbasic1').value;
-            }
-            else if (document.getElementById('checkboxes-2').checked) {
-                makerspace = document.getElementById('selectbasic2').value;
-            } //בחירת חלל העבודה
+            //var makerspace;
+            //if (document.getElementById('checkboxes-1').checked) {
+            //    makerspace = document.getElementById('selectbasic1').value;
+            //}
+            //else if (document.getElementById('checkboxes-2').checked) {
+            //    makerspace = document.getElementById('selectbasic2').value;
+            //} //בחירת חלל העבודה
 
             //מחזיר תאריך עכשווי
             var today = new Date();
@@ -70,11 +72,17 @@
             else {
                var isActive = true;
             }
+            var getvalue = document.getElementsByName('mylistAll')[0];
+            makerspaceName = getvalue.value;
 
+            var makerspaceId = $('#mylistAll option[value="' + makerspaceName + '"]').data('id');
+            
             gallery = {
                 GalleryName: $("#galleryName").val(), //שם גלריה
                 ProfArr: $("#selectmultiple").val(), //תחומי עיסוק
                 Description: $("#textarea").val(), //תיאור קצר
+                MakerspaceName: makerspaceName,
+                MakerspaceId: makerspaceId,
                 Date: date,
                 Time: time,
                 IsActive: isActive,
@@ -141,6 +149,24 @@
                 $("#selectmultiple").val(''),
                 $("#textarea").val('')
         }      
+
+        function getAllMakerspaces() {
+            let api = "../api/Makerspaces/All";
+            ajaxCall("GET", api, "", getSuccessAllMaker, error);
+        }
+        function getSuccessAllMaker(data) {
+
+            var makerlist = [];
+            var value = " <option value='כל חללי העבודה'></option>";
+            for (var i = 1; i < data.length; i++) {
+                makerlist.push(data[i].MakerspaceName);
+                value += " <option data-id='" + data[i].MakerspaceId + "' value = '" + data[i].MakerspaceName + "' > " + data[i].MakerspaceName + "</option > ";
+            }
+            $("#mylistAll").append(value);
+            
+        }
+
+
     </script>
 </head>
 
@@ -178,10 +204,8 @@
                         <label for="checkboxes-0">
                             <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
                             <label class="control-label" for="selectbasic">
-                                <select id="selectbasic1" name="selectbasic" class="דform-control">
-                                    <option value="0">חללי העבודה שלי</option>
-                                    <option value="1">חלל עבודה 1</option>
-                                </select>
+                                <input class="form-control" list="mylistUser" name="mylistAllUser" placeholder="חללי העבודה במועדפים" >
+                                <datalist id="mylistUser"></datalist>
                             </label>
                         </label>
                     </div>
@@ -189,10 +213,8 @@
                         <label for="checkboxes-0">
                             <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
                             <label class="control-label" for="selectbasic">
-                                <select id="selectbasic2" name="selectbasic" class="דform-control">
-                                    <option value="0">כל חללי העבודה</option>
-                                    <option value="1">חלל עבודה 11</option>
-                                </select>
+                                <input class="form-control" list="mylistAll" name="mylistAll" placeholder="כל חללי העבודה">
+                                <datalist id="mylistAll"></datalist>
                             </label>
                         </label>
                     </div>
