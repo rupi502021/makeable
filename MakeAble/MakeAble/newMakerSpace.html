@@ -24,7 +24,7 @@
 
     <script>
         $(document).ready(function () {
-           
+            getAllProf();
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -81,7 +81,7 @@
                 Size: parseInt($("#MakerSpace_Size").val()),
                 Price: parseInt($("#MakerSpace_Price").val()),
                 Descrip: $("#textarea").val(),
-                professionArr: $("#selectmultiple").val(),
+                professionArr: $("#selectmultipleprof").val(),
                 Aircondition: parseInt($("#fa1:checked").val()),
                 Accessibility: parseInt($("#fa5:checked").val()),
                 Serving_coffee: parseInt($("#fa2:checked").val()),
@@ -118,13 +118,28 @@
                 $("#MakerSpace_address_n").val(''),
                 $("#MakerSpace_Tel").val(''),
                 $("#MakerSpace_Url").val(''),
-                $("#selectmultiple").val(''),
+                $("#selectmultipleprof").val(''),
                 $("#MakerSpace_Max").val(''),
                 $("#MakerSpace_Size").val(''),
                 $("#MakerSpace_Price").val(''),
                 $("#textarea").val('')
         }
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function getSuccessAllProf(data) {
 
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="selectmultipleprof"]').append(value);
+
+
+        }
     </script>
 </head>
 
@@ -286,12 +301,7 @@
             <!-- Select Multiple -->
             <div class="form-group">
                 <div class="col-sm-9">
-
-                    <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
-                        <option value="אומנות">אומנות</option>
-                        <option value="מדפסות תל מימד">מדפסות תל מימד</option>
-                        <option value="נגרות">נגרות</option>
-                        <option value="תכנות">תכנות</option>
+                    <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
                     </select>
                 </div>
                 <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>

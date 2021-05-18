@@ -33,6 +33,49 @@ namespace MakeAble.Models.DAL
             con.Open();
             return con;
         }
+
+        public List<Profession> getprofession()
+        {
+
+            SqlConnection con = null;
+            List<Profession> pList = new List<Profession>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "SELECT * FROM Professions";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    Profession p = new Profession();
+                    p.ProfessionId = Convert.ToInt32(dr["ProfessionId"]);
+                    p.ProfessionName = Convert.ToString(dr["ProfessionName"]);
+                   
+                    pList.Add(p);
+                }
+
+                return pList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
+        }
         public List<User> getusersPro(string email)
         {
 
@@ -556,8 +599,8 @@ namespace MakeAble.Models.DAL
                     g.Email = Convert.ToString(dr["UserEmail"]);
                     g.Profession = Convert.ToString(dr["ProfessionName"]);
                     g.Image = Convert.ToString(dr["PhotoUrl"]);
-                    g.MakerspaceName= Convert.ToString(dr["MakerspaceName"]);
-                    g.MakerspaceId= Convert.ToInt32(dr["MakerspaceId"]);
+                    g.MakerspaceName = Convert.ToString(dr["MakerspaceName"]);
+                    g.MakerspaceId = Convert.ToInt32(dr["MakerspaceId"]);
 
                     gList.Add(g);
                 }
@@ -681,15 +724,15 @@ namespace MakeAble.Models.DAL
         private String BuildInsertMakerspace_GalleryCommand(Gallery gallery, int id)
         {
             String command;
-           
+
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}')",id,gallery.MakerspaceId,gallery.MakerspaceName, gallery.GalleryName);
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}')", id, gallery.MakerspaceId, gallery.MakerspaceName, gallery.GalleryName);
 
             String prefix = "INSERT INTO Makerspace_Gallery " + "([GalleryId],[MakerspaceId],[MakerspaceName],[GalleryName])";
 
-            command = prefix + sb.ToString() ;
+            command = prefix + sb.ToString();
             return command;
         }
 
@@ -1138,7 +1181,7 @@ namespace MakeAble.Models.DAL
                     m.City = Convert.ToString(dr["City"]);
                     m.Street = Convert.ToString(dr["Street"]);
                     m.Num_street = Convert.ToInt32(dr["Num_street"]);
-                   
+
                     mList.Add(m);
 
                 }

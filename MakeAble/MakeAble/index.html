@@ -109,6 +109,7 @@
 
     <script>
         $(document).ready(function () {
+            getAllProf();
             $("#submitLogin").click(fLogin);
             checklogin();
             render();
@@ -271,7 +272,7 @@
                 str += "<div class='card'>";//*
                 str += "<div class='para'><br />";
                 str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].GalleryName + "</h1>"; //שם
-                str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + /*מיקום בו נוצרה*/ + "</p>"; //מקום
+                str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + d[i].MakerspaceName + "</p>"; //מקום
                 str += "<p>" + d[i].Professions + "</p>"; //תחומי עיסוק
                 str += "</div>";
                 str += "<span>1/" + d[i].Images.length + "</span>";
@@ -354,7 +355,6 @@
             var i;
             var slides = document.getElementsByClassName("mySlides" + id);
 
-
             if (n > slides.length) { slideIndex = 1 }
             if (n < 1) { slideIndex = slides.length }
             for (i = 0; i < slides.length; i++) {
@@ -362,8 +362,26 @@
             }
 
             slides[slideIndex - 1].style.display = "block";
+        }
+
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function getSuccessAllProf(data) {
+
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="selectmultipleprof"]').append(value);
 
 
+        }
+        function error(err) {
+            console.log(err);
         }
     </script>
 
@@ -589,11 +607,7 @@
             <h1 style='text-align:right; font-size:30px; top:10px'>בחר תחום עיסוק:</h1>
             <br />
             <br />
-            <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
-                <option value="אומנות">אומנות</option>
-                <option value="מדפסות תל מימד">מדפסות תל מימד</option>
-                <option value="נגרות">נגרות</option>
-                <option value="תכנות">תכנות</option>
+            <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
             </select>
             <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
         </div>

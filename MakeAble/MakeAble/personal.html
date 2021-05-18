@@ -64,6 +64,7 @@
 
     <script>
         $(document).ready(function () {
+            getAllProf();
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -176,7 +177,7 @@
             var indexDropDown = data.Professions;
             for (var i = 0; i < indexDropDown.length; i++) {
 
-                $("#selectmultiple").find("option[value='" + indexDropDown[i] + "']").attr('selected', 'selected');
+                $("#selectmultipleprof").find("option[value='" + indexDropDown[i] + "']").attr('selected', 'selected');
             }
 
         }
@@ -195,7 +196,7 @@
                 City: city,
                 Description: $("#textarea").val(),
                 Have_makerspace: parseInt($("#Have_makerspace:checked").val()),
-                Professions: $("#selectmultiple").val()
+                Professions: $("#selectmultipleprof").val()
             }
             upload();
             return false;
@@ -298,7 +299,22 @@
                 confirm_password.setCustomValidity('');
             }
         }
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function getSuccessAllProf(data) {
 
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="selectmultipleprof"]').append(value);
+
+
+        }
     </script>
 </head>
 <body class="host_version" dir="rtl">
@@ -444,15 +460,8 @@
                         <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
                         <div class="form-group">
                             <div class="col-sm-9">
-
-                                <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
-                                    <option value='אומנות'>אומנות</option>
-                                    <option value='מדפסות תל מימד'>מדפסות תל מימד</option>
-                                    <option value='נגרות'>נגרות</option>
-                                    <option value='תכנות'>תכנות</option>
+                                <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
                                 </select>
-
-
                             </div>
                             <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
                         </div>

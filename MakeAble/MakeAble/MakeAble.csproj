@@ -168,6 +168,8 @@
     <Compile Include="Models\DAL\DBServices.cs" />
     <Compile Include="Models\FileUploadToolController.cs" />
     <Compile Include="Models\Gallery.cs" />
+    <Compile Include="Controllers\ProfessionsController.cs" />
+    <Compile Include="Models\Profession.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Makerspace.cs" />
     <Compile Include="Models\Message.cs" />
@@ -426,7 +428,7 @@
     <Content Include="Style\personal_gallery_style.css" />
     <Content Include="Style\personal_style.css" />
     <Content Include="Style\Registration_style.css" />
-    <Content Include="test.html" />
+    <Content Include="test1.html" />
     <Content Include="UploadedImageGalleries\0.jfif" />
     <Content Include="UploadedImageGalleries\Gallery_ron%40gmail.com_16174742042300.jfif" />
     <Content Include="UploadedImageGalleries\Gallery_ron%40gmail.com_16174742042301.jfif" />

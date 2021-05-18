@@ -46,6 +46,7 @@
                     $("#mylist").append(value);
                 }
             });
+            getAllProf();
             $("#filebutton").change(function () {
                 readURL(this);
             });
@@ -85,7 +86,7 @@
                 City: city,
                 Description: $("#textarea").val(),
                 Have_makerspace: parseInt($("#Have_makerspace:checked").val()),
-                Professions: $("#selectmultiple").val()
+                Professions: $("#selectmultipleprof").val()
             }
           
             upload();
@@ -164,7 +165,7 @@
             $("#cities").val(''),
             $("#textarea").val(''),
             $("#Have_makerspace:checked").val(''),
-            $("#selectmultiple").val('');
+            $("#selectmultipleprof").val('');
         }
         function validatePassword() {
             var password = document.getElementById("password")
@@ -178,7 +179,22 @@
             }
         }
 
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function getSuccessAllProf(data) {
 
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="selectmultipleprof"]').append(value);
+            
+
+        }
     </script>
 </head>
 
@@ -271,11 +287,8 @@
             <div class="form-group">
                 <div class="col-sm-9">
 
-                    <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
-                        <option value="אומנות">אומנות</option>
-                        <option value="מדפסות תל מימד">מדפסות תל מימד</option>
-                        <option value="נגרות">נגרות</option>
-                        <option value="תכנות">תכנות</option>
+                    <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
+                      
                     </select>
 
 
