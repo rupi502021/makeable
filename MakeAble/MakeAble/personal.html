@@ -155,7 +155,6 @@
                 var day = ("0" + tmp.getDate()).slice(-2);
                 var month = ("0" + (tmp.getMonth() + 1)).slice(-2);
                 var today = tmp.getFullYear() + "-" + (month) + "-" + (day);
-
             }
 
             document.getElementsByName('mylist')[0].value = data.City;
@@ -185,13 +184,15 @@
         function updateUser() {
             var getvalue = document.getElementsByName('mylist')[0];
             city = getvalue.value;
+            var birthdate = $("#birthDate").val();
+          
 
             user = {
                 Fname: $("#firstName").val(),
                 Lname: $("#lastName").val(),
                 Email: $("#email").val(),
                 Password: $("#password").val(),
-                BirthDay: $("#birthDate").val(),
+                BirthDay: birthdate,
                 Phone: $("#phoneNumber").val(),
                 City: city,
                 Description: $("#textarea").val(),
@@ -253,7 +254,7 @@
         }
 
         function error(err) {
-            console.log(err);
+            alert(err.responseJSON.Message);
         }
 
         function checklogin() {
@@ -417,7 +418,7 @@
                         <label for="birthDate" class="col-sm-3 control-label">תאריך לידה</label>
                         <div class="form-group">
                             <div class="col-sm-9">
-                                <input type="date" id="birthDate" class="form-control">
+                                <input type="date" name="date" id="birthDate" class="form-control" required>
                             </div>
                         </div>
                         <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד</label>

@@ -56,7 +56,7 @@ namespace MakeAble.Models.DAL
                     Profession p = new Profession();
                     p.ProfessionId = Convert.ToInt32(dr["ProfessionId"]);
                     p.ProfessionName = Convert.ToString(dr["ProfessionName"]);
-                   
+
                     pList.Add(p);
                 }
 
@@ -254,17 +254,24 @@ namespace MakeAble.Models.DAL
             String prefix = "INSERT INTO Users " + "([Email],[Fname],[Lname],[City],[Password],[Phone],[ProfilePhoto],[BirthDay],[Description],[Have_makerspace])";
 
             command = prefix + sb.ToString();
-
-            if (user.Professions.Count > 0 && user.Professions != null)
+            try
             {
-                for (int i = 0; i < user.Professions.Count; i++)
+                if (user.Professions.Count > 0)
                 {
-                    sb = new StringBuilder();
-                    sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
-                    prefix = ";INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
+                    for (int i = 0; i < user.Professions.Count; i++)
+                    {
+                        sb = new StringBuilder();
+                        sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
+                        prefix = ";INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
 
-                    command += prefix + sb.ToString();
+                        command += prefix + sb.ToString();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("צריך לבחור לפחות תחום עיסוק אחד");
+
             }
             return command;
         }
@@ -323,40 +330,59 @@ namespace MakeAble.Models.DAL
                    "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
 
-                if (user.Professions.Count > 0 && user.Professions != null)
+                try
                 {
-                    command += delete;
-                    for (int i = 0; i < user.Professions.Count; i++)
+                    if (user.Professions.Count > 0)
                     {
-                        sb = new StringBuilder();
-                        sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
-                        prefix = "; INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
+                        command += delete;
+                        for (int i = 0; i < user.Professions.Count; i++)
+                        {
+                            sb = new StringBuilder();
+                            sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
+                            prefix = "; INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
 
-                        command += prefix + sb.ToString();
+                            command += prefix + sb.ToString();
+                        }
+
                     }
+                }
+                catch (Exception ex)
+                {
+                    throw new ArgumentException("צריך לבחור לפחות תחום עיסוק אחד");
 
                 }
+
             }
             else
             {
                 command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
                    "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone +
-                   "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
+                   "', BirthDay='" +user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
-
-                if (user.Professions.Count > 0 && user.Professions != null)
+                try
                 {
-                    command += delete;
-                    for (int i = 0; i < user.Professions.Count; i++)
+                    if (user.Professions.Count > 0)
                     {
-                        sb = new StringBuilder();
-                        sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
-                        prefix = ";INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
+                        command += delete;
+                        for (int i = 0; i < user.Professions.Count; i++)
+                        {
+                            sb = new StringBuilder();
+                            sb.AppendFormat("Values('{0}','{1}')", user.Professions[i], user.Email);
+                            prefix = ";INSERT INTO Users_Professions " + "([ProfessionName], [Email])";
 
-                        command += prefix + sb.ToString();
+                            command += prefix + sb.ToString();
+                        }
+
                     }
 
                 }
+                catch (Exception ex)
+                {
+                    throw new ArgumentException("צריך לבחור לפחות תחום עיסוק אחד");
+
+                }
+
+
             }
             return command;
         }

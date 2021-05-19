@@ -86,20 +86,27 @@ namespace MakeAble.Controllers
         // PUT api/<controller>/5
         public HttpResponseMessage Put([FromBody] User user)
         {
-            int num = user.Update();
-            
-            if (num == 0)
+            try
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "user: " + user + " does not exist");
-            }
-            else
+                DateTime x= user.BirthDay;
+                user.BirthDay = x;
+                int num = user.Update();
+
+                if (num == 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "user: " + user + " does not exist");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, user);
+                }
+            }catch(Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, user);
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex.Message);
             }
+           
+
         }
-
-
-       
 
         // DELETE api/<controller>/5
         public void Delete(int id)
