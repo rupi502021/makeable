@@ -120,8 +120,9 @@
                 }
                 else {
                     swal({
-                        title: "!Wrong Way", text: "You must login first", icon:
-                            "error"
+                        title: "על מנת לגשת לדף זה עלייך להתחבר תחילה",
+                        icon: "error",
+                        timer: 2500
                     })
                 }
             });
@@ -156,8 +157,9 @@
 
             if (data != null) {
                 swal({
-                    title: "You are logged in!", icon:
-                        "success"
+                    title: "הינך מחובר!",
+                    icon: "success",
+                    timer: 2500,
                 }).then(function () {
                     window.location.href = 'index.html';
                 }
@@ -173,8 +175,10 @@
             }
             else {
                 swal({
-                    title: "Wrong credentials", text: "Try again", icon:
-                        "error"
+                    title: "פרטים שגויים",
+                    text: "אנא נסה שנית",
+                    icon: "error",
+                    timer: 2500
                 })
             }
         }
@@ -210,7 +214,11 @@
             }
         }
         function logout() {
-            alert("logging out");
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            })
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             window.location.href = 'index.html';

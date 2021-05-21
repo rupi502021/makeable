@@ -99,8 +99,10 @@
         function success(data) {
             localStorage.setItem("MakerSpaceID", data);
             swal({
-                title: "Added Successfuly!", text: "Moving to Your MakerSpaces", type:
-                    "success"
+                title: "הוסף בהצלחה",
+                text: "הינך מועבר להוספת הכלים",
+                icon: "success",
+                timer: 2500,
             }).then(function () {
                 window.location.href = 'newMakerSpace_Tool.html';
             }

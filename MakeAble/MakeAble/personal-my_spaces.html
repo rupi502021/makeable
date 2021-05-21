@@ -92,7 +92,11 @@
         }
 
         function logout() {
-            alert("logging out");
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            })
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             window.location.href = 'index.html';
@@ -220,7 +224,11 @@
         }
 
         function deleteSuccess(data) {
-            alert("מייקרספייס הוסר בהצלחה!");
+            swal({
+                title: "חלל העבודה הוסר בהצלחה",
+                icon: "success",
+                timer: 2500,
+            })
             location.reload();
         }
 

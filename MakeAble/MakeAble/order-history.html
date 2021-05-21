@@ -270,7 +270,11 @@
 
         }
         function logout() {
-            alert("logging out");
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            })
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             window.location.href = 'index.html';

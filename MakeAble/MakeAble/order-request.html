@@ -283,7 +283,11 @@
 
         }
         function logout() {
-            alert("logging out");
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            })
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             window.location.href = 'index.html';
@@ -353,11 +357,10 @@
             ajaxCall("DELETE", api, "", deleteSuccess, deleteError);
         }
         function deleteSuccess(data) {
-            alert("delete success!");
-
             swal({
-                title: "הצלחה!", text: "בקשה אושרה", icon:
-                    "success"
+                title: "הבקשה אושרה",
+                icon: "success",
+                timer: 2500,
             }).then(function () {
                 //window.location.href = "personal.html";
                 window.location.reload();
@@ -385,11 +388,10 @@
 
         }
         function success(data) {
-            alert("update success");
-
             swal({
-                title: "הצלחה!", text: "בקשה אושרה", icon:
-                    "success"
+                title: "הבקשה אושרה",
+                icon: "success",
+                timer: 2500,
             }).then(function () {
                 //window.location.href = "personal.html";
                 window.location.reload();

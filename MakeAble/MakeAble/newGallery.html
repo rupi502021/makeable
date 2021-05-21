@@ -122,10 +122,12 @@
 
         function success(data) {
            
-            swal({
-                title: "Added Successfuly!", text: "Moving to All Galleries", type:
-                    "success"
-            }).then(function () {
+                swal({
+                    title: "הוסף בהצלחה",
+                    text: "הינך מועבר לדף הגלריות",
+                    icon: "success",
+                    timer: 2500,
+                }).then(function () {
                 window.location.href = 'Galleries.html';
             }
             );

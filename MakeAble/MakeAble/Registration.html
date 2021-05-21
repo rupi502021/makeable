@@ -131,11 +131,10 @@
 
         }
         function success(data) {
-            alert("got post success");
-
             swal({
-                title: "Added Successfuly!", text: "Moving to Home page", icon:
-                    "success"
+                title: "ההרשמה הסתיימה בהצלחה",
+                icon: "success",
+                timer: 2500,
             }).then(function () {
                 window.location.href = 'index.html';
 

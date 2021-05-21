@@ -39,8 +39,10 @@
             $("#ToolForm").submit(f1);
             $("#ToolForm_finish").click(function () {
                 swal({
-                    title: "Finish to add tools", text: "Moving to Your MakerSpaces", type:"info"
-                        
+                    title: "תהליך הוספת החלל הושלם בהצלחה",
+                    text: "הינך מועבר לדף החללים שלך",
+                    icon: "success",
+                    timer: 2500,    
                 }).then(function () {
                     window.location.href = 'personal-my_spaces.html';
                 }
@@ -117,10 +119,10 @@
         }
 
         function success(data) {
-          
             swal({
-                title: "Added Successfuly!", text: "Moving to Your MakerSpaces", type:
-                    "success"
+                title: "הכלי התווסף בהצלחה",
+                icon: "success",
+                timer: 2500,
             }).then(function () {
                 window.location.href = 'newMakerSpace_Tool.html';
             }

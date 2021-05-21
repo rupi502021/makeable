@@ -86,7 +86,11 @@
         }
 
         function logout() {
-            alert("logging out");
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            })
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
             window.location.href = 'index.html';
@@ -294,10 +298,10 @@
         }
 
         function success(data) {
-
             swal({
-                title: "הצלחה!", text: "בוצעו השינויים", icon:
-                    "success"
+                title: "השינויים נישמרו בהצלחה",
+                icon: "success",
+                timer: 2500,
             }).then(function () {
                 window.location.href = "personal-gallery.html";
             });
