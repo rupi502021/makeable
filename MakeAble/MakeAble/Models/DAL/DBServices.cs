@@ -330,7 +330,7 @@ namespace MakeAble.Models.DAL
                    "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
 
-                try
+                try 
                 {
                     if (user.Professions.Count > 0)
                     {
@@ -1490,7 +1490,51 @@ namespace MakeAble.Models.DAL
             }
 
         }
+        public List<Tool> getTools()
+        {
 
+            SqlConnection con = null;
+            List<Tool> tList = new List<Tool>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "select * from Tool where ToolId in (Select max(ToolId) FROM Tool group by ToolName)";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    Tool t = new Tool();
+                    t.ToolId = Convert.ToInt32(dr["ToolId"]);                   
+                    t.ToolName = Convert.ToString(dr["ToolName"]);
+                    t.Brand = Convert.ToString(dr["Brand"]);
+                    t.Model = Convert.ToString(dr["Model"]);                   
+                    t.Qualifications = Convert.ToBoolean(dr["Qualifications"]);
+                    t.Description = Convert.ToString(dr["Description"]);
+                    
+                    tList.Add(t);
+                }
+                return tList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
+        }
         public List<Reservation> getRequest()
         {
 

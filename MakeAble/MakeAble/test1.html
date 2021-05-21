@@ -1,44 +1,425 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="he">
 <head>
-    <meta charset="utf-8" />
-    <title>Simple Map</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <style type="text/css">
-        /* Always set the map height explicitly to define the size of the div
-        * element that contains the map. */
-        #map {
-            height: 100%;
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>גלריית עבודות</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="../css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/custom.css">
+
+    <!-- Modernizer for Portfolio -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" defer></script>
+
+    <style>
+        body {
+            text-align: right;
+        }
+        
+        #logo_top {
+            width: 180px;
+            height: 51px;
+        }
+        /* Style the navbar */
+        #navbar {
+            overflow: hidden;
+            background-color: #333;
         }
 
-        /* Optional: Makes the sample page fill the window. */
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            /* Navbar links */
+            #navbar a {
+                float: left;
+                display: block;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px;
+                text-decoration: none;
+            }
+
+        /* Page content */
+        .content {
+            padding: 16px;
+        }
+
+        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+            /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+            .sticky + .content {
+                padding-top: 60px;
+            }
+
+        label {
+            color: white;
+            display: inline-block;
+            /* margin-bottom: .5rem; */
+        }
+
+        .row {
+            margin-right: 15px;
+            margin-left: 15px;
+        }
+
+        .select2-hidden-accessible {
+            position: initial !important;
+        }
+        .select2-container {
+            width: 180px;
+        }
+        button.btn.btn-outline-primary {
+            margin-right: auto;
+            height: 70px;
+            width: 70px;
+            margin-bottom: auto;
+            margin-top: auto;
         }
     </style>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <script>
-        let map;
+        $(document).ready(function () {
+            var a = [];
+            var b = [];
+            var c = [{ id: 0, text: 'מיזוג אוויר' }, { id: 1, text: 'עמדת קפה וכיבוד' }, { id: 2, text: 'חניה חינם' }, { id: 3, text: 'תשלום אונליין' }, { id: 4, text: 'נגישות' }];
 
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -34.397, lng: 150.644 },
-                zoom: 8,
+            $('#profs').select2({
+                placeholder: 'בחר תחומי עיסוק',
+                data: a,
+                tags: true,
+                tokenSeparators: [',', ' ']
             });
+            $('#tools').select2({
+                placeholder: 'בחר כלים',
+                data: b,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+            
+            $('#facili').select2({
+                placeholder: 'בחר מתקנים',
+                data: c,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+
+            var data = {
+                resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
+            };
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+
+                    var citieslist = [];
+                    var value = " <option value='בחירת עיר'></option>";
+                    for (var i = 1; i < data.length; i++) {
+                        citieslist.push(data[i].name);
+                        value += " <option value='" + data[i].name + "'>" + data[i].name + "</option>";
+                    }
+                    $("#mylist").append(value);
+                }
+            });
+        })
+    </script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#submitLogin").click(fLogin);
+            checklogin();
+            getAllProf();
+            getAlltools();
+        });
+
+        function fLogin() {
+            let email = $("#email1").val();
+            let pass = $("#pass1").val();
+            let api = "../api/Users/" + email + "/" + pass;
+
+            ajaxCall("GET", api, "", getSuccess, getError);
+        }
+
+        function getSuccess(data) {
+            console.log(data);
+
+            if (data != null) {
+                swal({
+                    title: "You are logged in!", icon:
+                        "success"
+                }).then(function () {
+                    window.location.href = 'index.html';
+                }
+                );
+
+                checked = document.getElementById("remember-me").checked;
+                if (checked) {
+                    localStorage.setItem("user", JSON.stringify(data));
+                }
+                else {
+                    sessionStorage.setItem("user", JSON.stringify(data));
+                }
+            }
+            else {
+                swal({
+                    title: "Wrong credentials", text: "Try again", icon:
+                        "error"
+                })
+            }
+        }
+
+        function getError(err) {
+            console.log(err.responseJSON.Message);
+        }
+
+        function checklogin() {
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l != null || l1 != null) {
+                login = true;
+                $("ul.nav.navbar-nav.navbar-right").hide();
+                $("#newGalleryBTN").show();
+                $("#per_area").show();
+                var hi = "היי, ";
+                if (l == null) {
+                    $("#perHello").append(hi + l1.Fname);
+                }
+                else {
+                    $("#perHello").append(hi + l.Fname);
+                }
+                $("#loginperson").show();
+            }
+            else {
+                login = false;
+                $("#loginperson").hide();
+                $("a#logout").hide();
+                $("ul.nav.navbar-nav.navbar-right").show();
+                $("#per_area").hide();
+                $("ul#newGalleryBTN").hide();
+            }
+        }
+        function logout() {
+            alert("logging out");
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function error(err) {
+            alert(err.responseJSON.Message);
+        }
+        function getSuccessAllProf(data) {
+
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="profs"]').append(value);
+        }
+        function getAlltools() {
+            let api = "../api/Tools";
+            ajaxCall("GET", api, "", getSuccessAlltools, error);
+        }
+        function getSuccessAlltools(data) {
+
+
+            var toolslist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                toolslist.push(data[i].ToolName);
+                value += " <option id='" + data[i].ToolId + "' value = '" + data[i].ToolName + "' > " + data[i].ToolName + "</option > ";
+            }
+            $('select[name="tools"]').append(value);
         }
     </script>
 </head>
-<body>
-    <div id="map"></div>
+<body class="host_version" dir="rtl">
+    <!-- Modal -->
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content" style="font-family:Calibri">
+                <div class="modal-header tit-up">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="right: 93%;bottom: 15%;">&times;</button>
+                    <h4 class="modal-title">התחברות</h4>
+                </div>
+                <div class="modal-body customer-box">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Login" dir="rtl">
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input class="form-control" id="email1" placeholder="שם משתמש (אימייל)" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input class="form-control" id="pass1" placeholder="סיסמא" type="password">
+                                    </div>
+                                    <div class="col-sm-12 row">
+                                        <label for="remember-me" class="for-pwd" style="direction:rtl">
+                                            <span><input id="remember-me" name="remember-me" type="checkbox"></span>
+                                            <span>זכור אותי</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" id="submitLogin" class="btn btn-light btn-radius btn-brd grd1">
+                                            התחברות
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a class="for-pwd" href="javascript:;">שכחת סיסמא?</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- LOADER -->
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="progress-br float shadow">
+                <div class="progress__item"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END LOADER -->
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
+                    </ul>
+                    <ul id="loginperson" class="nav navbar-nav navbar-right">
+                        <li><a><span id="perHello" style="color:white"></span></a></li>
+                        <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="hover-btn-new log" href="" data-toggle="modal" data-target="#login"><span>התחברות</span></a></li>
+                        <li><a class="hover-btn-new log" href="Registration.html"><span>הרשמה</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
+    <div id="navbar">
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXHTRIwUGpCgzoDJmDFXQcEK38dbUuFSk&callback=initMap">
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=Toledo&region=es&key=AIzaSyAXHTRIwUGpCgzoDJmDFXQcEK38dbUuFSk" async>
+        <form id="formMaker" class="form-horizontal" role="form">
+            
+            <div class="row">
 
-    </script>
+                <div class="form-group ">
+                    <label for="cities" class="form-label">עיר</label>
+
+                    <input class="dropdown-input form-control" list="mylist" name="mylist" />
+                    <datalist id="mylist">
+                    </datalist>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="Date" class="form-label">תאריך לידה</label>
+                    <input type="date" name="date" id="Date" class="form-control">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="select" class="form-label">תחומי עיסוק</label>
+
+                    <select class="form-control" name="profs" id="profs" multiple="multiple"></select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="select" class="form-label">כלים</label>
+
+                    <select class="form-control" name="tools" id="tools" multiple="multiple"></select>
+
+                </div>
+                <div class="form-group">
+
+                    <label for="select" class="form-label">מתקנים</label>
+
+                    <select class="form-control" name="facili" id="facili" multiple="multiple"></select>
+
+                </div>
+                <button type="button" class="btn btn-outline-primary">חפש</button>
+            </div>
+            
+        </form>
+
+    </div>
+
+
+
+
+    <!-- ALL JS FILES -->
+    <script src="../js/all.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="../js/custom.js"></script>
+
 </body>
 </html>

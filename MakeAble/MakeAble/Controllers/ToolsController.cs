@@ -13,11 +13,23 @@ namespace MakeAble.Controllers
 {
     public class ToolsController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [HttpGet]
+        [Route("api/Tools")]
+        public HttpResponseMessage ReadTools()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                Tool tool = new Tool();
+                List<Tool> tList = tool.Read();
+
+                return Request.CreateResponse(HttpStatusCode.Created, tList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
+      
 
         // GET api/<controller>/5
         public string Get(int id)

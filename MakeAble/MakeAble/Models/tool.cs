@@ -57,5 +57,11 @@ namespace MakeAble.Models
             List<Tool> t = dbs.getToolsUser(email);
             return t;
         }
+        public List<Tool> Read()
+        {
+            DBServices dbs = new DBServices();
+            List<Tool> t = dbs.getTools();
+            return t;
+        }
     }
 }

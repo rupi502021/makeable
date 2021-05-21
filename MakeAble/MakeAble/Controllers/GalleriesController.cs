@@ -10,13 +10,25 @@ namespace MakeAble.Controllers
 {
     public class GalleriesController : ApiController
     {
-        
-        public List<Gallery> Get()
+        [HttpGet]
+        [Route("api/Galleries")]
+        public HttpResponseMessage Get()
         {
-            Gallery gallery = new Gallery();
-            List<Gallery> gList = gallery.Read();
-            return gList;
+            try
+            {
+                Gallery gallery = new Gallery();
+                List<Gallery> gList = gallery.Read();
+
+
+
+                return Request.CreateResponse(HttpStatusCode.Created, gList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
+      
 
         [HttpGet]
         [Route("api/Galleries/{email}/")]
