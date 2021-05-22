@@ -58,13 +58,46 @@
                 success: function (data) {
 
                     var citieslist = [];
-                    var value = " <option value='בחירת עיר'></option>";
+                    var value = "";
                     for (var i = 1; i < data.length; i++) {
                         citieslist.push(data[i].name);
                         value += " <option data-id='" + data[i].name + "' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
                     }
                     $("#mylist").append(value);
                 }
+            });
+
+            //שרשור רחוב לפי עיר
+            $(".mylist").change(function () {
+                console.log(this.value);
+                c = this.value;
+                var data = {
+                    resource_id: '9ad3862c-8391-4b2f-84a4-2d4c68625f4b', // the resource id
+                    limit: 60000, // get 5 results
+
+                };
+                $.ajax({
+                    url: 'https://data.gov.il/api/3/action/datastore_search',
+                    data: data,
+                    dataType: 'json',
+                    success: function (data) {
+                        streetslist = [];
+                        $(".mycitylist").val('');
+                        var value = "";
+                        for (var i = 0; i < data.result.records.length; i++) {
+                            var d = data.result.records[i];                           
+                            
+                            if (c + " " == d.שם_ישוב) {
+                                streetslist.push(d.שם_רחוב);
+                                let s = "'" + d.שם_רחוב + "'";
+                                value += " <option data-id='" + d.שם_רחוב + "' value = '" + d.שם_רחוב + "' > " + d.שם_רחוב + "</option > ";
+                               
+                            }
+                        }
+                        console.log(streetslist);
+                        $("#mycitylist").html(value);
+                    }
+                });
             });
             $("#filebutton").change(function () {
                 readURL(this);
@@ -186,7 +219,7 @@
 
         function clear() {
             $("#MakerSpace_Name").val(''),
-                $("#MakerSpace_address_s").val(''),
+                $("#mycitylist").val(''),
                 $("#MakerSpace_address_n").val(''),
                 $("#MakerSpace_Tel").val(''),
                 $("#MakerSpace_Url").val(''),
@@ -255,13 +288,16 @@
                     <table>
                         <tr>
                             <td>
-                                <input class="form-control" list="mylist" name="mylist" placeholder="עיר" required>
+                                <input class="form-control mylist" list="mylist" name="mylist" placeholder="עיר" required>
                                 <datalist id="mylist">
                                 </datalist>
 
                             </td>
                             <td>
-                                <input type="text" id="MakerSpace_address_s" placeholder="רחוב" class="form-control" autofocus required>
+                                <!--<input type="text" id="MakerSpace_address_s" placeholder="רחוב" class="form-control" autofocus required>-->
+                                <input class="mycitylist form-control" list="mycitylist" name="mycitylist" placeholder="רחוב" required>
+                                <datalist id="mycitylist">
+                                </datalist>
                             </td>
                             <td>
                                 <input type="number" id="MakerSpace_address_n" placeholder="מספר" class="form-control" autofocus required>

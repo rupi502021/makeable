@@ -82,6 +82,9 @@
                     $("#mylist").append(value);
                 }
             });
+
+            
+           
             $("#filebutton").change(function () {
                 readURL(this);
             });
@@ -437,7 +440,7 @@
                         <label for="cities" class="col-sm-3 control-label" style="bottom:8px">עיר</label>
                         <div class="form-group">
                             <div class="col-sm-9">
-                                <input class="dropdown-input" list="mylist" name="mylist" />
+                                <input class="mylist dropdown-input" list="mylist" name="mylist" />
                                 <datalist id="mylist">
                                 </datalist>
                             </div>
