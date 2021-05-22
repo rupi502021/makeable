@@ -124,6 +124,9 @@
         function AddMakerspace() {
             var getvalue = document.getElementsByName('mylist')[0];
             city = getvalue.value;
+            
+            var getvalue1 = document.getElementsByName('mycitylist')[0];
+            street = getvalue1.value;
 
             if (localStorage.getItem("user") == null) {
                 l = JSON.parse(sessionStorage.getItem('user'));
@@ -146,7 +149,7 @@
             makerspace = {
                 City: city,
                 User_email: l.Email,
-                Street: $("#MakerSpace_address_s").val(),
+                Street: street,
                 Num_street: parseInt($("#MakerSpace_address_n").val()),
                 MakerspaceName: $("#MakerSpace_Name").val(),
                 PhoneNumber: $("#MakerSpace_Tel").val(),
