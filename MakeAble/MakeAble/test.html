@@ -1,0 +1,421 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <title>עדכון פרטים אישיים</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>QuickCloud - Hosting Responsive HTML5 Template</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link href="css/person.css" rel="stylesheet" />
+    <!-- Modernizer for Portfolio -->
+    <script src="js/modernizer.js"></script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="Style/personal_style.css" rel="stylesheet" />
+    <link href="Style/newGallery_style.css" rel="stylesheet" />
+    <script src="Scripts/ajaxCalls.js"></script>
+    
+    <style>
+        nav#nav1 {
+            position: initial;
+        }
+    </style>
+    
+    <script>
+        $(document).ready(function () {
+            fLogin();
+            $("#galleyBTNsave").click(f1);
+            $("#galleyBTNpub").click(f1);
+            getAllProf();
+            getAllMakerspaces();
+        });
+
+
+        function fLogin() {
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l == null) {
+                let email = l1.Email;
+
+                var api = "../api/Users/" + email + "/";
+            }
+            else {
+                let email = l.Email;
+
+                var api = "../api/Users/" + email + "/";
+            }
+            ajaxCall("GET", api, "", getSuccess, error);
+
+        }
+
+        function getSuccess(data) {
+            console.log(data);
+            checked = JSON.parse(localStorage.getItem('user'));
+            if (checked) {
+                localStorage.setItem("user", JSON.stringify(data));
+            }
+            else {
+                sessionStorage.removeItem('user');
+                sessionStorage.setItem("user", JSON.stringify(data));
+            }
+
+            checklogin();
+
+
+            function error(err) {
+                alert(err.responseJSON.Message);
+            }
+
+            function checklogin() {
+                l = JSON.parse(localStorage.getItem('user'));
+                l1 = JSON.parse(sessionStorage.getItem('user'));
+                if (l != null || l1 != null) {
+                    login = true;
+                    $("ul.nav.navbar-nav.navbar-right").hide();
+                    $("#newGalleryBTN").show();
+                    $("#per_area").show();
+                    var hi = "היי, ";
+                    if (l == null) {
+                        $("#perHello").append(hi + l1.Fname);
+                    }
+                    else {
+                        $("#perHello").append(hi + l.Fname);
+                    }
+                    $("#loginperson").show();
+                }
+                else {
+                    login = false;
+                    $("#loginperson").hide();
+                    $("a#logout").hide();
+                    $("ul.nav.navbar-nav.navbar-right").show();
+                    $("#per_area").hide();
+                    $("ul#newGalleryBTN").hide();
+                }
+            }
+            function logout() {
+                localStorage.removeItem('user');
+                sessionStorage.removeItem('user');
+                swal({
+                    title: "הינך מנותק!",
+                    icon: "success",
+                    timer: 2500,
+                }).then(function () {
+                    window.location.href = 'index.html';
+                });
+            }
+            var ClickOrSave;
+            function f1() {
+                console.log("click choosen" + this.id);
+                ClickOrSave = this.id;
+                AddGallery(ClickOrSave);
+                return false;
+            }
+
+            function AddGallery() {
+                var stars_range;
+                if ($("input[type='radio'].starRange-input").is(':checked')) {
+                    stars_range = $("input[type='radio'].starRange-input:checked").val();
+                    stars_range = 6 - stars_range;
+                }//דירוג כוכבים לחלל העבודה
+
+                //מחזיר תאריך עכשווי
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+
+                var date = yyyy + '-' + mm + '-' + dd;
+                //מחזיר שעה עכשווית
+                var time1 = new Date().toLocaleTimeString('en-US', {
+                    hour12: false,
+                    hour: "numeric",
+                    minute: "numeric"
+                });
+                var time = time1;
+
+                if (ClickOrSave == "galleyBTNsave") {
+                    var isActive = false;
+                }
+                else {
+                    var isActive = true;
+                }
+                var getvalue = document.getElementsByName('mylistAll')[0];
+                makerspaceName = getvalue.value;
+
+                var makerspaceId = $('#mylistAll option[value="' + makerspaceName + '"]').data('id');
+
+                gallery = {
+                    GalleryName: $("#galleryName").val(), //שם גלריה
+                    ProfArr: $("#selectmultipleprof").val(), //תחומי עיסוק
+                    Description: $("#textarea").val(), //תיאור קצר
+                    MakerspaceName: makerspaceName,
+                    MakerspaceId: makerspaceId,
+                    Date: date,
+                    Time: time,
+                    IsActive: isActive,
+                }
+
+                if (localStorage.getItem("user") == null) {
+                    l = JSON.parse(sessionStorage.getItem('user'));
+                }
+                else {
+                    l = JSON.parse(localStorage.getItem('user'));
+                }
+                gallery = { ...gallery, Email: l.Email };
+
+                upload() //הוספת תמונות
+                console.log(JSON.stringify(gallery));
+            }
+
+            function upload() {
+                var data = new FormData();
+                var files = $("#filebutton").get(0).files;
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedImageGalleries", files[f]);
+                    }
+                    data.append("name", "Gallery_" + gallery.Email + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                    // Ajax upload
+                    $.ajax({
+                        type: "POST",
+                        url: "../Api/FileUpload",
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: successfile,
+                        error: error
+                    });
+                }
+            }
+
+            function successfile(data) {
+
+                gallery = { ...gallery, ImageArr: data };
+                console.log(JSON.stringify(gallery));
+                ajaxCall("POST", "../api/Galleries", JSON.stringify(gallery), success, error);
+            }
+
+            function success(data) {
+
+                swal({
+                    title: "הוסף בהצלחה",
+                    text: "הינך מועבר לדף הגלריות",
+                    icon: "success",
+                    timer: 2500,
+                }).then(function () {
+                    window.location.href = 'Galleries.html';
+                }
+                );
+                clear();
+            }
+
+            function error(err) {
+                alert(err.responseJSON);
+            }
+
+            function clear() {
+                $("#galleryName").val(''),
+                    $("#selectmultipleprof").val(''),
+                    $("#textarea").val('')
+            }
+
+            function getAllMakerspaces() {
+                let api = "../api/Makerspaces/All";
+                ajaxCall("GET", api, "", getSuccessAllMaker, error);
+            }
+            function getSuccessAllMaker(data) {
+
+                var makerlist = [];
+                var value = " <option value='כל חללי העבודה'></option>";
+                for (var i = 0; i < data.length; i++) {
+                    makerlist.push(data[i].MakerspaceName);
+                    value += " <option data-id='" + data[i].MakerspaceId + "' value = '" + data[i].MakerspaceName + "' > " + data[i].MakerspaceName + "</option > ";
+                }
+                $("#mylistAll").append(value);
+
+            }
+
+            function getAllProf() {
+                let api = "../api/Professions";
+                ajaxCall("GET", api, "", getSuccessAllProf, error);
+            }
+            function getSuccessAllProf(data) {
+
+                var proflist = [];
+                var value = "";
+                for (var i = 0; i < data.length; i++) {
+                    proflist.push(data[i].ProfessionName);
+                    value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+                }
+                $('select[name="selectmultipleprof"]').append(value);
+
+
+            }
+        }
+
+    </script>
+</head>
+<body class="host_version" dir="rtl">
+    <!-- LOADER -->
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="progress-br float shadow">
+                <div class="progress__item"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END LOADER -->
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="personal.html">איזור אישי </a></li>
+                    </ul>
+                    <ul id="loginperson" class="nav navbar-nav navbar-right">
+                        <li><a><span id="perHello" style="color:white"></span></a></li>
+                        <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
+    <div class="container">
+
+        <form class="form-horizontal" id="pForm" role="form">
+            <h1>הוספת גלריה חדשה</h1>
+            <div class="row form-group">
+                <label for="firstName" class="col-sm-3 control-label">שם הגלריה</label>
+                <div class="col-sm-9">
+                    <input type="text" id="galleryName" placeholder="שם הגלריה" class="form-control" autofocus required>
+                </div>
+            </div>
+
+            <!-- Select Multiple -->
+            <div class="row form-group">
+                <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
+                <div class="col-sm-9">
+                    <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
+                    </select>
+                    <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
+                </div> 
+            </div>
+
+            <!-- Multiple Checkboxes -->
+            <div class="form-group">
+                <div class="col-sm-9 places">
+                    <div class="checkbox">
+                        <label for="checkboxes-0">
+                            <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
+                            <label class="control-label" for="selectbasic">
+                                <input class="form-control" list="mylistUser" name="mylistAllUser" placeholder="חללי העבודה במועדפים">
+                                <datalist id="mylistUser"></datalist>
+                            </label>
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label for="checkboxes-0">
+                            <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
+                            <label class="control-label" for="selectbasic">
+                                <input class="form-control" list="mylistAll" name="mylistAll" placeholder="כל חללי העבודה">
+                                <datalist id="mylistAll"></datalist>
+                            </label>
+                        </label>
+                    </div>
+                </div>
+                <label class="col-sm-3 control-label" for="checkboxes">הוספת מקום</label>
+            </div>
+            <br />
+
+            <!-- File Button -->
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input id="filebutton" name="filebutton" class="input-file" type="file" multiple required>
+                </div>
+                <label class="col-sm-3 control-label" for="filebutton">הוספת תמונה</label>
+            </div>
+
+            <!-- Multiple Checkboxes (inline) -->
+            <div class="form-group" id="center">
+                <div class="col-sm-9 starRange-checkbox" id="stars">
+                    <input type="radio" id="one" class="starRange-input" name="rate" value="1">
+                    <label for="one" class="starRange-lable"></label>
+                    <input type="radio" id="two" class="starRange-input" name="rate" value="2">
+                    <label for="two" class="starRange-lable"></label>
+                    <input type="radio" id="three" class="starRange-input" name="rate" value="3">
+                    <label for="three" class="starRange-lable"></label>
+                    <input type="radio" id="four" class="starRange-input" name="rate" value="4">
+                    <label for="four" class="starRange-lable"></label>
+                    <input type="radio" id="five" class="starRange-input" name="rate" value="5">
+                    <label for="five" class="starRange-lable"></label>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">דירוג המקום</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="textarea" name="textarea" placeholder="תיאור קצר"></textarea>
+                </div>
+                <label class="col-sm-3 control-label" for="textarea">תיאור קצר</label>
+            </div>
+            <div>
+                <table id="tableBTN">
+                    <tr>
+                        <td>
+                            <button id="galleyBTNsave" type="submit" class="btn btn-primary btn-block">שמור</button>
+                        </td>
+                        <td>
+                            <button id="galleyBTNpub" type="submit" class="btn btn-primary btn-block">פרסם</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </form> <!-- /form -->
+    </div> <!-- ./container -->
+    <!-- ALL JS FILES -->
+    <script src="js/all.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="js/custom.js"></script>
+
+</body>
+</html>

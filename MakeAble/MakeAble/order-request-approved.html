@@ -273,14 +273,15 @@
 
         }
         function logout() {
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
             swal({
                 title: "הינך מנותק!",
                 icon: "success",
                 timer: 2500,
-            })
-            localStorage.removeItem('user');
-            sessionStorage.removeItem('user');
-            window.location.href = 'index.html';
+            }).then(function () {
+                window.location.href = 'index.html';
+            });
         }
 
 
