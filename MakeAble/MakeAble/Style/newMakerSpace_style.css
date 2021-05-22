@@ -1,4 +1,17 @@
-﻿
+﻿nav#nav1 {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+.container {
+    font-family: Calibri;
+    padding-top: 105px;
+    padding-bottom: 105px;
+}
 .container .form-horizontal {
     font-family: Calibri;
     margin-top: 30px;

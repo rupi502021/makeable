@@ -4,22 +4,48 @@
     <meta charset="utf-8" />
     <title>הוספת גלריה</title>
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="../css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/custom.css">
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!------ Include the above in your HEAD tag ---------->
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script src="Scripts/ajaxCalls.js"></script>
-   
+
     <link href="Style/newGallery_style.css" rel="stylesheet" />
+
+    <style>
+        img#PP {
+            max-width: 25%;
+            float: left;
+        }
+
+        input#filebutton {
+            float: inherit;
+        }
+
+        #logo_top {
+            width: 180px;
+            height: 51px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+    </style>
     <script>
         $(document).ready(function () {
             $("#galleyBTNsave").click(f1);
@@ -27,7 +53,22 @@
             getAllProf();
             getAllMakerspaces();
 
+            $("#filebutton").change(function () {
+                readURL(this);
+            });
         });
+        //להכניס תמונה לתצוגה מקדימה
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#PP').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
         var ClickOrSave;
         function f1() {
             console.log("click choosen" + this.id);
@@ -59,16 +100,16 @@
             var time = time1;
 
             if (ClickOrSave == "galleyBTNsave") {
-               var isActive = false;
+                var isActive = false;
             }
             else {
-               var isActive = true;
+                var isActive = true;
             }
             var getvalue = document.getElementsByName('mylistAll')[0];
             makerspaceName = getvalue.value;
 
             var makerspaceId = $('#mylistAll option[value="' + makerspaceName + '"]').data('id');
-            
+
             gallery = {
                 GalleryName: $("#galleryName").val(), //שם גלריה
                 ProfArr: $("#selectmultipleprof").val(), //תחומי עיסוק
@@ -99,7 +140,7 @@
                 for (f = 0; f < files.length; f++) {
                     data.append("UploadedImageGalleries", files[f]);
                 }
-                data.append("name","Gallery_"+ gallery.Email + '_' +  Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                data.append("name", "Gallery_" + gallery.Email + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
                 // Ajax upload
                 $.ajax({
                     type: "POST",
@@ -114,20 +155,20 @@
         }
 
         function successfile(data) {
-            
+
             gallery = { ...gallery, ImageArr: data };
             console.log(JSON.stringify(gallery));
             ajaxCall("POST", "../api/Galleries", JSON.stringify(gallery), success, error);
         }
 
         function success(data) {
-           
-                swal({
-                    title: "הוסף בהצלחה",
-                    text: "הינך מועבר לדף הגלריות",
-                    icon: "success",
-                    timer: 2500,
-                }).then(function () {
+
+            swal({
+                title: "הוסף בהצלחה",
+                text: "הינך מועבר לדף הגלריות",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
                 window.location.href = 'Galleries.html';
             }
             );
@@ -142,7 +183,7 @@
             $("#galleryName").val(''),
                 $("#selectmultipleprof").val(''),
                 $("#textarea").val('')
-        }      
+        }
 
         function getAllMakerspaces() {
             let api = "../api/Makerspaces/All";
@@ -157,7 +198,7 @@
                 value += " <option data-id='" + data[i].MakerspaceId + "' value = '" + data[i].MakerspaceName + "' > " + data[i].MakerspaceName + "</option > ";
             }
             $("#mylistAll").append(value);
-            
+
         }
 
         function getAllProf() {
@@ -180,6 +221,29 @@
 </head>
 
 <body dir="rtl">
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
     <div class="container">
         <input type="button" onclick="location.href='Galleries.html';" value="חזור לדף גלריות" />
 
@@ -209,7 +273,7 @@
                         <label for="checkboxes-0">
                             <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
                             <label class="control-label" for="selectbasic">
-                                <input class="form-control" list="mylistUser" name="mylistAllUser" placeholder="חללי העבודה במועדפים" >
+                                <input class="form-control" list="mylistUser" name="mylistAllUser" placeholder="חללי העבודה במועדפים">
                                 <datalist id="mylistUser"></datalist>
                             </label>
                         </label>
@@ -231,9 +295,13 @@
             <!-- File Button -->
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input id="filebutton" name="filebutton" class="input-file" type="file" multiple required>
+                    <span id="CPP"></span>
+                    <img id="PP" src="images/notfoundPic.jpg" alt="makerPhoto" />
+                    <div class="col-sm-6">
+                        <input id="filebutton" name="filebutton" class="input-file" type="file">
+                    </div>
                 </div>
-                <label class="col-sm-3 control-label" for="filebutton">הוספת תמונה</label>
+                <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה</label>
             </div>
 
             <!-- Multiple Checkboxes (inline) -->
