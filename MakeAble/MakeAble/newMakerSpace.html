@@ -219,7 +219,8 @@
 
         function clear() {
             $("#MakerSpace_Name").val(''),
-                $("#mycitylist").val(''),
+                $(".mylist").val(''),
+                $(".mycitylist").val(''),
                 $("#MakerSpace_address_n").val(''),
                 $("#MakerSpace_Tel").val(''),
                 $("#MakerSpace_Url").val(''),
@@ -273,7 +274,7 @@
     </header>
     <!-- End header -->
     <div class="container">
-        <input type="button" onclick="location.href='personal-my_spaces.html';" value="חזור לדף מייקרספייס" />
+        <!--<input type="button" onclick="location.href='personal-my_spaces.html';" value="חזור לדף מייקרספייס" />-->
 
         <form class="form-horizontal" id="MakerForm" role="form">
             <h1>הוספת חלל עבודה חדש</h1>
@@ -288,13 +289,12 @@
                     <table>
                         <tr>
                             <td>
-                                <input class="form-control mylist" list="mylist" name="mylist" placeholder="עיר" required>
+                                <input class="mylist form-control" list="mylist" name="mylist" placeholder="עיר" required>
                                 <datalist id="mylist">
                                 </datalist>
 
                             </td>
                             <td>
-                                <!--<input type="text" id="MakerSpace_address_s" placeholder="רחוב" class="form-control" autofocus required>-->
                                 <input class="mycitylist form-control" list="mycitylist" name="mycitylist" placeholder="רחוב" required>
                                 <datalist id="mycitylist">
                                 </datalist>
