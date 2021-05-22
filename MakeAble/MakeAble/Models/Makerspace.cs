@@ -15,6 +15,7 @@ namespace MakeAble.Models
         int num_street;
         string phoneNumber;
         string url;
+        string photo_makerspace;
         string days_hours;//ימים ושעות פעילות
         int noPeople;
         int size;
@@ -43,6 +44,7 @@ namespace MakeAble.Models
         public int Num_street { get => num_street; set => num_street = value; }
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public string Url { get => url; set => url = value; }
+        public string Photo_makerspace { get => photo_makerspace; set => photo_makerspace = value; }
         public string Days_hours { get => days_hours; set => days_hours = value; }
         public int NoPeople { get => noPeople; set => noPeople = value; }
         public int Size { get => size; set => size = value; }
@@ -66,7 +68,7 @@ namespace MakeAble.Models
 
         public Makerspace() { }
 
-        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip, List<string> daily_hours, int dayonweek, string h_start, string h_end, List<Tool> toolsList)
+        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string photo_makerspace, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip, List<string> daily_hours, int dayonweek, string h_start, string h_end, List<Tool> toolsList)
         {
             MakerspaceId = makerspaceId;
             User_email = user_email;
@@ -75,6 +77,7 @@ namespace MakeAble.Models
             Num_street = num_street;
             PhoneNumber = phoneNumber;
             Url = url;
+            Photo_makerspace = photo_makerspace;
             Days_hours = days_hours;
             NoPeople = noPeople;
             Size = size;

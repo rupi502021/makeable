@@ -179,10 +179,8 @@ namespace MakeAble.Controllers
         [Route("api/Makerspaces")]
         public HttpResponseMessage Post([FromBody] Makerspace makerspace)
         {
-
             try
             {
-
                 int id = makerspace.InsertMakerspace();
 
                 return Request.CreateResponse(HttpStatusCode.Created, id);

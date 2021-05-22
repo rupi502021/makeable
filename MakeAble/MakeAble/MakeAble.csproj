@@ -156,6 +156,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\FileUploadMakerspaceController.cs" />
     <Compile Include="Controllers\GalleriesController.cs" />
     <Compile Include="Controllers\MakerspacesController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
@@ -166,7 +167,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DAL\DBServices.cs" />
-    <Compile Include="Models\FileUploadToolController.cs" />
+    <Compile Include="Controllers\FileUploadToolController.cs" />
     <Compile Include="Models\Gallery.cs" />
     <Compile Include="Controllers\ProfessionsController.cs" />
     <Compile Include="Models\Profession.cs" />

@@ -21,7 +21,16 @@
 
     <link href="../Style/newMakerSpace_style.css" rel="stylesheet" />
 
+    <style>
+        img#PP {
+            max-width: 25%;
+            float: left;
+        }
 
+        input#filebutton {
+            float: inherit;
+        }
+    </style>
     <script>
         $(document).ready(function () {
             getAllProf();
@@ -43,11 +52,29 @@
                     $("#mylist").append(value);
                 }
             });
+            $("#filebutton").change(function () {
+                readURL(this);
+            });
             $("#MakerForm").submit(f1);
         });
 
+        //להכניס תמונה לתצוגה מקדימה
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+                    $('#PP').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
         function f1() {
+            AddMakerspace();
+            return false;
+        }
+
+        function AddMakerspace() {
             var getvalue = document.getElementsByName('mylist')[0];
             city = getvalue.value;
 
@@ -89,12 +116,41 @@
                 Free_parking: parseInt($("#fa3:checked").val()),
                 Days_hours: JSON.stringify(days_hours)
             }
-
-            ajaxCall("POST", "../api/Makerspaces", JSON.stringify(makerspace), success, error);
-            return false;
-
+            upload();
         }
 
+        function upload() {
+            var data = new FormData();
+            var files = $("#filebutton").get(0).files;
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedImage", files[f]);
+                }
+                data.append("name", "Makerspace_" + makerspace.MakerspaceName + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                // Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/FileUploadMakerspace",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: successfile,
+                    error: error
+                });
+                return false;
+            }
+            else {
+                ajaxCall("POST", "../api/Makerspaces", JSON.stringify(makerspace), success, error);
+                return false;
+            }
+        }
+
+        function successfile(data) {
+
+            makerspace = { ...makerspace, Photo_makerspace: data[0] };
+            ajaxCall("POST", "../api/Makerspaces", JSON.stringify(makerspace), success, error);
+            return false;
+        }
 
         function success(data) {
             localStorage.setItem("MakerSpaceID", data);
@@ -191,16 +247,27 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
-                    <input type="text" id="MakerSpace_Url" placeholder="אתר אינטרנט" class="form-control" autofocus required 
-                    pattern="[a-z0-9._%+-]+\.[a-z]{2,}$"
-                    oninvalid="this.setCustomValidity('Format should be characters.domain')"
-                    oninput="this.setCustomValidity('')" />
+                    <input type="text" id="MakerSpace_Url" placeholder="אתר אינטרנט" class="form-control" autofocus required
+                           pattern="[a-z0-9._%+-]+\.[a-z]{2,}$"
+                           oninvalid="this.setCustomValidity('Format should be characters.domain')"
+                           oninput="this.setCustomValidity('')" />
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">אתר אינטרנט</label>
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
+                    <span id="CPP"></span>
+                    <img id="PP" src="images/notfoundPic.jpg" alt="makerPhoto" />
+                    <div class="col-sm-6">
+                        <input id="filebutton" name="filebutton" class="input-file" type="file">
+                    </div>
+                </div>
+                <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">הגדר שעות פעילות</button>
+                    <p >*חובה למלא את שעות הפעילות</p>
                 </div>
                 <label for="firstName" class="col-sm-3 control-label">שעות פעילות</label>
             </div>
@@ -297,13 +364,16 @@
                                 <button type="button" class="btn btn-default" data-dismiss="modal">אישור</button>
                             </div>
                         </div>
+
                     </div>
                 </div>
+              
             </div>
+            
             <!-- Select Multiple -->
             <div class="form-group">
                 <div class="col-sm-9">
-                    <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
+                    <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple" required>
                     </select>
                 </div>
                 <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>

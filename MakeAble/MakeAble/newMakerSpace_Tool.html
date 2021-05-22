@@ -66,8 +66,6 @@
             return false;
         }
            
-          
-
         function AddTool() {
             MakerspaceId_FromLS = JSON.parse(localStorage.getItem('MakerSpaceID'));
             tool = {
@@ -78,10 +76,7 @@
                 Brand: $("#Tool_Brand").val(),
                 Description: $("#textarea").val(),
                 Qualifications: parseInt($("#fa1:checked").val()),
-
-
             }
-
             upload();
         }
 
@@ -131,7 +126,7 @@
         }
 
         function error(err) {
-            alert(err.responseJSON);
+            alert(err.responseJSON.Message);
         }
 
      

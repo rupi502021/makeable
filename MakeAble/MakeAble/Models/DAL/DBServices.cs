@@ -330,7 +330,7 @@ namespace MakeAble.Models.DAL
                    "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
 
-                try 
+                try
                 {
                     if (user.Professions.Count > 0)
                     {
@@ -357,7 +357,7 @@ namespace MakeAble.Models.DAL
             {
                 command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
                    "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone +
-                   "', BirthDay='" +user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
+                   "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
                 try
                 {
@@ -1009,18 +1009,33 @@ namespace MakeAble.Models.DAL
         private String BuildInsertMakerspaceCommand(Makerspace makerspace)
         {
             String command;
+            String prefix;
             String end = "; SELECT CAST(scope_identity() AS int)";
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
+            if (makerspace.Photo_makerspace != null)
+            {
+                sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}')",
+               makerspace.User_email, makerspace.PhoneNumber, makerspace.Url, makerspace.NoPeople,
+               makerspace.Size, makerspace.Price, makerspace.Rating, makerspace.Aircondition,
+               makerspace.Accessibility, makerspace.Serving_coffee, makerspace.Online_payment, makerspace.Free_parking,
+               makerspace.MakerspaceName, makerspace.Descrip, makerspace.City, makerspace.Street,
+                makerspace.Num_street,makerspace.Photo_makerspace);
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')",
-            makerspace.User_email, makerspace.PhoneNumber, makerspace.Url, makerspace.NoPeople,
-            makerspace.Size, makerspace.Price, makerspace.Rating, makerspace.Aircondition,
-            makerspace.Accessibility, makerspace.Serving_coffee, makerspace.Online_payment, makerspace.Free_parking,
-            makerspace.MakerspaceName, makerspace.Descrip, makerspace.City, makerspace.Street,
-            makerspace.Num_street);
+                prefix = "INSERT INTO Makerspace " + "([UserEmail],[PhoneNumber],[Url],[NoPeople],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street],[Photo_makerspace])";
+            }
+            else
+            {
+                sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')",
+                 makerspace.User_email, makerspace.PhoneNumber, makerspace.Url, makerspace.NoPeople,
+                 makerspace.Size, makerspace.Price, makerspace.Rating, makerspace.Aircondition,
+                 makerspace.Accessibility, makerspace.Serving_coffee, makerspace.Online_payment, makerspace.Free_parking,
+                 makerspace.MakerspaceName, makerspace.Descrip, makerspace.City, makerspace.Street,
+                 makerspace.Num_street);
 
-            String prefix = "INSERT INTO Makerspace " + "([UserEmail],[PhoneNumber],[Url],[NoPeople],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street])";
+                prefix = "INSERT INTO Makerspace " + "([UserEmail],[PhoneNumber],[Url],[NoPeople],[SizeInM],[PricePerHour],[Rating],[Aircondition],[Accessibility],[Serving_coffee],[Online_payment],[Free_parking],[MakerspaceName],[Descrip],[City],[Street],[Num_street])";
+            }
+
 
             command = prefix + sb.ToString() + end;
 
@@ -1052,7 +1067,7 @@ namespace MakeAble.Models.DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("You didnt succeed to add a openning hours, Try again!", ex);
+                throw new Exception("לא הכנסת שעות פעילות", ex);
             }
 
             finally
@@ -1131,6 +1146,7 @@ namespace MakeAble.Models.DAL
                     m.PhoneNumber = Convert.ToString(dr["PhoneNumber"]);
                     m.Url = Convert.ToString(dr["Url"]);
                     m.User_email = Convert.ToString(dr["UserEmail"]);
+                    m.Photo_makerspace = Convert.ToString(dr["Photo_makerspace"]);
                     m.NoPeople = Convert.ToInt32(dr["NoPeople"]);
                     m.Size = Convert.ToInt32(dr["SizeInM"]);
                     m.Price = Convert.ToInt32(dr["PricePerHour"]);
@@ -1194,6 +1210,7 @@ namespace MakeAble.Models.DAL
                     m.MakerspaceName = Convert.ToString(dr["MakerspaceName"]);
                     m.PhoneNumber = Convert.ToString(dr["PhoneNumber"]);
                     m.Url = Convert.ToString(dr["Url"]);
+                    m.Photo_makerspace = Convert.ToString(dr["Photo_makerspace"]);
                     m.User_email = Convert.ToString(dr["UserEmail"]);
                     m.NoPeople = Convert.ToInt32(dr["NoPeople"]);
                     m.Size = Convert.ToInt32(dr["SizeInM"]);
@@ -1510,13 +1527,13 @@ namespace MakeAble.Models.DAL
                 {   // Read till the end of the data into a row
 
                     Tool t = new Tool();
-                    t.ToolId = Convert.ToInt32(dr["ToolId"]);                   
+                    t.ToolId = Convert.ToInt32(dr["ToolId"]);
                     t.ToolName = Convert.ToString(dr["ToolName"]);
                     t.Brand = Convert.ToString(dr["Brand"]);
-                    t.Model = Convert.ToString(dr["Model"]);                   
+                    t.Model = Convert.ToString(dr["Model"]);
                     t.Qualifications = Convert.ToBoolean(dr["Qualifications"]);
                     t.Description = Convert.ToString(dr["Description"]);
-                    
+
                     tList.Add(t);
                 }
                 return tList;
