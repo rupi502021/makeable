@@ -286,7 +286,7 @@
 
 
         function getReservation() {
-            ajaxCall("GET", "../api/Reservations/GetReservation", "", getSuccessRQ, getErrorRQ);
+            ajaxCall("GET", "../api/Reservations/GetApprovedReservation", "", getSuccessRQ, getErrorRQ);
         }
 
         function getSuccessRQ(data) {
@@ -387,7 +387,7 @@
             <ul class="sidebar-nav">
                 <li><a href="order-request.html"> הזמנות שטרם אושרו </a><br /></li>
                 <li> <a style="color:aliceblue" href="order-request-approved.html">הזמנות שאושרו</a><br /></li>
-                <li> <a href="order-history.html">היסטוריית הזמנות</a><br /></li>
+                <li> <a href="order-history-new.html">היסטוריית הזמנות</a><br /></li>
                 <li> <a href="#">סטטיסטיקת הזמנות</a><br /></li>
 
             </ul>

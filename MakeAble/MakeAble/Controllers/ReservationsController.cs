@@ -17,13 +17,22 @@ namespace MakeAble.Controllers
             List<Reservation> rList = request.Read();
             return rList;
         }
-
+        
         [HttpGet]
-        [Route("api/Reservations/GetReservation")]
-        public List<Reservation> GetReservation()
+        [Route("api/Reservations/GetApprovedReservation")]
+        public List<Reservation> GetApprovedReservation()
         {
             Reservation request = new Reservation();
-            List<Reservation> rList = request.ReadReservation();
+            List<Reservation> rList = request.ReadApprovedReservation();
+            return rList;
+        }
+
+        [HttpGet]
+        [Route("api/Reservations/GetHistoryReservation")]
+        public List<Reservation> GetHistoryReservation()
+        {
+            Reservation request = new Reservation();
+            List<Reservation> rList = request.ReadHistoryReservation();
             return rList;
         }
 

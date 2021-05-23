@@ -281,7 +281,7 @@
     <Content Include="newMakerSpace.html" />
     <Content Include="newMakerSpace_Tool.html" />
     <Content Include="order-request-approved.html" />
-    <Content Include="order-history.html" />
+    <Content Include="order-history-new.html" />
     <Content Include="order-request.html" />
     <Content Include="personal-my_spaces.html" />
     <Content Include="personal-favorites-space.html" />

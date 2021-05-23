@@ -51,11 +51,17 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             return dbs.getRequest();
         }
-
-        public List<Reservation> ReadReservation()
+        
+        public List<Reservation> ReadApprovedReservation()
         {
             DBServices dbs = new DBServices();
-            return dbs.getReservation();
+            return dbs.getApprovedReservation();
+        }
+
+        public List<Reservation> ReadHistoryReservation()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.getHistoryReservation();
         }
 
         public int Delete()
