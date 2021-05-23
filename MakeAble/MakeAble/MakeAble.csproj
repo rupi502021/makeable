@@ -278,6 +278,7 @@
     <Content Include="images\makeable.jpg" />
     <Content Include="images\notfoundPic.jpg" />
     <Content Include="images\Tools.jpg" />
+    <Content Include="newRequest.html" />
     <Content Include="newMakerSpace.html" />
     <Content Include="newMakerSpace_Tool.html" />
     <Content Include="order-request-approved.html" />
