@@ -3,6 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <title>הוספת חלל עבודה</title>
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <!-- Site CSS -->
@@ -14,8 +18,10 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/custom.css">
 
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!------ Include the above in your HEAD tag ---------->
+
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -40,14 +46,23 @@
             width: 180px;
             height: 51px;
         }
-        .navbar-brand{
-            padding:0px;
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .modal-dialog.modal-lg {
+            margin-top: 20%;
+        }
+
+        td {
+            padding: 1%;
         }
     </style>
     <script>
         $(document).ready(function () {
             getAllProf();
-            
+
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -85,13 +100,13 @@
                         $(".mycitylist").val('');
                         var value = "";
                         for (var i = 0; i < data.result.records.length; i++) {
-                            var d = data.result.records[i];                           
-                            
+                            var d = data.result.records[i];
+
                             if (c + " " == d.שם_ישוב) {
                                 streetslist.push(d.שם_רחוב);
                                 let s = "'" + d.שם_רחוב + "'";
                                 value += " <option data-id='" + d.שם_רחוב + "' value = '" + d.שם_רחוב + "' > " + d.שם_רחוב + "</option > ";
-                               
+
                             }
                         }
                         console.log(streetslist);
@@ -124,7 +139,7 @@
         function AddMakerspace() {
             var getvalue = document.getElementsByName('mylist')[0];
             city = getvalue.value;
-            
+
             var getvalue1 = document.getElementsByName('mycitylist')[0];
             street = getvalue1.value;
 
@@ -255,22 +270,22 @@
 <body dir="rtl">
     <!-- Start header -->
     <header class="top-navbar">
-        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav id="nav1" class="navbar navbar-expand navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.html">
                     <img id="logo_top" src="images/make.png" alt="" />
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button>-->
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Galleries.html">גלריה</a></li>
-                        <li class="nav-item active"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
-                    </ul>                  
+                        <li class="nav-item active"><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -364,11 +379,15 @@
                                         </td>
                                         <td>
                                             מ:<input id="Sunday_from" type="time" name="appt-time">
+
                                         </td>
+
                                         <td>
                                             עד:<input id="Sunday_to" type="time" name="appt-time">
                                         </td>
+
                                     </tr>
+
                                     <tr>
                                         <td>
                                             <label>יום שני: </label>
@@ -500,5 +519,6 @@
 
         </form> <!-- /form -->
     </div> <!-- ./container -->
+
 </body>
 </html>
