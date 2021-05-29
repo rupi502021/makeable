@@ -191,8 +191,13 @@
         }
 
         function deleteSuccess(data) {
-            alert("גלריה הוסרה מהמועדפים בהצלחה!");
-            location.reload();
+            swal({
+                title: "הגלריה הוספה למעודפים שלך",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                location.reload();
+            });
         }
 
         function deleteError(err) {

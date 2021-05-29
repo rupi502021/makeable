@@ -295,7 +295,10 @@
                 title: "הגלריה הוספה למעודפים שלך",
                 icon: "success",
                 timer: 2500,
-            })
+            }).then(function () {
+                location.reload();
+            });
+          
         }
 
         function postError(err) {
@@ -305,6 +308,7 @@
         function removeFromFavorite(id) {
             let api = "../api/Galleries/deleteFav/" + id + "/" + email + "/";
             ajaxCall("DELETE", api, "", deleteSuccess, deleteError);
+
         }
 
         function deleteSuccess(data) {
@@ -312,7 +316,10 @@
                 title: "הגלריה הוסרה מהמעודפים שלך",
                 icon: "success",
                 timer: 2500,
-            })
+            }).then(function () {
+                window.location.href = 'Galleries.html';
+            });
+                
         }
 
         function deleteError(err) {
