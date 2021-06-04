@@ -36,6 +36,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" defer></script>
 
@@ -103,6 +104,9 @@
         .select2-container {
             width: 180px;
         }
+        span.select2.select2-container.select2-container--default.select2-container--focus {
+            width: 100%;
+        }
 
         button.btn.btn-outline-primary {
             margin-right: auto;
@@ -131,8 +135,24 @@
         .card:hover {
             background-color: #dbd049;
         }
+
+        .modal-header .close {
+            margin: -1rem -1rem -1rem;
+        }
+
+        label.col-sm-3.control-label {
+            color: black;
+        }
+        .modal-content {
+            width: 130%;
+            position: relative;
+            /* top: 0; */
+            left: 10%;
+        }
     </style>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="./index.js"></script>
     <style type="text/css">
         /* Always set the map height explicitly to define the size of the div
         * element that contains the map. */
@@ -149,9 +169,6 @@
             padding: 0;
         }
     </style>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <script>
         $(document).ready(function () {
             var a = [];
@@ -170,7 +187,13 @@
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
-
+           
+            $('#toolsRes').select2({
+                placeholder: 'בחר כלים',
+                data: b,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
             $('#facili').select2({
                 placeholder: 'בחר מתקנים',
                 data: c,
@@ -207,7 +230,9 @@
             getAllProf();
             getAlltools();
             getAllmakers();
+
         });
+
 
         function fLogin() {
             let email = $("#email1").val();
@@ -349,7 +374,7 @@
                 str += "<h6>" + d[i].Url + " <b>:אתר אינטרנט </b></h6>";
                 if (d[i].Descrip != "") {
                     str += "<h6><b>תיאור: </b>" + d[i].Descrip + "</h6>";
-                }               
+                }
                 str += "</td>";
                 str += "<td class='col-6'>";
                 str += "<h6><b>מספר אנשים מותר בחלל: </b>" + d[i].NoPeople + "</h6>";
@@ -370,32 +395,35 @@
             for (var h = 0; h < markers.length; h++) {
 
                 if (id == markers[h].id) {
-
-                   
-                    
                     let contentString =
                         '<div id="content">' +
                         '<div id="siteNotice">' +
                         "</div>" +
                         '<h1 id="firstHeading" class="firstHeading">' + makersArr[id].MakerspaceName + '</h1>' +
                         '<div id="bodyContent">' +
-                        "<p><b>" + makersArr[id].MakerspaceName+ "</b>" +
+                        "<p><b>" + makersArr[id].MakerspaceName + "</b>" +
                         "</div>" +
                         "</div>";
 
-                    var infowindow = new google.maps.InfoWindow({
-                        content: contentString,
-                    });
-                   
                     map.setZoom(17);
                     map.setCenter(markers[h].getPosition());
+                    infowindow.close();
+                    infowindow.setContent(contentString);
                     infowindow.open(map, markers[h]);
                 }
             }
-           
+        }
+
+        function openmodal(id) {
+            for (var i = 0; i < makersArr.length; i++) {
+                if (id == i) {
+                    $(".modal-title").html(makersArr[i].MakerspaceName);
+                    $("#myModal").modal();
+                }
+
+            }
 
         }
-        
 
         //מפת גוגל
         var map;
@@ -407,9 +435,8 @@
                 zoom: 10,
             });
             console.log(document.getElementById("map"));
-
+            infowindow = new google.maps.InfoWindow();
         }
-
 
         var marker, i;
         function postaddress(addresses, data) {
@@ -423,7 +450,9 @@
                     "</div>" +
                     '<h1 id="firstHeading" class="firstHeading">' + data[i].MakerspaceName + '</h1>' +
                     '<div id="bodyContent">' +
-                    "<p><b>" + data[i].MakerspaceName + "</b>"+
+                    "<p><b>" + data[i].MakerspaceName + "</b></p>" +
+                    "<button type='button' class='btn btn-info btn-lg' onclick='openmodal(" + i + ")' id='myBtn' data-toggle='modal' data-target='#myModal'>Open Modal</button>" +
+                    "<p><b>" + "הוספה למועדפים" + "</b></p>" +
                     "</div>" +
                     "</div>";
                 let id = i;
@@ -442,28 +471,24 @@
                         const marker = new google.maps.Marker({
                             position: coordi,
                             map: map,
-
+                            animation: google.maps.Animation.DROP,
                         });
+
                         markers.push(marker);
                         marker.set("id", id);
 
-                        var infowindow = new google.maps.InfoWindow({
-                            content: contentString,
-                        });
                         marker.addListener("click", () => {
                             map.setZoom(17);
                             map.setCenter(marker.getPosition());
+
+                            infowindow.close();
+                            infowindow.setContent(contentString);
                             infowindow.open(map, marker);
-                            
                         });
-
-
                     }
                 });
             }
         }
-
-
     </script>
 
 
@@ -599,7 +624,57 @@
             <div class="col-9" id="map"></div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="ResForm" role="form">
+                        <h3>ביצוע הזמנה</h3>
+
+                        <div class="row form-group">
+                            <label for="resDate" class="col-sm-3 control-label">תאריך הזמנה</label>
+                            <div class="col-sm-9">
+                                <input type="date" name="date" id="resDate" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label for="resTime" class="col-sm-3 control-label">שעות הזמנה</label>
+                            <div class="col-sm-9">
+                                מ:<input id="res_from" type="time" name="appt-time">
+                                עד:<input id="res_to" type="time" name="appt-time">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="select" class="col-sm-3 control-label">כלים</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="tools" id="toolsRes" multiple="multiple" style="width:100%"></select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label" for="textarea">הערות</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="textarea" name="textarea" placeholder="הערות"></textarea>
+                            </div>
+                        </div>
+                    </form> <!-- /form -->
+                </div>
+                <div class="modal-footer">
+                    <button id="ResForm_finish" type="button" class="btn btn-primary btn-block">סיום ויצירת הזמנה </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
     <!-- ALL JS FILES -->
     <script src="../js/all.js"></script>
     <!-- ALL PLUGINS -->
