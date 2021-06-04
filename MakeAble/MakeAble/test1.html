@@ -39,8 +39,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" defer></script>
 
-    
-  
+
+
     <style>
         body {
             text-align: right;
@@ -50,6 +50,7 @@
             width: 180px;
             height: 51px;
         }
+
         /* Style the navbar */
         #navbar {
             overflow: hidden;
@@ -92,6 +93,7 @@
         .row {
             margin-right: 15px;
             margin-left: 15px;
+            height: 100%;
         }
 
         .select2-hidden-accessible {
@@ -113,13 +115,30 @@
         .form-group {
             margin: 1rem;
         }
+
+        #MakerList {
+            direction: ltr;
+            height: 75%;
+            overflow-y: scroll;
+            color: white;
+        }
+
+        .container-fluid {
+            background-color: #333333;
+            height: 100%;
+        }
+
+        .card:hover {
+            background-color: #dbd049;
+        }
     </style>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <style type="text/css">
         /* Always set the map height explicitly to define the size of the div
         * element that contains the map. */
         #map {
-            height: 100%;
+            height: 70%;
+            position: relative;
         }
 
         /* Optional: Makes the sample page fill the window. */
@@ -300,35 +319,114 @@
             ajaxCall("GET", api, "", getSuccessAllmakers, error);
         }
         function getSuccessAllmakers(data) {
-           
+
             addresses = [];
             for (var i = 0; i < data.length; i++) {
                 let address = data[i].City + " " + data[i].Street + " " + data[i].Num_street;
                 addresses.push(address);
             }
-        
 
-            postaddress(addresses);
+            renderMakers(data);
+            postaddress(addresses, data);
         }
 
+        function renderMakers(d) { //רנדור מקיירספייסים
+            $("#MakerList").html("");
+            let str = "";
+            makersArr = d;
+            for (var i = 0; i < d.length; i++) {
 
+                str += "<div id='" + i + "' class='card' onclick='openinfo(" + i + ")'>";
+                str += "<table class='table'>";
+                str += "<tr class='row'>";
+                str += "<td class='col'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1>"; //שם
 
+                str += "<ul id='" + d[i].MakerspaceName + "' class='nav  navbar-right' style='padding-right: 50%'></td>";
+                str += "</tr>";
+                str += "<tr class='row'>";
+                str += "<td class='col-6'><h6><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</h6>"; //מקום
+                str += "<h6><b>טלפון: </b>" + d[i].PhoneNumber + "</h6>";
+                str += "<h6>" + d[i].Url + " <b>:אתר אינטרנט </b></h6>";
+                if (d[i].Descrip != "") {
+                    str += "<h6><b>תיאור: </b>" + d[i].Descrip + "</h6>";
+                }               
+                str += "</td>";
+                str += "<td class='col-6'>";
+                str += "<h6><b>מספר אנשים מותר בחלל: </b>" + d[i].NoPeople + "</h6>";
+                str += "<h6><b>גודל חלל העבודה במטר רבוע: </b>" + d[i].Size + "</h6>";
+                str += "<h6><b>מחיר לשעת עבודה: </b>" + d[i].Price + "</h6>";
 
+                str += "</td>";
+                str += "</tr >";
+                str += "</table>";
+                str += "</div><br/>"; //סוג את card
+            }
+
+            $("#MakerList").append(str);
+        }
+
+        function openinfo(id) {
+            console.log(makersArr[id]);
+            for (var h = 0; h < markers.length; h++) {
+
+                if (id == markers[h].id) {
+
+                   
+                    
+                    let contentString =
+                        '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        "</div>" +
+                        '<h1 id="firstHeading" class="firstHeading">' + makersArr[id].MakerspaceName + '</h1>' +
+                        '<div id="bodyContent">' +
+                        "<p><b>" + makersArr[id].MakerspaceName+ "</b>" +
+                        "</div>" +
+                        "</div>";
+
+                    var infowindow = new google.maps.InfoWindow({
+                        content: contentString,
+                    });
+                   
+                    map.setZoom(17);
+                    map.setCenter(markers[h].getPosition());
+                    infowindow.open(map, markers[h]);
+                }
+            }
+           
+
+        }
+        
+
+        //מפת גוגל
         var map;
+        var markers = [];
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
                 center: { lat: 32.067, lng: 34.785 },
                 zoom: 10,
             });
+            console.log(document.getElementById("map"));
 
         }
 
 
         var marker, i;
-        function postaddress(addresses) {
+        function postaddress(addresses, data) {
             console.log(addresses);
+
             for (i = 0; i < addresses.length; i++) {
+
+                let contentString =
+                    '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    "</div>" +
+                    '<h1 id="firstHeading" class="firstHeading">' + data[i].MakerspaceName + '</h1>' +
+                    '<div id="bodyContent">' +
+                    "<p><b>" + data[i].MakerspaceName + "</b>"+
+                    "</div>" +
+                    "</div>";
+                let id = i;
                 $.ajax({
                     url: "https://maps.googleapis.com/maps/api/geocode/json",
                     type: "GET",
@@ -337,22 +435,35 @@
                         key: "AIzaSyAXHTRIwUGpCgzoDJmDFXQcEK38dbUuFSk"
                     },
                     success: function (response) {
-                        console.log(response);
                         var coordi = {};
                         coordi.lat = response.results[0].geometry.location.lat;
                         coordi.lng = response.results[0].geometry.location.lng;
-                        console.log(coordi);
+
                         const marker = new google.maps.Marker({
                             position: coordi,
                             map: map,
+
                         });
-                        
+                        markers.push(marker);
+                        marker.set("id", id);
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString,
+                        });
+                        marker.addListener("click", () => {
+                            map.setZoom(17);
+                            map.setCenter(marker.getPosition());
+                            infowindow.open(map, marker);
+                            
+                        });
+
+
                     }
                 });
             }
         }
 
-        
+
     </script>
 
 
@@ -446,51 +557,34 @@
         </nav>
     </header>
     <!-- End header -->
+
     <div id="navbar">
-
         <form id="formMaker" class="form-horizontal" role="form">
-
             <div class="row">
-
-                <div class="form-group ">
+                <div class="form-group">
                     <label for="cities" class="form-label">עיר</label>
-
                     <input class="dropdown-input form-control" list="mylist" name="mylist" />
                     <datalist id="mylist">
                     </datalist>
-
                 </div>
 
-
                 <div class="form-group">
-
                     <label for="Date" class="form-label">תאריך לידה</label>
                     <input type="date" name="date" id="Date" class="form-control">
-
                 </div>
 
-
                 <div class="form-group">
-
                     <label for="select" class="form-label">תחומי עיסוק</label>
-
                     <select class="form-control" name="profs" id="profs" multiple="multiple"></select>
-
                 </div>
 
                 <div class="form-group">
-
                     <label for="select" class="form-label">כלים</label>
-
                     <select class="form-control" name="tools" id="tools" multiple="multiple"></select>
-
                 </div>
                 <div class="form-group">
-
                     <label for="select" class="form-label">מתקנים</label>
-
                     <select class="form-control" name="facili" id="facili" multiple="multiple"></select>
-
                 </div>
                 <button type="button" class="btn btn-outline-primary">חפש</button>
             </div>
@@ -499,18 +593,18 @@
 
     </div>
 
-    <div id="map"></div>
-
-
-
-
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3" id="MakerList"></div>
+            <div class="col-9" id="map"></div>
+        </div>
+    </div>
 
     <!-- ALL JS FILES -->
     <script src="../js/all.js"></script>
     <!-- ALL PLUGINS -->
     <script src="../js/custom.js"></script>
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvzoQmQxO_ZcKkiV87oOF3uSpNN8dx1iQ&callback=initMap&libraries=&v=weekly"
-            ></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvzoQmQxO_ZcKkiV87oOF3uSpNN8dx1iQ&callback=initMap&libraries=&v=weekly"></script>
 </body>
 </html>
