@@ -1,0 +1,142 @@
+﻿body {
+    text-align: right;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+
+/* Style the navbar */
+#navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+
+    /* Navbar links */
+    #navbar a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px;
+        text-decoration: none;
+    }
+
+/* Page content */
+.content {
+    padding: 16px;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+    /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+    .sticky + .content {
+        padding-top: 60px;
+    }
+
+label {
+    color: white;
+    display: inline-block;
+    /* margin-bottom: .5rem; */
+}
+
+    label.for-pwd {
+        color: black;
+    }
+
+#connectModal {
+    text-align: left;
+}
+
+.row {
+    margin-right: 15px;
+    margin-left: 15px;
+    height: 100%;
+}
+
+.select2-hidden-accessible {
+    position: initial !important;
+}
+
+.select2-container {
+    width: 180px;
+}
+
+span.select2.select2-container.select2-container--default.select2-container--focus {
+    width: 100%;
+}
+
+button.btn.btn-outline-primary {
+    margin-right: auto;
+    height: 70px;
+    width: 70px;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+.form-group {
+    margin: 1rem;
+}
+
+#MakerList {
+    direction: ltr;
+    height: 75%;
+    overflow-y: scroll;
+    color: white;
+}
+
+.container-fluid {
+    background-color: #333333;
+    height: 100%;
+}
+
+.card:hover {
+    background-color: #dbd049;
+}
+
+.modal-header .close {
+    margin: -1rem -1rem -1rem;
+}
+
+label.col-sm-3.control-label {
+    color: black;
+}
+
+.modal-content {
+    width: 130%;
+    position: relative;
+    /* top: 0; */
+    left: 10%;
+}
+
+#nav1 {
+    position: initial;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+
+/* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+#map {
+    height: 70%;
+    position: relative;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+

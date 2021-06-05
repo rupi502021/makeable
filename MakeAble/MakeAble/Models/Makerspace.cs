@@ -125,11 +125,18 @@ namespace MakeAble.Models
             List<Makerspace> m = dbs.getAllMakerspaces();
             return m;
         }
-       
+
         public int Delete()
         {
             DBServices dbs = new DBServices();
             return dbs.DeleteMakerspace(this);
+        }
+
+        public int MakerspaceLiked()
+        {
+            DBServices dbs = new DBServices();
+            int id = dbs.MakerspaceLiked(this);
+            return id;
         }
     }
 }

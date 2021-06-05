@@ -1347,6 +1347,57 @@ namespace MakeAble.Models.DAL
             command = "DELETE FROM Makerspace WHERE MakerspaceId = " + makerspace.MakerspaceId;
             return command;
         }
+        public int MakerspaceLiked(Makerspace makerspace)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildMakerspaceLikedCommand(makerspace);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to like a makerspace, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private String BuildMakerspaceLikedCommand(Makerspace makerspace)
+        {
+            String command = "";
+
+            
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("Values('{0}','{1}')", makerspace.MakerspaceId, makerspace.User_email);
+                String prefix = "INSERT INTO Users_Makerspace_Fav" + "([MakerspaceId],[Email])";
+
+                command += prefix + sb.ToString();
+            
+            return command;
+        }
 
         //Tools
         public int InsertTool(Tool tool)

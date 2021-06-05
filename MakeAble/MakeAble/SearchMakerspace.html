@@ -39,136 +39,11 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" defer></script>
-
-
-
-    <style>
-        body {
-            text-align: right;
-        }
-
-        #logo_top {
-            width: 180px;
-            height: 51px;
-        }
-
-        /* Style the navbar */
-        #navbar {
-            overflow: hidden;
-            background-color: #333;
-        }
-
-            /* Navbar links */
-            #navbar a {
-                float: left;
-                display: block;
-                color: #f2f2f2;
-                text-align: center;
-                padding: 14px;
-                text-decoration: none;
-            }
-
-        /* Page content */
-        .content {
-            padding: 16px;
-        }
-
-        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
-        .sticky {
-            position: fixed;
-            top: 0;
-            width: 100%;
-        }
-
-            /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-            .sticky + .content {
-                padding-top: 60px;
-            }
-
-        label {
-            color: white;
-            display: inline-block;
-            /* margin-bottom: .5rem; */
-        }
-
-        .row {
-            margin-right: 15px;
-            margin-left: 15px;
-            height: 100%;
-        }
-
-        .select2-hidden-accessible {
-            position: initial !important;
-        }
-
-        .select2-container {
-            width: 180px;
-        }
-        span.select2.select2-container.select2-container--default.select2-container--focus {
-            width: 100%;
-        }
-
-        button.btn.btn-outline-primary {
-            margin-right: auto;
-            height: 70px;
-            width: 70px;
-            margin-bottom: auto;
-            margin-top: auto;
-        }
-
-        .form-group {
-            margin: 1rem;
-        }
-
-        #MakerList {
-            direction: ltr;
-            height: 75%;
-            overflow-y: scroll;
-            color: white;
-        }
-
-        .container-fluid {
-            background-color: #333333;
-            height: 100%;
-        }
-
-        .card:hover {
-            background-color: #dbd049;
-        }
-
-        .modal-header .close {
-            margin: -1rem -1rem -1rem;
-        }
-
-        label.col-sm-3.control-label {
-            color: black;
-        }
-        .modal-content {
-            width: 130%;
-            position: relative;
-            /* top: 0; */
-            left: 10%;
-        }
-    </style>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <script src="./index.js"></script>
-    <style type="text/css">
-        /* Always set the map height explicitly to define the size of the div
-        * element that contains the map. */
-        #map {
-            height: 70%;
-            position: relative;
-        }
 
-        /* Optional: Makes the sample page fill the window. */
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+    <link href="Style/Searchmakerspace_style.css" rel="stylesheet" />
     <script>
         $(document).ready(function () {
             var a = [];
@@ -187,7 +62,7 @@
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
-           
+
             $('#toolsRes').select2({
                 placeholder: 'בחר כלים',
                 data: b,
@@ -399,10 +274,14 @@
                         '<div id="content">' +
                         '<div id="siteNotice">' +
                         "</div>" +
-                        '<h1 id="firstHeading" class="firstHeading">' + makersArr[id].MakerspaceName + '</h1>' +
+                        '<h1 id="firstHeading" class="firstHeading">' + makersArr[h].MakerspaceName + '</h1>' +
                         '<div id="bodyContent">' +
-                        "<p><b>" + makersArr[id].MakerspaceName + "</b>" +
-                        "</div>" +
+                        "<p>טלפון להתקשרות: <b>" + makersArr[h].PhoneNumber + "</b></p>" +
+                        "<button type='button' class='btn btn-info btn-lg' onclick='openmodal(" + h + ")' id='BTNRes' data-toggle='modal' data-target='#myModal'>ליצירת הזמנה</button>";
+                    if (login) {
+                        contentString += "<button type='button' class='btn btn-info btn-lg' onclick='addToFavorite(" + makersArr[h].MakerspaceId + ")' id='BTNLike' >הוספה לFavorites</button>";
+                    }
+                    "</div>" +
                         "</div>";
 
                     map.setZoom(17);
@@ -425,6 +304,42 @@
 
         }
 
+        function addToFavorite(id) {//יש אפשרות לעשות פופאפ של ריינטינג למייקרספייס
+            if (l == null) {
+                email = l1.Email;
+                makerspace = {
+                    User_email: email,
+                    MakerspaceId: id
+                }
+
+                let api = "../api/Makerspaces/Like/" + email + "/";
+                ajaxCall("POST", api, JSON.stringify(makerspace), postSuccess, postError);
+            }
+            if (l1 == null) {
+                email = l.Email;
+                makerspace = {
+                    User_email: email,
+                    MakerspaceId: id
+                }
+                let api = "../api/Makerspaces/Like/" + email + "/";
+                ajaxCall("POST", api, JSON.stringify(makerspace), postSuccess, postError);
+            }
+
+        }
+        function postSuccess(data) {
+            swal({
+                title: "המייקרספייס הוספה למעודפים שלך",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                location.reload();
+            });
+
+        }
+
+        function postError(err) {
+            alert(err.responseJSON);
+        }
         //מפת גוגל
         var map;
         var markers = [];
@@ -441,7 +356,7 @@
         var marker, i;
         function postaddress(addresses, data) {
             console.log(addresses);
-
+            console.log(data);
             for (i = 0; i < addresses.length; i++) {
 
                 let contentString =
@@ -450,10 +365,12 @@
                     "</div>" +
                     '<h1 id="firstHeading" class="firstHeading">' + data[i].MakerspaceName + '</h1>' +
                     '<div id="bodyContent">' +
-                    "<p><b>" + data[i].MakerspaceName + "</b></p>" +
-                    "<button type='button' class='btn btn-info btn-lg' onclick='openmodal(" + i + ")' id='myBtn' data-toggle='modal' data-target='#myModal'>Open Modal</button>" +
-                    "<p><b>" + "הוספה למועדפים" + "</b></p>" +
-                    "</div>" +
+                    "<p>טלפון להתקשרות: <b>" + data[i].PhoneNumber + "</b></p>" +
+                    "<button type='button' class='btn btn-info btn-lg' onclick='openmodal(" + i + ")' id='BTNRes' data-toggle='modal' data-target='#myModal'>ליצירת הזמנה</button>";
+                if (login) {
+                    contentString += "<button type='button' class='btn btn-info btn-lg' onclick='addToFavorite(" + data[i].MakerspaceId + ")' id='BTNLike' >הוספה לFavorites</button>";
+                }
+                "</div>" +
                     "</div>";
                 let id = i;
                 $.ajax({
@@ -506,7 +423,7 @@
                 <div class="modal-body customer-box">
                     <div class="tab-content">
                         <div class="tab-pane active" id="Login" dir="rtl">
-                            <form role="form" class="form-horizontal">
+                            <form role="form" class="form-horizontal" id="connectModal">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <input class="form-control" id="email1" placeholder="שם משתמש (אימייל)" type="text">
@@ -566,7 +483,8 @@
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
-                        <li class="nav-item active"><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Galleries.html">גלריות</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
                         <li class="nav-item"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
                     </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
@@ -618,7 +536,7 @@
 
     </div>
 
-    <div class="container-fluid">
+    <div id="divSearch" class="container-fluid">
         <div class="row">
             <div class="col-3" id="MakerList"></div>
             <div class="col-9" id="map"></div>
@@ -631,7 +549,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h2 class="modal-title">Modal Header</h2>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -668,7 +586,7 @@
                     </form> <!-- /form -->
                 </div>
                 <div class="modal-footer">
-                    <button id="ResForm_finish" type="button" class="btn btn-primary btn-block">סיום ויצירת הזמנה </button>
+                    <button id="ResForm_finish" type="button" class="btn btn-primary btn-block">סיום ושליחת הזמנה </button>
 
                 </div>
             </div>

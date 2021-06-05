@@ -191,10 +191,22 @@ namespace MakeAble.Controllers
             }
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
+        [HttpPost]
+        [Route("api/Makerspaces/Like/{email}/")]
+        public HttpResponseMessage PostLike([FromBody] Makerspace makerspace)
         {
+            try
+            {
+                int id = makerspace.MakerspaceLiked();
+
+                return Request.CreateResponse(HttpStatusCode.Created, id);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
+       
 
         //מחיקת מייקרספייס
         [HttpDelete]
