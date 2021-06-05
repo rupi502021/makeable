@@ -125,6 +125,7 @@ namespace MakeAble.Models
             List<Makerspace> m = dbs.getAllMakerspaces();
             return m;
         }
+        
 
         public int Delete()
         {
@@ -137,6 +138,13 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             int id = dbs.MakerspaceLiked(this);
             return id;
+        }
+        public List<Makerspace> ReadLikedMakers(string email)
+        {
+            DBServices dbs = new DBServices();
+
+            List<Makerspace> m = dbs.getLikedMakers(email);
+            return m;
         }
     }
 }

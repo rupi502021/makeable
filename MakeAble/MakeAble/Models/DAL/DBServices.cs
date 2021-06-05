@@ -1245,6 +1245,65 @@ namespace MakeAble.Models.DAL
             }
 
         }
+        public List<Makerspace> getLikedMakers(string email)
+        {
+
+            SqlConnection con = null;
+            List<Makerspace> mList = new List<Makerspace>();
+
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+                String selectSTR = "  select * from Makerspace as m inner join Users_Makerspace_Fav as umf on m.MakerspaceId=umf.MakerspaceId where umf.Email='"+email+"' order by m.MakerspaceId asc";
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+                while (dr.Read())
+                {   // Read till the end of the data into a row
+
+                    Makerspace m = new Makerspace();
+                    m.MakerspaceId = Convert.ToInt32(dr["MakerspaceId"]);
+                    m.MakerspaceName = Convert.ToString(dr["MakerspaceName"]);
+                    m.PhoneNumber = Convert.ToString(dr["PhoneNumber"]);
+                    m.Url = Convert.ToString(dr["Url"]);
+                    m.Photo_makerspace = Convert.ToString(dr["Photo_makerspace"]);
+                    m.User_email = Convert.ToString(dr["UserEmail"]);
+                    m.NoPeople = Convert.ToInt32(dr["NoPeople"]);
+                    m.Size = Convert.ToInt32(dr["SizeInM"]);
+                    m.Price = Convert.ToInt32(dr["PricePerHour"]);
+                    m.Aircondition = Convert.ToBoolean(dr["Aircondition"]);
+                    m.Accessibility = Convert.ToBoolean(dr["Accessibility"]);
+                    m.Serving_coffee = Convert.ToBoolean(dr["Serving_coffee"]);
+                    m.Online_payment = Convert.ToBoolean(dr["Online_payment"]);
+                    m.Free_parking = Convert.ToBoolean(dr["Free_parking"]);
+                    m.Descrip = Convert.ToString(dr["Descrip"]);
+                    m.City = Convert.ToString(dr["City"]);
+                    m.Street = Convert.ToString(dr["Street"]);
+                    m.Num_street = Convert.ToInt32(dr["Num_street"]);
+
+                    mList.Add(m);
+
+                }
+
+                return mList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
+
+        }
         public int InsertMakerspaceProf(Makerspace makerspace, int id)
         {
             SqlConnection con;

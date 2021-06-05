@@ -3,7 +3,7 @@
 <head>
     <!-- Basic -->
     <meta charset="utf-8">
-    <title>רשימת החללים שלי</title>
+    <title>חללים שאהבתי</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Mobile Metas -->
@@ -33,9 +33,9 @@
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -44,14 +44,14 @@
 
     <script>
         $(document).ready(function () {
-
             checklogin();
+            render();
         });
 
 
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
                 $("ul.nav.navbar-nav.navbar-right").hide();
                 var hi = "היי, ";
@@ -81,12 +81,94 @@
             });
         }
 
+        function render() {
+            if (l == null) {
+                email = l1.Email;
+
+                var api = "../api/Makerspaces/Liked/" + email + "/";
+            }
+            else {
+                email = l.Email;
+
+                var api = "../api/Makerspaces/Liked/" + email + "/";
+            }
+            ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+        }
+
+        function getSuccessRender(data) {
+            console.log(data);
+           
+            if (data != null) {
+                renderLikedMakers(data);
+            }
+            if (data == "") {
+                $("#ph_title").html("לא אהבת makerspaces ביינתים");          
+            }
+
+        }
+
+        function getErrorRender(err) {
+            alert(err.responseJSON);
+        }
+
+        function renderLikedMakers(d) { //רנדור מקיירספייסים
+            $("#ph1").html("");
+            let str = "";
+
+            for (var i = 0; i < d.length; i++) {
+               
+                let facilities = "<br/>";
+                str += "<div class='card'>";
+                str += "<table class='table'>";
+                str += "<tr class='row'>";
+                str += "<td class='col'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1></td>"; //שם
+                str += "<button type='button' onclick='deleteMakerspace(" + d[i].MakerspaceId + ")' class='btn btn-primary btn-block' >מחק חלל</button>"; //כפתור הסתר
+                str += "<td class='col'>" + "" + "</td>"; //רווח
+                str += "<td class='col'><ul id='" + d[i].MakerspaceName + "' class='nav  navbar-right' style= 'padding-right: 50%'>";
+                str += "</tr>";
+                str += "<tr class='row'>";
+                str += "<td class='col-6'><h6><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</h6>"; //מקום
+                str += "<h6><b>טלפון: </b>" + d[i].PhoneNumber + "</h6>";
+                str += "<h6><b>אתר אינטרנט: </b>" + d[i].Url + "</h6>";
+                str += "<h6><b>תיאור: </b>" + d[i].Descrip + "</h6>";
+                str += "</td>";
+                str += "<td class='col-6'>";
+                str += "<h6><b>מספר אנשים מותר בחלל: </b>" + d[i].NoPeople + "</h6>";
+                str += "<h6><b>גודל חלל העבודה במטר רבוע: </b>" + d[i].Size + "</h6>";
+                str += "<h6><b>מחיר לשעת עבודה: </b>" + d[i].Price + "</h6>";
+                if (d[i].Aircondition) {
+                    facilities += "מיזוג אוויר" + "<br/>";
+                }
+                if (d[i].Accessibility) {
+                    facilities += "נגישות" + "<br/>";
+                }
+                if (d[i].Free_parking) {
+                    facilities += "חנייה חינם" + "<br/>";
+                }
+                if (d[i].Online_payment) {
+                    facilities += "תשלום אונליין" + "<br/>";
+                }
+                if (d[i].Serving_coffee) {
+                    facilities += "עמדת קפה וכיבוד";
+                }
+                str += "<h6><b>מתקנים: </b>" + facilities + "</h6>";
+
+                str += "</td>";
+                str += "</tr >";
+              
+                str += "</tr>";
+                str += "</table>";
+                str += "</div><br/>"; //סוג את card
+            }
+
+            $("#ph1").append(str);
+        }
+
+
     </script>
 </head>
 <body class="host_version" dir="rtl">
 
-
-   
     <!-- LOADER -->
     <div id="preloader">
         <div class="loader-container">
@@ -112,6 +194,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
                         <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
                         <li class="nav-item active"><a class="nav-link" href="personal.html">איזור אישי </a></li>
                     </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
@@ -142,8 +225,20 @@
                 <li><a href="personal-favorites-gallery.html">גלריות שאהבתי</a><br /></li>
                 <li> <a style="color:aliceblue" href="personal-favorites-space.html">רשימת Spaces שלי</a><br /></li>
             </ul>
-        </div> 
+        </div>
+        <div class="container">
+
+            <h1 style="text-align:right" id="ph_title">החללים שאהבתי:</h1>
+            <div id="ph1">
+
+            </div>
+        </div>
+
+
     </div> <!-- /#wrapper -->
+
+
+
     <!-- /#page-content-wrapper -->
     <!-- Bootstrap core JavaScript -->
     <script src="js/jquery.min.js"></script>

@@ -31,6 +31,24 @@ namespace MakeAble.Controllers
         }
 
         [HttpGet]
+        [Route("api/Makerspaces/Liked/{email}/")]
+        public HttpResponseMessage ReadLikedMakers(string email)
+        {
+            try
+            {
+                Makerspace makerspace = new Makerspace();
+                List<Makerspace> mList = makerspace.ReadLikedMakers(email);
+
+                return Request.CreateResponse(HttpStatusCode.Created, mList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+        }
+
+
+        [HttpGet]
         [Route("api/Makerspaces/{email}/")]
         public HttpResponseMessage ReadUserMakers(string email)
         {
@@ -192,7 +210,7 @@ namespace MakeAble.Controllers
         }
 
         [HttpPost]
-        [Route("api/Makerspaces/Like/{email}/")]
+        [Route("api/Makerspaces/Liked/{email}/")]
         public HttpResponseMessage PostLike([FromBody] Makerspace makerspace)
         {
             try

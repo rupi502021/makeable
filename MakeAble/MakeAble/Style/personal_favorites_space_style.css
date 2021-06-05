@@ -2,9 +2,16 @@
 a#logout::before {
     background: red;
 }
-
-.sidebar-nav {
+body {
     text-align: right;
+}
+.container {
+    position: relative;
+    top: 10em;
+    font-family: Calibri;
+}
+.sidebar-nav {
+   
     font-family: Calibri;
     font-size: 30px;
 }
@@ -17,8 +24,6 @@ a#logout::before {
     width: 180px;
     height: 51px;
 }
-
-
 
 #nav1 { 
     position: fixed;
@@ -55,4 +60,12 @@ div#sidebar-wrapper {
 ul#loginperson {
     flex-direction: row-reverse;
     direction: ltr;
+}
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 50%;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-family: arial;
 }
