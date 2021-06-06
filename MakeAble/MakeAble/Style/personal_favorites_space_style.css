@@ -2,6 +2,9 @@
 a#logout::before {
     background: red;
 }
+#PM{
+    width:80%;
+}
 body {
     text-align: right;
 }

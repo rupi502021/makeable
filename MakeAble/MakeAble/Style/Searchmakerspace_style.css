@@ -1,7 +1,9 @@
 ﻿body {
     text-align: right;
 }
-
+#PM{
+    width:80%;
+}
 #logo_top {
     width: 180px;
     height: 51px;

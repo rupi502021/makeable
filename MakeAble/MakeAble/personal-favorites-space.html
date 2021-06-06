@@ -121,11 +121,16 @@
                 str += "<div class='card'>";
                 str += "<table class='table'>";
                 str += "<tr class='row'>";
-                str += "<td class='col'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1></td>"; //שם
-                str += "<button type='button' onclick='deleteMakerspace(" + d[i].MakerspaceId + ")' class='btn btn-primary btn-block' >מחק חלל</button>"; //כפתור הסתר
-                str += "<td class='col'>" + "" + "</td>"; //רווח
-                str += "<td class='col'><ul id='" + d[i].MakerspaceName + "' class='nav  navbar-right' style= 'padding-right: 50%'>";
+                str += "<button type='button' onclick='deleteMakerspace(" + d[i].MakerspaceId + ")' class='btn btn-primary btn-block' >מחק חלל</button>"; //כפתור הסתר              
                 str += "</tr>";
+                str += "<tr class='row'>";
+                str += "<td class='col-6'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1></td>"; //שם
+                if (d[i].Photo_makerspace != "") {
+                    str += "<td class='col-6'><img id='PM' src='" + d[i].Photo_makerspace + "' alt='תמונת מייקרספייס' /></td></tr>";
+                } else {
+                    str += "<td class='col-6'><img id='PM' src='images/notfoundPic.jpg' alt='תמונת מייקרספייס' /></td></tr>";
+                }
+               
                 str += "<tr class='row'>";
                 str += "<td class='col-6'><h6><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</h6>"; //מקום
                 str += "<h6><b>טלפון: </b>" + d[i].PhoneNumber + "</h6>";
@@ -163,7 +168,25 @@
 
             $("#ph1").append(str);
         }
+        function deleteMakerspace(id) {
+            let api = "../api/Makerspaces/deleteFav/" + id + "/" + email + "/";
+            ajaxCall("DELETE", api, "", deleteSuccess, deleteError);
+        }
+       
 
+        function deleteSuccess(data) {
+            swal({
+                title: "המייקרספייס הוסר מהמועדפים שלך",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                location.reload();
+            });
+        }
+
+        function deleteError(err) {
+            alert(err.responseJSON);
+        }
 
     </script>
 </head>

@@ -231,17 +231,51 @@ namespace MakeAble.Controllers
         [Route("api/Makerspaces/delete/{id}/")]
         public HttpResponseMessage Delete(int id)
         {
-            Makerspace m = new Makerspace();
-            m.MakerspaceId = id;
-            int num = m.Delete();
+            try
+            {
+                Makerspace m = new Makerspace();
+                m.MakerspaceId = id;
+                int num = m.Delete();
 
-            if (num == 0)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "id: " + id + " does not exist");
+                if (num == 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "id: " + id + " does not exist");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, m);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, m);
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+
+        }
+        //מחיקת גלריה ממועדפים
+        [HttpDelete]
+        [Route("api/Makerspaces/deleteFav/{id}/{email}/")]
+        public HttpResponseMessage Delete(int id, string email)
+        {
+            try
+            {
+                Makerspace m = new Makerspace();
+                m.User_email = email;
+                m.MakerspaceId = id;
+                int num = m.DeleteFav();
+
+                if (num == 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "id: " + id + " does not exist");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, m);
+                }
+            }          
+              catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
             }
         }
     }

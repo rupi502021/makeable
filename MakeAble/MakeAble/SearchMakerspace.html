@@ -105,9 +105,21 @@
             getAllProf();
             getAlltools();
             getAllmakers();
-
+            $("#filebutton").change(function () {
+                readURL(this);
+            });
         });
+        //להכניס תמונה לתצוגה מקדימה
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+                    $('#PP').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
 
         function fLogin() {
             let email = $("#email1").val();
@@ -236,12 +248,15 @@
             makersArr = d;
             for (var i = 0; i < d.length; i++) {
 
-                str += "<div id='" + i + "' class='card' onclick='openinfo(" + i + ")'>";
+                str += "<div id='" + i + "' class='card' onclick='openinfo(" + d[i].MakerspaceId + ")'>";
                 str += "<table class='table'>";
                 str += "<tr class='row'>";
-                str += "<td class='col'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1>"; //שם
-
-                str += "<ul id='" + d[i].MakerspaceName + "' class='nav  navbar-right' style='padding-right: 50%'></td>";
+                if (d[i].Photo_makerspace != "") {
+                    str += "<td class='col-6'><img id='PM' src='" + d[i].Photo_makerspace + "' alt='תמונת מייקרספייס' /></td>";
+                } else {
+                    str += "<td class='col-6'><img id='PM' src='images/notfoundPic.jpg' alt='תמונת מייקרספייס' /></td>";
+                }
+                str += "<td class='col-6'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1>"; //שם                
                 str += "</tr>";
                 str += "<tr class='row'>";
                 str += "<td class='col-6'><h6><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</h6>"; //מקום
@@ -260,35 +275,37 @@
                 str += "</tr >";
                 str += "</table>";
                 str += "</div><br/>"; //סוג את card
+
             }
 
             $("#MakerList").append(str);
         }
 
-        function openinfo(id) {
-            console.log(makersArr[id]);
-            for (var h = 0; h < markers.length; h++) {
+        function openinfo(id) {                     
+                for (var j = 0; j < makersArr.length; j++) {
+                    for (var h = 0; h < markers.length; h++) {
 
-                if (id == markers[h].id) {
-                    let contentString =
-                        '<div id="content">' +
-                        '<div id="siteNotice">' +
+                        if (id == makersArr[j].MakerspaceId && id == markers[h].id) {
+                        let contentString =
+                            '<div id="content">' +
+                            '<div id="siteNotice">' +
+                            "</div>" +
+                            '<h1 id="firstHeading" class="firstHeading">' + makersArr[j].MakerspaceName + '</h1>' +
+                            '<div id="bodyContent">' +
+                            "<p>טלפון להתקשרות: <b>" + makersArr[j].PhoneNumber + "</b></p>" +
+                            "<button type='button' class='btn btn-info btn-lg' onclick='openmodal(" + j + ")' id='BTNRes' data-toggle='modal' data-target='#myModal'>ליצירת הזמנה</button>";
+                        if (login) {
+                            contentString += "<button type='button' class='btn btn-info btn-lg' onclick='addToFavorite(" + makersArr[j].MakerspaceId + ")' id='BTNLike' >הוספה לFavorites</button>";
+                        }
                         "</div>" +
-                        '<h1 id="firstHeading" class="firstHeading">' + makersArr[h].MakerspaceName + '</h1>' +
-                        '<div id="bodyContent">' +
-                        "<p>טלפון להתקשרות: <b>" + makersArr[h].PhoneNumber + "</b></p>" +
-                        "<button type='button' class='btn btn-info btn-lg' onclick='openmodal(" + h + ")' id='BTNRes' data-toggle='modal' data-target='#myModal'>ליצירת הזמנה</button>";
-                    if (login) {
-                        contentString += "<button type='button' class='btn btn-info btn-lg' onclick='addToFavorite(" + makersArr[h].MakerspaceId + ")' id='BTNLike' >הוספה לFavorites</button>";
-                    }
-                    "</div>" +
-                        "</div>";
+                            "</div>";
 
-                    map.setZoom(17);
-                    map.setCenter(markers[h].getPosition());
-                    infowindow.close();
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, markers[h]);
+                        map.setZoom(17);
+                        map.setCenter(markers[h].getPosition());
+                        infowindow.close();
+                        infowindow.setContent(contentString);
+                        infowindow.open(map, markers[h]);
+                    }
                 }
             }
         }
@@ -338,7 +355,13 @@
         }
 
         function postError(err) {
-            alert(err.responseJSON);
+            swal({
+                title: "המייקרספייס כבר קיים במועדפים שלך",
+                icon: "error",
+                timer: 2500,
+            }).then(function () {
+                
+            });
         }
         //מפת גוגל
         var map;
@@ -347,7 +370,7 @@
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
                 center: { lat: 32.067, lng: 34.785 },
-                zoom: 10,
+                zoom: 9,
             });
             console.log(document.getElementById("map"));
             infowindow = new google.maps.InfoWindow();
@@ -372,7 +395,7 @@
                 }
                 "</div>" +
                     "</div>";
-                let id = i;
+                let id = data[i].MakerspaceId;
                 $.ajax({
                     url: "https://maps.googleapis.com/maps/api/geocode/json",
                     type: "GET",
@@ -390,9 +413,9 @@
                             map: map,
                             animation: google.maps.Animation.DROP,
                         });
-
-                        markers.push(marker);
+                
                         marker.set("id", id);
+                        markers.push(marker);
 
                         marker.addListener("click", () => {
                             map.setZoom(17);

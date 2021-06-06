@@ -146,7 +146,11 @@
                 str += "<tr class='row'>";
                 str += "<td class='col'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1></td>"; //שם
                 str += "<button type='button' onclick='deleteMakerspace(" + d[i].MakerspaceId + ")' class='btn btn-primary btn-block' >מחק חלל</button>"; //כפתור הסתר
-                str += "<td class='col'>" + "" + "</td>"; //רווח
+                if (d[i].Photo_makerspace != "") {
+                    str += "<td class='col-6'><img id='PM' src='" + d[i].Photo_makerspace + "' alt='תמונת מייקרספייס' /></td>";
+                } else {
+                    str += "<td class='col-6'><img id='PM' src='images/notfoundPic.jpg' alt='תמונת מייקרספייס' /></td>";
+                }
                 str += "<td class='col'><ul id='" + d[i].MakerspaceName + "' class='nav  navbar-right' style= 'padding-right: 50%'>";
                 str += "<li id='M_ordersbtn'><a class='hover-btn-new log' href='order-request.html'><span>ניהול הזמנות</span></a></li></ul></td>";
                 str += "</tr>";
@@ -202,10 +206,10 @@
                     }
                     str += "<h6>כמות: " + d[i].ToolsList[j].Quantity + "</h6>";
                     if (d[i].ToolsList[j].Url_photo != null) {
-                        str += "<img id='PP' src='" + d[i].ToolsList[j].Url_photo + "' alt='ProfilePhoto' />";
+                        str += "<img id='PT' src='" + d[i].ToolsList[j].Url_photo + "' alt='ProfilePhoto' />";
                     }
                     else {
-                        str += "<img id='PP' src='images/notfoundPic.jpg' alt='ProfilePhoto' />";
+                        str += "<img id='PT' src='images/notfoundPic.jpg' alt='ProfilePhoto' />";
                     }
                     str += "</td>";
                 }
@@ -264,6 +268,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
                         <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
                         <li class="nav-item active"><a class="nav-link" href="personal.html">איזור אישי </a></li>
                     </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">

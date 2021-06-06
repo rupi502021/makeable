@@ -115,7 +115,7 @@
         }
 
         function getErrorRender(err) {
-            console.log(err);
+            console.log(err.responseJSON);
         }
 
         function renderGalleries(d) { //רנדור גלריות שפורסמו
@@ -197,7 +197,7 @@
 
         function deleteSuccess(data) {
             swal({
-                title: "הגלריה הוסרה למעודפים שלך",
+                title: "הגלריה הוסרה מהמועדפים שלך",
                 icon: "success",
                 timer: 2500,
             }).then(function () {
