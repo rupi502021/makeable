@@ -62,6 +62,8 @@ label {
     height: 100%;
 }
 
+
+
 .select2-hidden-accessible {
     position: initial !important;
 }
@@ -88,12 +90,12 @@ button.btn.btn-outline-primary {
 
 #MakerList {
     direction: ltr;
-    height: 75%;
+    height: 90%;
     overflow-y: scroll;
     color: white;
 }
 
-.container-fluid {
+#divSearch {
     background-color: #333333;
     height: 100%;
 }
@@ -130,7 +132,7 @@ label.col-sm-3.control-label {
 /* Always set the map height explicitly to define the size of the div
         * element that contains the map. */
 #map {
-    height: 70%;
+    height: 90%;
     position: relative;
 }
 
