@@ -18,10 +18,11 @@ namespace MakeAble.Models
         double span;
         bool statusApproved;
         string userName;
+        int i;
 
         public Reservation() { }
 
-        public Reservation(int reservationId, DateTime date, DateTime startTime_res, DateTime endTime_res, string description, DateTime startTime_req, DateTime endTime_req, double span, bool statusApproved, string userName)
+        public Reservation(int reservationId, DateTime date, DateTime startTime_res, DateTime endTime_res, string description, DateTime startTime_req, DateTime endTime_req, double span, bool statusApproved, string userName, int i)
         {
             this.reservationId = reservationId;
             this.date = date;
@@ -33,6 +34,7 @@ namespace MakeAble.Models
             this.span = span;
             this.statusApproved = statusApproved;
             this.userName = userName;
+            this.i = i;
         }
 
         public int ReservationId { get => reservationId; set => reservationId = value; }
@@ -45,6 +47,7 @@ namespace MakeAble.Models
         public double Span { get => span; set => span = value; }
         public bool StatusApproved { get => statusApproved; set => statusApproved = value; }
         public string UserName { get => userName; set => userName = value; }
+        public int I { get => i; set => i = value; }
 
         public List<Reservation> Read()
         {
@@ -63,6 +66,12 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             return dbs.getHistoryReservation();
         }
+
+        //public int getReservationByMonth(int i)
+        //{
+        //    DBServices dbs = new DBServices();
+        //    return dbs.getReservationByMonth(i);
+        //}
 
         public int Delete()
         {

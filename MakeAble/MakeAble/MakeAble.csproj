@@ -279,6 +279,7 @@
     <Content Include="newRequest.html" />
     <Content Include="newMakerSpace.html" />
     <Content Include="newMakerSpace_Tool.html" />
+    <Content Include="order-statistics.html" />
     <Content Include="order-request-approved.html" />
     <Content Include="order-history-new.html" />
     <Content Include="order-request.html" />

@@ -39,7 +39,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  
+
 
     <style>
 
@@ -51,7 +51,6 @@
         $purple: #AE5989;
 
         $radius: 50%;*/
-
         #logo_top {
             width: 180px;
             height: 51px;
@@ -72,12 +71,12 @@
         }
 
         th {
-            background-color: #1ba61e;
+            background-color: #e03344;
             color: white;
         }
 
         td {
-            background-color: #8fe7a9;
+            background-color: #e695a8;
         }
 
 
@@ -103,7 +102,7 @@
         }
 
         .card {
-            background: $white;
+            background: white;
             width: 90%;
             max-width: 40rem;
             min-height: 40rem;
@@ -139,7 +138,7 @@
                 font-weight: bold;
                 text-transform: uppercase;
                 text-align: center;
-                color: $gray;
+                color: #808080;
                 margin: 0 1px;
             }
 
@@ -155,7 +154,7 @@
                 width: 3.5rem;
                 height: 3.5rem;
                 display: grid;
-                place-items: center;
+                /*place-items: center;*/
                 font-weight: bold;
                 position: relative;
             }
@@ -218,8 +217,18 @@
                 height: 3.5rem;
                 padding-top: 0.25rem;
                 display: grid;
-                place-items: center;
+                /*place-items: center;*/
             }
+
+        .aproveRequest {
+            padding: 15px 32px;
+            display: inline-block;
+        }
+
+        .deleteRequest {
+            padding: 15px 32px;
+            display: inline-block;
+        }
     </style>
 
 
@@ -246,7 +255,10 @@
     <script>
         $(document).ready(function () {
             checklogin();
-            getReservation();
+            renderStatistics();
+            staticGraph()
+
+           
         });
 
 
@@ -285,56 +297,78 @@
         }
 
 
-        function getReservation() {
-            ajaxCall("GET", "../api/Reservations/GetApprovedReservation", "", getSuccessRQ, getErrorRQ);
-        }
 
-        function getSuccessRQ(data) {
-            console.log(data);
-            var d = data;
-            renderRequest(d);
-        }
 
-        function getErrorRQ(err) {
-            console.log(err);
-        }
 
-        function renderRequest(d) {
+        function renderStatistics(d) {
             //רנדור טבלה
             $("#ph1").html("");
             let str = "<div class='container'>";
-            str += "<h1 style='text-align:center; font-size:80px'>הזמנות שאושרו</h1>";
-            str += "<table>";
-            str += "<tr>";
-            str += "<th>שם</th>";
-            str += "<th>תאריך</th>";
-            str += "<th>שעות</th>";
-            str += "</tr>";
+            str += "<h1 style='text-align:center; font-size:80px'>צפיה בגרף הזמנות</h1>";
 
-            for (var i = 0; i < d.length; i++) {
-                str += "<tr>";
-                str += "<td><i class='fa fa-user' aria-hidden='true'></i>&nbsp;" + d[i].UserName + "</td>";
+            //for (var i = 1; i < 13; i++) {
 
-                var _stratTime = d[i].StartTime_req;
-                var _endTime = d[i].EndTime_req;
-                var _date = d[i].Date;
-                var date_date = _date.split('T')[0];
-                var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
-                var time_timeS = _stratTime.split('T')[1];
-                var time_timeE = _endTime.split('T')[1];
+            //    function getReservationList() {
+            //        let api = "../api/Reservations/GetLists" + i;
+            //        ajaxCall("GET", api, "", getSuccess, getError);
+            //    }
 
-                str += "<td>" + date_time_ltr + "</td>";
-                str += "<td>" + time_timeS + "-" + time_timeE + "</td>";
-                str += "</tr>";
+            //    function getSuccess(data) {
+            //        console.log(data);
+            //        var d = data;
+            //        renderStatistics(d);
+            //        var l = d.length;
+            //        console.log(l);
+            //    }
 
-            }
+            //    function getError(err) {
+            //        console.log(err);
+            //    }
 
-            str += "</table>";
+            //}
             str += "</div>";
+
             $("#ph1").append(str);
         }
 
+        function staticGraph() {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "light2",
+                //title: {
+                //    text: "צפיה בגרף ההזמנות"
+                //},
+                data: [{
+                    type: "column",
+                    indexLabelFontSize: 20,
+                    dataPoints: [
+                        { label: "ינואר", y: 14 },
+                        { label: "פברואר", y: 20 },
+                        { label: "מרץ", y: 25 },
+                        { label: "אפריל", y: 30 },
+                        { label: "מאי", y: 28 },
+                        { label: "יוני", y: 14 },
+                        { label: "יולי", y: 20 },
+                        { label: "אוגוסט", y: 25 },
+                        { label: "ספטמבר", y: 30 },
+                        { label: "אוקטובר", y: 28 },
+                        { label: "נובמבר", y: 28 },
+                        { label: "דצמבר", y: 28 }
+
+                    ]
+                }]
+            });
+            chart.render();
+        }
+
+
+
+
     </script>
+
+
+
+
 </head>
 <body class="host_version" dir="rtl">
     <!-- LOADER -->
@@ -382,101 +416,26 @@
         </nav>
     </header>
     <div id="wrapper" class="toggled">
+        <!--<ul id="newGalleryBTN" class="nav  navbar-right" style="float:left">
+        <li><a class="hover-btn-new log" href="newRequest.html"><span>הוספת הזמנה חדשה</span></a></li>
+    </ul>-->
         <!-- Sidebar -->
         <div id="sidebar-wrapper" style="text-align:center; font-size:20px">
             <ul class="sidebar-nav">
-                <li><a href="order-request.html"> הזמנות שטרם אושרו </a><br /></li>
-                <li> <a style="color:aliceblue" href="order-request-approved.html">הזמנות שאושרו</a><br /></li>
+                <li> <a href="order-request.html"> הזמנות שטרם אושרו </a><br /></li>
+                <li> <a href="order-request-approved.html">הזמנות שאושרו</a><br /></li>
                 <li> <a href="order-history-new.html">היסטוריית הזמנות</a><br /></li>
-                <li> <a href="order-statistics.html">סטטיסטיקת הזמנות</a><br /></li>
+                <li> <a style="color:aliceblue" href="order-statistics.html">סטטיסטיקת הזמנות</a><br /></li>
 
             </ul>
         </div> <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
-        <!--<div class="container">
-
-        <h1 style="text-align:center; font-size:80px">הזמנות שאושרו</h1>
-
-        <table>
-            <tr>
-                <th>שם</th>
-                <th>תאריך</th>
-                <th>שעות</th>
-            </tr>
-            <tr>
-                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                <td>24/08/2020</td>
-                <td>10:00-13:00</td>
-            </tr>
-            <tr>
-                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                <td>24/08/2020</td>
-                <td>10:00-13:00</td>
-            </tr>
-            <tr>
-                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                <td>24/08/2020</td>
-                <td>10:00-13:00</td>
-            </tr>
-        </table>
-    </div>-->
-
 
         <div id="ph1"></div>
 
-        <main class="card">
-            <section class="card__header">
-                <h3>אפריל-21</h3>
-            </section>
-            <section class="card__body">
-                <ul class="card__body--days">
-                    <li>ראשון</li>
-                    <li>שני</li>
-                    <li>שלישי</li>
-                    <li>רביעי</li>
-                    <li>חמישי</li>
-                    <li>שישי</li>
-                    <li>שבת</li>
-                </ul>
-                <ul class="card__body--dates">
-                    <li class="prev">28</li>
-                    <li class="prev">29</li>
-                    <li class="prev">30</li>
-                    <li class="prev">31</li>
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li>6</li>
-                    <li>7</li>
-                    <li>8</li>
-                    <li>9</li>
-                    <li>10</li>
-                    <li>11</li>
-                    <li>12</li>
-                    <li>13</li>
-                    <li>14</li>
-                    <li>15</li>
-                    <li class="circle orange">16 <span>5</span></li>
-                    <li>17</li>
-                    <li>18</li>
-                    <li class="circle purple">19 <span>6</span></li>
-                    <li>20</li>
-                    <li>21</li>
-                    <li>22</li>
-                    <li>23</li>
-                    <li>24</li>
-                    <li>25</li>
-                    <li>26</li>
-                    <li>27</li>
-                    <li>28</li>
-                    <li class="today">29</li>
-                    <li>30</li>
-                    <li class="next">1</li>
-                </ul>
-            </section>
-        </main>
+        <div id="chartContainer" style="height: 500px; width: 80%; margin:auto; margin-top:100px"></div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 
 
     </div> <!-- /#page-content-wrapper -->
