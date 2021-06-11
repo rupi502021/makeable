@@ -18,6 +18,9 @@ namespace MakeAble.Models
         double span;
         bool statusApproved;
         string userName;
+        string user_email;
+        int makerspaceId;
+
         int month1;
         int month2;
         int month3;
@@ -41,6 +44,8 @@ namespace MakeAble.Models
         public double Span { get => span; set => span = value; }
         public bool StatusApproved { get => statusApproved; set => statusApproved = value; }
         public string UserName { get => userName; set => userName = value; }
+        public string User_email { get => user_email; set => user_email = value; }
+        public int MakerspaceId { get => makerspaceId; set => makerspaceId = value; }
         public int Month1 { get => month1; set => month1 = value; }
         public int Month2 { get => month2; set => month2 = value; }
         public int Month3 { get => month3; set => month3 = value; }
@@ -56,30 +61,32 @@ namespace MakeAble.Models
 
         public Reservation() { }
 
-        public Reservation(int reservationId, DateTime date, DateTime startTime_res, DateTime endTime_res, string description, DateTime startTime_req, DateTime endTime_req, double span, bool statusApproved, string userName, int month1, int month2, int month3, int month4, int month5, int month6, int month7, int month8, int month9, int month10, int month11, int month12)
+        public Reservation(int reservationId, DateTime date, DateTime startTime_res, DateTime endTime_res, string description, DateTime startTime_req, DateTime endTime_req, double span, bool statusApproved, string userName, string user_email, int makerspaceId, int month1, int month2, int month3, int month4, int month5, int month6, int month7, int month8, int month9, int month10, int month11, int month12)
         {
-            this.reservationId = reservationId;
-            this.date = date;
-            this.startTime_res = startTime_res;
-            this.endTime_res = endTime_res;
-            this.description = description;
-            this.startTime_req = startTime_req;
-            this.endTime_req = endTime_req;
-            this.span = span;
-            this.statusApproved = statusApproved;
-            this.userName = userName;
-            this.month1 = month1;
-            this.month2 = month2;
-            this.month3 = month3;
-            this.month4 = month4;
-            this.month5 = month5;
-            this.month6 = month6;
-            this.month7 = month7;
-            this.month8 = month8;
-            this.month9 = month9;
-            this.month10 = month10;
-            this.month11 = month11;
-            this.month12 = month12;
+            ReservationId = reservationId;
+            Date = date;
+            StartTime_res = startTime_res;
+            EndTime_res = endTime_res;
+            Description = description;
+            StartTime_req = startTime_req;
+            EndTime_req = endTime_req;
+            Span = span;
+            StatusApproved = statusApproved;
+            UserName = userName;
+            User_email = user_email;
+            MakerspaceId = makerspaceId;
+            Month1 = month1;
+            Month2 = month2;
+            Month3 = month3;
+            Month4 = month4;
+            Month5 = month5;
+            Month6 = month6;
+            Month7 = month7;
+            Month8 = month8;
+            Month9 = month9;
+            Month10 = month10;
+            Month11 = month11;
+            Month12 = month12;
         }
 
         public List<Reservation> Read()
@@ -117,5 +124,11 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             return dbs.UpdateRES(this);
         }
+        public int InsertReservation()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.InsertReservation(this);
+        }
+        
     }
 }

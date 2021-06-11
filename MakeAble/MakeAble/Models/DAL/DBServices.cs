@@ -2093,6 +2093,55 @@ namespace MakeAble.Models.DAL
             }
 
         }
+        public int InsertReservation(Reservation reservation)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to connect to DB", ex);
+            }
+
+            String cStr = BuildInsertReservation(reservation);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = Convert.ToInt32(cmd.ExecuteScalar());  // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("You didnt succeed to add a new reservation, Try again!", ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        private String BuildInsertReservation(Reservation reservation)
+        {
+            String command = "";           
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", reservation.Date, reservation.StartTime_res, reservation.EndTime_res, reservation.MakerspaceId, reservation.User_email,reservation.Description,reservation.StatusApproved);
+            String prefix = "INSERT INTO Reservation" + "([ReservationDate],[StartTime_res],[EndTime_res],[MakerspaceId],[UserEmail],[Description],[StatusApproved])";
+
+            command += prefix + sb.ToString() ;
+            return command;
+        }
     }
 }
 

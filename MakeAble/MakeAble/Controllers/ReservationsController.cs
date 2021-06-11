@@ -45,31 +45,41 @@ namespace MakeAble.Controllers
             return rList;
         }
 
-
-
-        // GET api/<controller>/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        // POST api/<controller>
-        public void Post([FromBody] string value)
+        [HttpPost]
+        [Route("api/Reservations")]
+        public HttpResponseMessage Post([FromBody] Reservation reservation)
         {
+            try
+            {
+                reservation.InsertReservation();
+
+                return Request.CreateResponse(HttpStatusCode.Created, reservation);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
 
         // PUT api/<controller>/5
         public HttpResponseMessage Put([FromBody] Reservation res)
         {
-            int num = res.Update();
+            try
+            {
+                int num = res.Update();
 
-            if (num == 0)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "reservation: " + res + " does not exist");
+                if (num == 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "reservation: " + res + " does not exist");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, res);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, res);
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
             }
         }
 
@@ -78,6 +88,10 @@ namespace MakeAble.Controllers
         [Route("api/Reservations/deleteRQ/{id}")]
         public HttpResponseMessage Delete(int id)
         {
+            try
+            {
+
+           
             Reservation r = new Reservation();
             r.ReservationId = id;
 
@@ -90,6 +104,11 @@ namespace MakeAble.Controllers
             else
             {
                 return Request.CreateResponse(HttpStatusCode.OK, r);
+            }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
             }
         }
     }

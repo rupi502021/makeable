@@ -63,12 +63,7 @@
                 tokenSeparators: [',', ' ']
             });
 
-            $('#toolsRes').select2({
-                placeholder: 'בחר כלים',
-                data: b,
-                tags: true,
-                tokenSeparators: [',', ' ']
-            });
+           
             $('#facili').select2({
                 placeholder: 'בחר מתקנים',
                 data: c,
@@ -101,6 +96,7 @@
     <script>
         $(document).ready(function () {
             $("#submitLogin").click(fLogin);
+            $("#ResForm_finish").submit(AddRes);
             checklogin();
             getAllProf();
             getAlltools();
@@ -126,7 +122,7 @@
             let pass = $("#pass1").val();
             let api = "../api/Users/" + email + "/" + pass;
 
-            ajaxCall("GET", api, "", getSuccess, getError);
+            ajaxCall("GET", api, "", getSuccess, error);
         }
 
         function getSuccess(data) {
@@ -157,10 +153,6 @@
             }
         }
 
-        function getError(err) {
-            console.log(err.responseJSON.Message);
-        }
-
         function checklogin() {
             l = JSON.parse(localStorage.getItem('user'));
             l1 = JSON.parse(sessionStorage.getItem('user'));
@@ -172,9 +164,11 @@
                 var hi = "היי, ";
                 if (l == null) {
                     $("#perHello").append(hi + l1.Fname);
+                    email = l1.Email;
                 }
                 else {
                     $("#perHello").append(hi + l.Fname);
+                    email = l.Email;
                 }
                 $("#loginperson").show();
             }
@@ -199,7 +193,7 @@
             ajaxCall("GET", api, "", getSuccessAllProf, error);
         }
         function error(err) {
-            alert(err.responseJSON.Message);
+            alert(err.responseJSON);
         }
         function getSuccessAllProf(data) {
 
@@ -216,8 +210,6 @@
             ajaxCall("GET", api, "", getSuccessAlltools, error);
         }
         function getSuccessAlltools(data) {
-
-
             var toolslist = [];
             var value = "";
             for (var i = 0; i < data.length; i++) {
@@ -225,6 +217,8 @@
                 value += " <option id='" + data[i].ToolId + "' value = '" + data[i].ToolName + "' > " + data[i].ToolName + "</option > ";
             }
             $('select[name="tools"]').append(value);
+          
+            
         }
         function getAllmakers() {
             let api = "../api/Makerspaces/All";
@@ -311,14 +305,46 @@
         }
 
         function openmodal(id) {
+            console.log(id);
             for (var i = 0; i < makersArr.length; i++) {
                 if (id == i) {
                     $(".modal-title").html(makersArr[i].MakerspaceName);
+                    makerspaceId = makersArr[i].MakerspaceId;
                     $("#myModal").modal();
                 }
 
             }
 
+        }
+        
+        function AddRes() { 
+            
+            reservation = {
+                MakerspaceId: makerspaceId,
+                User_email:email,
+                Date:$("#resDate").val(),
+                StartTime_res: $("#res_from").val(),
+                EndTime_res: $("#res_to").val(),               
+                Description: $("#textarea").val(),
+                StatusApproved: false,
+            }
+            ajaxCall("POST", "../api/Reservations", JSON.stringify(reservation), success, error);
+            return false;
+
+
+        }
+        function success(data) {
+            localStorage.setItem("MakerSpaceID", data);
+            swal({
+                title: "הזמנה נשלחה",
+                text: "מנהל המייקרספייס יחזיר תשובה בהקדם",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                window.location.href = 'searchMakerspace.html';
+            }
+            );
+            clear();
         }
 
         function addToFavorite(id) {//יש אפשרות לעשות פופאפ של ריינטינג למייקרספייס
@@ -593,24 +619,17 @@
                                 עד:<input id="res_to" type="time" name="appt-time">
                             </div>
                         </div>
-                        <div class="row form-group">
-                            <label for="select" class="col-sm-3 control-label">כלים</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" name="tools" id="toolsRes" multiple="multiple" style="width:100%"></select>
-                            </div>
-                        </div>
-
+                      
                         <div class="row form-group">
                             <label class="col-sm-3 control-label" for="textarea">הערות</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" id="textarea" name="textarea" placeholder="הערות"></textarea>
+                                <textarea class="form-control" id="textarea" name="textarea" placeholder="לדוגמא: בקשות לכלים וכו'"></textarea>
                             </div>
                         </div>
                     </form> <!-- /form -->
                 </div>
                 <div class="modal-footer">
-                    <button id="ResForm_finish" type="button" class="btn btn-primary btn-block">סיום ושליחת הזמנה </button>
-
+                    <button id="ResForm_finish" onclick="AddRes()" type="submit" class="btn btn-primary btn-block">סיום ושליחת הזמנה </button>
                 </div>
             </div>
 
