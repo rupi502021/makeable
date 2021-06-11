@@ -88,8 +88,7 @@ namespace MakeAble.Controllers
         {
             try
             {
-                DateTime x= user.BirthDay;
-                user.BirthDay = x;
+            
                 int num = user.Update();
 
                 if (num == 0)

@@ -2133,13 +2133,13 @@ namespace MakeAble.Models.DAL
 
         private String BuildInsertReservation(Reservation reservation)
         {
-            String command = "";           
+                   
             StringBuilder sb = new StringBuilder();
 
             sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", reservation.Date, reservation.StartTime_res, reservation.EndTime_res, reservation.MakerspaceId, reservation.User_email,reservation.Description,reservation.StatusApproved);
-            String prefix = "INSERT INTO Reservation" + "([ReservationDate],[StartTime_res],[EndTime_res],[MakerspaceId],[UserEmail],[Description],[StatusApproved])";
+            String prefix = "INSERT INTO Reservation" + " ([ReservationDate],[StartTime_res],[EndTime_res],[MakerspaceId],[UserEmail],[Description],[StatusApproved])";
 
-            command += prefix + sb.ToString() ;
+            String command = prefix + sb.ToString() ;
             return command;
         }
     }
