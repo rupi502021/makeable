@@ -39,77 +39,45 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" defer></script>
+
     <link href="../Style/galleries_style.css" rel="stylesheet" />
     <link href="../Style/modal_photos.css" rel="stylesheet" />
     <link href="../Style/index_style.css" rel="stylesheet" />
     <script src="../Scripts/ajaxCalls.js"></script>
-
     <style>
-
-
-        .progressbar {
-            counter-reset: step;
+        .disableddiv{
+            /*pointer-events: none;
+            opacity: 0.4;*/
+            display:none;
         }
-
-            .progressbar li {
-                list-style-type: none;
-                width: 25%;
-                display: block;
-                float: right;
-                font-size: 20px;
-                position: relative;
-                text-align: center;
-                text-transform: uppercase;
-                color: #7d7d7d;
-            }
-
-                .progressbar li:before {
-                    width: 50px;
-                    height: 50px;
-                    content: counter(step);
-                    counter-increment: step;
-                    line-height: 35px;
-                    border: 6px solid #7d7d7d;
-                    display: block;
-                    text-align: center;
-                    margin: 0 auto 10px auto;
-                    border-radius: 50%;
-                    background-color: white;
-                }
-
-                .progressbar li:after {
-                    width: 100%;
-                    height: 6px;
-                    content: '';
-                    position: absolute;
-                    background-color: #7d7d7d;
-                    top: 15px;
-                    left: 50%;
-                    z-index: -1;
-                }
-
-                .progressbar li:first-child:after {
-                    content: none;
-                }
-
-                .progressbar li.active {
-                    color: #0aaa5c;
-                }
-
-                    .progressbar li.active:before {
-                        border-color: #0aaa5c;
-                    }
-
-                    .progressbar li.active + li:after {
-                        background-color: #0aaa5c;
-                    }
+        .scroll {
+            padding-top: 200px;
+        }
+        form#formSearch {
+            margin-bottom: 100px;
+        }
     </style>
-
-
-
     <script>
         $(document).ready(function () {
+            var a = [];
+            var b = [];
+            $('#selectmultiple').select2({
+                placeholder: 'בחר כלים',
+                data: b,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+            $('#selectmultipleprof').select2({
+                placeholder: 'בחר תחומי עיסוק',
+                data: a,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
             getAllProf();
+            getAlltools();
             $("#submitLogin").click(fLogin);
             checklogin();
             render();
@@ -148,7 +116,6 @@
             let pass = $("#pass1").val();
             let api = "../api/Users/" + email + "/" + pass;
 
-
             ajaxCall("GET", api, "", getSuccess, getError);
         }
 
@@ -184,7 +151,7 @@
         }
 
         function getError(err) {
-            console.log(err);
+            console.log(err.responseJSON);
         }
 
         function checklogin() {
@@ -223,7 +190,7 @@
             }).then(function () {
                 window.location.href = 'index.html';
             });
-           
+
         }
 
 
@@ -268,7 +235,7 @@
             return a;
         }
         function getErrorRender(err) {
-            console.log(err);
+            console.log(err.responseJSON);
         }
         function renderGalleries(d) { //רנדור גלריות שפורסמו
             $("#ph1").html("");
@@ -281,8 +248,8 @@
                 str += "<div class='col-sm-4'>";//*
                 str += "<div class='card'>";//*
                 str += "<div class='para'><br />";
-                str += "<h1><a href='#'><i class='fa fa-user'></i></a>&nbsp" + d[i].GalleryName + "</h1>"; //שם
-                str += "<p><a href='#'><i class='fa fa-map-marker'></i></a>&nbsp" + d[i].MakerspaceName + "</p>"; //מקום
+                str += "<h1><a><i class='fa fa-user'></i></a>&nbsp" + d[i].GalleryName + "</h1>"; //שם
+                str += "<p><a><i class='fa fa-map-marker'></i></a>&nbsp" + d[i].MakerspaceName + "</p>"; //מקום
                 str += "<p>" + d[i].Professions + "</p>"; //תחומי עיסוק
                 str += "</div>";
                 str += "<span>1/" + d[i].Images.length + "</span>";
@@ -301,7 +268,7 @@
 
                 for (var j = 0; j < d[i].Images.length; j++) {
                     var no = j + 1;
-                    console.log(d[i].Images)
+                    
                     n = d[i].Images[j];
                     str += "<div class='mySlides" + i + "'>";
                     str += "<div class='numbertext'> " + d[i].Images.length + " / " + no + "</div>";
@@ -384,18 +351,48 @@
             var value = "";
             for (var i = 0; i < data.length; i++) {
                 proflist.push(data[i].ProfessionName);
-                value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+                value += " <option id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
             }
             $('select[name="selectmultipleprof"]').append(value);
-
-
+        }
+        function getAlltools() {
+            let api = "../api/Tools";
+            ajaxCall("GET", api, "", getSuccessAlltools, error);
+        }
+        function getSuccessAlltools(data) {
+            var toolslist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                toolslist.push(data[i].ToolName);
+                value += " <option id='" + data[i].ToolId + "' value = '" + data[i].ToolName + "' > " + data[i].ToolName + "</option > ";
+            }
+            $('select[name="selectmultiple"]').append(value);
         }
         function error(err) {
-            console.log(err);
+            console.log(err.responseJSON);
+        }
+
+        id = "scroll_div1"
+
+        function searchProcess(i) {
+
+
+            switch (i.id) {
+                case "SearchToScroll1":
+                    $("#scroll_div2").removeClass("disableddiv");
+                    break;
+                case 2:
+                case "SearchToScroll2":
+                    $("#scroll_div3").removeClass("disableddiv");
+                    break;
+                case 3:
+                case "SearchToScroll3":
+                    $("#scroll_div4").removeClass("disableddiv");
+                    $("#BTNresults").removeClass("disableddiv");
+                    break;               
+            }
         }
     </script>
-
-
 </head>
 <body class="host_version" dir="rtl">
 
@@ -493,10 +490,8 @@
         <!-- Indicators -->
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
-
         </ol>
         <div class="carousel-inner" role="listbox">
-
             <div class="carousel-item active">
                 <div id="home" class="first-section active" style="background-image: url('images/makeable.jpg')">
                     <!--<div class="dtab">-->
@@ -504,13 +499,10 @@
                         <div id="logofront" class="row">
                             <img src="images/make.png" style="margin:0px auto" />
                         </div>
-
                         <div class="row">
                             <div class="col-lg-12 col-4 text-center" style="margin: 0 auto">
                                 <!--<div class="col-md-12 col-sm-12 text-center">-->
-
                                 <div class="big-tagline">
-
                                     <a href="#SearchToScroll" class="hover-btn-new" style="white-space:normal !important"><span>חיפוש MakerSpace</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <!--<a href="Galleries.html" class="hover-btn-new"><span>גלריית עבודות</span></a>-->
@@ -524,204 +516,138 @@
                     <!--</div>-->
                 </div><!-- end section -->
             </div>
-
-
         </div>
     </div>
+    <div class="container-fluid">
+        <form id="formSearch" class="form-horizontal" role="form">
+            <div id="scroll_div1">
+                <div id="SearchToScroll" class="container">
+                    <h1 style='text-align:center; font-size:80px'>חיפוש MakerSpace</h1>";
+                    <ul class="progressbar">
+                        <li class="active">מיקום</li>
+                        <li>תחומי עיסוק</li>
+                        <li>כלי עבודה</li>
+                        <li>זמינות</li>
+                    </ul>
+                </div>
 
-    <div id="SearchToScroll" class="container">
-        <br />
-        <h1 style='text-align:center; font-size:80px'>חיפוש MakerSpace</h1>";
+                <div class="form-group">
+                    <div class="col-sm-9 places">
+                        <h1>בחר מיקום:</h1>
+                        <br />
+                        <div class="checkbox">
+                            <label for="checkboxes-0">
+                                <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
+                                <span>מיקום נוכחי&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="checkboxes-0">
+                                <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
+                                <label class="control-label" for="selectbasic">
+                                    <select id="selectbasic2" name="selectbasic" class="form-control">
+                                        <option value="0">ההיסטוריה שלי</option>
+                                        <option value="1">חלל עבודה 1</option>
+                                        <option value="2">חלל עבודה 2</option>
+                                        <option value="3">חלל עבודה 3</option>
+                                    </select>
+                                </label>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="checkboxes-0">
+                                <input type="radio" name="checkboxes" id="checkboxes-3" value="3">
+                                <label class="control-label" for="selectbasic">
+                                    <select id="selectbasic2" name="selectbasic" class="form-control">
+                                        <option value="0">בחירת מיקום</option>
+                                        <option value="1">API של ערים</option>
+                                    </select>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
-        <br />
-        <ul class="progressbar">
-            <li class="active">מיקום</li>
-            <li>תחומי עיסוק</li>
-            <li>כלי עבודה</li>
-            <li>זמינות</li>
-        </ul>
-    </div>
-    <br />
-
-    <div class="form-group">
-        <div class="col-sm-9 places" style="border:5px solid #7d7d7d; margin:auto; text-align:right; width:25%">
-            <h1 style='text-align:right; font-size:30px; top:10px'>בחר מיקום:</h1>
-            <br />
-            <div class="checkbox">
-                <label for="checkboxes-0">
-                    <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
-                    <span>מיקום נוכחי&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i></span>
-                </label>
+                <div class="customwidget text-center">
+                    <a href="#SearchToScroll2" id="SearchToScroll1" onclick="searchProcess(this)" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
+                </div>
             </div>
-            <br />
-            <div class="checkbox">
-                <label for="checkboxes-0">
-                    <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
-                    <label class="control-label" for="selectbasic">
-                        <select id="selectbasic2" name="selectbasic" class="form-control">
-                            <option value="0">ההיסטוריה שלי</option>
-                            <option value="1">חלל עבודה 1</option>
-                            <option value="2">חלל עבודה 2</option>
-                            <option value="3">חלל עבודה 3</option>
+
+            <div id="scroll_div2" class="disableddiv">
+                <div id="SearchToScroll2" class="container scroll">
+                    <ul class="progressbar">
+                        <li>מיקום</li>
+                        <li class="active">תחומי עיסוק</li>
+                        <li>כלי עבודה</li>
+                        <li>זמינות</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9 places">
+                        <h1>בחר תחום עיסוק:</h1>
+                        <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
                         </select>
-                    </label>
-                </label>
+                    </div>
+                </div>
+
+                <div class="customwidget text-center">
+                    <a href="#SearchToScroll3" id="SearchToScroll2" onclick="searchProcess(this)" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
+                </div>
             </div>
-            <br />
-            <div class="checkbox">
-                <label for="checkboxes-0">
-                    <input type="radio" name="checkboxes" id="checkboxes-3" value="3">
-                    <label class="control-label" for="selectbasic">
-                        <select id="selectbasic2" name="selectbasic" class="form-control">
-                            <option value="0">בחירת מיקום</option>
-                            <option value="1">API של ערים</option>
+
+            <div id="scroll_div3" class="disableddiv">
+                <div id="SearchToScroll3" class="container scroll">
+                    <ul class="progressbar">
+                        <li>מיקום</li>
+                        <li>תחומי עיסוק</li>
+                        <li class="active">כלי עבודה</li>
+                        <li>זמינות</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9 places">
+                        <h1>בחר את הכלים שלך:</h1>
+                        <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
                         </select>
-                    </label>
-                </label>
+                    </div>
+                </div>
+
+                <div class="customwidget text-center">
+                    <a href="#SearchToScroll4" id="SearchToScroll3" onclick="searchProcess(this)" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
+                </div>
             </div>
-        </div>
+
+            <div id="scroll_div4" class="disableddiv">
+                <div id="SearchToScroll4" class="container scroll">
+                    <ul class="progressbar">
+                        <li>מיקום</li>
+                        <li>תחומי עיסוק</li>
+                        <li>כלי עבודה</li>
+                        <li class="active">זמינות</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9 places">
+                        <h1>בחר תאריך:</h1>
+                        <input type="date" class="form-control" min="2021-05-25" max="2040-05-31">
+                    </div>
+                </div>
+            </div>
+            <div id="BTNresults" class="customwidget text-center disableddiv">
+                <a href="SearchMakerspace.html" class="hover-btn-new" ><span>להצגת תוצאות החיפוש</span></a>
+            </div>
+        </form>
     </div>
-
-
-
-
-
-    <div class="customwidget text-center">
-        <a href="#SearchToScroll2" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
-    </div>
-    <br />
-
-    <div id="SearchToScroll2" class="container">
-
-
-        <br />
-        <br />
-        <ul class="progressbar">
-            <li>מיקום</li>
-            <li class="active">תחומי עיסוק</li>
-            <li>כלי עבודה</li>
-            <li>זמינות</li>
-        </ul>
-    </div>
-
-    <br />
-    <br />
-
-    <div class="form-group">
-        <div class="col-sm-9 places" style="        border: 5px solid #7d7d7d;
-        margin: auto;
-        text-align: right;
-        width: 30%;
-        height: 300px">
-            <h1 style='text-align:right; font-size:30px; top:10px'>בחר תחום עיסוק:</h1>
-            <br />
-            <br />
-            <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
-            </select>
-            <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
-        </div>
-    </div>
-
-    <br />
-    <br />
-
-
-    <div class="customwidget text-center">
-        <a href="#SearchToScroll3" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
-    </div>
-
-    <br />
-    <br />
-
-
-    <div id="SearchToScroll3" class="container">
-
-        <br />
-        <br />
-        <ul class="progressbar">
-            <li>מיקום</li>
-            <li>תחומי עיסוק</li>
-            <li class="active">כלי עבודה</li>
-            <li>זמינות</li>
-        </ul>
-    </div>
-
-    <br />
-    <br />
-
-    <div class="form-group">
-        <div class="col-sm-9 places" style="border:5px solid #7d7d7d; margin:auto; text-align:right; width:40%; height:350px">
-            <h1 style='text-align:right; font-size:30px; top:10px'>בחר את הכלים שלך:</h1>
-            <br />
-            <select id="selectmultiple" name="selectmultiple" class="form-control" style="height:55%" multiple="multiple" required>
-                <option value="פטישון">פטישון</option>
-                <option value="מדפסת תל מימד">מדפסת תל מימד</option>
-                <option value="מכונת תפירה">מכונת תפירה</option>
-                <option value="מברגה">מברגה</option>
-                <option value="משחזה">משחזה</option>
-                <option value="מסור">מסור</option>
-                <option value="מלטשה">מלטשה</option>
-                <option value="חותך לייזר">חותך לייזר</option>
-            </select>
-            <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
-        </div>
-    </div>
-
-    <br />
-
-
-    <div class="customwidget text-center">
-        <a href="#SearchToScroll4" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
-    </div>
-    <div id="SearchToScroll4" class="container">
-
-        <br />
-        <br />
-        <br />
-        <ul class="progressbar">
-            <li>מיקום</li>
-            <li>תחומי עיסוק</li>
-            <li>כלי עבודה</li>
-            <li class="active">זמינות</li>
-        </ul>
-    </div>
-
-    <br />
-
-
-    <div class="form-group">
-        <div class="col-sm-9 places" style="border:5px solid #7d7d7d; margin:auto; text-align:right; width:20%; height:420px">
-            <h1 style='text-align:right; font-size:30px; top:10px'>בחר זמינות:</h1>
-            <br />
-            <input type="date" class="form-control" value="2021-05-25" min="2021-05-25" max="2040-05-31">
-        </div>
-    </div>
-
-
-
-
-    <div class="customwidget text-center">
-        <a href="test1.html" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
-    </div>
-
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-
 
     <div id="GalleryToScroll" class="section lb">
-        <br />
-        <br />
-        <br />
-        <h1 style='text-align:center; font-size:80px'>גלרית עבודות</h1>
-        <div class="container" style="padding-top:70px">
+
+        <h1 id="title_gallery">גלרית עבודות</h1>
+        <div class="container gallery">
             <div id="ph1"></div>
             <div class="customwidget text-center">
-                <br />
-                <br />
-                <br />
                 <a href="Galleries.html" class="hover-btn-new"><span>לגלריה המלאה</span></a>
             </div>
 

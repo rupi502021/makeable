@@ -909,6 +909,55 @@ namespace MakeAble.Models.DAL
             return command;
         }
 
+        public int DeleteFromFav(Gallery gallery)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            String cStr = BuildDeleteFromFavCommand(gallery);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        private String BuildDeleteFromFavCommand(Gallery gallery)
+        {
+            String command;
+            command = "DELETE FROM Users_Gallery_Fav WHERE GalleryId = " + gallery.GalleryId + "AND Email='" + gallery.Email + "'";
+            return command;
+        }
+
         public int Delete(Gallery gallery)
         {
 
@@ -954,11 +1003,9 @@ namespace MakeAble.Models.DAL
         private String BuildDeleteCommand(Gallery gallery)
         {
             String command;
-            command = "DELETE FROM Users_Gallery_Fav WHERE GalleryId = " + gallery.GalleryId + "AND Email='" + gallery.Email + "'";
+            command = "DELETE FROM Gallery WHERE GalleryId = " + gallery.GalleryId ;
             return command;
         }
-
-
         //--------MakerSpace---------
 
         public int InsertMakerspace(Makerspace makerspace)

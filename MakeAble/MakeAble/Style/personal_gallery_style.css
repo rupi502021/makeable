@@ -139,3 +139,14 @@ ul#loginperson {
     flex-direction: row-reverse;
     direction: ltr;
 }
+
+.danger {
+    border-color: #f44336;
+    color: red;
+    background-color:white
+     
+}
+    .danger:hover {
+        background: #f44336;
+        color: white;
+    }

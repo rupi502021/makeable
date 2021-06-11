@@ -140,6 +140,11 @@ namespace MakeAble.Models
             dbs.InsertUserFavGal(this);
         }
 
+        public int DeleteFromFav()
+        {
+            DBServices dbs = new DBServices();
+            return dbs.DeleteFromFav(this);
+        }
         public int Delete()
         {
             DBServices dbs = new DBServices();

@@ -252,7 +252,7 @@ namespace MakeAble.Controllers
             }
 
         }
-        //מחיקת גלריה ממועדפים
+        //מחיקת מייקרספייס ממועדפים
         [HttpDelete]
         [Route("api/Makerspaces/deleteFav/{id}/{email}/")]
         public HttpResponseMessage Delete(int id, string email)
