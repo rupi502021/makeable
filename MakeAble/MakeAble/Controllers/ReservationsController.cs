@@ -36,14 +36,15 @@ namespace MakeAble.Controllers
             return rList;
         }
 
-        //[HttpGet]
-        //[Route("api/Reservations/GetLists/{i}")]
-        //public List<Reservation> GetLists(int i)
-        //{
-        //    Reservation orders = new Reservation();
-        //    List<Reservation> oList = orders.getReservationByMonth(i);
-        //    return oList;
-        //}
+        [HttpGet]
+        [Route("api/Reservations/getReservationByMonth")]
+        public List<Reservation> getReservationByMonth()
+        {
+            Reservation request = new Reservation();
+            List<Reservation> rList = request.ReadReservationByMonth();
+            return rList;
+        }
+
 
 
         // GET api/<controller>/5

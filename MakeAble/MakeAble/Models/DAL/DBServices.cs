@@ -960,6 +960,7 @@ namespace MakeAble.Models.DAL
 
         public int Delete(Gallery gallery)
         {
+<<<<<<< Updated upstream
 
             SqlConnection con;
             SqlCommand cmd;
@@ -1000,6 +1001,48 @@ namespace MakeAble.Models.DAL
 
         }
 
+=======
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("DBConnectionString"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            String cStr = BuildDeleteCommand(gallery);      // helper method to build the insert string
+
+            cmd = CreateCommand(cStr, con);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+>>>>>>> Stashed changes
         private String BuildDeleteCommand(Gallery gallery)
         {
             String command;
@@ -2014,58 +2057,83 @@ namespace MakeAble.Models.DAL
 
         }
 
-        //public List<Reservation> getReservationByMonth(int i)
-        //{
+        public List<Reservation> getReservationByMonth()
+        {
 
-        //    SqlConnection con = null;
-        //    List<Reservation> rList = new List<Reservation>();
+            SqlConnection con = null;
+            List<Reservation> rList = new List<Reservation>();
 
-        //    try
-        //    {
-        //        con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            try
+            {
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-        //        String selectSTR = "select * from Makerspace as ms join Reservation as rs on ms.MakerspaceId = rs.MakerspaceId " +
-        //            "where month(rs.ReservationDate) ="+ i;
-        //        SqlCommand cmd = new SqlCommand(selectSTR, con);
+                String selectSTR = "SELECT(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 1) AS 'Month-1'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 2) AS 'Month-2'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId" +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 3) AS 'Month-3'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 4) AS 'Month-4'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 5) AS 'Month-5', " +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 6) AS 'Month-6'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId" +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 7) AS 'Month-7'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 8) AS 'Month-8'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 9) AS 'Month-9'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 10) AS 'Month-10'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 11) AS 'Month-11'," +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 12) AS 'Month-12'";
+                
+                SqlCommand cmd = new SqlCommand(selectSTR, con);
 
-        //        // get a reader
-        //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+                // get a reader
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
 
-        //        while (dr.Read())
-        //        {   // Read till the end of the data into a row
+                while (dr.Read())
+                {   // Read till the end of the data into a row
 
-        //            Reservation r = new Reservation();
+                    Reservation r = new Reservation();
 
-        //            r.ReservationId = Convert.ToInt32(dr["reservationId"]);
-        //            r.Date = Convert.ToDateTime(dr["reservationDate"]);
-        //            r.StartTime_req = Convert.ToDateTime(dr["StartTime_req"]);
-        //            r.EndTime_req = Convert.ToDateTime(dr["EndTime_req"]);
-        //            //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
-        //            //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
-        //            //r.Description = Convert.ToString(dr["Description"]);
-        //            r.Span = Convert.ToDouble(dr["Span"]);
-        //            r.StatusApproved = Convert.ToBoolean(dr["StatusApproved"]);
-        //            r.UserName = Convert.ToString(dr["Fname"]) + " " + Convert.ToString(dr["Lname"]);
+                    r.Month1 = Convert.ToInt32(dr["Month-1"]);
+                    r.Month2 = Convert.ToInt32(dr["Month-2"]);
+                    r.Month3 = Convert.ToInt32(dr["Month-3"]);
+                    r.Month4 = Convert.ToInt32(dr["Month-4"]);
+                    r.Month5 = Convert.ToInt32(dr["Month-5"]);
+                    r.Month6 = Convert.ToInt32(dr["Month-6"]);
+                    r.Month7 = Convert.ToInt32(dr["Month-7"]);
+                    r.Month8 = Convert.ToInt32(dr["Month-8"]);
+                    r.Month9 = Convert.ToInt32(dr["Month-9"]);
+                    r.Month10 = Convert.ToInt32(dr["Month-10"]);
+                    r.Month11 = Convert.ToInt32(dr["Month-11"]);
+                    r.Month12 = Convert.ToInt32(dr["Month-12"]);
 
-        //            rList.Add(r);
-        //        }
-        //        return rList;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // write to log
-        //        throw (ex);
-        //    }
-        //    finally
-        //    {
-        //        if (con != null)
-        //        {
-        //            con.Close();
-        //        }
-        //    }
 
-        //}
+                    rList.Add(r);
+                }
+                return rList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+            }
 
+        }
     }
 }
 

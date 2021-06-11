@@ -256,8 +256,8 @@
         $(document).ready(function () {
             checklogin();
             renderStatistics();
-            staticGraph()
 
+            getReservationByMonth();
            
         });
 
@@ -296,7 +296,20 @@
             });
         }
 
+        function getReservationByMonth() {
+            ajaxCall("GET", "../api/Reservations/getReservationByMonth", "", getSuccessMonth, getErrorMonth);
+        }
 
+        function getSuccessMonth(data) {
+            console.log(data);
+            var d = data;
+            //renderRequest(d);
+            staticGraph(d)
+        }
+
+        function getErrorMonth(err) {
+            console.log(err);
+        }
 
 
 
@@ -306,32 +319,28 @@
             let str = "<div class='container'>";
             str += "<h1 style='text-align:center; font-size:80px'>צפיה בגרף הזמנות</h1>";
 
-            //for (var i = 1; i < 13; i++) {
-
-            //    function getReservationList() {
-            //        let api = "../api/Reservations/GetLists" + i;
-            //        ajaxCall("GET", api, "", getSuccess, getError);
-            //    }
-
-            //    function getSuccess(data) {
-            //        console.log(data);
-            //        var d = data;
-            //        renderStatistics(d);
-            //        var l = d.length;
-            //        console.log(l);
-            //    }
-
-            //    function getError(err) {
-            //        console.log(err);
-            //    }
-
-            //}
             str += "</div>";
 
             $("#ph1").append(str);
         }
 
-        function staticGraph() {
+        function staticGraph(d) {
+            for (var i = 0; i < d.length; i++) {
+                var x1 = d[0].Month1;
+                var x2 = d[0].Month2;
+                var x3 = d[0].Month3;
+                var x4 = d[0].Month4;
+                var x5 = d[0].Month5;
+                var x6 = d[0].Month6;
+                var x7 = d[0].Month7;
+                var x8 = d[0].Month8;
+                var x9 = d[0].Month9;
+                var x10 = d[0].Month10;
+                var x11 = d[0].Month11;
+                var x12 = d[0].Month12;
+            }
+
+
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 theme: "light2",
@@ -342,18 +351,18 @@
                     type: "column",
                     indexLabelFontSize: 20,
                     dataPoints: [
-                        { label: "ינואר", y: 14 },
-                        { label: "פברואר", y: 20 },
-                        { label: "מרץ", y: 25 },
-                        { label: "אפריל", y: 30 },
-                        { label: "מאי", y: 28 },
-                        { label: "יוני", y: 14 },
-                        { label: "יולי", y: 20 },
-                        { label: "אוגוסט", y: 25 },
-                        { label: "ספטמבר", y: 30 },
-                        { label: "אוקטובר", y: 28 },
-                        { label: "נובמבר", y: 28 },
-                        { label: "דצמבר", y: 28 }
+                        { label: "ינואר", y: x1 },
+                        { label: "פברואר", y: x2 },
+                        { label: "מרץ", y: x3 },
+                        { label: "אפריל", y: x4 },
+                        { label: "מאי", y: x5 },
+                        { label: "יוני", y: x6 },
+                        { label: "יולי", y: x7 },
+                        { label: "אוגוסט", y: x8 },
+                        { label: "ספטמבר", y: x9 },
+                        { label: "אוקטובר", y: x10 },
+                        { label: "נובמבר", y: x11 },
+                        { label: "דצמבר", y: x12 }
 
                     ]
                 }]
