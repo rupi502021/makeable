@@ -960,52 +960,6 @@ namespace MakeAble.Models.DAL
 
         public int Delete(Gallery gallery)
         {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-
-            SqlConnection con;
-            SqlCommand cmd;
-
-            try
-            {
-                con = connect("DBConnectionString"); // create the connection
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-
-            String cStr = BuildDeleteCommand(gallery);      // helper method to build the insert string
-
-            cmd = CreateCommand(cStr, con);             // create the command
-
-            try
-            {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                return numEffected;
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-
-            finally
-            {
-                if (con != null)
-                {
-                    // close the db connection
-                    con.Close();
-                }
-            }
-
-        }
-<<<<<<< Updated upstream
-
-=======
 
             SqlConnection con;
             SqlCommand cmd;
@@ -1046,10 +1000,6 @@ namespace MakeAble.Models.DAL
 
         }
 
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
         private String BuildDeleteCommand(Gallery gallery)
         {
             String command;
@@ -2069,73 +2019,40 @@ namespace MakeAble.Models.DAL
 
             SqlConnection con = null;
             List<Reservation> rList = new List<Reservation>();
-<<<<<<< Updated upstream
 
             try
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
                 String selectSTR = "SELECT(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 1) AS 'Month-1'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 1) AS 'Month-1', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 2) AS 'Month-2'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId" +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 3) AS 'Month-3'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 2) AS 'Month-2', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 4) AS 'Month-4'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 3) AS 'Month-3', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 5) AS 'Month-5', " +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 6) AS 'Month-6'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId" +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 7) AS 'Month-7'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 8) AS 'Month-8'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 9) AS 'Month-9'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 10) AS 'Month-10'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 11) AS 'Month-11'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 12) AS 'Month-12'";
-                
-                SqlCommand cmd = new SqlCommand(selectSTR, con);
-
-=======
-
-            try
-            {
-                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-
-                String selectSTR = "SELECT(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 1) AS 'Month-1'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 2) AS 'Month-2'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId" +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 3) AS 'Month-3'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 4) AS 'Month-4'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 4) AS 'Month-4', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
                     "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 5) AS 'Month-5', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 6) AS 'Month-6'," +
-                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId" +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 7) AS 'Month-7'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 6) AS 'Month-6', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 8) AS 'Month-8'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 7) AS 'Month-7', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 9) AS 'Month-9'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 8) AS 'Month-8', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 10) AS 'Month-10'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 9) AS 'Month-9', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
-                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 11) AS 'Month-11'," +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 10) AS 'Month-10', " +
+                    "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
+                    "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 11) AS 'Month-11', " +
                     "(SELECT COUNT(MakerspaceId) FROM Reservation WHERE ReservationId " +
                     "IN(SELECT ReservationId FROM Reservation) AND month(ReservationDate) = 12) AS 'Month-12'";
-                
+
+
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
->>>>>>> Stashed changes
+
                 // get a reader
                 SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
 
