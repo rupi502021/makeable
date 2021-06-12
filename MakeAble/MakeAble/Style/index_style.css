@@ -63,6 +63,13 @@ i.icon.fa {
 div#carouselExampleControls {
     position: relative;
     top: 90px;
+    height: 91%;
+}
+
+.container.btn {
+    position: relative;
+/*    top: 20%;
+    left:20%*/
 }
 
 .container-fluid {
