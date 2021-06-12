@@ -2136,8 +2136,8 @@ namespace MakeAble.Models.DAL
                    
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", reservation.Date, reservation.StartTime_res, reservation.EndTime_res, reservation.MakerspaceId, reservation.User_email,reservation.Description,reservation.StatusApproved);
-            String prefix = "INSERT INTO Reservation" + " ([ReservationDate],[StartTime_res],[EndTime_res],[MakerspaceId],[UserEmail],[Description],[StatusApproved])";
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", reservation.Date, reservation.StartTime_req, reservation.EndTime_req, reservation.MakerspaceId, reservation.User_email,reservation.Description,reservation.StatusApproved);
+            String prefix = "INSERT INTO Reservation" + " ([ReservationDate],[StartTime_req],[EndTime_req],[MakerspaceId],[UserEmail],[Description],[StatusApproved])";
 
             String command = prefix + sb.ToString() ;
             return command;
