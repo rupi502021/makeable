@@ -199,6 +199,11 @@ namespace MakeAble.Controllers
         {
             try
             {
+                if (makerspace.Days_hours == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "על מנת להוסיף מייקרספייס יש למלא את שעות הפעילות");
+                }
+               
                 int id = makerspace.InsertMakerspace();
 
                 return Request.CreateResponse(HttpStatusCode.Created, id);
