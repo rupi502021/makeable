@@ -130,10 +130,10 @@
 
             if (data != null) {
                 swal({
-                    title: "You are logged in!", icon:
-                        "success"
+                    title: "הינך מחובר!",
+                    icon: "success"
                 }).then(function () {
-                    window.location.href = 'index.html';
+                    window.location.reload();
                 }
                 );
 
@@ -182,10 +182,15 @@
             }
         }
         function logout() {
-            alert("logging out");
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
-            window.location.href = 'index.html';
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                window.location.href = 'index.html';
+            });
         }
 
         function getAllProf() {

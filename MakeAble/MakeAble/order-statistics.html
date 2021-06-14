@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
-    <title>QuickCloud - Hosting Responsive HTML5 Template</title>
+    <title>סטטיסטיקת הזמנות</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -39,7 +39,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     <style>
 
@@ -100,9 +100,16 @@
         ul {
             list-style: none;
         }
+
         h1 {
             text-align: center;
             font-size: 60px;
+        }
+        div#chartContainer {
+            height: 500px;
+            width: 80%;
+            margin: auto;
+            padding-top: 100px;
         }
 
         .card {
@@ -259,10 +266,18 @@
     <script>
         $(document).ready(function () {
             checklogin();
-            renderStatistics();
 
-            getReservationByMonth();
-           
+            if (JSON.parse(sessionStorage.getItem('Makerspace')) != null) {
+
+                makerspace = JSON.parse(sessionStorage.getItem('Makerspace'));
+                console.log("makerspaceid: " + makerspace.Id);
+                console.log("makerspacename: " + makerspace.Name);
+
+                getReservationByMonth();
+            }
+            else {
+                window.location.href = "personal.html";
+            }
         });
 
 
@@ -301,13 +316,14 @@
         }
 
         function getReservationByMonth() {
-            ajaxCall("GET", "../api/Reservations/getReservationByMonth", "", getSuccessMonth, getErrorMonth);
+            let api = "../api/Reservations/getReservationByMonth/makerspaceid/" + makerspace.Id;
+            ajaxCall("GET", api, "", getSuccessMonth, getErrorMonth);
         }
 
         function getSuccessMonth(data) {
             console.log(data);
             var d = data;
-            //renderRequest(d);
+
             staticGraph(d)
         }
 
@@ -317,16 +333,6 @@
 
 
 
-        function renderStatistics(d) {
-            //רנדור טבלה
-            $("#ph1").html("");
-            let str = "<div class='container'>";
-            str += "<h1>צפיה בגרף הזמנות</h1>";
-
-            str += "</div>";
-
-            $("#ph1").append(str);
-        }
 
         function staticGraph(d) {
             for (var i = 0; i < d.length; i++) {
@@ -348,9 +354,9 @@
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 theme: "light2",
-                //title: {
-                //    text: "צפיה בגרף ההזמנות"
-                //},
+                title: {
+                    text: "צפיה בגרף ההזמנות"
+                },
                 data: [{
                     type: "column",
                     indexLabelFontSize: 20,
@@ -373,10 +379,6 @@
             });
             chart.render();
         }
-
-
-
-
     </script>
 
 
@@ -447,11 +449,8 @@
 
         <div id="ph1"></div>
 
-        <div id="chartContainer" style="height: 500px; width: 80%; margin:auto; margin-top:100px"></div>
-        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-
-
+        <div id="chartContainer"></div>
+      
     </div> <!-- /#page-content-wrapper -->
     <!-- Bootstrap core JavaScript -->
     <!--<script src="js/jquery.min.js"></script>
