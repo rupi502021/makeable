@@ -107,10 +107,10 @@ namespace MakeAble.Models
             return dbs.getHistoryReservation(id);
         }
 
-        public List<Reservation> ReadReservationByMonth()
+        public List<Reservation> ReadReservationByMonth(int id)
         {
             DBServices dbs = new DBServices();
-            return dbs.getReservationByMonth();
+            return dbs.getReservationByMonth(id);
         }
 
         public int Delete()

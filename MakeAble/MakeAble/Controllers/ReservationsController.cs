@@ -63,12 +63,21 @@ namespace MakeAble.Controllers
     
 
         [HttpGet]
-        [Route("api/Reservations/getReservationByMonth")]
-        public List<Reservation> getReservationByMonth()
+        [Route("api/Reservations/getReservationByMonth/makerspaceid/{id}")]
+        public HttpResponseMessage getReservationByMonth(int id)
         {
-            Reservation request = new Reservation();
-            List<Reservation> rList = request.ReadReservationByMonth();
-            return rList;
+            try
+            {
+                Reservation request = new Reservation();
+                List<Reservation> rList = request.ReadReservationByMonth(id);
+
+                return Request.CreateResponse(HttpStatusCode.Created, rList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+           
         }
 
         [HttpPost]
