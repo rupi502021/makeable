@@ -66,6 +66,7 @@
         $(document).ready(function () {
             checklogin();
             render();
+           
         });
 
 
@@ -105,18 +106,18 @@
 
         function render() {
 
-
+          
             if (l == null) {
-                let email = l1.Email;
+                email = l1.Email;
 
                 var api = "../api/Makerspaces/" + email + "/";
             }
             else {
-                let email = l.Email;
+                email = l.Email;
 
                 var api = "../api/Makerspaces/" + email + "/";
             }
-            ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+            ajaxCall("GET", api, "", getSuccessRender, error);
         }
 
         function getSuccessRender(data) {
@@ -125,11 +126,15 @@
 
             if (data != null) {
                 renderMyMakers(data);
+                getRequest();
+            }
+            else {
+               
             }
 
         }
 
-        function getErrorRender(err) {
+        function error(err) {
             alert(err.responseJSON);
         }
 
@@ -224,7 +229,7 @@
         function deleteMakerspace(id) {
             console.log(id);
             var api = "../api/Makerspaces/delete/" + id + "/";
-            ajaxCall("DELETE", api, "", deleteSuccess, deleteError);
+            ajaxCall("DELETE", api, "", deleteSuccess, error);
 
         }
 
@@ -237,9 +242,6 @@
             location.reload();
         }
 
-        function deleteError(err) {
-            alert(err.responseJSON);
-        }
         function RedirectOrder(id, name) {
             jsonMakerspace = {
                 Id: id,
@@ -247,6 +249,22 @@
             }
             sessionStorage.setItem("Makerspace", JSON.stringify(jsonMakerspace));
             window.location.href = "order-request.html";
+        }
+
+        function getRequest() {
+            let api = "../api/Reservations/useremail/" + email+"/";
+            ajaxCall("GET", api, "", getSuccessRQ, error);
+        }
+
+        function getSuccessRQ(data) {
+            console.log(data);
+            if (data.length != 0) {
+                alert("יש לך כמה הזמנות שלא אושרו עדיין");
+            }
+            else {
+
+            }
+            
         }
     </script>
 </head>

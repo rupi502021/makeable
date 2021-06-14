@@ -1,0 +1,63 @@
+﻿#logo_top {
+    width: 180px;
+    height: 51px;
+}
+
+table, td, th {
+    border: 1px solid black;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+}
+
+th {
+    background-color: #e03344;
+    color: white;
+}
+
+td {
+    background-color: #e695a8;
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+body {
+    font-size: 1.5rem;
+}
+
+ul {
+    list-style: none;
+}
+
+h1 {
+    text-align: center;
+    font-size: 60px;
+}
+
+.aproveRequest {
+    padding: 15px 32px;
+    display: inline-block;
+}
+
+.deleteRequest {
+    padding: 15px 32px;
+    display: inline-block;
+}

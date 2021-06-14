@@ -94,7 +94,13 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             return dbs.getRequest(id);
         }
-        
+
+        public List<Reservation> ReadByUser(string email)
+        {
+            DBServices dbs = new DBServices();
+            return dbs.getRequestByUser(email);
+        }
+
         public List<Reservation> ReadApprovedReservation(int id)
         {
             DBServices dbs = new DBServices();
@@ -129,6 +135,6 @@ namespace MakeAble.Models
             DBServices dbs = new DBServices();
             return dbs.InsertReservation(this);
         }
-        
+
     }
 }
