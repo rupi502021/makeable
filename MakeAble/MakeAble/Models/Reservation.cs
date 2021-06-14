@@ -89,22 +89,22 @@ namespace MakeAble.Models
             Month12 = month12;
         }
 
-        public List<Reservation> Read()
+        public List<Reservation> Read(int id)
         {
             DBServices dbs = new DBServices();
-            return dbs.getRequest();
+            return dbs.getRequest(id);
         }
         
-        public List<Reservation> ReadApprovedReservation()
+        public List<Reservation> ReadApprovedReservation(int id)
         {
             DBServices dbs = new DBServices();
-            return dbs.getApprovedReservation();
+            return dbs.getApprovedReservation(id);
         }
 
-        public List<Reservation> ReadHistoryReservation()
+        public List<Reservation> ReadHistoryReservation(int id)
         {
             DBServices dbs = new DBServices();
-            return dbs.getHistoryReservation();
+            return dbs.getHistoryReservation(id);
         }
 
         public List<Reservation> ReadReservationByMonth()

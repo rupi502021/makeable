@@ -152,7 +152,7 @@
                     str += "<td class='col-6'><img id='PM' src='images/notfoundPic.jpg' alt='תמונת מייקרספייס' /></td>";
                 }
                 str += "<td class='col'><ul id='" + d[i].MakerspaceName + "' class='nav  navbar-right' style= 'padding-right: 50%'>";
-                str += "<li id='M_ordersbtn'><a class='hover-btn-new log' href='order-request.html'><span>ניהול הזמנות</span></a></li></ul></td>";
+                str += "<li id='M_ordersbtn'><a class='hover-btn-new log' onclick='RedirectOrder(\"" + d[i].MakerspaceId + "\",\""+d[i].MakerspaceName + "\")' ><span>ניהול הזמנות</span></a></li></ul></td>";
                 str += "</tr>";
                 str += "<tr class='row'>";
                 str += "<td class='col-6'><h6><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</h6>"; //מקום
@@ -239,6 +239,14 @@
 
         function deleteError(err) {
             alert(err.responseJSON);
+        }
+        function RedirectOrder(id, name) {
+            jsonMakerspace = {
+                Id: id,
+                Name: name
+            }
+            sessionStorage.setItem("Makerspace", JSON.stringify(jsonMakerspace));
+            window.location.href = "order-request.html";
         }
     </script>
 </head>

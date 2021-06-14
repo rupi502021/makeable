@@ -48,14 +48,16 @@
     <link href="../Style/index_style.css" rel="stylesheet" />
     <script src="../Scripts/ajaxCalls.js"></script>
     <style>
-        .disableddiv{
+        .disableddiv {
             /*pointer-events: none;
             opacity: 0.4;*/
-            display:none;
+            display: none;
         }
+
         .scroll {
             padding-top: 200px;
         }
+
         form#formSearch {
             margin-bottom: 100px;
         }
@@ -75,6 +77,24 @@
                 data: a,
                 tags: true,
                 tokenSeparators: [',', ' ']
+            });
+            var data = {
+                resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
+            };
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+
+                    var citieslist = [];
+                    var value = "<option value=''>בחירת עיר"+"</option > ";
+                    for (var i = 1; i < data.length; i++) {
+                        citieslist.push(data[i].name);
+                        value += " <option data-id='" + data[i].name + "' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
+                    }
+                    $("#selectcities").append(value);
+                }
             });
             getAllProf();
             getAlltools();
@@ -268,7 +288,7 @@
 
                 for (var j = 0; j < d[i].Images.length; j++) {
                     var no = j + 1;
-                    
+
                     n = d[i].Images[j];
                     str += "<div class='mySlides" + i + "'>";
                     str += "<div class='numbertext'> " + d[i].Images.length + " / " + no + "</div>";
@@ -389,7 +409,7 @@
                 case "SearchToScroll3":
                     $("#scroll_div4").removeClass("disableddiv");
                     $("#BTNresults").removeClass("disableddiv");
-                    break;               
+                    break;
             }
         }
     </script>
@@ -494,9 +514,9 @@
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
                 <div id="home" class="first-section active" style="background-image: url('images/makeable.jpg')">
-                    <!--<div class="dtab">--> 
+                    <!--<div class="dtab">-->
                     <div class="container">
-                        
+
                         <div class="container btn">
                             <div class="row">
                                 <div class="col-lg-12 col-4 text-center" style="margin: 0 auto">
@@ -514,13 +534,14 @@
                         <!--</div>-->
                     </div><!-- end section -->
                 </div>
+            </div>
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid"  id="conSerach">
         <form id="formSearch" class="form-horizontal" role="form">
             <div id="scroll_div1">
                 <div id="SearchToScroll" class="container">
-                    <h1 style='text-align:center; font-size:80px'>חיפוש MakerSpace</h1>";
+                    <h1 style='text-align:center; font-size:80px'>חיפוש MakerSpace</h1>
                     <ul class="progressbar">
                         <li class="active">מיקום</li>
                         <li>תחומי עיסוק</li>
@@ -539,7 +560,7 @@
                                 <span>מיקום נוכחי&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i></span>
                             </label>
                         </div>
-                        <div class="checkbox">
+                        <!--<div class="checkbox">
                             <label for="checkboxes-0">
                                 <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
                                 <label class="control-label" for="selectbasic">
@@ -551,14 +572,13 @@
                                     </select>
                                 </label>
                             </label>
-                        </div>
+                        </div>-->
                         <div class="checkbox">
                             <label for="checkboxes-0">
                                 <input type="radio" name="checkboxes" id="checkboxes-3" value="3">
                                 <label class="control-label" for="selectbasic">
-                                    <select id="selectbasic2" name="selectbasic" class="form-control">
-                                        <option value="0">בחירת מיקום</option>
-                                        <option value="1">API של ערים</option>
+                                    <select id="selectcities" name="selectbasic" class="form-control">
+                                     
                                     </select>
                                 </label>
                             </label>
@@ -635,7 +655,7 @@
                 </div>
             </div>
             <div id="BTNresults" class="customwidget text-center disableddiv">
-                <a href="SearchMakerspace.html" class="hover-btn-new" ><span>להצגת תוצאות החיפוש</span></a>
+                <a href="SearchMakerspace.html" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
             </div>
         </form>
     </div>

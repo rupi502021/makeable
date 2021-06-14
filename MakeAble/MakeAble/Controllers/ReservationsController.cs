@@ -10,31 +10,57 @@ namespace MakeAble.Controllers
 {
     public class ReservationsController : ApiController
     {
-        // GET api/<controller>
-        public List<Reservation> Get()
+        [HttpGet]
+        [Route("api/Reservations/makerspaceid/{id}")]
+        public HttpResponseMessage Get(int id)
         {
-            Reservation request = new Reservation();
-            List<Reservation> rList = request.Read();
-            return rList;
+            try
+            {
+                Reservation request = new Reservation();
+                List<Reservation> rList = request.Read(id);
+               
+                return Request.CreateResponse(HttpStatusCode.Created, rList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+
         }
         
         [HttpGet]
-        [Route("api/Reservations/GetApprovedReservation")]
-        public List<Reservation> GetApprovedReservation()
+        [Route("api/Reservations/GetApprovedReservation/makerspaceid/{id}")]
+        public HttpResponseMessage GetApprovedReservation(int id)
         {
-            Reservation request = new Reservation();
-            List<Reservation> rList = request.ReadApprovedReservation();
-            return rList;
-        }
+            try
+            {
+                Reservation request = new Reservation();
+                List<Reservation> rList = request.ReadApprovedReservation(id);
 
-        [HttpGet]
-        [Route("api/Reservations/GetHistoryReservation")]
-        public List<Reservation> GetHistoryReservation()
-        {
-            Reservation request = new Reservation();
-            List<Reservation> rList = request.ReadHistoryReservation();
-            return rList;
+                return Request.CreateResponse(HttpStatusCode.Created, rList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
+        [HttpGet]
+        [Route("api/Reservations/GetHistoryReservation/makerspaceid/{id}")]
+        public HttpResponseMessage GetHistoryReservation(int id)
+        {
+            try
+            {
+                Reservation request = new Reservation();
+                List<Reservation> rList = request.ReadHistoryReservation(id);
+
+                return Request.CreateResponse(HttpStatusCode.Created, rList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+        }
+    
 
         [HttpGet]
         [Route("api/Reservations/getReservationByMonth")]
@@ -61,8 +87,9 @@ namespace MakeAble.Controllers
             }
         }
 
-        // PUT api/<controller>/5
-        public HttpResponseMessage Put([FromBody] Reservation res)
+        [HttpPut]
+        [Route("api/Reservations")]
+        public HttpResponseMessage Put(Reservation res)
         {
             try
             {

@@ -1757,7 +1757,7 @@ namespace MakeAble.Models.DAL
             }
 
         }
-        public List<Reservation> getRequest()
+        public List<Reservation> getRequest(int id)
         {
 
             SqlConnection con = null;
@@ -1767,8 +1767,9 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select * from Reservation as rq inner join Users as us on rq.UserEmail=us.Email where StatusApproved=0" +
-                    "order by rq.ReservationDate";
+                String selectSTR = "  select * from Reservation as r inner join Users as us on r.UserEmail=us.Email where StatusApproved=0 and r.MakerspaceId="+id+"  order by r.ReservationDate";
+
+
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -1786,7 +1787,8 @@ namespace MakeAble.Models.DAL
                     //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
                     //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
                     //r.Description = Convert.ToString(dr["Description"]);
-                    r.Span = Convert.ToDouble(dr["Span"]);
+                    //r.Span = Convert.ToDouble(dr["Span"]);
+                    r.Description = Convert.ToString(dr["Description"]);
                     r.StatusApproved = Convert.ToBoolean(dr["StatusApproved"]);
                     r.UserName = Convert.ToString(dr["Fname"]) + " " + Convert.ToString(dr["Lname"]);
 
@@ -1905,12 +1907,12 @@ namespace MakeAble.Models.DAL
         {
             String command;
 
-            command = "update Reservation set StartTime_res = StartTime_req, EndTime_res = EndTime_req, StatusApproved = 1 where ReservationId ='" + res.ReservationId + "'";
+            command = "update Reservation set StartTime_res =StartTime_req, EndTime_res = EndTime_req, StatusApproved = 1 where ReservationId ='" + res.ReservationId + "'";
 
             return command;
         }
 
-        public List<Reservation> getApprovedReservation()
+        public List<Reservation> getApprovedReservation(int id)
         {
 
             SqlConnection con = null;
@@ -1920,8 +1922,8 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select * from Reservation as rq inner join Users as us on rq.UserEmail = us.Email " +
-                    "where StatusApproved = 1 and ReservationDate > GETDATE() order by rq.ReservationDate";
+                String selectSTR = "select * from Reservation as r inner join Users as us on r.UserEmail = us.Email where StatusApproved = 1 and convert(Datetime,r.ReservationDate,103)  > GETDATE() and r.MakerspaceId=" + id + "order by convert(Datetime,r.ReservationDate,103) asc";
+
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -1939,7 +1941,8 @@ namespace MakeAble.Models.DAL
                     //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
                     //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
                     //r.Description = Convert.ToString(dr["Description"]);
-                    r.Span = Convert.ToDouble(dr["Span"]);
+                    //r.Span = Convert.ToDouble(dr["Span"]);
+                    r.Description = Convert.ToString(dr["Description"]);
                     r.StatusApproved = Convert.ToBoolean(dr["StatusApproved"]);
                     r.UserName = Convert.ToString(dr["Fname"]) + " " + Convert.ToString(dr["Lname"]);
 
@@ -1962,7 +1965,7 @@ namespace MakeAble.Models.DAL
 
         }
 
-        public List<Reservation> getHistoryReservation()
+        public List<Reservation> getHistoryReservation(int id)
         {
 
             SqlConnection con = null;
@@ -1972,8 +1975,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select * from Reservation as rq inner join Users as us on rq.UserEmail = us.Email " +
-                    "where StatusApproved = 1 and ReservationDate < GETDATE() order by rq.ReservationDate desc";
+                String selectSTR = "select * from Reservation as r inner join Users as us on r.UserEmail = us.Email where StatusApproved = 1 and convert(Datetime,r.ReservationDate,103)  < GETDATE() and r.MakerspaceId=" + id + "order by convert(Datetime,r.ReservationDate,103) desc";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -1991,7 +1993,8 @@ namespace MakeAble.Models.DAL
                     //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
                     //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
                     //r.Description = Convert.ToString(dr["Description"]);
-                    r.Span = Convert.ToDouble(dr["Span"]);
+                    //r.Span = Convert.ToDouble(dr["Span"]);
+                    r.Description = Convert.ToString(dr["Description"]);
                     r.StatusApproved = Convert.ToBoolean(dr["StatusApproved"]);
                     r.UserName = Convert.ToString(dr["Fname"]) + " " + Convert.ToString(dr["Lname"]);
 

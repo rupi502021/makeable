@@ -90,7 +90,6 @@
 
         html {
             font-size: 10px;
-            font-family: sans-serif;
             line-height: 1.6;
         }
 
@@ -101,125 +100,11 @@
         ul {
             list-style: none;
         }
-
-        .card {
-            background: $white;
-            width: 90%;
-            max-width: 40rem;
-            min-height: 40rem;
-            margin: 5rem auto;
-            display: grid;
-            /*grid-template-rows: 8rem auto 10rem;*/
-            box-shadow: 0 1rem 2.5rem rgb(27, 64, 94);
-        }
-
-        .card__header {
-            padding: 0 1.25rem;
-            color: #7D8994;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card__body {
-            padding: 1.5rem 2rem;
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .card__body--days {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 4rem;
-        }
-
-            .card__body--days li {
-                flex: 1;
-                font-weight: bold;
-                text-transform: uppercase;
-                text-align: center;
-                color: $gray;
-                margin: 0 1px;
-            }
-
-        .card__body--dates {
-            display: grid;
-            gap: 3px;
-            grid-template-columns: repeat(7, 1fr);
-            justify-items: center;
+        h1 {
             text-align: center;
+            font-size: 60px;
         }
 
-            .card__body--dates li {
-                width: 3.5rem;
-                height: 3.5rem;
-                display: grid;
-                place-items: center;
-                font-weight: bold;
-                position: relative;
-            }
-
-        li.prev,
-        li.next {
-            color: #ccc;
-        }
-
-        .today {
-            background: #DE6E46;
-            color: #ffff;
-            border-radius: 50%;
-        }
-
-        li.circle {
-            border: 2px solid;
-            border-radius: 50%;
-        }
-
-            li.circle span {
-                position: absolute;
-                top: -0.75rem;
-                right: -0.5rem;
-                width: 1.75rem;
-                height: 1.75rem;
-                font-size: 1.2rem;
-                color: white;
-                border-radius: 50%;
-            }
-
-        .circle.orange {
-            border-color: #DE6E46;
-        }
-
-            .circle.orange span {
-                background: #DE6E46;
-            }
-
-        .circle.purple {
-            border-color: #AE5989;
-        }
-
-            .circle.purple span {
-                background: #AE5989;
-            }
-
-        .card__footer {
-            /*extend: .card__header;*/
-            color: black;
-            font-weight: bold;
-        }
-
-            .card__footer.add {
-                text-decoration: none;
-                color: inherit;
-                border: 2px solid #DE6E46;
-                border-radius: 50%;
-                width: 3.5rem;
-                height: 3.5rem;
-                padding-top: 0.25rem;
-                display: grid;
-                place-items: center;
-            }
     </style>
 
 
@@ -246,7 +131,17 @@
     <script>
         $(document).ready(function () {
             checklogin();
-            getReservation();
+            if (JSON.parse(sessionStorage.getItem('Makerspace')) != null) {
+
+                makerspace = JSON.parse(sessionStorage.getItem('Makerspace'));
+                console.log("makerspaceid: " + makerspace.Id);
+                console.log("makerspacename: " + makerspace.Name);
+
+                getReservation();
+            }
+            else {
+                window.location.href = "personal.html";
+            }   
         });
 
 
@@ -286,7 +181,8 @@
 
 
         function getReservation() {
-            ajaxCall("GET", "../api/Reservations/GetApprovedReservation", "", getSuccessRQ, getErrorRQ);
+            let api = "../api/Reservations/GetApprovedReservation/makerspaceid/" + makerspace.Id;
+            ajaxCall("GET", api, "", getSuccessRQ, getErrorRQ);
         }
 
         function getSuccessRQ(data) {
@@ -296,19 +192,20 @@
         }
 
         function getErrorRQ(err) {
-            console.log(err);
+            console.log(err.responseJSON);
         }
 
         function renderRequest(d) {
             //רנדור טבלה
             $("#ph1").html("");
             let str = "<div class='container'>";
-            str += "<h1 style='text-align:center; font-size:80px'>הזמנות שאושרו</h1>";
+            str += "<h1>הזמנות שטרם אושרו - " + makerspace.Name + "</h1 > ";
             str += "<table>";
             str += "<tr>";
             str += "<th>שם</th>";
             str += "<th>תאריך</th>";
             str += "<th>שעות</th>";
+            str += "<th>הערות</th>";
             str += "</tr>";
 
             for (var i = 0; i < d.length; i++) {
@@ -324,7 +221,13 @@
                 var time_timeE = _endTime.split('T')[1];
 
                 str += "<td>" + date_time_ltr + "</td>";
-                str += "<td>" + time_timeS + "-" + time_timeE + "</td>";
+                str += "<td>" + time_timeE + "-" + time_timeS + "</td>";
+                if (d[i].Description != "") {
+                    str += "<td>" + d[i].Description + "</td>";
+                }
+                else {
+                    str += "<td>" + "אין הערות" + "</td>";
+                }
                 str += "</tr>";
 
             }
@@ -393,92 +296,8 @@
 
             </ul>
         </div> <!-- /#sidebar-wrapper -->
-        <!-- Page Content -->
-        <!--<div class="container">
-
-        <h1 style="text-align:center; font-size:80px">הזמנות שאושרו</h1>
-
-        <table>
-            <tr>
-                <th>שם</th>
-                <th>תאריך</th>
-                <th>שעות</th>
-            </tr>
-            <tr>
-                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                <td>24/08/2020</td>
-                <td>10:00-13:00</td>
-            </tr>
-            <tr>
-                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                <td>24/08/2020</td>
-                <td>10:00-13:00</td>
-            </tr>
-            <tr>
-                <td><i class="fa fa-user" aria-hidden="true"></i>&nbsp; אבי לוי</td>
-                <td>24/08/2020</td>
-                <td>10:00-13:00</td>
-            </tr>
-        </table>
-    </div>-->
-
-
+     
         <div id="ph1"></div>
-
-        <main class="card">
-            <section class="card__header">
-                <h3>אפריל-21</h3>
-            </section>
-            <section class="card__body">
-                <ul class="card__body--days">
-                    <li>ראשון</li>
-                    <li>שני</li>
-                    <li>שלישי</li>
-                    <li>רביעי</li>
-                    <li>חמישי</li>
-                    <li>שישי</li>
-                    <li>שבת</li>
-                </ul>
-                <ul class="card__body--dates">
-                    <li class="prev">28</li>
-                    <li class="prev">29</li>
-                    <li class="prev">30</li>
-                    <li class="prev">31</li>
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li>6</li>
-                    <li>7</li>
-                    <li>8</li>
-                    <li>9</li>
-                    <li>10</li>
-                    <li>11</li>
-                    <li>12</li>
-                    <li>13</li>
-                    <li>14</li>
-                    <li>15</li>
-                    <li class="circle orange">16 <span>5</span></li>
-                    <li>17</li>
-                    <li>18</li>
-                    <li class="circle purple">19 <span>6</span></li>
-                    <li>20</li>
-                    <li>21</li>
-                    <li>22</li>
-                    <li>23</li>
-                    <li>24</li>
-                    <li>25</li>
-                    <li>26</li>
-                    <li>27</li>
-                    <li>28</li>
-                    <li class="today">29</li>
-                    <li>30</li>
-                    <li class="next">1</li>
-                </ul>
-            </section>
-        </main>
-
 
     </div> <!-- /#page-content-wrapper -->
     <!-- Bootstrap core JavaScript -->
