@@ -27,7 +27,24 @@ namespace MakeAble.Controllers
             }
 
         }
-        
+        [HttpGet]
+        [Route("api/Reservations/useremail/{email}/")]
+        public HttpResponseMessage Get(string email)
+        {
+            try
+            {
+                Reservation request = new Reservation();
+                List<Reservation> rList = request.ReadByUser(email);
+
+                return Request.CreateResponse(HttpStatusCode.Created, rList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+
+        }
+
         [HttpGet]
         [Route("api/Reservations/GetApprovedReservation/makerspaceid/{id}")]
         public HttpResponseMessage GetApprovedReservation(int id)

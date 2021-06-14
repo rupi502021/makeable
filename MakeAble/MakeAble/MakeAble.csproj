@@ -423,6 +423,10 @@
     <Content Include="Style\index_style.css" />
     <Content Include="Style\modal_photos.css" />
     <Content Include="Style\newMakerSpace_style.css" />
+    <Content Include="Style\order-history_style.css" />
+    <Content Include="Style\order-request-approved_style.css" />
+    <Content Include="Style\order-request_style.css" />
+    <Content Include="Style\order-statistics_style.css" />
     <Content Include="Style\personal_my_spaces.css" />
     <Content Include="Style\newGallery_style.css" />
     <Content Include="Style\personal_favorites_gallery_style.css" />
