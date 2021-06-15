@@ -259,7 +259,13 @@
         function getSuccessRQ(data) {
             console.log(data);
             if (data.length != 0) {
-                alert("יש לך כמה הזמנות שלא אושרו עדיין");
+                //alert("יש לך כמה הזמנות שלא אושרו עדיין");
+                swal({
+                    title: "שים לב",
+                    text:"יש לך כמה הזמנות שלא אושרו עדיין",
+                    icon: "info",
+                    timer: 2500,
+                })
             }
             else {
 
