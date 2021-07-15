@@ -3,25 +3,55 @@
 <head>
     <meta charset="utf-8" />
     <title>הרשמה</title>
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="../css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/custom.css">
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!------ Include the above in your HEAD tag ---------->
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.css">
     <link href="Style/Registration_style.css" rel="stylesheet" />
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <!------ Include the above in your HEAD tag ---------->
     <script src="Scripts/ajaxCalls.js"></script>
 
     <script src="https://cdn.rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.min.js"></script>
+    <style>
+        img#PP {
+            max-width: 25%;
+            float: left;
+        }
 
-    
+        input#filebutton {
+            float: inherit;
+        }
+
+        #logo_top {
+            width: 180px;
+            height: 51px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+    </style>
+
     <script>
 
         $(document).ready(function () {
@@ -41,11 +71,12 @@
                     var value = " <option value='בחירת עיר'></option>";
                     for (var i = 1; i < data.length; i++) {
                         citieslist.push(data[i].name);
-                        value += " <option data-id='" + data[i].name+"' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
+                        value += " <option data-id='" + data[i].name + "' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
                     }
                     $("#mylist").append(value);
                 }
             });
+            getAllProf();
             $("#filebutton").change(function () {
                 readURL(this);
             });
@@ -67,14 +98,14 @@
 
         function f1() {
             AddUser();
-           
+
             return false;
         }
 
         function AddUser() {
             var getvalue = document.getElementsByName('mylist')[0];
-            city=getvalue.value;
-            
+            city = getvalue.value;
+
             user = {
                 Fname: $("#firstName").val(),
                 Lname: $("#lastName").val(),
@@ -85,9 +116,9 @@
                 City: city,
                 Description: $("#textarea").val(),
                 Have_makerspace: parseInt($("#Have_makerspace:checked").val()),
-                Profession: $("#selectmultiple").val()
+                Professions: $("#selectmultipleprof").val()
             }
-          
+
             upload();
             console.log(JSON.stringify(user));
         }
@@ -100,7 +131,7 @@
                 for (f = 0; f < files.length; f++) {
                     data.append("UploadedImage", files[f]);
                 }
-                data.append("email", user.Email + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                data.append("name", "Profile_" + user.Email + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
                 // Ajax upload (image)
                 $.ajax({
                     type: "POST",
@@ -130,11 +161,10 @@
 
         }
         function success(data) {
-            alert("got post success");
-
             swal({
-                title: "Added Successfuly!", text: "Moving to Home page", icon:
-                    "success"
+                title: "ההרשמה הסתיימה בהצלחה",
+                icon: "success",
+                timer: 2500,
             }).then(function () {
                 window.location.href = 'index.html';
 
@@ -151,20 +181,20 @@
         }
 
         function error(err) {
-            alert(err.responseJSON);
+            alert(err.responseJSON.Message);
         }
 
         function clear() {
             $("#firstName").val(''),
-            $("#lastName").val(''),
-            $("#email").val(''),
-            $("#password").val(''),
-            $("#birthDate").val(''),
-            $("#phoneNumber").val(''),
-            $("#cities").val(''),
-            $("#textarea").val(''),
-            $("#Have_makerspace:checked").val(''),
-            $("#selectmultiple").val('');
+                $("#lastName").val(''),
+                $("#email").val(''),
+                $("#password").val(''),
+                $("#birthDate").val(''),
+                $("#phoneNumber").val(''),
+                $("#cities").val(''),
+                $("#textarea").val(''),
+                $("#Have_makerspace:checked").val(''),
+                $("#selectmultipleprof").val('');
         }
         function validatePassword() {
             var password = document.getElementById("password")
@@ -178,12 +208,52 @@
             }
         }
 
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function getSuccessAllProf(data) {
 
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="selectmultipleprof"]').append(value);
+
+
+        }
     </script>
 </head>
 
 <body dir="rtl">
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
+                        <li class="nav-item active"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
     <div class="container">
+        <!--<input type="button" onclick="location.href='personal-my_spaces.html';" value="חזור לדף מייקרספייס" />-->
         <form id="formUsers" class="form-horizontal" role="form">
             <h2>הרשמה</h2>
             <div class="form-group">
@@ -238,13 +308,12 @@
                            oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
                            oninput="this.setCustomValidity('')">
                 </div>
-                <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד</label>
+                <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד*</label>
             </div>
             <div class="form-group">
                 <div class="col-sm-9">
                     <input class="dropdown-input" list="mylist" name="mylist" />
                     <datalist id="mylist">
-                        
                     </datalist>
                 </div>
                 <label for="cities" class="col-sm-3 control-label" style="bottom:8px">עיר</label>
@@ -271,16 +340,12 @@
             <div class="form-group">
                 <div class="col-sm-9">
 
-                    <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
-                        <option value="אומנות">אומנות</option>
-                        <option value="מדפסות תל מימד">מדפסות תל מימד</option>
-                        <option value="נגרות">נגרות</option>
-                        <option value="תכנות">תכנות</option>
+                    <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
                     </select>
 
 
                 </div>
-                <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
+                <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק*</label>
                 <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
             </div>
             <div class="form-group">

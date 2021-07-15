@@ -607,8 +607,8 @@ a img.aligncenter {
 }
 
 .top-navbar .bg-light {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 22px;
+    padding-bottom: 22px;
     box-shadow: 0 0 18px 0 rgba(0,0,0,.12);
 }
 
@@ -657,13 +657,15 @@ a img.aligncenter {
   top: 0;
   width: 100%;
 }
-.navbar-right li a.hover-btn-new::after {
-  background: #ffffff !important;
-  height: 100%;
-  left: 0;
-  top: 0;
-  width: 100%;
-}
+    .navbar-right li a.hover-btn-new::after {
+        background: #ffffff !important;
+        height: 100%;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: 1px black;
+        border-style: solid;
+    }
 .navbar-right li a.hover-btn-new span{
 	position: relative;
 	z-index: 2;

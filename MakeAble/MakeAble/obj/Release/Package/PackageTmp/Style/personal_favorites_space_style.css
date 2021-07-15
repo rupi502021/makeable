@@ -2,9 +2,19 @@
 a#logout::before {
     background: red;
 }
-
-.sidebar-nav {
+#PM{
+    width:80%;
+}
+body {
     text-align: right;
+}
+.container {
+    position: relative;
+    top: 10em;
+    font-family: Calibri;
+}
+.sidebar-nav {
+   
     font-family: Calibri;
     font-size: 30px;
 }
@@ -18,7 +28,7 @@ a#logout::before {
     height: 51px;
 }
 
-#nav1 {
+#nav1 { 
     position: fixed;
     top: 0;
     width: 100%;
@@ -32,7 +42,7 @@ a#logout::before {
     position: fixed;
     top: 101px;
     width: 100%;
-    z-index: 9999;
+    z-index: 9998;
     visibility: visible;
     transform: translate(0,0) scale(1);
     transition: .3s;
@@ -45,4 +55,20 @@ button.navbar-toggler {
 div#sidebar-wrapper {
     top: 159.5px;
     position: fixed;
+}
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 50%;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-family: arial;
 }

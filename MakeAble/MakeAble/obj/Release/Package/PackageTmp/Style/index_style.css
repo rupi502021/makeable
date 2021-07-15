@@ -3,13 +3,32 @@ a#logout::before {
     background: red;
 }
 
+#selectmultipleprof, #selectmultiple, input.select2-search__field {
+    width: 100%;
+}
+input.select2-search__field {
+    width: 100% !important;
+}
+.select2-container{
+    width: 80% !important;
+}
+span.select2-results {
+    text-align: right;
+}
 #logo_top {
     width: 180px;
     height: 51px;
 }
+div#conSerach {
+    margin-bottom: 300px;
+}
 
 div#logofront {
     padding-top: 6%;
+}
+
+button.navbar-toggler {
+    background-color: white;
 }
 
 .big-tagline {
@@ -23,6 +42,7 @@ img {
 #btn_search {
     background-color: red;
 }
+
 nav#nav1 {
     position: fixed;
     top: 0;
@@ -31,4 +51,115 @@ nav#nav1 {
     visibility: visible;
     transform: translate(0,0) scale(1);
     transition: .3s;
+}
+
+i.icon.fa {
+    padding: 5px;
+}
+
+#photo img {
+    width: 45%;
+    height: 35%;
+}
+
+
+div#carouselExampleControls {
+    position: relative;
+    top: 90px;
+    height: 91%;
+}
+
+.container.btn {
+    position: relative;
+/*    top: 20%;
+    left:20%*/
+}
+
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}
+
+.progressbar {
+    counter-reset: step;
+}
+
+    .progressbar li {
+        list-style-type: none;
+        width: 25%;
+        display: block;
+        float: right;
+        font-size: 20px;
+        position: relative;
+        text-align: center;
+        text-transform: uppercase;
+        color: #7d7d7d;
+    }
+
+        .progressbar li:before {
+            width: 50px;
+            height: 50px;
+            content: counter(step);
+            counter-increment: step;
+            line-height: 35px;
+            border: 6px solid #7d7d7d;
+            display: block;
+            text-align: center;
+            margin: 0 auto 10px auto;
+            border-radius: 50%;
+            background-color: white;
+        }
+
+        .progressbar li:after {
+            width: 100%;
+            height: 6px;
+            content: '';
+            position: absolute;
+            background-color: #7d7d7d;
+            top: 15px;
+            left: 50%;
+            z-index: -1;
+        }
+
+        .progressbar li:first-child:after {
+            content: none;
+        }
+
+        .progressbar li.active {
+            color: #0aaa5c;
+        }
+
+            .progressbar li.active:before {
+                border-color: #0aaa5c;
+            }
+
+            .progressbar li.active + li:after {
+                background-color: #0aaa5c;
+            }
+
+h1 {
+    font-size: 30px;
+    top: 10px;
+}
+
+.col-sm-9.places {
+    border: 5px solid #7d7d7d;
+    margin: auto;
+    text-align: right;
+    width: 30%;
+    height: fit-content;
+    padding-bottom: 3%;
+}
+
+#title_gallery {
+    text-align: center;
+    font-size: 80px;
+}
+
+.container.gallery {
+    padding-top: 50px;
 }

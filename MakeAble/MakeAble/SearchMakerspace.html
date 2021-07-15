@@ -49,7 +49,7 @@
             var a = [];
             var b = [];
             var c = [{ id: 0, text: 'מיזוג אוויר' }, { id: 1, text: 'עמדת קפה וכיבוד' }, { id: 2, text: 'חניה חינם' }, { id: 3, text: 'תשלום אונליין' }, { id: 4, text: 'נגישות' }];
-
+            var d = [];
             $('#profs').select2({
                 placeholder: 'בחר תחומי עיסוק',
                 data: a,
@@ -61,16 +61,19 @@
                 data: b,
                 tags: true,
                 tokenSeparators: [',', ' ']
-            });
-
-           
+            });         
             $('#facili').select2({
                 placeholder: 'בחר מתקנים',
                 data: c,
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
-
+            $('#selectdays').select2({
+                placeholder: 'בחר ימי זמינות',
+                data: d,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -98,6 +101,7 @@
             $("#submitLogin").click(fLogin);
             $("#ResForm_finish").submit(AddRes);
             checklogin();
+            getdays();
             getAllProf();
             getAlltools();
             getAllmakers();
@@ -192,7 +196,15 @@
                 window.location.href = 'index.html';
             });
         }
+        function getdays() {
+            var days = ['יום ראשון', 'יום שני', 'יום שלישי', 'יום רביעי', 'יום חמישי', 'יום שישי', 'יום שבת'];
 
+            var value = "<option value=''>בחירת ימי זמינות" + "</option > ";
+            for (var i = 0; i < days.length; i++) {
+                value += " <option id='" + (i + 1) + "' value = '" + days[i] + "' > " + days[i] + "</option > ";
+            }
+            $('select[name="selectdays"]').append(value);
+        }
         function getAllProf() {
             let api = "../api/Professions";
             ajaxCall("GET", api, "", getSuccessAllProf, error);
@@ -579,8 +591,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="Date" class="form-label">תאריך</label>
-                    <input type="date" name="date" id="Date" class="form-control">
+                    <label for="select" class="form-label">ימי זמינות</label>
+                    <select id="selectdays" name="selectdays" class="form-control" multiple="multiple"></select>
                 </div>
 
                 <div class="form-group">

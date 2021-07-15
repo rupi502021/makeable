@@ -61,6 +61,7 @@
         form#formSearch {
             margin-bottom: 100px;
         }
+
         .container2 {
             margin: 0 auto;
             text-align: center;
@@ -68,6 +69,7 @@
             position: absolute;
             margin-top: 15%;
         }
+
         h2#headline1 {
             text-align: right;
             color: white;
@@ -76,11 +78,16 @@
             margin-top: 9%;
             margin-right: 5%;
         }
+        button#resultsBTN {
+            background-color: #0aaa5c
+        }
+
     </style>
     <script>
         $(document).ready(function () {
             var a = [];
             var b = [];
+            var c = [];
             $('#selectmultiple').select2({
                 placeholder: 'בחר כלים',
                 data: b,
@@ -93,6 +100,14 @@
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
+            $('#selectdays').select2({
+                placeholder: 'בחר ימי זמינות',
+                data: c,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+
+
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -103,7 +118,7 @@
                 success: function (data) {
 
                     var citieslist = [];
-                    var value = "<option value=''>בחירת עיר"+"</option > ";
+                    var value = "<option value=''>בחירת עיר" + "</option > ";
                     for (var i = 1; i < data.length; i++) {
                         citieslist.push(data[i].name);
                         value += " <option data-id='" + data[i].name + "' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
@@ -113,7 +128,10 @@
             });
             getAllProf();
             getAlltools();
+            getdays();
             $("#submitLogin").click(fLogin);
+            $('#resultsBTN').click(results);
+
             checklogin();
             render();
 
@@ -375,7 +393,15 @@
 
             slides[slideIndex - 1].style.display = "block";
         }
+        function getdays() {
+            var days = ['יום ראשון', 'יום שני', 'יום שלישי', 'יום רביעי', 'יום חמישי', 'יום שישי', 'יום שבת'];
 
+            var value = "<option value=''>בחירת ימי זמינות" + "</option > ";
+            for (var i = 0; i < days.length; i++) {
+                value += " <option id='" + (i + 1) + "' value = '" + days[i] + "' > " + days[i] + "</option > ";
+            }
+            $('select[name="selectdays"]').append(value);
+        }
         function getAllProf() {
             let api = "../api/Professions";
             ajaxCall("GET", api, "", getSuccessAllProf, error);
@@ -426,6 +452,17 @@
                     $("#BTNresults").removeClass("disableddiv");
                     break;
             }
+        }
+
+        function results() {
+
+            makerspace = {
+                City: $('#selectcities').val(),
+                professionArr: $("#selectcities").val(),
+                listname_tools: $("#selectmultiple").val(),
+                list_days: $("#selectdays").val()
+            }
+            console.log(makerspace);
         }
     </script>
 </head>
@@ -554,7 +591,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid"  id="conSerach">
+    <div class="container-fluid" id="conSerach">
         <form id="formSearch" class="form-horizontal" role="form">
             <div id="scroll_div1">
                 <div id="SearchToScroll" class="container">
@@ -571,12 +608,12 @@
                     <div class="col-sm-9 places">
                         <h1>בחר מיקום:</h1>
                         <br />
-                        <div class="checkbox">
+                        <!--<div class="checkbox">
                             <label for="checkboxes-0">
                                 <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
                                 <span>מיקום נוכחי&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i></span>
                             </label>
-                        </div>
+                        </div>-->
                         <!--<div class="checkbox">
                             <label for="checkboxes-0">
                                 <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
@@ -590,16 +627,20 @@
                                 </label>
                             </label>
                         </div>-->
-                        <div class="checkbox">
+                        <!--<div class="checkbox">
                             <label for="checkboxes-0">
                                 <input type="radio" name="checkboxes" id="checkboxes-3" value="3">
                                 <label class="control-label" for="selectbasic">
                                     <select id="selectcities" name="selectbasic" class="form-control">
-                                     
                                     </select>
                                 </label>
                             </label>
-                        </div>
+                        </div>-->
+                        <!--<input type="radio" name="checkboxes" id="checkboxes-3" value="3">-->
+                        <label class="control-label" for="selectbasic">
+                            <select id="selectcities" name="selectbasic" class="form-control">
+                            </select>
+                        </label>
                     </div>
                 </div>
 
@@ -644,7 +685,7 @@
                 <div class="form-group">
                     <div class="col-sm-9 places">
                         <h1>בחר את הכלים שלך:</h1>
-                        <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
+                        <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" >
                         </select>
                     </div>
                 </div>
@@ -666,13 +707,13 @@
 
                 <div class="form-group">
                     <div class="col-sm-9 places">
-                        <h1>בחר תאריך:</h1>
-                        <input type="date" class="form-control" min="2021-05-25" max="2040-05-31">
+                        <h1>בחר את ימי העבודה שלך:</h1>
+                        <select id="selectdays" name="selectdays" class="form-control" multiple="multiple"></select>
                     </div>
                 </div>
             </div>
             <div id="BTNresults" class="customwidget text-center disableddiv">
-                <a href="SearchMakerspace.html" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
+               <button id="resultsBTN" type="submit" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></button>
             </div>
         </form>
     </div>

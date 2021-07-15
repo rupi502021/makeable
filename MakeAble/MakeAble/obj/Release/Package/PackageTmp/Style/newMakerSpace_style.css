@@ -1,0 +1,104 @@
+﻿nav#nav1 {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+.container {
+    font-family: Calibri;
+    padding-top: 105px;
+    padding-bottom: 105px;
+}
+.container .form-horizontal {
+    font-family: Calibri;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:30px;
+    outline: solid;
+}
+
+.container h1 {
+    text-align: center;
+}
+
+#center #stars {
+    text-align: right;
+}
+
+#stars input {
+    display: none;
+}
+
+#stars label {
+    float: right;
+    font-size: 30px;
+    color: lightgrey;
+    margin: 0 5px;
+    text-shadow: 1px 1px #bbb;
+}
+
+    #stars label:before {
+        content: '★';
+    }
+
+#stars input:checked ~ label {
+    color: gold;
+    text-shadow: 1px 1px #c60;
+}
+
+#stars:not(:checked) > label:hover,
+#stars:not(:checked) > label:hover ~ label {
+    color: gold;
+}
+
+#stars input:checked > label:hover,
+#stars input:checked > label:hover ~ label {
+    color: gold;
+    text-shadow: 1px 1px goldenrod;
+}
+
+#galleyBTN {
+    padding: 3px;
+}
+
+.checked {
+    color: orange;
+}
+
+body {
+    background: url('https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg') fixed;
+    background-size: cover;
+}
+
+input {
+    text-align: right;
+}
+
+label.col-sm-3.control-label {
+    text-align: center;
+}
+
+*[role="form"] {
+    max-width: 530px;
+    padding: 15px;
+    margin: 0 auto;
+    border-radius: 0.3em;
+    background-color: #f2f2f2;
+    text-align: right;
+}
+
+    *[role="form"] h2 {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 40px;
+        font-weight: 600;
+        color: #000000;
+        margin-top: 5%;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+    }
+

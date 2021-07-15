@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>היסטורית הזמנות</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link href="css/person.css" rel="stylesheet" />
+    <!-- Modernizer for Portfolio -->
+    <script src="js/modernizer.js"></script>
+    <script src="Scripts/ajaxCalls.js"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  
+    <link href="Style/order-history_style.css" rel="stylesheet" />
+
+    <script>
+        $(function () {
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            $(window).resize(function (e) {
+                if ($(window).width() <= 768) {
+                    $("#wrapper").removeClass("toggled");
+                } else {
+                    $("#wrapper").addClass("toggled");
+                }
+            });
+        });
+
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            checklogin();
+           
+            if (JSON.parse(sessionStorage.getItem('Makerspace')) != null) {
+
+                makerspace = JSON.parse(sessionStorage.getItem('Makerspace'));
+                console.log("makerspaceid: " + makerspace.Id);
+                console.log("makerspacename: " + makerspace.Name);
+
+                getReservation();
+            }
+            else {
+                window.location.href = "personal.html";
+            }   
+        });
+
+
+        function checklogin() {
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l != null || l1 != null) {
+                $("ul.nav.navbar-nav.navbar-right").hide();
+                var hi = "היי, ";
+                if (l == null) {
+                    $("#perHello").append(hi + l1.Fname);
+                }
+                else {
+                    $("#perHello").append(hi + l.Fname);
+                }
+                $("#loginperson").show();
+            }
+            else {
+                $("#loginperson").hide();
+                $("a#logout").hide();
+                $("ul.nav.navbar-nav.navbar-right").show();
+            }
+
+
+        }
+        function logout() {
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                window.location.href = 'index.html';
+            });
+        }
+
+
+        function getReservation() {
+            let api = "../api/Reservations/GetHistoryReservation/makerspaceid/" + makerspace.Id;
+
+            ajaxCall("GET", api, "", getSuccessRQ, getErrorRQ);
+        }
+
+        function getSuccessRQ(data) {
+            console.log(data);
+            var d = data;
+            renderRequest(d);
+        }
+
+        function getErrorRQ(err) {
+            console.log(err);
+        }
+
+        function renderRequest(d) {
+            //רנדור טבלה
+            $("#ph1").html("");
+            let str = "<div class='container'>";
+            str += "<h1>היסטוריית הזמנות - " + makerspace.Name + "</h1 > ";
+            str += "<table>";
+            str += "<tr>";
+            str += "<th>שם</th>";
+            str += "<th>תאריך</th>";
+            str += "<th>שעות</th>";
+            str += "<th>הערות</th>";
+            str += "</tr>";
+
+            for (var i = 0; i < d.length; i++) {
+                str += "<tr>";
+                str += "<td><i class='fa fa-user' aria-hidden='true'></i>&nbsp;" + d[i].UserName + "</td>";
+
+                var _stratTime = d[i].StartTime_req;
+                var _endTime = d[i].EndTime_req;
+                var _date = d[i].Date;
+                var date_date = _date.split('T')[0];
+                var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
+                var time_timeS = _stratTime.split('T')[1];
+                var time_timeE = _endTime.split('T')[1];
+
+                str += "<td>" + date_time_ltr + "</td>";
+                str += "<td>" + time_timeE + "-" + time_timeS + "</td>";
+                if (d[i].Description != "") {
+                    str += "<td>" + d[i].Description + "</td>";
+                }
+                else {
+                    str += "<td>" + "אין הערות" + "</td>";
+                }
+                str += "</tr>";
+
+            }
+
+            str += "</table>";
+            str += "</div>";
+            $("#ph1").append(str);
+        }
+
+    </script>
+</head>
+<body class="host_version" dir="rtl">
+    <!-- LOADER -->
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="progress-br float shadow">
+                <div class="progress__item"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END LOADER -->
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
+                        <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
+                        <li class="nav-item active"><a class="nav-link" href="personal.html">איזור אישי </a></li>
+                    </ul>
+                    <ul id="loginperson" class="nav navbar-nav navbar-right">
+                        <li><a><span id="perHello" style="color:white"></span></a></li>
+                        <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
+
+
+    <header class="top-navbar">
+        <nav id="nav_menu" class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a>
+        </nav>
+    </header>
+    <div id="wrapper" class="toggled">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" style="text-align:center; font-size:20px">
+            <ul class="sidebar-nav">
+                <li><a href="order-request.html"> הזמנות שטרם אושרו </a><br /></li>
+                <li> <a href="order-request-approved.html">הזמנות שאושרו</a><br /></li>
+                <li> <a style="color:aliceblue" href="order-history-new.html">היסטוריית הזמנות</a><br /></li>
+                <li> <a href="order-statistics.html">סטטיסטיקת הזמנות</a><br /></li>
+
+            </ul>
+        </div> <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+
+        <div id="ph1"></div>
+
+    </div> <!-- /#page-content-wrapper -->
+    <!-- Bootstrap core JavaScript -->
+    <!--<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>-->
+    <!-- Menu Toggle Script -->
+    <!-- ALL JS FILES -->
+    <script src="js/all.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="js/custom.js"></script>
+
+</body>
+</html>

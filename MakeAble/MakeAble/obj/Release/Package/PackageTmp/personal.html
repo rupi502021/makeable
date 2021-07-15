@@ -3,13 +3,13 @@
 <head>
     <!-- Basic -->
     <meta charset="utf-8">
+    <title>עדכון פרטים אישיים</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Site Metas -->
-    <title>QuickCloud - Hosting Responsive HTML5 Template</title>
+    
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -31,16 +31,14 @@
     <link href="css/person.css" rel="stylesheet" />
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
-    <script src="Scripts/ajaxCalls.js"></script>
-    
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="Style/personal_style.css" rel="stylesheet" />
 
+    <script src="Scripts/ajaxCalls.js"></script>
     <script>
         $(function () {
             $("#menu-toggle").click(function (e) {
@@ -58,11 +56,12 @@
         });
 
     </script>
-   
+
 
 
     <script>
         $(document).ready(function () {
+            getAllProf();
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -81,6 +80,9 @@
                     $("#mylist").append(value);
                 }
             });
+
+            
+           
             $("#filebutton").change(function () {
                 readURL(this);
             });
@@ -102,8 +104,8 @@
         }
 
         function fLogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l == null) {
                 let email = l1.Email;
 
@@ -118,6 +120,21 @@
 
         }
 
+        function checkMakerspaceOwner() {
+            if (l != null || l1 != null) {
+                if (l == null) {
+                    if (l1.Have_makerspace == false) {
+                        $("#manageMKR").hide();
+                    }
+                }
+                else {
+                    if (l.Have_makerspace == false) {
+                        $("#manageMKR").hide();
+                    }
+                }
+            }
+        }
+
         function getSuccess(data) {
             console.log(data);
             checked = JSON.parse(localStorage.getItem('user'));
@@ -130,6 +147,7 @@
             }
 
             checklogin();
+            checkMakerspaceOwner();
 
             //להחזיר את התאריך לאינפוט
             if (data.BirthDay != null) {
@@ -137,7 +155,6 @@
                 var day = ("0" + tmp.getDate()).slice(-2);
                 var month = ("0" + (tmp.getMonth() + 1)).slice(-2);
                 var today = tmp.getFullYear() + "-" + (month) + "-" + (day);
-
             }
 
             document.getElementsByName('mylist')[0].value = data.City;
@@ -156,42 +173,31 @@
             $("#Have_makerspace").prop('checked', data.Have_makerspace);
             $("#textarea").val(data.Description);
 
+            var indexDropDown = data.Professions;
+            for (var i = 0; i < indexDropDown.length; i++) {
 
-            //const select = document.getElementById('selectmultiple')
-            //const selectValues = data.Profession;
+                $("#selectmultipleprof").find("option[value='" + indexDropDown[i] + "']").attr('selected', 'selected');
+            }
 
-            ///* Iterate options of select element */
-            //for (const option of document.querySelectorAll('#selectmultiple option')) {
-
-            //    /* Parse value to integer */
-            //    const value = Number.parseInt(option.value);
-
-            //    /* If option value contained in values, set selected attribute */
-            //    if (selectValues.indexOf(value) !== -1) {
-            //        option.setAttribute('selected', 'selected');
-            //    }
-            //    /* Otherwise ensure no selected attribute on option */
-            //    else {
-            //        option.removeAttribute('selected');
-            //    }
-            //}
         }
 
         function updateUser() {
             var getvalue = document.getElementsByName('mylist')[0];
             city = getvalue.value;
+            var birthdate = $("#birthDate").val();
+          
 
             user = {
                 Fname: $("#firstName").val(),
                 Lname: $("#lastName").val(),
                 Email: $("#email").val(),
                 Password: $("#password").val(),
-                BirthDay: $("#birthDate").val(),
+                BirthDay: birthdate,
                 Phone: $("#phoneNumber").val(),
                 City: city,
                 Description: $("#textarea").val(),
                 Have_makerspace: parseInt($("#Have_makerspace:checked").val()),
-                Profession: $("#selectmultiple").val()
+                Professions: $("#selectmultipleprof").val()
             }
             upload();
             return false;
@@ -236,25 +242,28 @@
             return false;
         }
         function success(data) {
-            alert("update success");
-
             swal({
-                title: "הצלחה!", text: "בוצעו השינויים", icon:
-                    "success"
+                title: "השינויים נישמרו",
+                icon: "success",
+                timer: 2500,
             }).then(function () {
-                window.location.href = "personal.html";
+                //window.location.href = "personal.html";
+                window.location.reload();
             });
         }
 
         function error(err) {
-            console.log(err);
+            alert(err.responseJSON);
         }
 
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
+                login = true;
                 $("ul.nav.navbar-nav.navbar-right").hide();
+                $("#newGalleryBTN").show();
+                $("#per_area").show();
                 var hi = "היי, ";
                 if (l == null) {
                     $("#perHello").append(hi + l1.Fname);
@@ -265,16 +274,24 @@
                 $("#loginperson").show();
             }
             else {
+                login = false;
                 $("#loginperson").hide();
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
+                $("#per_area").hide();
+                $("ul#newGalleryBTN").hide();
             }
         }
         function logout() {
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
-
-            window.location.href = "index.html";
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                window.location.href = 'index.html';
+            });
         }
         function validatePassword() {
             var password = document.getElementById("password")
@@ -287,7 +304,22 @@
                 confirm_password.setCustomValidity('');
             }
         }
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function getSuccessAllProf(data) {
 
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="selectmultipleprof"]').append(value);
+
+
+        }
     </script>
 </head>
 <body class="host_version" dir="rtl">
@@ -315,8 +347,9 @@
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
-                        <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
-                        <li class="nav-item active"><a class="nav-link" href="personal.html">איזור אישי </a></li>
+                        <li class="nav-item"><a class="nav-link" href="Galleries.html">גלריות</a></li>
+                        <li class="nav-item"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
+                        <li class="nav-item active"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
                     </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
                         <li><a><span id="perHello" style="color:white"></span></a></li>
@@ -340,12 +373,10 @@
             <!-- Sidebar -->
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">
-                    <li><a href="personal.html"> עדכון פרטים אישים </a><br /></li>
-                    <li> <a href="personal - gallery.html">הגלריות שלי</a><br /></li>
-                    <li> <a href="personal - favorits - gallery.html">המועדפים</a><br /></li>
-                    <li> <a href="#">ניהול חלל עבודה</a><br /></li>
-                    <li> <a href="#">הצ'אטים שלי</a> </li>
-
+                    <li ><a style="color:aliceblue" href="personal.html"> עדכון פרטים אישים </a><br /></li>
+                    <li> <a href="personal-gallery.html">הגלריות שלי</a><br /></li>
+                    <li> <a href="personal-favorites-gallery.html">המועדפים</a><br /></li>
+                    <li id="manageMKR"> <a href="personal-my_spaces.html">ניהול חלל עבודה</a><br /></li>
                 </ul>
             </div> <!-- /#sidebar-wrapper -->
             <!-- Page Content -->
@@ -392,7 +423,7 @@
                         <label for="birthDate" class="col-sm-3 control-label">תאריך לידה</label>
                         <div class="form-group">
                             <div class="col-sm-9">
-                                <input type="date" id="birthDate" class="form-control">
+                                <input type="date" name="date" id="birthDate" class="form-control" required>
                             </div>
                         </div>
                         <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד</label>
@@ -408,7 +439,7 @@
                         <label for="cities" class="col-sm-3 control-label" style="bottom:8px">עיר</label>
                         <div class="form-group">
                             <div class="col-sm-9">
-                                <input class="dropdown-input" list="mylist" name="mylist" />
+                                <input class="mylist dropdown-input" list="mylist" name="mylist" />
                                 <datalist id="mylist">
                                 </datalist>
                             </div>
@@ -435,15 +466,8 @@
                         <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
                         <div class="form-group">
                             <div class="col-sm-9">
-
-                                <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
-                                    <option value="1">אומנות</option>
-                                    <option value="2">מדפסות תל מימד</option>
-                                    <option value="3">נגרות</option>
-                                    <option value="4">תכנות</option>
+                                <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
                                 </select>
-
-
                             </div>
                             <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
                         </div>

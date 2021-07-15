@@ -1,0 +1,354 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <title>ניהול חללי העבודה</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>הMakerspaces שלי</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link href="css/person.css" rel="stylesheet" />
+    <!-- Modernizer for Portfolio -->
+    <script src="js/modernizer.js"></script>
+    <script src="Scripts/ajaxCalls.js"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="Style/personal_my_spaces.css" rel="stylesheet" />
+
+    <script>
+        $(function () {
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            $(window).resize(function (e) {
+                if ($(window).width() <= 768) {
+                    $("#wrapper").removeClass("toggled");
+                } else {
+                    $("#wrapper").addClass("toggled");
+                }
+            });
+        });
+
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            checklogin();
+            render();
+           
+        });
+
+
+        function checklogin() {
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
+            if (l != null || l1 != null) {
+                $("ul.nav.navbar-nav.navbar-right").hide();
+                var hi = "היי, ";
+                if (l == null) {
+                    $("#perHello").append(hi + l1.Fname);
+                }
+                else {
+                    $("#perHello").append(hi + l.Fname);
+                }
+                $("#loginperson").show();
+
+            }
+            else {
+                $("#loginperson").hide();
+                $("a#logout").hide();
+                $("ul.nav.navbar-nav.navbar-right").show();
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                window.location.href = 'index.html';
+            });
+        }
+
+        function render() {
+
+          
+            if (l == null) {
+                email = l1.Email;
+
+                var api = "../api/Makerspaces/" + email + "/";
+            }
+            else {
+                email = l.Email;
+
+                var api = "../api/Makerspaces/" + email + "/";
+            }
+            ajaxCall("GET", api, "", getSuccessRender, error);
+        }
+
+        function getSuccessRender(data) {
+            console.log(data);
+
+
+            if (data != null) {
+                renderMyMakers(data);
+                getRequest();
+            }
+            else {
+               
+            }
+
+        }
+
+        function error(err) {
+            alert(err.responseJSON);
+        }
+
+        function renderMyMakers(d) { //רנדור מקיירספייסים
+            $("#ph1").html("");
+            let str = "";
+            
+            for (var i = 0; i < d.length; i++) {
+                let prof = "";
+                let openh = "<br/>";
+                let facilities = "<br/>";
+                str += "<div class='card'>";
+                str += "<table class='table'>";
+                str += "<tr class='row'>";
+                str += "<td class='col'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1></td>"; //שם
+                str += "<button type='button' onclick='deleteMakerspace(" + d[i].MakerspaceId + ")' class='btn btn-primary btn-block' >מחק חלל</button>"; //כפתור הסתר
+                if (d[i].Photo_makerspace != "") {
+                    str += "<td class='col-6'><img id='PM' src='" + d[i].Photo_makerspace + "' alt='תמונת מייקרספייס' /></td>";
+                } else {
+                    str += "<td class='col-6'><img id='PM' src='images/notfoundPic.jpg' alt='תמונת מייקרספייס' /></td>";
+                }
+                str += "<td class='col'><ul id='" + d[i].MakerspaceName + "' class='nav  navbar-right' style= 'padding-right: 50%'>";
+                str += "<li id='M_ordersbtn'><a class='hover-btn-new log' onclick='RedirectOrder(\"" + d[i].MakerspaceId + "\",\""+d[i].MakerspaceName + "\")' ><span>ניהול הזמנות</span></a></li></ul></td>";
+                str += "</tr>";
+                str += "<tr class='row'>";
+                str += "<td class='col-6'><h6><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</h6>"; //מקום
+                str += "<h6><b>טלפון: </b>" + d[i].PhoneNumber +"</h6>";
+                str += "<h6><b>אתר אינטרנט: </b>" + d[i].Url + "</h6>";
+                for (var j = 0; j < d[i].Professions.length; j++) {
+                    if (d[i].Professions.length == (j + 1)) {
+                        prof += d[i].Professions[j];
+                    } else {
+                        prof += d[i].Professions[j] + ",";
+                    }                    
+                }
+                str += "<h6><b>תחומי עיסוק: </b>" + prof + "</h6>";
+                for (var h = 0; h < d[i].Daily_hours.length; h++) {
+                    openh += d[i].Daily_hours[h] + "<br/>";        
+                }
+                str += "<h6><b>שעות פתיחה: </b>" + openh + "</h6>";
+                str += "<h6><b>תיאור: </b>" + d[i].Descrip + "</h6>";
+                str += "</td>";
+                str += "<td class='col-6'>";
+                str += "<h6><b>מספר אנשים מותר בחלל: </b>" + d[i].NoPeople + "</h6>";
+                str += "<h6><b>גודל חלל העבודה במטר רבוע: </b>" + d[i].Size + "</h6>";
+                str += "<h6><b>מחיר לשעת עבודה: </b>" + d[i].Price + "</h6>";
+                if (d[i].Aircondition) {
+                    facilities += "מיזוג אוויר"+"<br/>";
+                }
+                if (d[i].Accessibility) {
+                    facilities += "נגישות" + "<br/>";
+                }
+                if (d[i].Free_parking) {
+                    facilities += "חנייה חינם" + "<br/>";
+                }
+                if (d[i].Online_payment) {
+                    facilities += "תשלום אונליין" + "<br/>";
+                }
+                if (d[i].Serving_coffee) {
+                    facilities += "עמדת קפה וכיבוד";
+                }       
+                str += "<h6><b>מתקנים: </b>" + facilities + "</h6>";
+
+                str += "</td>";
+                str += "</tr >";
+                str += "<tr class='row'>";
+                str += "<td class='col-12'><h5><b> הכלים שלי: </b></h5></td>";
+                for (var j = 0; j < d[i].ToolsList.length; j++) {
+                    str += "<td class='col-md-4 tool' >";
+                    str += "<h6><b>" + d[i].ToolsList[j].ToolName + "-</b></h6>";
+                    str += "<h6>" + d[i].ToolsList[j].Brand + " " + d[i].ToolsList[j].Model+"</h6>";
+                    if (d[i].ToolsList[j].Qualifications) {
+                        str += "<h6>נדרשת הכשרה </h6>";
+                    }
+                    str += "<h6>כמות: " + d[i].ToolsList[j].Quantity + "</h6>";
+                    if (d[i].ToolsList[j].Url_photo != null) {
+                        str += "<img id='PT' src='" + d[i].ToolsList[j].Url_photo + "' alt='ProfilePhoto' />";
+                    }
+                    else {
+                        str += "<img id='PT' src='images/notfoundPic.jpg' alt='ProfilePhoto' />";
+                    }
+                    str += "</td>";
+                }
+                str += "</tr>";
+                str += "</table>";
+                str += "</div><br/>"; //סוג את card
+            }
+
+            $("#ph1").append(str);
+        }
+
+        function deleteMakerspace(id) {
+            console.log(id);
+            var api = "../api/Makerspaces/delete/" + id + "/";
+            ajaxCall("DELETE", api, "", deleteSuccess, error);
+
+        }
+
+        function deleteSuccess(data) {
+            swal({
+                title: "חלל העבודה הוסר בהצלחה",
+                icon: "success",
+                timer: 2500,
+            })
+            location.reload();
+        }
+
+        function RedirectOrder(id, name) {
+            jsonMakerspace = {
+                Id: id,
+                Name: name
+            }
+            sessionStorage.setItem("Makerspace", JSON.stringify(jsonMakerspace));
+            window.location.href = "order-request.html";
+        }
+
+        function getRequest() {
+            let api = "../api/Reservations/useremail/" + email+"/";
+            ajaxCall("GET", api, "", getSuccessRQ, error);
+        }
+
+        function getSuccessRQ(data) {
+            console.log(data);
+            if (data.length != 0) {
+                //alert("יש לך כמה הזמנות שלא אושרו עדיין");
+                swal({
+                    title: "שים לב",
+                    text:"יש לך כמה הזמנות שלא אושרו עדיין",
+                    icon: "info",
+                    timer: 2500,
+                })
+            }
+            else {
+
+            }
+            
+        }
+    </script>
+</head>
+<body class="host_version" dir="rtl">
+    <!-- LOADER -->
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="progress-br float shadow">
+                <div class="progress__item"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END LOADER -->
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
+                        <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
+                        <li class="nav-item active"><a class="nav-link" href="personal.html">איזור אישי </a></li>
+                    </ul>
+                    <ul id="loginperson" class="nav navbar-nav navbar-right">
+                        <li><a><span id="perHello" style="color:white"></span></a></li>
+                        <li><a onclick="logout()" class="hover-btn-new" id="logout" style="cursor:pointer"><span>התנתק</span></a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
+
+
+    <header class="top-navbar">
+        <nav id="nav_menu" class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a>
+        </nav>
+    </header>
+    <div id="wrapper" class="toggled">
+        <ul id="newSpaceBTN" class="nav  navbar-right">
+            <li><a class="hover-btn-new log" href="newMakerSpace.html"><span>הוספת חלל עבודה חדש</span></a></li>
+        </ul>
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="personal.html"> עדכון פרטים אישים </a><br /></li>
+                <li> <a href="personal-gallery.html">הגלריות שלי</a><br /></li>
+                <li> <a href="personal-favorites-gallery.html">המועדפים</a><br /></li>
+                <li > <a style="color:aliceblue" href="personal-my_spaces.html">ניהול חלל עבודה</a><br /></li>
+            </ul>
+        </div> <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+
+        <div class="container">
+
+            <h1 style="text-align:right">החללים שלי:</h1>
+            <div id="ph1">
+
+            </div>
+        </div>
+        <br />
+    </div> <!-- /#page-content-wrapper -->
+    <!-- Menu Toggle Script -->
+    <!-- ALL JS FILES -->
+    <script src="js/all.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="js/custom.js"></script>
+
+</body>
+</html>

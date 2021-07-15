@@ -9,18 +9,28 @@ a#logout::before {
     font-size: 30px;
 }
 
+.row {
+    margin-bottom: 20px;
+}
+
 .nav.navbar.navbar-expand.navbar-dark.bg-primary {
     background-color: #333333;
 }
 
 .container {
     font-family: Calibri;
+    padding-bottom: 105px;
 }
 
 a#logout::before {
     background: red;
 }
-
+button.btn.btn-primary.btn-block {
+    position: absolute;
+    bottom: 0px;
+    margin-right: 35%;
+    margin-bottom: 3%;
+}
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 400px;
@@ -29,7 +39,9 @@ a#logout::before {
     text-align: center;
     font-family: arial;
 }
+
 #nav1 {
+   
     position: fixed;
     top: 0;
     width: 100%;
@@ -43,14 +55,16 @@ a#logout::before {
     position: fixed;
     top: 101px;
     width: 100%;
-    z-index: 9999;
+    z-index: 9998;
     visibility: visible;
     transform: translate(0,0) scale(1);
     transition: .3s;
 }
+
 div#wrapper {
     margin-top: 160px;
 }
+
 button.navbar-toggler {
     background-color: white;
 }
@@ -59,31 +73,42 @@ div#sidebar-wrapper {
     top: 159.5px;
     position: fixed;
 }
-    .card .icon-bar {
-        border: none;
-        outline: 0;
-        padding: 12px;
-        text-align: center;
-        cursor: pointer;
-        width: 100%;
-        font-size: 18px;
-        direction: ltr;
-    }
 
-    .card #photo {
-        margin: 0 auto;
-    }
+.card .icon-bar {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    direction: ltr;
+}
+i.icon.fa {
+    padding: 5px;
+}
+.card #photo {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+}
 
-    .card .para {
-        font-family: Calibri;
-    }
+.card .para .para2 {
+    font-family: Calibri;
+}
 
-#newGalleryBTN {
-    float: right;
+.para2 {
+    margin-bottom: 45px;
+}
+
+ul#newGalleryBTN {
+    display: unset;
+
 }
 
 #photo img {
     width: 45%;
+    height: 35%;
 }
 
 .container button {
@@ -103,4 +128,25 @@ div#sidebar-wrapper {
     width: 180px;
     height: 51px;
 }
+div.modal-photo {
+    top: 100px;
+}
+.container-fluid {
+    text-align: initial;
+}
 
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}
+
+.danger {
+    border-color: #f44336;
+    color: red;
+    background-color:white
+     
+}
+    .danger:hover {
+        background: #f44336;
+        color: white;
+    }

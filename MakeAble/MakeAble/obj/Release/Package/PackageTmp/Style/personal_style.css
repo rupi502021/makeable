@@ -61,7 +61,7 @@ img#PP {
     width: 180px;
     height: 51px;
 }
-#nav1 {
+#nav1 { 
     position: fixed;
     top: 0;
     width: 100%;
@@ -75,8 +75,16 @@ img#PP {
     position: fixed;
     top: 101px;
     width: 100%;
-    z-index: 9999;
+    z-index: 9998;
     visibility: visible;
     transform: translate(0,0) scale(1);
     transition: .3s;
+}
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
 }

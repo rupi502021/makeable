@@ -1,0 +1,163 @@
+﻿
+a#logout::before {
+    background: red;
+}
+#PM{
+    width:40%;
+}
+h6 {
+    text-align: right;
+    padding-right: 50px;
+    padding-bottom: 0px;
+}
+
+.sidebar-nav {
+    text-align: right;
+    font-family: Calibri;
+    font-size: 30px;
+}
+
+/*.row {
+    margin-bottom: 20px;
+}*/
+
+.nav.navbar.navbar-expand.navbar-dark.bg-primary {
+    background-color: #333333;
+}
+
+.container {
+    font-family: Calibri;
+}
+
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-family: arial;
+}
+
+#nav1 {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+
+#nav_menu {
+    position: fixed;
+    top: 101px;
+    width: 100%;
+    z-index: 9998;
+    visibility: visible;
+    transform: translate(0,0) scale(1);
+    transition: .3s;
+}
+
+div#wrapper {
+    margin-top: 160px;
+}
+
+button.navbar-toggler {
+    background-color: white;
+}
+
+div#sidebar-wrapper {
+    top: 160px;
+    position: fixed;
+}
+
+.card .icon-bar {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    direction: ltr;
+}
+
+i.icon.fa {
+    padding: 5px;
+}
+
+.card #photo {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+}
+
+.card .para {
+    font-family: Calibri;
+}
+
+ul#newSpaceBTN {
+    display: unset;
+}
+
+#photo img {
+    width: 45%;
+    height: 35%;
+}
+
+.container button {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.fa-heart-o {
+    color: dodgerblue;
+}
+
+.fa-heart {
+    color: deeppink;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+
+.container-fluid {
+    text-align: initial;
+}
+
+ul#loginperson {
+    flex-direction: row-reverse;
+    direction: ltr;
+}
+
+td.col-md-4.tool {
+    border-top: 0;
+}
+
+img#PT {
+    max-width: 25%;
+}
+
+.table td {
+    padding: 0px;
+}
+
+li#M_ordersbtn {
+    position: absolute;
+    left: 40px;
+}
+
+tr.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+#M_ordersbtn a.hover-btn-new.log {
+    padding-top: 5px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+}

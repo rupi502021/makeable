@@ -15,7 +15,7 @@
     <meta name="author" content="">
 
     <!-- Site Icons -->
-    <link rel="shortcut icon" href="##" type="image/x-icon" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
     <!-- Bootstrap CSS -->
@@ -33,33 +33,102 @@
 
     <!-- Modernizer for Portfolio -->
     <script src="js/modernizer.js"></script>
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link href="Style/galleries_style.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" defer></script>
+
+    <link href="../Style/galleries_style.css" rel="stylesheet" />
+    <link href="../Style/modal_photos.css" rel="stylesheet" />
+    <link href="../Style/index_style.css" rel="stylesheet" />
+    <script src="../Scripts/ajaxCalls.js"></script>
     <style>
-        nav#nav1 {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 9999;
-            visibility: visible;
-            transform: translate(0,0) scale(1);
-            transition: .3s;
+        .disableddiv {
+            /*pointer-events: none;
+            opacity: 0.4;*/
+            display: none;
         }
-        div#carouselExampleControls {
-            position: relative;
-            top: 90px;
+
+        .scroll {
+            padding-top: 200px;
+        }
+
+        form#formSearch {
+            margin-bottom: 100px;
+        }
+        .container2 {
+            margin: 0 auto;
+            text-align: center;
+            width: inherit;
+            position: absolute;
+            margin-top: 15%;
+        }
+        h2#headline1 {
+            text-align: right;
+            color: white;
+            font-weight: bold;
+            float: right;
+            margin-top: 9%;
+            margin-right: 5%;
         }
     </style>
-    <link href="Style/index_style.css" rel="stylesheet" />
-    <script src="Scripts/ajaxCalls.js"></script>
-
     <script>
         $(document).ready(function () {
+            var a = [];
+            var b = [];
+            $('#selectmultiple').select2({
+                placeholder: 'בחר כלים',
+                data: b,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+            $('#selectmultipleprof').select2({
+                placeholder: 'בחר תחומי עיסוק',
+                data: a,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+            var data = {
+                resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
+            };
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+
+                    var citieslist = [];
+                    var value = "<option value=''>בחירת עיר"+"</option > ";
+                    for (var i = 1; i < data.length; i++) {
+                        citieslist.push(data[i].name);
+                        value += " <option data-id='" + data[i].name + "' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
+                    }
+                    $("#selectcities").append(value);
+                }
+            });
+            getAllProf();
+            getAlltools();
             $("#submitLogin").click(fLogin);
             checklogin();
+            render();
+
+            $("#BTNAddMaker").click(function () {
+                if (login) {
+                    window.location.href = 'newMakerSpace.html';
+                }
+                else {
+                    swal({
+                        title: "על מנת לגשת לדף זה עלייך להתחבר תחילה",
+                        icon: "error",
+                        timer: 2500
+                    })
+                }
+            });
 
             $("a").on('click', function (event) {
                 if (this.hash !== "") {
@@ -81,7 +150,6 @@
             let email = $("#email1").val();
             let pass = $("#pass1").val();
             let api = "../api/Users/" + email + "/" + pass;
-            
 
             ajaxCall("GET", api, "", getSuccess, getError);
         }
@@ -91,8 +159,9 @@
 
             if (data != null) {
                 swal({
-                    title: "You are logged in!", icon:
-                        "success"
+                    title: "הינך מחובר!",
+                    icon: "success",
+                    timer: 2500,
                 }).then(function () {
                     window.location.href = 'index.html';
                 }
@@ -108,20 +177,25 @@
             }
             else {
                 swal({
-                    title: "Wrong credentials", text: "Try again", icon:
-                        "error"
+                    title: "פרטים שגויים",
+                    text: "אנא נסה שנית",
+                    icon: "error",
+                    timer: 2500
                 })
             }
         }
 
         function getError(err) {
-            console.log(err);
+            console.log(err.responseJSON);
         }
+
         function checklogin() {
-            var l = JSON.parse(localStorage.getItem('user'));
-            var l1 = JSON.parse(sessionStorage.getItem('user'));
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             if (l != null || l1 != null) {
+                login = true;
                 $("ul.nav.navbar-nav.navbar-right").hide();
+                $("#newGalleryBTN").show();
                 $("#per_area").show();
                 var hi = "היי, ";
                 if (l == null) {
@@ -133,102 +207,305 @@
                 $("#loginperson").show();
             }
             else {
+                login = false;
                 $("#loginperson").hide();
                 $("a#logout").hide();
                 $("ul.nav.navbar-nav.navbar-right").show();
                 $("#per_area").hide();
+                $("ul#newGalleryBTN").hide();
             }
         }
         function logout() {
-            alert("logging out");
             localStorage.removeItem('user');
             sessionStorage.removeItem('user');
-            location.reload();
+            swal({
+                title: "הינך מנותק!",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                window.location.href = 'index.html';
+            });
+
         }
 
-      
+
+        function render() {
+            if (login) {
+                if (l == null) {
+                    email = l1.Email;
+
+                    let api = "../api/Galleries/All/" + email + "/";
+                    ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+                }
+                if (l1 == null) {
+                    email = l.Email;
+
+                    let api = "../api/Galleries/All/" + email + "/";
+                    ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+                }
+            }
+            else {
+                let api = "../api/Galleries/All";
+                ajaxCall("GET", api, "", getSuccessRender, getErrorRender);
+            }
+
+
+        }
+
+        function getSuccessRender(data) {
+            console.log(data);
+            var d = data;
+            shuffle(d);
+            renderGalleries(d);
+
+        }
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            return a;
+        }
+        function getErrorRender(err) {
+            console.log(err.responseJSON);
+        }
+        function renderGalleries(d) { //רנדור גלריות שפורסמו
+            $("#ph1").html("");
+            let str = "";
+
+            var lengthArr = d.length;
+            str += "<div class='row'>";
+            for (var i = 0; i < 3 && i < lengthArr; i++) { //עד 3 גלריות בשורה
+
+                str += "<div class='col-sm-4'>";//*
+                str += "<div class='card'>";//*
+                str += "<div class='para'><br />";
+                str += "<h1><a><i class='fa fa-user'></i></a>&nbsp" + d[i].GalleryName + "</h1>"; //שם
+                str += "<p><a><i class='fa fa-map-marker'></i></a>&nbsp" + d[i].MakerspaceName + "</p>"; //מקום
+                str += "<p>" + d[i].Professions + "</p>"; //תחומי עיסוק
+                str += "</div>";
+                str += "<span>1/" + d[i].Images.length + "</span>";
+
+                //גלריית תמונות
+                str += "<div id='photo'>";
+                str += "<div class='column'>";
+                str += "<img src = '" + d[i].Images[0] + "' onclick='openModal(myModal" + i + ");currentSlide(" + i + ",1)' class='hover-shadow cursor'>";
+                str += "</div>";
+                str += "</div>";
+
+                str += "<div id='myModal" + i + "' class='modal-photo'>";
+                str += "<span class='close-photo cursor' onclick='closeModal(myModal" + i + ")'>&times;</span>";
+                str += "<div class='row'>";
+                str += "<div class='modal-content-photo'>";
+
+                for (var j = 0; j < d[i].Images.length; j++) {
+                    var no = j + 1;
+
+                    n = d[i].Images[j];
+                    str += "<div class='mySlides" + i + "'>";
+                    str += "<div class='numbertext'> " + d[i].Images.length + " / " + no + "</div>";
+                    str += "<img id='test' src='" + n + "'>";
+                    str += "</div>";
+                }
+
+                str += "<a class='prev' id='pr1' onclick='plusSlides(" + i + ",-1)'>&#10094;</a>";
+                str += "<a class='next' id='pr2' onclick='plusSlides(" + i + ",1)'>&#10095;</a>";
+                str += "</div>";
+
+
+
+                str += "</div>";//myModal
+                str += "</div>";//modal-content
+
+                str += "<div class='para'>";
+                str += "<p>" + d[i].Description + "</p>"; //תיאור
+
+                var _time = d[i].Time;
+                var _date = d[i].Date;
+                var date_date = _date.split('T')[0];
+                var date_time_ltr = date_date.split('-')[2] + "." + date_date.split('-')[1] + "." + date_date.split('-')[0];
+                var time_time = _time.split('T')[1];
+
+                str += "<p>" + date_time_ltr + "</p>";
+                str += "<p>" + time_time + "</p>";//זמן - לבנות פונקציה במודל שתחזיר את פער הזמן מעכשיו להעלאה
+                str += "</div > ";//para
+                str += "</div>"; //סוג את card
+                str += "</div>"; //סוגר את col-sm-4
+
+            }
+            str += "</div>"; //סוגר את row
+
+
+            $("#ph1").append(str);
+        }
+
+        function openModal(id) {
+            document.getElementById(id.id).style.display = "block";
+
+        }
+
+        function closeModal(id) {
+            document.getElementById(id.id).style.display = "none";
+
+        }
+
+        var slideIndex = 1;
+        //showSlides(slideIndex);
+
+        function plusSlides(id, n) {
+            showSlides(id, slideIndex += n);
+        }
+
+        function currentSlide(id, n) {
+            showSlides(id, slideIndex = n);
+        }
+
+        function showSlides(id, n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides" + id);
+
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+        }
+
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function getSuccessAllProf(data) {
+
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="selectmultipleprof"]').append(value);
+        }
+        function getAlltools() {
+            let api = "../api/Tools";
+            ajaxCall("GET", api, "", getSuccessAlltools, error);
+        }
+        function getSuccessAlltools(data) {
+            var toolslist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                toolslist.push(data[i].ToolName);
+                value += " <option id='" + data[i].ToolId + "' value = '" + data[i].ToolName + "' > " + data[i].ToolName + "</option > ";
+            }
+            $('select[name="selectmultiple"]').append(value);
+        }
+        function error(err) {
+            console.log(err.responseJSON);
+        }
+
+        id = "scroll_div1"
+
+        function searchProcess(i) {
+
+
+            switch (i.id) {
+                case "SearchToScroll1":
+                    $("#scroll_div2").removeClass("disableddiv");
+                    break;
+                case 2:
+                case "SearchToScroll2":
+                    $("#scroll_div3").removeClass("disableddiv");
+                    break;
+                case 3:
+                case "SearchToScroll3":
+                    $("#scroll_div4").removeClass("disableddiv");
+                    $("#BTNresults").removeClass("disableddiv");
+                    break;
+            }
+        }
     </script>
-
-
 </head>
-<body class="host_version" dir="rtl"> 
+<body class="host_version" dir="rtl">
 
-	<!-- Modal -->
-	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-		<div class="modal-content" style="font-family:Calibri">
-			<div class="modal-header tit-up">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="right:750px">&times;</button>
-				<h4 class="modal-title" >התחברות</h4>
-			</div>
-			<div class="modal-body customer-box">
-				<div class="tab-content">
-					<div class="tab-pane active" id="Login" dir="rtl">
-						<form role="form" class="form-horizontal">
-							<div class="form-group">
-								<div class="col-sm-12">
-									<input class="form-control" id="email1" placeholder="שם משתמש (אימייל)" type="text">
-								</div>
-							</div>
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <input class="form-control" id="pass1" placeholder="סיסמא" type="password" >
+    <!-- Modal -->
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content" style="font-family:Calibri">
+                <div class="modal-header tit-up">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="right: 93%;bottom: 15%;">&times;</button>
+                    <h4 class="modal-title">התחברות</h4>
+                </div>
+                <div class="modal-body customer-box">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Login" dir="rtl">
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input class="form-control" id="email1" placeholder="שם משתמש (אימייל)" type="text">
+                                    </div>
                                 </div>
-                                <div class="col-sm-12 row">
-                                    <label for="remember-me" class="for-pwd" style="direction:rtl">
-                                        <span><input id="remember-me" name="remember-me" type="checkbox"></span>
-                                        <span>זכור אותי</span>
-                                    </label>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input class="form-control" id="pass1" placeholder="סיסמא" type="password">
+                                    </div>
+                                    <div class="col-sm-12 row">
+                                        <label for="remember-me" class="for-pwd" style="direction:rtl">
+                                            <span><input id="remember-me" name="remember-me" type="checkbox"></span>
+                                            <span>זכור אותי</span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-							<div class="row">
-								<div class="col-sm-12">
-									<button type="button" id="submitLogin" class="btn btn-light btn-radius btn-brd grd1">
-										התחברות
-									</button>
-								</div>
-							</div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <a class="for-pwd" href="javascript:;">שכחת סיסמא?</a>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" id="submitLogin" class="btn btn-light btn-radius btn-brd grd1">
+                                            התחברות
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-						</form>
-					</div>				
-				</div>
-			</div>
-		</div>
-	  </div>
-	</div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a class="for-pwd" href="javascript:;">שכחת סיסמא?</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- LOADER -->
-	<div id="preloader">
-		<div class="loader-container">
-			<div class="progress-br float shadow">
-				<div class="progress__item"></div>
-			</div>
-		</div>
-	</div>
-	<!-- END LOADER -->	
-	
-	<!-- Start header -->
-	<header class="top-navbar">
-		<nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="index.html">
-					<img id="logo_top" src="images/make.png" alt="" />
-				</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="icon-bar"></span>
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="progress-br float shadow">
+                <div class="progress__item"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END LOADER -->
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-				</button>
+                    <span class="icon-bar"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a class="nav-link" href="index.html">דף הבית</a></li>
-                        <li class="nav-item "><a class="nav-link" href="Galleries.html">גלריה</a></li>
-                        <li class="nav-item"><a class="nav-link" href="personal.html"id="per_area">איזור אישי </a></li>
-                       
+                        <li class="nav-item"><a class="nav-link" href="Galleries.html">גלריות</a></li>
+                        <li class="nav-item"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
+                        <li class="nav-item"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
                     </ul>
                     <ul id="loginperson" class="nav navbar-nav navbar-right">
                         <li><a><span id="perHello" style="color:white"></span></a></li>
@@ -239,677 +516,178 @@
                         <li><a class="hover-btn-new log" href="Registration.html"><span>הרשמה</span></a></li>
                     </ul>
                 </div>
-			</div>
-		</nav>
-	</header>
-	<!-- End header -->
-	
-	<div id="carouselExampleControls" class="carousel slide bs-slider box-slider" data-ride="carousel" data-pause="hover" data-interval="false" >
-		<!-- Indicators -->
-		<ol class="carousel-indicators">
-			<li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
-			
-		</ol>
-		<div class="carousel-inner" role="listbox">
-			
-			<div class="carousel-item active">
-				<div id="home" class="first-section active" style="background-image: url('images/makeable.jpg')">
-					<!--<div class="dtab">-->
-                        <div class="container">
-                            <div id="logofront" class="row">
-                                <img  src="images/make.png" style="margin:0px auto" />
-                            </div>
-                        
-                            <div class="row">
-                                <div class="col-lg-12 col-4 text-center" style="margin: 0 auto">
-                                <!--<div class="col-md-12 col-sm-12 text-center">-->
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
 
+    <div id="carouselExampleControls" class="carousel slide bs-slider box-slider" data-ride="carousel" data-pause="hover" data-interval="false">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <div id="home" class="first-section active" style="background-image: url('images/makeable.jpg')">
+                    <!--<div class="dtab">-->
+                    <div id="bb">
+                        <h2 id="headline1">המקום לקהילת המייקרים בישראל</h2>
+                    </div>
+                    <div class="container2">
+                        <div class="container btn">
+                            <div class="row">
+                                <div class="col-lg-12 col-4 text-center">
+                                    <!--<div class="col-md-12 col-sm-12 text-center">-->
                                     <div class="big-tagline">
-                        
                                         <a href="#SearchToScroll" class="hover-btn-new" style="white-space:normal !important"><span>חיפוש MakerSpace</span></a>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <!--<a href="Galleries.html" class="hover-btn-new"><span>גלריית עבודות</span></a>-->
+
                                         <a href="#GalleryToScroll" class="hover-btn-new" style="white-space:normal !important"><span>גלריית עבודות</span></a>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="#" class="hover-btn-new" style="white-space:normal !important"><span>הוספת MakerSpace</span></a>
+
+                                        <a id="BTNAddMaker" class="hover-btn-new" style="white-space:normal !important"><span>הוספת MakerSpace</span></a>
                                     </div>
                                 </div>
                             </div><!-- end row -->
                         </div><!-- end container -->
-					<!--</div>-->
-				</div><!-- end section -->
-			</div>
-		
-			
-		</div>
-	</div>
-	
-
-
-	<div id="SearchToScroll" class="section wb">
-        <div class="container">
-            
-            <div class="row text-center">
-
-            <div class="col-lg-12">
-                <form class="checkdomain form-inline">
-                    <!--<div class="checkdomain-wrapper">
-                        <div class="form-group">
-                            <label class="sr-only" for="domainnamehere">Domain name</label>
-                            <input type="text" class="form-control" id="domainnamehere" placeholder="Enter domain name here..">
-                            <button type="submit" class="btn btn-primary grd1"><i class="fa fa-search"></i></button>
-                        </div>
-                        <hr>-->
-                        <!--<div class="clearfix"></div>
-                        <div class="checkbox checkbox-warning">
-                            <input id="domaincom" type="checkbox" class="styled" checked>
-                            <label for="domaincom">.com</label>
-                        </div>
-                        <div class="checkbox checkbox-warning">
-                            <input id="domainnet" type="checkbox" class="styled" checked>
-                            <label for="domainnet">.net</label>
-                        </div>
-                        <div class="checkbox checkbox-warning">
-                            <input id="domainorg" type="checkbox" class="styled">
-                            <label for="domainorg">.org</label>
-                        </div>
-                        <div class="checkbox checkbox-warning">
-                            <input id="domaintv" type="checkbox" class="styled">
-                            <label for="domaintv">.tv</label>
-                        </div>
-                        <div class="checkbox checkbox-warning">
-                            <input id="domaininfo" type="checkbox" class="styled">
-                            <label for="domaininfo">.info</label>
-                        </div>
-                    </div> end checkdomain-wrapper-->
-                </form>
-            </div>
-            <div class="col-lg-12">
-                <div class="customwidget text-center">
-                    <h1 style="text-align:right; font-size:50px">חיפוש חלל עבודה</h1>
-                    <h1>שלב 1</h1>
-                    <h1>שלב 2</h1>
-                    <h1>שלב 3</h1>
-                    <br />
-                    <br />
-                    <!--<p>With our awesome domain name search form, you can search any domain names with tons of extensions.</p>
-    <p>Pursuing high quality standards, my greatest efforts are focused on producing semantic, SEO-friendly, valid and clean code. In order to stay effective and relevant in this constantly evolving sphere I always try to be in touch with the latest news and recent approaches in programming.</p>
-    <ul class="list-inline">
-        <li><i class="fa fa-check"></i> 20k Domains Sold in 2017</li>
-        <li><i class="fa fa-check"></i> 4k Website Created</li>
-    </ul>
-    end list-->
-                    <a href="#" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
+                        <!--</div>-->
+                    </div><!-- end section -->
                 </div>
             </div>
-
-            <!--end col-->
-        </div> <!--end row-->
-        </div> <!--end container--> 
-    </div> <!--end section--> 
-	
-    <div id="GalleryToScroll" class="section lb">
-        <div class="container">
-
-            <h1 style="text-align:right; font-size:50px">גלריות עבודות</h1>
-            <div class="row">
-                <!-- ph1 צריכה לבוא כאן -->
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="para">
-                            <br />
-                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
-                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
-                            <p>תחום עיסוק</p>
-                        </div>
-                        <div id="photo" class="row">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                        </div>
-                        <div class="para">
-                            <p>תיאור אופציונלי</p>
-                            <p>10 דקות</p>
-                        </div>
-                        <div class="row">
-                            <div class="icon-bar">
-                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
-                                <a href="#"><i class="fa fa-comment-o"></i></a>
-                                <a href="#"><i class="fa fa-paper-plane"></i></a>
-                                <a href="#"><i class="fa fa-share-alt"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="para">
-                            <br />
-                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
-                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
-                            <p>תחום עיסוק</p>
-                        </div>
-                        <div id="photo" class="row">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                        </div>
-                        <div class="para">
-                            <p>תיאור אופציונלי</p>
-                            <p>10 דקות</p>
-                        </div>
-                        <div class="row">
-                            <div class="icon-bar">
-                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
-                                <a href="#"><i class="fa fa-comment-o"></i></a>
-                                <a href="#"><i class="fa fa-paper-plane"></i></a>
-                                <a href="#"><i class="fa fa-share-alt"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="para">
-                            <br />
-                            <h1><a href="#"><i class="fa fa-user"></i></a><a href="#">&nbspשם גלריה</a></h1>
-                            <p><a href="#"><i class="fa fa-map-marker"></i></a>&nbspמיקום בו נוצרה</p>
-                            <p>תחום עיסוק</p>
-                        </div>
-                        <div id="photo" class="row">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                            <img src="images/hosting_02.jpg" alt="Denim Jeans">
-                        </div>
-                        <div class="para">
-                            <p>תיאור אופציונלי</p>
-                            <p>10 דקות</p>
-                        </div>
-                        <div class="row">
-                            <div class="icon-bar">
-                                <a ref="#" onclick="togglefunc()"><i class="fa fa-heart-o"></i></a>
-                                <a href="#"><i class="fa fa-comment-o"></i></a>
-                                <a href="#"><i class="fa fa-paper-plane"></i></a>
-                                <a href="#"><i class="fa fa-share-alt"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!--//end row-->
-            <!--<div class="section-title row text-center">
-        <div class="col-md-8 offset-md-2">
-            <h3>About</h3>
-            <p class="lead">Lorem Ipsum dolroin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem!</p>
         </div>
-    </div> end title
-
-    <div class="row align-items-center">
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-            <div class="message-box">
-                <h4>2018 BEST WEB HOSTING COMPANY</h4>
-                <h2>Awards Winner Support Center</h2>
-                <p>Quisque eget nisl id nulla sagittis auctor quis id. Aliquam quis vehicula enim, non aliquam risus. Sed a tellus quis mi rhoncus dignissim.</p>
-
-                <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis montes, nascetur ridiculus mus. Sed vitae rutrum neque. </p>
-
-                <a href="#" class="hover-btn-new"><span>Learn More</span></a>
-            </div> end messagebox
-        </div> end col
-
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-            <div class="post-media wow fadeIn">
-                <img src="images/about_02.jpg" alt="" class="img-fluid img-rounded">
-            </div> end media
-        </div> end col
     </div>
-    <div class="row align-items-center">
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-            <div class="post-media wow fadeIn">
-                <img src="images/about_03.jpg" alt="" class="img-fluid img-rounded">
-            </div> end media
-        </div> end col
-
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-            <div class="message-box">
-                <h2>The standard Lorem Ipsum passage, used since the 1500s</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-                <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum.</p>
-
-                <a href="#" class="hover-btn-new"><span>Learn More</span></a>
-            </div> end messagebox
-        </div> end col
-
-    </div> end row-->
-        </div> <!--end container--> 
-    </div> <!--end section--> 
-
-    <!--<section class="page-section">
-		<div class="container">
-			 <div class="section-title row text-center">
-                <div class="col-md-8 offset-md-2">
-                    <h3>Our history</h3>
-                    <p class="lead">Lorem Ipsum dolroin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem!</p>
+    <div class="container-fluid"  id="conSerach">
+        <form id="formSearch" class="form-horizontal" role="form">
+            <div id="scroll_div1">
+                <div id="SearchToScroll" class="container">
+                    <h1 style='text-align:center; font-size:80px'>חיפוש MakerSpace</h1>
+                    <ul class="progressbar">
+                        <li class="active">מיקום</li>
+                        <li>תחומי עיסוק</li>
+                        <li>כלי עבודה</li>
+                        <li>זמינות</li>
+                    </ul>
                 </div>
-            </div>--><!-- end title -->
-			<!--<div class="timeline">
-				<div class="timeline__wrap">
-					<div class="timeline__items">
-						<div class="timeline__item">
-							<div class="timeline__content img-bg-01">
-								<h2>2018</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus. Lorem
-									ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-							</div>
-						</div>
-						<div class="timeline__item">
-							<div class="timeline__content img-bg-02">
-								<h2>2015</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-							</div>
-						</div>
-						<div class="timeline__item">
-							<div class="timeline__content img-bg-03">
-								<h2>2014</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-							</div>
-						</div>
-						<div class="timeline__item">
-							<div class="timeline__content img-bg-04">
-								<h2>2012</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-							</div>
-						</div>
-						<div class="timeline__item">
-							<div class="timeline__content img-bg-01">
-								<h2>2010</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus. Lorem
-									ipsum dolor sit amet, consectetur adipiscing elit.</p>
-							</div>
-						</div>
-						<div class="timeline__item">
-							<div class="timeline__content img-bg-02">
-								<h2>2007</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-							</div>
-						</div>
-						<div class="timeline__item">
-							<div class="timeline__content img-bg-03">
-								<h2>2004</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-							</div>
-						</div>
-						<div class="timeline__item">
-							<div class="timeline__content img-bg-04">
-								<h2>2002</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim neque condimentum lacus dapibus.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 
-	<div class="section cl">
-		<div class="container">
-			<div class="row text-left stat-wrap">
-				<div class="col-md-4 col-sm-4 col-xs-12">
-					<span data-scroll class="global-radius icon_wrap effect-1 alignleft"><i class="flaticon-hosting"></i></span>
-					<p class="stat_count">12000</p>
-					<h3>Hosted Sites</h3>
-				</div>--><!-- end col -->
-
-				<!--<div class="col-md-4 col-sm-4 col-xs-12">
-					<span data-scroll class="global-radius icon_wrap effect-1 alignleft"><i class="flaticon-domain-registration"></i></span>
-					<p class="stat_count">24000</p>
-					<h3>Sold Domains</h3>
-				</div>--><!-- end col -->
-
-				<!--<div class="col-md-4 col-sm-4 col-xs-12">
-					<span data-scroll class="global-radius icon_wrap effect-1 alignleft"><i class="flaticon-mail"></i></span>
-					<p class="stat_count">5000</p>
-					<h3>Email Accounts</h3>
-				</div>--><!-- end col -->
-			<!--</div>--><!-- end row -->
-		<!--</div>--><!-- end container -->
-	<!--</div>--><!-- end section -->
-
-    <!--<div id="pricing" class="section lb">
-        <div class="container">
-            <div class="section-title text-center">
-                <h3>Ready to get started?</h3>
-                <p>Lorem ipsum dolor sit aet, consectetur adipisicing lit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-            </div>--><!-- end title -->
-
-            <!--<div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <div class="message-box">
-                        <ul class="nav nav-pills nav-stacked" id="myTabs">
-                            <li><a class="active" href="#tab1" data-toggle="pill">Monthly Subscription</a></li>
-                            <li><a href="#tab2" data-toggle="pill">Yearly Subscription</a></li>
-                        </ul>
+                <div class="form-group">
+                    <div class="col-sm-9 places">
+                        <h1>בחר מיקום:</h1>
+                        <br />
+                        <div class="checkbox">
+                            <label for="checkboxes-0">
+                                <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
+                                <span>מיקום נוכחי&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                            </label>
+                        </div>
+                        <!--<div class="checkbox">
+                            <label for="checkboxes-0">
+                                <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
+                                <label class="control-label" for="selectbasic">
+                                    <select id="selectbasic2" name="selectbasic" class="form-control">
+                                        <option value="0">ההיסטוריה שלי</option>
+                                        <option value="1">חלל עבודה 1</option>
+                                        <option value="2">חלל עבודה 2</option>
+                                        <option value="3">חלל עבודה 3</option>
+                                    </select>
+                                </label>
+                            </label>
+                        </div>-->
+                        <div class="checkbox">
+                            <label for="checkboxes-0">
+                                <input type="radio" name="checkboxes" id="checkboxes-3" value="3">
+                                <label class="control-label" for="selectbasic">
+                                    <select id="selectcities" name="selectbasic" class="form-control">
+                                     
+                                    </select>
+                                </label>
+                            </label>
+                        </div>
                     </div>
-                </div>--><!-- end col -->
-            <!--</div>
-
-            <hr class="invis">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="tab-content">
-                        <div class="tab-pane active fade show" id="tab1">
-                            <div class="row text-center">
-                                <div class="col-md-4">
-                                    <div class="pricing-table pricing-table-highlighted">
-                                        <div class="pricing-table-header grd1">
-                                            <h2>Shared Hosting</h2>
-                                            <h3>$85/month</h3>
-                                        </div>
-                                        <div class="pricing-table-space"></div>
-                                        <div class="pricing-table-features">
-                                            <p><i class="fa fa-envelope-o"></i> <strong>250</strong> Email Addresses</p>
-                                            <p><i class="fa fa-rocket"></i> <strong>125GB</strong> of Storage</p>
-                                            <p><i class="fa fa-database"></i> <strong>140</strong> Databases</p>
-                                            <p><i class="fa fa-link"></i> <strong>60</strong> Domains</p>
-                                            <p><i class="fa fa-life-ring"></i> <strong>24/7 Unlimited</strong> Support</p>
-                                        </div>
-                                        <div class="pricing-table-sign-up">
-                                            <a href="#" class="hover-btn-new"><span>Order Now</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="pricing-table pricing-table-highlighted">
-                                        <div class="pricing-table-header grd1">
-                                            <h2>WordPress Hosting</h2>
-                                            <h3>$59/month</h3>
-                                        </div>
-                                        <div class="pricing-table-space"></div>
-                                        <div class="pricing-table-features">
-                                            <p><i class="fa fa-envelope-o"></i> <strong>150</strong> Email Addresses</p>
-                                            <p><i class="fa fa-rocket"></i> <strong>65GB</strong> of Storage</p>
-                                            <p><i class="fa fa-database"></i> <strong>60</strong> Databases</p>
-                                            <p><i class="fa fa-link"></i> <strong>30</strong> Domains</p>
-                                            <p><i class="fa fa-life-ring"></i> <strong>24/7 Unlimited</strong> Support</p>
-                                        </div>
-                                        <div class="pricing-table-sign-up">
-                                            <a href="#" class="hover-btn-new"><span>Order Now</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="pricing-table pricing-table-highlighted">
-                                        <div class="pricing-table-header grd1">
-                                            <h2>Reseller Hosting</h2>
-                                            <h3>$85/month</h3>
-                                        </div>
-                                        <div class="pricing-table-space"></div>
-                                        <div class="pricing-table-features">
-                                            <p><i class="fa fa-envelope-o"></i> <strong>250</strong> Email Addresses</p>
-                                            <p><i class="fa fa-rocket"></i> <strong>125GB</strong> of Storage</p>
-                                            <p><i class="fa fa-database"></i> <strong>140</strong> Databases</p>
-                                            <p><i class="fa fa-link"></i> <strong>60</strong> Domains</p>
-                                            <p><i class="fa fa-life-ring"></i> <strong>24/7 Unlimited</strong> Support</p>
-                                        </div>
-                                        <div class="pricing-table-sign-up">
-                                            <a href="#" class="hover-btn-new"><span>Order Now</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>--><!-- end row -->
-                        <!--</div>--><!-- end pane -->
-
-                        <!--<div class="tab-pane fade" id="tab2">
-                            <div class="row text-center">
-                                <div class="col-md-4">
-                                    <div class="pricing-table pricing-table-highlighted">
-                                        <div class="pricing-table-header grd1">
-                                            <h2>Shared Hosting</h2>
-                                            <h3>$85/Year</h3>
-                                        </div>
-                                        <div class="pricing-table-space"></div>
-                                        <div class="pricing-table-features">
-                                            <p><i class="fa fa-envelope-o"></i> <strong>250</strong> Email Addresses</p>
-                                            <p><i class="fa fa-rocket"></i> <strong>125GB</strong> of Storage</p>
-                                            <p><i class="fa fa-database"></i> <strong>140</strong> Databases</p>
-                                            <p><i class="fa fa-link"></i> <strong>60</strong> Domains</p>
-                                            <p><i class="fa fa-life-ring"></i> <strong>24/7 Unlimited</strong> Support</p>
-                                        </div>
-                                        <div class="pricing-table-sign-up">
-                                            <a href="#" class="hover-btn-new"><span>Order Now</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="pricing-table pricing-table-highlighted">
-                                        <div class="pricing-table-header grd1">
-                                            <h2>WordPress Hosting</h2>
-                                            <h3>$59/Year</h3>
-                                        </div>
-                                        <div class="pricing-table-space"></div>
-                                        <div class="pricing-table-features">
-                                            <p><i class="fa fa-envelope-o"></i> <strong>150</strong> Email Addresses</p>
-                                            <p><i class="fa fa-rocket"></i> <strong>65GB</strong> of Storage</p>
-                                            <p><i class="fa fa-database"></i> <strong>60</strong> Databases</p>
-                                            <p><i class="fa fa-link"></i> <strong>30</strong> Domains</p>
-                                            <p><i class="fa fa-life-ring"></i> <strong>24/7 Unlimited</strong> Support</p>
-                                        </div>
-                                        <div class="pricing-table-sign-up">
-                                            <a href="#" class="hover-btn-new"><span>Order Now</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="pricing-table pricing-table-highlighted">
-                                        <div class="pricing-table-header grd1">
-                                            <h2>Reseller Hosting</h2>
-                                            <h3>$85/Year</h3>
-                                        </div>
-                                        <div class="pricing-table-space"></div>
-                                        <div class="pricing-table-features">
-                                            <p><i class="fa fa-envelope-o"></i> <strong>250</strong> Email Addresses</p>
-                                            <p><i class="fa fa-rocket"></i> <strong>125GB</strong> of Storage</p>
-                                            <p><i class="fa fa-database"></i> <strong>140</strong> Databases</p>
-                                            <p><i class="fa fa-link"></i> <strong>60</strong> Domains</p>
-                                            <p><i class="fa fa-life-ring"></i> <strong>24/7 Unlimited</strong> Support</p>
-                                        </div>
-                                        <div class="pricing-table-sign-up">
-                                            <a href="#" class="hover-btn-new"><span>Order Now</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>--><!-- end row -->
-                        <!--</div>--><!-- end pane -->
-                    <!--</div>--><!-- end content -->
-                <!--</div>--><!-- end col -->
-            <!--</div>--><!-- end row -->
-        <!--</div>--><!-- end container -->
-    <!--</div>--><!-- end section -->
-
-    <!--<div id="testimonials" class="parallax section db parallax-off" style="background-image:url('images/parallax_04.jpg');">
-        <div class="container">
-            <div class="section-title text-center">
-                <h3>Testimonials</h3>
-                <p>Lorem ipsum dolor sit aet, consectetur adipisicing lit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-            </div>--><!-- end title -->
-
-            <!--<div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div class="testi-carousel owl-carousel owl-theme">
-                        <div class="testimonial clearfix">
-                            <div class="desc">
-                                <h3><i class="fa fa-quote-left"></i> Wonderful Support!</h3>
-                                <p class="lead">They have got my project on time with the competition with a sed highly skilled, and experienced & professional team.</p>
-                            </div>
-                            <div class="testi-meta">
-                                <img src="images/testi_01.png" alt="" class="img-fluid">
-                                <h4>James Fernando </h4>
-                            </div>-->
-                            <!-- end testi-meta -->
-                        <!--</div>-->
-                        <!-- end testimonial -->
-
-                        <!--<div class="testimonial clearfix">
-                            <div class="desc">
-                                <h3><i class="fa fa-quote-left"></i> Awesome Services!</h3>
-                                <p class="lead">Explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you completed.</p>
-                            </div>
-                            <div class="testi-meta">
-                                <img src="images/testi_02.png" alt="" class="img-fluid">
-                                <h4>Jacques Philips </h4>
-                            </div>-->
-                            <!-- end testi-meta -->
-                        <!--</div>-->
-                        <!-- end testimonial -->
-
-                        <!--<div class="testimonial clearfix">
-                            <div class="desc">
-                                <h3><i class="fa fa-quote-left"></i> Great & Talented Team!</h3>
-                                <p class="lead">The master-builder of human happines no one rejects, dislikes avoids pleasure itself, because it is very pursue pleasure. </p>
-                            </div>
-                            <div class="testi-meta">
-                                <img src="images/testi_03.png" alt="" class="img-fluid ">
-                                <h4>Venanda Mercy </h4>
-                            </div>-->
-                            <!-- end testi-meta -->
-                        <!--</div>-->
-                        <!-- end testimonial -->
-                        <!--<div class="testimonial clearfix">
-                            <div class="desc">
-                                <h3><i class="fa fa-quote-left"></i> Wonderful Support!</h3>
-                                <p class="lead">They have got my project on time with the competition with a sed highly skilled, and experienced & professional team.</p>
-                            </div>
-                            <div class="testi-meta">
-                                <img src="images/testi_01.png" alt="" class="img-fluid">
-                                <h4>James Fernando </h4>
-                            </div>-->
-                            <!-- end testi-meta -->
-                        <!--</div>-->
-                        <!-- end testimonial -->
-
-                        <!--<div class="testimonial clearfix">
-                            <div class="desc">
-                                <h3><i class="fa fa-quote-left"></i> Awesome Services!</h3>
-                                <p class="lead">Explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you completed.</p>
-                            </div>
-                            <div class="testi-meta">
-                                <img src="images/testi_02.png" alt="" class="img-fluid">
-                                <h4>Jacques Philips </h4>
-                            </div>-->
-                            <!-- end testi-meta -->
-                        <!--</div>-->
-                        <!-- end testimonial -->
-
-                        <!--<div class="testimonial clearfix">
-                            <div class="desc">
-                                <h3><i class="fa fa-quote-left"></i> Great & Talented Team!</h3>
-                                <p class="lead">The master-builder of human happines no one rejects, dislikes avoids pleasure itself, because it is very pursue pleasure. </p>
-                            </div>
-                            <div class="testi-meta">
-                                <img src="images/testi_03.png" alt="" class="img-fluid">
-                                <h4>Venanda Mercy </h4>
-                            </div>-->
-                            <!-- end testi-meta -->
-                        <!--</div>--><!-- end testimonial -->
-                    <!--</div>--><!-- end carousel -->
-                <!--</div>--><!-- end col -->
-            <!--</div>--><!-- end row -->
-        <!--</div>--><!-- end container -->
-    <!--</div>--><!-- end section -->
-
-    <!--<div class="parallax section dbcolor">
-        <div class="container">
-            <div class="row logos">
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_01.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_02.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_03.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_04.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_05.png" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="images/logo_06.png" alt="" class="img-repsonsive"></a>
-                </div>
-            </div>--><!-- end row -->
-        <!--</div>--><!-- end container -->
-    <!--</div>--><!-- end section -->
-
-    <!--<footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-xs-12">
-                    <div class="widget clearfix">
-                        <div class="widget-title">
-                            <h3>About US</h3>
-                        </div>
-                        <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>
-                        <p>Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>
-                    </div>--><!-- end clearfix -->
-                <!--</div>--><!-- end col -->
-
-				<!--<div class="col-lg-4 col-md-4 col-xs-12">
-                    <div class="widget clearfix">
-                        <div class="widget-title">
-                            <h3>Information Link</h3>
-                        </div>
-                        <ul class="footer-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Pricing</a></li>
-							<li><a href="#">About</a></li>
-							<li><a href="#">Faq</a></li>
-							<li><a href="#">Contact</a></li>
-                        </ul>--><!-- end links -->
-                    <!--</div>--><!-- end clearfix -->
-                <!--</div>--><!-- end col -->
-				
-                <!--<div class="col-lg-4 col-md-4 col-xs-12">
-                    <div class="widget clearfix">
-                        <div class="widget-title">
-                            <h3>Contact Details</h3>
-                        </div>
-
-                        <ul class="footer-links">
-                            <li><a href="mailto:#">info@yoursite.com</a></li>
-                            <li><a href="#">www.yoursite.com</a></li>
-                            <li>PO Box 16122 Collins Street West Victoria 8007 Australia</li>
-                            <li>+61 3 8376 6284</li>
-                        </ul>--><!-- end links -->
-                    <!--</div>--><!-- end clearfix -->
-                <!--</div>--><!-- end col -->
-				
-            <!--</div>--><!-- end row -->
-        <!--</div>--><!-- end container -->
-    <!--</footer>--><!-- end footer -->
-
-    <!--<div class="copyrights">
-        <div class="container">
-            <div class="footer-distributed">
-                <div class="footer-left">                   
-                    <p class="footer-company-name">All Rights Reserved. &copy; 2018 <a href="#">QuickCloud</a> Design By : <a href="https://html.design/">html design</a></p>
                 </div>
 
-                <div class="footer-right">
-                    <ul class="footer-links-soi">
-						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li><a href="#"><i class="fa fa-github"></i></a></li>
-						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-						<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-					</ul> end links 
+                <div class="customwidget text-center">
+                    <a href="#SearchToScroll2" id="SearchToScroll1" onclick="searchProcess(this)" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
                 </div>
             </div>
-        </div> end container 
-    </div> end copyrights--> 
+
+            <div id="scroll_div2" class="disableddiv">
+                <div id="SearchToScroll2" class="container scroll">
+                    <ul class="progressbar">
+                        <li>מיקום</li>
+                        <li class="active">תחומי עיסוק</li>
+                        <li>כלי עבודה</li>
+                        <li>זמינות</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9 places">
+                        <h1>בחר תחום עיסוק:</h1>
+                        <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="customwidget text-center">
+                    <a href="#SearchToScroll3" id="SearchToScroll2" onclick="searchProcess(this)" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
+                </div>
+            </div>
+
+            <div id="scroll_div3" class="disableddiv">
+                <div id="SearchToScroll3" class="container scroll">
+                    <ul class="progressbar">
+                        <li>מיקום</li>
+                        <li>תחומי עיסוק</li>
+                        <li class="active">כלי עבודה</li>
+                        <li>זמינות</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9 places">
+                        <h1>בחר את הכלים שלך:</h1>
+                        <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="customwidget text-center">
+                    <a href="#SearchToScroll4" id="SearchToScroll3" onclick="searchProcess(this)" class="hover-btn-new"><span><i class="fa fa-angle-down"></i></span></a>
+                </div>
+            </div>
+
+            <div id="scroll_div4" class="disableddiv">
+                <div id="SearchToScroll4" class="container scroll">
+                    <ul class="progressbar">
+                        <li>מיקום</li>
+                        <li>תחומי עיסוק</li>
+                        <li>כלי עבודה</li>
+                        <li class="active">זמינות</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9 places">
+                        <h1>בחר תאריך:</h1>
+                        <input type="date" class="form-control" min="2021-05-25" max="2040-05-31">
+                    </div>
+                </div>
+            </div>
+            <div id="BTNresults" class="customwidget text-center disableddiv">
+                <a href="SearchMakerspace.html" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
+            </div>
+        </form>
+    </div>
+
+    <div id="GalleryToScroll" class="section lb">
+
+        <h1 id="title_gallery">גלרית עבודות</h1>
+        <div class="container gallery">
+            <div id="ph1"></div>
+            <div class="customwidget text-center">
+                <a href="Galleries.html" class="hover-btn-new"><span>לגלריה המלאה</span></a>
+            </div>
+
+        </div> <!--end container-->
+    </div> <!--end section-->
 
     <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
 
@@ -917,14 +695,14 @@
     <script src="js/all.js"></script>
     <!-- ALL PLUGINS -->
     <script src="js/custom.js"></script>
-	<script src="js/timeline.min.js"></script>
-	<script>
-		timeline(document.querySelectorAll('.timeline'), {
-			forceVerticalMode: 700,
-			mode: 'horizontal',
-			verticalStartPosition: 'left',
-			visibleItems: 4
-		});
-	</script>
+    <script src="js/timeline.min.js"></script>
+    <script>
+        timeline(document.querySelectorAll('.timeline'), {
+            forceVerticalMode: 700,
+            mode: 'horizontal',
+            verticalStartPosition: 'left',
+            visibleItems: 4
+        });
+    </script>
 </body>
 </html>

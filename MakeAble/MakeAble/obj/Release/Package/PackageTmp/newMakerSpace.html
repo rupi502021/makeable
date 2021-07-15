@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="utf-8" />
+    <title>הוספת חלל עבודה</title>
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="../css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/custom.css">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!------ Include the above in your HEAD tag ---------->
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="../Scripts/ajaxCalls.js"></script>
+
+    <link href="../Style/newMakerSpace_style.css" rel="stylesheet" />
+
+    <style>
+        img#PP {
+            max-width: 25%;
+            float: left;
+        }
+
+        input#filebutton {
+            float: inherit;
+        }
+
+        #logo_top {
+            width: 180px;
+            height: 51px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .modal-dialog.modal-lg {
+            margin-top: 20%;
+        }
+
+        td {
+            padding: 1%;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            getAllProf();
+
+            var data = {
+                resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
+            };
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json',
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+
+                    var citieslist = [];
+                    var value = "";
+                    for (var i = 1; i < data.length; i++) {
+                        citieslist.push(data[i].name);
+                        value += " <option data-id='" + data[i].name + "' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
+                    }
+                    $("#mylist").append(value);
+                }
+            });
+
+            //שרשור רחוב לפי עיר
+            $(".mylist").change(function () {
+                console.log(this.value);
+                c = this.value;
+                var data = {
+                    resource_id: '9ad3862c-8391-4b2f-84a4-2d4c68625f4b', // the resource id
+                    limit: 60000, // get 5 results
+
+                };
+                $.ajax({
+                    url: 'https://data.gov.il/api/3/action/datastore_search',
+                    data: data,
+                    dataType: 'json',
+                    success: function (data) {
+                        streetslist = [];
+                        $(".mycitylist").val('');
+                        var value = "";
+                        for (var i = 0; i < data.result.records.length; i++) {
+                            var d = data.result.records[i];
+
+                            if (c + " " == d.שם_ישוב) {
+                                streetslist.push(d.שם_רחוב);
+                                let s = "'" + d.שם_רחוב + "'";
+                                value += " <option data-id='" + d.שם_רחוב + "' value = '" + d.שם_רחוב + "' > " + d.שם_רחוב + "</option > ";
+
+                            }
+                        }
+                        console.log(streetslist);
+                        $("#mycitylist").html(value);
+                    }
+                });
+            });
+            $("#filebutton").change(function () {
+                readURL(this);
+            });
+            $("#MakerForm").submit(f1);
+        });
+
+        //להכניס תמונה לתצוגה מקדימה
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#PP').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+        function f1() {
+            AddMakerspace();
+            return false;
+        }
+
+        function AddMakerspace() {
+            var getvalue = document.getElementsByName('mylist')[0];
+            city = getvalue.value;
+
+            var getvalue1 = document.getElementsByName('mycitylist')[0];
+            street = getvalue1.value;
+
+            if (localStorage.getItem("user") == null) {
+                l = JSON.parse(sessionStorage.getItem('user'));
+            }
+            else {
+                l = JSON.parse(localStorage.getItem('user'));
+            }
+
+            days_hours = {
+                "Sunday": [$("#Sunday_from").val(), $("#Sunday_to").val()],
+                "Monday": [$("#Monday_from").val(), $("#Monday_to").val()],
+                "Tuesday": [$("#Tuesday_from").val(), $("#Tuesday_to").val()],
+                "Wednesday": [$("#Wednesday_from").val(), $("#Wednesday_to").val()],
+                "Thursday": [$("#Thursday_from").val(), $("#Thursday_to").val()],
+                "Friday": [$("#Friday_from").val(), $("#Friday_to").val()],
+                "Saturday": [$("#Saturday_from").val(), $("#Saturday_to").val()]
+            }
+
+
+            makerspace = {
+                City: city,
+                User_email: l.Email,
+                Street: street,
+                Num_street: parseInt($("#MakerSpace_address_n").val()),
+                MakerspaceName: $("#MakerSpace_Name").val(),
+                PhoneNumber: $("#MakerSpace_Tel").val(),
+                Url: $("#MakerSpace_Url").val(),
+                NoPeople: parseInt($("#MakerSpace_Max").val()),
+                Size: parseInt($("#MakerSpace_Size").val()),
+                Price: parseInt($("#MakerSpace_Price").val()),
+                Descrip: $("#textarea").val(),
+                professionArr: $("#selectmultipleprof").val(),
+                Aircondition: parseInt($("#fa1:checked").val()),
+                Accessibility: parseInt($("#fa5:checked").val()),
+                Serving_coffee: parseInt($("#fa2:checked").val()),
+                Online_payment: parseInt($("#fa4:checked").val()),
+                Free_parking: parseInt($("#fa3:checked").val()),
+                Days_hours: JSON.stringify(days_hours)
+            }
+            upload();
+        }
+
+        function upload() {
+            var data = new FormData();
+            var files = $("#filebutton").get(0).files;
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedImage", files[f]);
+                }
+                data.append("name", "Makerspace_" + makerspace.MakerspaceName + '_' + Date.now()); // append what ever data you want to send along with the files. See how you extract it in the controller.
+                // Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/FileUploadMakerspace",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: successfile,
+                    error: error
+                });
+                return false;
+            }
+            else {
+                ajaxCall("POST", "../api/Makerspaces", JSON.stringify(makerspace), success, error);
+                return false;
+            }
+        }
+
+        function successfile(data) {
+
+            makerspace = { ...makerspace, Photo_makerspace: data[0] };
+            ajaxCall("POST", "../api/Makerspaces", JSON.stringify(makerspace), success, error);
+            return false;
+        }
+
+        function success(data) {
+            localStorage.setItem("MakerSpaceID", data);
+            swal({
+                title: "הוסף בהצלחה",
+                text: "הינך מועבר להוספת הכלים",
+                icon: "success",
+                timer: 2500,
+            }).then(function () {
+                window.location.href = 'newMakerSpace_Tool.html';
+            }
+            );
+            clear();
+        }
+
+        function error(err) {
+            alert(err.responseJSON);
+        }
+
+        function clear() {
+            $("#MakerSpace_Name").val(''),
+                $(".mylist").val(''),
+                $(".mycitylist").val(''),
+                $("#MakerSpace_address_n").val(''),
+                $("#MakerSpace_Tel").val(''),
+                $("#MakerSpace_Url").val(''),
+                $("#selectmultipleprof").val(''),
+                $("#MakerSpace_Max").val(''),
+                $("#MakerSpace_Size").val(''),
+                $("#MakerSpace_Price").val(''),
+                $("#textarea").val('')
+        }
+        function getAllProf() {
+            let api = "../api/Professions";
+            ajaxCall("GET", api, "", getSuccessAllProf, error);
+        }
+        function getSuccessAllProf(data) {
+
+            var proflist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                proflist.push(data[i].ProfessionName);
+                value += " <option data-id='" + data[i].ProfessionId + "' value = '" + data[i].ProfessionName + "' > " + data[i].ProfessionName + "</option > ";
+            }
+            $('select[name="selectmultipleprof"]').append(value);
+
+
+        }
+    </script>
+</head>
+
+<body dir="rtl">
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav id="nav1" class="navbar navbar-expand navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img id="logo_top" src="images/make.png" alt="" />
+                </a>
+                <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Galleries.html">גלריה</a></li>
+                        <li class="nav-item"><a class="nav-link" href="SearchMakerspace.html">חיפוש Makerspaces </a></li>
+                        <li class="nav-item active"><a class="nav-link" href="personal.html" id="per_area">איזור אישי </a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
+    <div class="container">
+        <!--<input type="button" onclick="location.href='personal-my_spaces.html';" value="חזור לדף מייקרספייס" />-->
+
+        <form class="form-horizontal" id="MakerForm" role="form">
+            <h1>הוספת חלל עבודה חדש</h1>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="MakerSpace_Name" placeholder="שם החלל" class="form-control" autofocus maxlength="25" required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">שם החלל</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <table>
+                        <tr>
+                            <td>
+                                <input class="mylist form-control" list="mylist" name="mylist" placeholder="עיר" required>
+                                <datalist id="mylist">
+                                </datalist>
+
+                            </td>
+                            <td>
+                                <input class="mycitylist form-control" list="mycitylist" name="mycitylist" placeholder="רחוב" required>
+                                <datalist id="mycitylist">
+                                </datalist>
+                            </td>
+                            <td>
+                                <input type="number" id="MakerSpace_address_n" placeholder="מספר" class="form-control" autofocus required>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">כתובת</label>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="MakerSpace_Tel" placeholder="טלפון" class="form-control" autofocus required
+                           pattern="[0-9]{3}-[0-9]{7}"
+                           oninvalid="this.setCustomValidity('Format should be ddd-ddddddd')"
+                           oninput="this.setCustomValidity('')" />
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">טלפון</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="text" id="MakerSpace_Url" placeholder="אתר אינטרנט" class="form-control" autofocus required
+                           pattern="[a-z0-9._%+-]+\.[a-z]{2,}$"
+                           oninvalid="this.setCustomValidity('Format should be characters.domain')"
+                           oninput="this.setCustomValidity('')" />
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">אתר אינטרנט</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <span id="CPP"></span>
+                    <img id="PP" src="images/notfoundPic.jpg" alt="makerPhoto" />
+                    <div class="col-sm-6">
+                        <input id="filebutton" name="filebutton" class="input-file" type="file">
+                    </div>
+                </div>
+                <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">הגדר שעות פעילות</button>
+                    <p>*חובה למלא את שעות הפעילות</p>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">שעות פעילות</label>
+            </div>
+            <div class="container1">
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="col-sm-9">
+                                    <tr>
+                                        <td>
+                                            <label>יום ראשון: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Sunday_from" type="time" name="appt-time">
+
+                                        </td>
+
+                                        <td>
+                                            עד:<input id="Sunday_to" type="time" name="appt-time">
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label>יום שני: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Monday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Monday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>יום שלישי: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Tuesday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Tuesday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>יום רביעי: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Wednesday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Wednesday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>יום חמישי: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Thursday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Thursday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>יום שישי: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Friday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Friday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>יום שבת: </label>
+                                        </td>
+                                        <td>
+                                            מ:<input id="Saturday_from" type="time" name="appt-time">
+                                        </td>
+                                        <td>
+                                            עד:<input id="Saturday_to" type="time" name="appt-time">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">אישור</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Select Multiple -->
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <select id="selectmultipleprof" name="selectmultipleprof" class="form-control" multiple="multiple" required>
+                    </select>
+                </div>
+                <label class="col-sm-3 control-label" for="selectmultiple">תחומי עיסוק</label>
+                <p class="col-sm-9">*החזק את הcontrol לבחירה מרובה</p>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="number" id="MakerSpace_Max" placeholder="מספר אנשים מותר בחלל" class="form-control" autofocus required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">מספר אנשים מותר בחלל</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="number" id="MakerSpace_Size" placeholder="גודל חלל עבודה במ'ר" class="form-control" autofocus required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">גודל חלל עבודה במ'ר</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="number" id="MakerSpace_Price" placeholder="מחיר לשעת עבודה" class="form-control" autofocus required>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">מחיר לשעת עבודה</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="textarea" name="textarea" placeholder="תיאור קצר"></textarea>
+                </div>
+                <label class="col-sm-3 control-label" for="textarea">תיאור קצר</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input type="checkbox" id="fa1" name="fa1" value="1">
+                    <label for="fa1"> מיזוג אוויר</label><br>
+                    <input type="checkbox" id="fa2" name="fa2" value="1">
+                    <label for="fa2"> עמדת קפה וכיבוד</label><br>
+                    <input type="checkbox" id="fa3" name="fa3" value="1">
+                    <label for="fa3"> חניה חינם</label><br>
+                    <input type="checkbox" id="fa4" name="fa4" value="1">
+                    <label for="fa4"> תשלום אונליין</label><br>
+                    <input type="checkbox" id="fa5" name="fa5" value="1">
+                    <label for="fa5"> נגישות</label><br>
+                </div>
+                <label for="firstName" class="col-sm-3 control-label">מתקנים</label>
+            </div>
+
+            <button id="finish" type="submit" class="btn btn-primary btn-block">הוספת חלל</button>
+
+        </form> <!-- /form -->
+    </div> <!-- ./container -->
+
+</body>
+</html>
