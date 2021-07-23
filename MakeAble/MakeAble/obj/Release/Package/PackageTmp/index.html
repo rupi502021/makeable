@@ -15,27 +15,27 @@
     <meta name="author" content="">
 
     <!-- Site Icons -->
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="../images/favicon.ico" type="../image/x-icon" />
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <!-- Site CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <!-- ALL VERSION CSS -->
 
-    <link rel="stylesheet" href="css/versions.css">
+    <link rel="stylesheet" href="../css/versions.css">
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="../css/custom.css">
 
 
     <!-- Modernizer for Portfolio -->
-    <script src="js/modernizer.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="../js/modernizer.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -61,6 +61,7 @@
         form#formSearch {
             margin-bottom: 100px;
         }
+
         .container2 {
             margin: 0 auto;
             text-align: center;
@@ -68,6 +69,7 @@
             position: absolute;
             margin-top: 15%;
         }
+
         h2#headline1 {
             text-align: right;
             color: white;
@@ -76,11 +78,16 @@
             margin-top: 9%;
             margin-right: 5%;
         }
+        button#resultsBTN {
+            background-color: #0aaa5c
+        }
+
     </style>
     <script>
         $(document).ready(function () {
             var a = [];
             var b = [];
+            var c = [];
             $('#selectmultiple').select2({
                 placeholder: 'בחר כלים',
                 data: b,
@@ -93,6 +100,14 @@
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
+            $('#selectdays').select2({
+                placeholder: 'בחר ימי זמינות',
+                data: c,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+
+
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -103,7 +118,7 @@
                 success: function (data) {
 
                     var citieslist = [];
-                    var value = "<option value=''>בחירת עיר"+"</option > ";
+                    var value = "<option value=''>בחירת עיר" + "</option > ";
                     for (var i = 1; i < data.length; i++) {
                         citieslist.push(data[i].name);
                         value += " <option data-id='" + data[i].name + "' value = '" + data[i].name + "' > " + data[i].name + "</option > ";
@@ -113,7 +128,10 @@
             });
             getAllProf();
             getAlltools();
+            getdays();
             $("#submitLogin").click(fLogin);
+            $('#resultsBTN').click(results);
+
             checklogin();
             render();
 
@@ -292,7 +310,7 @@
                 //גלריית תמונות
                 str += "<div id='photo'>";
                 str += "<div class='column'>";
-                str += "<img src = '" + d[i].Images[0] + "' onclick='openModal(myModal" + i + ");currentSlide(" + i + ",1)' class='hover-shadow cursor'>";
+                str += "<img src = '../" + d[i].Images[0] + "' onclick='openModal(myModal" + i + ");currentSlide(" + i + ",1)' class='hover-shadow cursor'>";
                 str += "</div>";
                 str += "</div>";
 
@@ -307,7 +325,7 @@
                     n = d[i].Images[j];
                     str += "<div class='mySlides" + i + "'>";
                     str += "<div class='numbertext'> " + d[i].Images.length + " / " + no + "</div>";
-                    str += "<img id='test' src='" + n + "'>";
+                    str += "<img id='test' src='../" + n + "'>";
                     str += "</div>";
                 }
 
@@ -375,7 +393,15 @@
 
             slides[slideIndex - 1].style.display = "block";
         }
+        function getdays() {
+            var days = ['יום ראשון', 'יום שני', 'יום שלישי', 'יום רביעי', 'יום חמישי', 'יום שישי', 'יום שבת'];
 
+            var value = "<option value=''>בחירת ימי זמינות" + "</option > ";
+            for (var i = 0; i < days.length; i++) {
+                value += " <option id='" + (i + 1) + "' value = '" + days[i] + "' > " + days[i] + "</option > ";
+            }
+            $('select[name="selectdays"]').append(value);
+        }
         function getAllProf() {
             let api = "../api/Professions";
             ajaxCall("GET", api, "", getSuccessAllProf, error);
@@ -426,6 +452,17 @@
                     $("#BTNresults").removeClass("disableddiv");
                     break;
             }
+        }
+
+        function results() {
+
+            makerspace = {
+                City: $('#selectcities').val(),
+                professionArr: $("#selectcities").val(),
+                listname_tools: $("#selectmultiple").val(),
+                list_days: $("#selectdays").val()
+            }
+            console.log(makerspace);
         }
     </script>
 </head>
@@ -493,7 +530,7 @@
         <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.html">
-                    <img id="logo_top" src="images/make.png" alt="" />
+                    <img id="logo_top" src="../images/make.png" alt="" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
@@ -528,7 +565,7 @@
         </ol>
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
-                <div id="home" class="first-section active" style="background-image: url('images/makeable.jpg')">
+                <div id="home" class="first-section active" style="background-image: url('../images/makeable.jpg')">
                     <!--<div class="dtab">-->
                     <div id="bb">
                         <h2 id="headline1">המקום לקהילת המייקרים בישראל</h2>
@@ -554,7 +591,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid"  id="conSerach">
+    <div class="container-fluid" id="conSerach">
         <form id="formSearch" class="form-horizontal" role="form">
             <div id="scroll_div1">
                 <div id="SearchToScroll" class="container">
@@ -571,12 +608,12 @@
                     <div class="col-sm-9 places">
                         <h1>בחר מיקום:</h1>
                         <br />
-                        <div class="checkbox">
+                        <!--<div class="checkbox">
                             <label for="checkboxes-0">
                                 <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
                                 <span>מיקום נוכחי&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i></span>
                             </label>
-                        </div>
+                        </div>-->
                         <!--<div class="checkbox">
                             <label for="checkboxes-0">
                                 <input type="radio" name="checkboxes" id="checkboxes-2" value="2">
@@ -590,16 +627,20 @@
                                 </label>
                             </label>
                         </div>-->
-                        <div class="checkbox">
+                        <!--<div class="checkbox">
                             <label for="checkboxes-0">
                                 <input type="radio" name="checkboxes" id="checkboxes-3" value="3">
                                 <label class="control-label" for="selectbasic">
                                     <select id="selectcities" name="selectbasic" class="form-control">
-                                     
                                     </select>
                                 </label>
                             </label>
-                        </div>
+                        </div>-->
+                        <!--<input type="radio" name="checkboxes" id="checkboxes-3" value="3">-->
+                        <label class="control-label" for="selectbasic">
+                            <select id="selectcities" name="selectbasic" class="form-control">
+                            </select>
+                        </label>
                     </div>
                 </div>
 
@@ -644,7 +685,7 @@
                 <div class="form-group">
                     <div class="col-sm-9 places">
                         <h1>בחר את הכלים שלך:</h1>
-                        <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" required>
+                        <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple" >
                         </select>
                     </div>
                 </div>
@@ -666,13 +707,13 @@
 
                 <div class="form-group">
                     <div class="col-sm-9 places">
-                        <h1>בחר תאריך:</h1>
-                        <input type="date" class="form-control" min="2021-05-25" max="2040-05-31">
+                        <h1>בחר את ימי העבודה שלך:</h1>
+                        <select id="selectdays" name="selectdays" class="form-control" multiple="multiple"></select>
                     </div>
                 </div>
             </div>
             <div id="BTNresults" class="customwidget text-center disableddiv">
-                <a href="SearchMakerspace.html" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></a>
+               <button id="resultsBTN" type="submit" class="hover-btn-new"><span>להצגת תוצאות החיפוש</span></button>
             </div>
         </form>
     </div>
@@ -692,10 +733,10 @@
     <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
 
     <!-- ALL JS FILES -->
-    <script src="js/all.js"></script>
+    <script src="../js/all.js"></script>
     <!-- ALL PLUGINS -->
-    <script src="js/custom.js"></script>
-    <script src="js/timeline.min.js"></script>
+    <script src="../js/custom.js"></script>
+    <script src="../js/timeline.min.js"></script>
     <script>
         timeline(document.querySelectorAll('.timeline'), {
             forceVerticalMode: 700,

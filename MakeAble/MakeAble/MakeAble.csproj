@@ -176,6 +176,8 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Tool.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Include="obj\Release\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +285,23 @@
     <Content Include="order-request-approved.html" />
     <Content Include="order-history-new.html" />
     <Content Include="order-request.html" />
+    <Content Include="Pages\Galleries.html" />
+    <Content Include="Pages\index.html" />
+    <Content Include="Pages\newGallery.html" />
+    <Content Include="Pages\newMakerSpace.html" />
+    <Content Include="Pages\newMakerSpace_Tool.html" />
+    <Content Include="Pages\newRequest.html" />
+    <Content Include="Pages\order-history-new.html" />
+    <Content Include="Pages\order-request-approved.html" />
+    <Content Include="Pages\order-request.html" />
+    <Content Include="Pages\order-statistics.html" />
+    <Content Include="Pages\personal-favorites-gallery.html" />
+    <Content Include="Pages\personal-favorites-space.html" />
+    <Content Include="Pages\personal-gallery.html" />
+    <Content Include="Pages\personal-my_spaces.html" />
+    <Content Include="Pages\personal.html" />
+    <Content Include="Pages\Registration.html" />
+    <Content Include="Pages\SearchMakerspace.html" />
     <Content Include="personal-my_spaces.html" />
     <Content Include="personal-favorites-space.html" />
     <Content Include="personal-favorites-gallery.html" />

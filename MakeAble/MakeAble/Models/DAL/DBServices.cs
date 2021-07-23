@@ -139,7 +139,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "SELECT * FROM Users";
+                String selectSTR = "  SELECT * FROM Users2";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -157,7 +157,7 @@ namespace MakeAble.Models.DAL
                     u.City = Convert.ToString(dr["City"]);
                     u.Phone = Convert.ToString(dr["Phone"]);
                     u.ProfilePhoto = Convert.ToString(dr["ProfilePhoto"]);
-                    u.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
+                    //u.BirthDay = Convert.ToDateTime(DateTime.Parse(Convert.ToString(dr["BirthDay"]), new System.Globalization.CultureInfo("pt-BR")));
                     u.Description = Convert.ToString(dr["Description"]);
                     u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);
 

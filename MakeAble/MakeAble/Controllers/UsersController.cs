@@ -42,7 +42,7 @@ namespace MakeAble.Controllers
         }
 
         [HttpGet]
-        [Route("api/Users/{email}/{pass}")]
+        [Route("api/Users/{email}/{pass}/")]
         public HttpResponseMessage Get(string email,string pass)
         {
             try
