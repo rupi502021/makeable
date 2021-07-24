@@ -7,6 +7,7 @@ using System.Text;
 using System.Web.Razor.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace MakeAble.Models.DAL
 {
@@ -86,7 +87,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "  SELECT * FROM Users inner join Users_Professions on Users_Professions.Email=Users.Email where Users.Email='" + email + "'";
+                String selectSTR = "SELECT UserId,Users.Email,Fname,Lname,City,Password,Phone,ProfilePhoto,Description,Have_makerspace,ProfessionName FROM Users inner join Users_Professions on Users_Professions.Email=Users.Email where Users.Email='" + email + "'";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -104,7 +105,7 @@ namespace MakeAble.Models.DAL
                     u.City = Convert.ToString(dr["City"]);
                     u.Phone = Convert.ToString(dr["Phone"]);
                     u.ProfilePhoto = Convert.ToString(dr["ProfilePhoto"]);
-                    u.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
+                    //u.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
                     u.Description = Convert.ToString(dr["Description"]);
                     u.Have_makerspace = Convert.ToBoolean(dr["Have_makerspace"]);
                     u.Profession = Convert.ToString(dr["ProfessionName"]);
@@ -139,7 +140,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "  SELECT * FROM Users2";
+                String selectSTR = "SELECT UserId,Email,Fname,Lname,City,Password,Phone,ProfilePhoto,Description,Have_makerspace FROM Users";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -249,7 +250,7 @@ namespace MakeAble.Models.DAL
 
             sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
             user.Email, user.Fname, user.Lname,
-            user.City, user.Password, user.Phone, user.ProfilePhoto, user.BirthDay, user.Description, user.Have_makerspace);
+            user.City, user.Password, user.Phone, user.ProfilePhoto, /*user.BirthDay,*/ user.Description, user.Have_makerspace);
 
             String prefix = "INSERT INTO Users " + "([Email],[Fname],[Lname],[City],[Password],[Phone],[ProfilePhoto],[BirthDay],[Description],[Have_makerspace])";
 
@@ -327,7 +328,7 @@ namespace MakeAble.Models.DAL
             {
                 command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
                    "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone + "', ProfilePhoto='" + user.ProfilePhoto +
-                   "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
+                   "'," +/*+" BirthDay='" + user.BirthDay + "',"+*/ " Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
 
                 try
@@ -357,7 +358,7 @@ namespace MakeAble.Models.DAL
             {
                 command = "UPDATE Users SET Fname='" + user.Fname + "', Lname='" + user.Lname + "'," +
                    "City='" + user.City + "', Password='" + user.Password + "',Phone='" + user.Phone +
-                   "', BirthDay='" + user.BirthDay + "', Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
+                   "',"+/*+" BirthDay='" + user.BirthDay + "',"+*/ " Description='" + user.Description + "', Have_makerspace='" + user.Have_makerspace +
                    "' " + "WHERE Email='" + user.Email + "'";
                 try
                 {
@@ -1781,9 +1782,10 @@ namespace MakeAble.Models.DAL
                     Reservation r = new Reservation();
 
                     r.ReservationId = Convert.ToInt32(dr["reservationId"]);
-                    r.Date = Convert.ToDateTime(dr["reservationDate"]);
-                    r.StartTime_req = Convert.ToDateTime(dr["StartTime_req"]);
-                    r.EndTime_req = Convert.ToDateTime(dr["EndTime_req"]);
+                    r.Date = DateTime.Parse(Convert.ToString(dr["reservationDate"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+                    r.StartTime_req = DateTime.Parse(Convert.ToString(dr["StartTime_req"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+                    r.EndTime_req = DateTime.Parse(Convert.ToString(dr["EndTime_req"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+
                     //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
                     //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
                     //r.Description = Convert.ToString(dr["Description"]);
@@ -1834,9 +1836,10 @@ namespace MakeAble.Models.DAL
                     Reservation r = new Reservation();
 
                     r.ReservationId = Convert.ToInt32(dr["reservationId"]);
-                    r.Date = Convert.ToDateTime(dr["reservationDate"]);
-                    r.StartTime_req = Convert.ToDateTime(dr["StartTime_req"]);
-                    r.EndTime_req = Convert.ToDateTime(dr["EndTime_req"]);
+                    r.Date = DateTime.Parse(Convert.ToString(dr["reservationDate"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+                    r.StartTime_req = DateTime.Parse(Convert.ToString(dr["StartTime_req"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+                    r.EndTime_req = DateTime.Parse(Convert.ToString(dr["EndTime_req"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+
                     //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
                     //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
                     //r.Span = Convert.ToDouble(dr["Span"]);
@@ -1986,9 +1989,10 @@ namespace MakeAble.Models.DAL
                     Reservation r = new Reservation();
 
                     r.ReservationId = Convert.ToInt32(dr["reservationId"]);
-                    r.Date = Convert.ToDateTime(dr["reservationDate"]);
-                    r.StartTime_req = Convert.ToDateTime(dr["StartTime_req"]);
-                    r.EndTime_req = Convert.ToDateTime(dr["EndTime_req"]);
+                    r.Date = DateTime.Parse(Convert.ToString(dr["reservationDate"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+                    r.StartTime_req = DateTime.Parse(Convert.ToString(dr["StartTime_req"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+                    r.EndTime_req = DateTime.Parse(Convert.ToString(dr["EndTime_req"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+
                     //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
                     //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
                     //r.Span = Convert.ToDouble(dr["Span"]);
@@ -2037,9 +2041,10 @@ namespace MakeAble.Models.DAL
                     Reservation r = new Reservation();
 
                     r.ReservationId = Convert.ToInt32(dr["reservationId"]);
-                    r.Date = Convert.ToDateTime(dr["reservationDate"]);
-                    r.StartTime_req = Convert.ToDateTime(dr["StartTime_req"]);
-                    r.EndTime_req = Convert.ToDateTime(dr["EndTime_req"]);
+                    r.Date = DateTime.Parse(Convert.ToString(dr["reservationDate"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+                    r.StartTime_req = DateTime.Parse(Convert.ToString(dr["StartTime_req"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+                    r.EndTime_req = DateTime.Parse(Convert.ToString(dr["EndTime_req"]), CultureInfo.CreateSpecificCulture("fr-FR"));
+
                     //r.StartTime_res = Convert.ToDateTime(dr["StartTime_res"]);
                     //r.EndTime_res = Convert.ToDateTime(dr["EndTime_res"]);
                     //r.Span = Convert.ToDouble(dr["Span"]);
@@ -2188,7 +2193,7 @@ namespace MakeAble.Models.DAL
                    
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", reservation.Date, reservation.StartTime_req, reservation.EndTime_req, reservation.MakerspaceId, reservation.User_email,reservation.Description,reservation.StatusApproved);
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", reservation.Date.ToString("dd/MM/yyyy"), reservation.StartTime_req.ToString("HH:mm:ss"), reservation.EndTime_req.ToString("HH:mm:ss"), reservation.MakerspaceId, reservation.User_email,reservation.Description,reservation.StatusApproved);
             String prefix = "INSERT INTO Reservation" + " ([ReservationDate],[StartTime_req],[EndTime_req],[MakerspaceId],[UserEmail],[Description],[StatusApproved])";
 
             String command = prefix + sb.ToString() ;

@@ -278,7 +278,6 @@
     <Content Include="images\makeable.jpg" />
     <Content Include="images\notfoundPic.jpg" />
     <Content Include="images\Tools.jpg" />
-    <Content Include="newRequest.html" />
     <Content Include="newMakerSpace.html" />
     <Content Include="newMakerSpace_Tool.html" />
     <Content Include="order-statistics.html" />
@@ -290,7 +289,6 @@
     <Content Include="Pages\newGallery.html" />
     <Content Include="Pages\newMakerSpace.html" />
     <Content Include="Pages\newMakerSpace_Tool.html" />
-    <Content Include="Pages\newRequest.html" />
     <Content Include="Pages\order-history-new.html" />
     <Content Include="Pages\order-request-approved.html" />
     <Content Include="Pages\order-request.html" />

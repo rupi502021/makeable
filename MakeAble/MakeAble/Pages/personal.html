@@ -150,12 +150,12 @@
             checkMakerspaceOwner();
 
             //להחזיר את התאריך לאינפוט
-            if (data.BirthDay != null) {
-                let tmp = new Date(data.BirthDay);
-                var day = ("0" + tmp.getDate()).slice(-2);
-                var month = ("0" + (tmp.getMonth() + 1)).slice(-2);
-                var today = tmp.getFullYear() + "-" + (month) + "-" + (day);
-            }
+            //if (data.BirthDay != null) {
+            //    let tmp = new Date(data.BirthDay);
+            //    var day = ("0" + tmp.getDate()).slice(-2);
+            //    var month = ("0" + (tmp.getMonth() + 1)).slice(-2);
+            //    var today = tmp.getFullYear() + "-" + (month) + "-" + (day);
+            //}
 
             document.getElementsByName('mylist')[0].value = data.City;
 
@@ -164,11 +164,11 @@
             $("#email").val(data.Email);
             $("#password").val(data.Password);
             $("#confirm_password").val(data.Password);
-            $("#birthDate").val(today);
+            //$("#birthDate").val(today);
             $("#phoneNumber").val(data.Phone);
             if (data.ProfilePhoto != "") {
                 $("#CPP").text('תצוגה מקדימה:');
-                $("#PP").attr('src', data.ProfilePhoto);
+                $("#PP").attr('src', "../"+data.ProfilePhoto);
             }
             $("#Have_makerspace").prop('checked', data.Have_makerspace);
             $("#textarea").val(data.Description);
@@ -184,7 +184,7 @@
         function updateUser() {
             var getvalue = document.getElementsByName('mylist')[0];
             city = getvalue.value;
-            var birthdate = $("#birthDate").val();
+            //var birthdate = $("#birthDate").val();
           
 
             user = {
@@ -192,7 +192,7 @@
                 Lname: $("#lastName").val(),
                 Email: $("#email").val(),
                 Password: $("#password").val(),
-                BirthDay: birthdate,
+                //BirthDay: birthdate,
                 Phone: $("#phoneNumber").val(),
                 City: city,
                 Description: $("#textarea").val(),
@@ -420,12 +420,12 @@
                             </div>
 
                         </div>
-                        <label for="birthDate" class="col-sm-3 control-label">תאריך לידה</label>
+                        <!--<label for="birthDate" class="col-sm-3 control-label">תאריך לידה</label>
                         <div class="form-group">
                             <div class="col-sm-9">
                                 <input type="date" name="date" id="birthDate" class="form-control" required>
                             </div>
-                        </div>
+                        </div>-->
                         <label for="phoneNumber" class="col-sm-3 control-label">מספר טלפון נייד</label>
                         <div class="form-group">
                             <div class="col-sm-9">

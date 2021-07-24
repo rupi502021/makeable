@@ -16,7 +16,7 @@ namespace MakeAble.Models
         string password;
         string phone;
         string profilePhoto;
-        DateTime birthDay;
+        //DateTime birthDay;
         string description;
         bool have_makerspace;
         List<string> professions;
@@ -30,13 +30,13 @@ namespace MakeAble.Models
         public string Password { get => password; set => password = value; }
         public string Phone { get => phone; set => phone = value; }
         public string ProfilePhoto { get => profilePhoto; set => profilePhoto = value; }
-        public DateTime BirthDay { get => birthDay; set => birthDay = value; }
+        //public DateTime BirthDay { get => birthDay; set => birthDay = value; }
         public string Description { get => description; set => description = value; }
         public bool Have_makerspace { get => have_makerspace; set => have_makerspace = value; }
         public List<string> Professions { get => professions; set => professions = value; }
         public string Profession { get => profession; set => profession = value; }
 
-        public User(int userId, string email, string fname, string lname, string city, string password, string phone, string profilePhoto, DateTime birthDay, string description, bool have_makerspace, List<string> professions, string profession)
+        public User(int userId, string email, string fname, string lname, string city, string password, string phone, string profilePhoto, /*DateTime birthDay,*/ string description, bool have_makerspace, List<string> professions, string profession)
         {
             UserId = userId;
             Email = email;
@@ -46,7 +46,7 @@ namespace MakeAble.Models
             Password = password;
             Phone = phone;
             ProfilePhoto = profilePhoto;
-            BirthDay = birthDay;
+            //BirthDay = birthDay;
             Description = description;
             Have_makerspace = have_makerspace;
             Professions = professions;

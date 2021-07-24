@@ -33,13 +33,13 @@
     <script src="../js/modernizer.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.2/main.min.js"></script>
     <script src="https://kit.fontawesome.com/f7b4ec7dfb.js" crossorigin="anonymous"></script>
@@ -84,7 +84,12 @@
                         console.log("makerspaceid: " + makerspace.Id);
                         console.log("makerspacename: " + makerspace.Name);
                     }
-                    let api = "../api/Reservations/GetApprovedReservation/makerspaceid/" + makerspace.Id
+                    if (JSON.parse(localStorage.getItem('Makerspace')) != null) {
+                        makerspace = JSON.parse(localStorage.getItem('Makerspace'));
+                        console.log("makerspaceid: " + makerspace.Id);
+                        console.log("makerspacename: " + makerspace.Name);
+                    }
+                    let api = "../api/Reservations/GetApprovedReservation/makerspaceid/" + makerspace.Id;
                     $.ajax({
                         type: "GET",
                         url: api,
@@ -156,6 +161,13 @@
                 console.log("makerspacename: " + makerspace.Name);
 
                 getReservation();
+            }
+            else if (JSON.parse(localStorage.getItem('Makerspace')) != null) {
+                makerspace = JSON.parse(localStorage.getItem('Makerspace'));
+                console.log("makerspaceid: " + makerspace.Id);
+                console.log("makerspacename: " + makerspace.Name);
+
+                getRequest();
             }
             else {
                 window.location.href = "personal.html";
