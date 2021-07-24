@@ -37,7 +37,10 @@ namespace MakeAble.Models
         string h_start;
         string h_end;
         string[] listname_tools;
+        List<string> tools_list;
         List<Tool> toolsList;
+        string tool;
+        List<string> facilities;
 
         public int MakerspaceId { get => makerspaceId; set => makerspaceId = value; }
         public string User_email { get => user_email; set => user_email = value; }
@@ -68,11 +71,14 @@ namespace MakeAble.Models
         public string H_start { get => h_start; set => h_start = value; }
         public string H_end { get => h_end; set => h_end = value; }
         public string[] Listname_tools { get => listname_tools; set => listname_tools = value; }
+        public List<string> Tools_list { get => tools_list; set => tools_list = value; }
         public List<Tool> ToolsList { get => toolsList; set => toolsList = value; }
+        public string Tool { get => tool; set => tool = value; }
+        public List<string> Facilities { get => facilities; set => facilities = value; }
 
         public Makerspace() { }
 
-        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string photo_makerspace, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip, string[] list_days, List<string> daily_hours, int dayonweek, string h_start, string h_end, string[] listname_tools, List<Tool> toolsList)
+        public Makerspace(int makerspaceId, string user_email, string city, string street, int num_street, string phoneNumber, string url, string photo_makerspace, string days_hours, int noPeople, int size, int price, int rating, bool aircondition, bool accessibility, bool serving_coffee, bool online_payment, bool free_parking, string[] professionArr, List<string> professions, string profession, string makerspaceName, string descrip, string[] list_days, List<string> daily_hours, int dayonweek, string h_start, string h_end, string[] listname_tools, List<string> tools_list, List<Tool> toolsList, string tool, List<string> facilities)
         {
             MakerspaceId = makerspaceId;
             User_email = user_email;
@@ -103,7 +109,10 @@ namespace MakeAble.Models
             H_start = h_start;
             H_end = h_end;
             Listname_tools = listname_tools;
+            Tools_list = tools_list;
             ToolsList = toolsList;
+            Tool = tool;
+            Facilities = facilities;
         }
 
         public int InsertMakerspace()

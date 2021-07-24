@@ -20,9 +20,136 @@ namespace MakeAble.Controllers
             try
             {
                 Makerspace makerspace = new Makerspace();
+                     
                 List<Makerspace> mList = makerspace.ReadAll();
-                
-                return Request.CreateResponse(HttpStatusCode.Created, mList);
+                List<Makerspace> mFinal = new List<Makerspace>();
+
+                List<string> professions = new List<string>();
+                List<string> dailyhours = new List<string>();
+                List<string> toolsList = new List<string>();
+             
+                var id = 0;
+                for (int i = 0; i < mList.Count; i++)
+                {
+                  
+                    if (mList[i].MakerspaceId == id || id == 0)
+                    {
+
+                    }
+                    else
+                    {
+
+                        List<string> p = new List<string>(professions);
+                        List<string> d = new List<string>(dailyhours);
+                        List<string> t = new List<string>(toolsList);
+
+                      
+                            mList[i - 1].Professions = p;
+                            mList[i - 1].Daily_hours = d;
+                            mList[i - 1].Tools_list = t;
+
+                            mFinal.Add(mList[i - 1]);
+                        
+
+                        professions.Clear();
+                        dailyhours.Clear();
+                        toolsList.Clear();
+                    }
+                    //תחומי עיסוק
+                    if (professions.Count == 0)
+                    {
+                        professions.Add(mList[i].Profession);
+                    }
+                    bool exist = false;
+                    foreach (var item in professions)
+                    {
+                        if (item == mList[i].Profession)
+                        {
+                            exist = true;
+                        }
+                    }
+                    if (exist != true)
+                    {
+                        professions.Add(mList[i].Profession);
+                    }
+                    //כלים
+                    
+                    if (toolsList.Count == 0)
+                    {
+                        toolsList.Add(mList[i].Tool);
+                    }
+                    exist = false;
+                    foreach (var item in toolsList)
+                    {
+                        if (item == mList[i].Tool)
+                        {
+                            exist = true;
+                        }
+                    }
+                    if (exist != true)
+                    {
+                        toolsList.Add(mList[i].Tool);
+                    }
+                    //שעות פעילות
+                    String day = "";
+                    switch (mList[i].Dayonweek)
+                    {
+                        case 1:
+                            day = "יום ראשון";
+                            break;
+                        case 2:
+                            day = "יום שני";
+                            break;
+                        case 3:
+                            day = "יום שלישי";
+                            break;
+                        case 4:
+                            day = "יום רביעי";
+                            break;
+                        case 5:
+                            day = "יום חמישי";
+                            break;
+                        case 6:
+                            day = "יום שישי";
+                            break;
+                        case 7:
+                            day = "יום שבת";
+                            break;
+                    }
+
+                    if (dailyhours.Count == 0)
+                    {
+                        string str = day;
+                        dailyhours.Add(str);
+                    }
+                    exist = false;
+                    foreach (var item in dailyhours)
+                    {
+                        string str = day;
+                        if (item == str)
+                        {
+                            exist = true;
+                        }
+                    }
+                    if (exist != true)
+                    {
+                        string str = day;
+                        dailyhours.Add(str);
+                    }
+                    //בודק איבר אחרון
+                    if (mList.Count == i + 1)
+                    {
+                        mList[i].Professions = professions;
+                        mList[i].Daily_hours = dailyhours;
+                        mList[i].Tools_list = toolsList;
+
+                        mFinal.Add(mList[i]);
+
+                    }
+
+                    id = mList[i].MakerspaceId;
+                }
+                return Request.CreateResponse(HttpStatusCode.Created, mFinal);
             }
             catch (Exception ex)
             {

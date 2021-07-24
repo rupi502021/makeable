@@ -1244,7 +1244,7 @@ namespace MakeAble.Models.DAL
             {
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-                String selectSTR = "select * from Makerspace order by Makerspace.MakerspaceId asc";
+                String selectSTR = "select * from Makerspace m inner join MakerSpace_OpenningHours moh on m.MakerspaceId=moh.MakerspaceId inner join Makerspace_Professions mp on m.MakerspaceId=mp.MakerspaceId inner join Makerspace_Tool mt on m.MakerspaceId=mt.MakerspaceId inner join Tool t on mt.ToolId=t.ToolId order by m.MakerspaceId";
                 SqlCommand cmd = new SqlCommand(selectSTR, con);
 
                 // get a reader
@@ -1272,6 +1272,9 @@ namespace MakeAble.Models.DAL
                     m.City = Convert.ToString(dr["City"]);
                     m.Street = Convert.ToString(dr["Street"]);
                     m.Num_street = Convert.ToInt32(dr["Num_street"]);
+                    m.Profession = Convert.ToString(dr["ProfessionName"]);
+                    m.Dayonweek = Convert.ToInt32(dr["DayonWeek"]);
+                    m.Tool = Convert.ToString(dr["ToolName"]);
 
                     mList.Add(m);
 

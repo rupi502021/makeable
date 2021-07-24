@@ -44,6 +44,9 @@
         a.nav-link {
             pointer-events: none;
         }
+        #ToolForm_finish {
+            display: none;
+        }
     </style>
 
     <script>
@@ -53,6 +56,9 @@
             });
 
             $("#ToolForm").submit(f1);
+            if (localStorage.getItem("Tool") != null) {
+                $("#ToolForm_finish").css("display", "block");;
+            }
             $("#ToolForm_finish").click(function () {
                 swal({
                     title: "תהליך הוספת החלל הושלם בהצלחה",
@@ -130,6 +136,7 @@
         }
 
         function success(data) {
+            localStorage.setItem("Tool", data);
             swal({
                 title: "הכלי התווסף בהצלחה",
                 icon: "success",
