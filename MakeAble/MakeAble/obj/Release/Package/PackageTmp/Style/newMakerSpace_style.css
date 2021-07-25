@@ -101,4 +101,28 @@ label.col-sm-3.control-label {
         text-transform: uppercase;
         letter-spacing: 4px;
     }
+img#PP {
+    max-width: 25%;
+    float: left;
+}
 
+input#filebutton {
+    float: inherit;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+
+.modal-dialog.modal-lg {
+    margin-top: 20%;
+}
+
+td {
+    padding: 1%;
+}
