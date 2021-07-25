@@ -8,7 +8,10 @@ table, td, th {
     border: 1px solid black;
     text-align: center;
 }
-
+.sidebar-nav {
+    font-family: Calibri;
+    font-size: 30px;
+}
 table {
     width: 100%;
     border-collapse: collapse;
@@ -49,4 +52,9 @@ ul {
 h1 {
     text-align: center;
     font-size: 60px;
+}
+.sidebar-nav {
+    text-align: right;
+    font-family: Calibri;
+    font-size: 30px;
 }

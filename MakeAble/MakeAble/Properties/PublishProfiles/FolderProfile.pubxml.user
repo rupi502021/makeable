@@ -77,13 +77,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="bin/MakeAble.dll">
-      <publishTime>07/23/2021 20:02:20</publishTime>
+      <publishTime>07/24/2021 19:38:10</publishTime>
     </File>
     <File Include="bin/MakeAble.dll.config">
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="bin/MakeAble.pdb">
-      <publishTime>07/23/2021 20:02:20</publishTime>
+      <publishTime>07/24/2021 19:38:10</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>07/23/2021 18:03:02</publishTime>
@@ -407,7 +407,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="Galleries.html">
-      <publishTime>07/22/2021 14:37:12</publishTime>
+      <publishTime>07/24/2021 20:46:11</publishTime>
     </File>
     <File Include="GalleryPage.html">
       <publishTime>02/04/2021 11:34:35</publishTime>
@@ -632,7 +632,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="index.html">
-      <publishTime>07/22/2021 17:16:54</publishTime>
+      <publishTime>07/24/2021 13:41:28</publishTime>
     </File>
     <File Include="js/01-custom-places-example.js">
       <publishTime>07/23/2021 18:03:02</publishTime>
@@ -659,7 +659,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/22/2021 17:49:16</publishTime>
     </File>
     <File Include="newMakerSpace_Tool.html">
-      <publishTime>07/22/2021 17:49:24</publishTime>
+      <publishTime>07/24/2021 18:50:38</publishTime>
     </File>
     <File Include="newRequest.html">
       <publishTime>07/22/2021 17:50:45</publishTime>
@@ -791,7 +791,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="SearchMakerspace.html">
-      <publishTime>07/22/2021 16:46:43</publishTime>
+      <publishTime>07/24/2021 21:21:39</publishTime>
     </File>
     <File Include="style.css">
       <publishTime>07/23/2021 18:03:02</publishTime>

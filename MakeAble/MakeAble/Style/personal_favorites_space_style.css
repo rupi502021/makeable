@@ -13,11 +13,7 @@ body {
     top: 10em;
     font-family: Calibri;
 }
-.sidebar-nav {
-   
-    font-family: Calibri;
-    font-size: 30px;
-}
+
 
 .nav.navbar.navbar-expand.navbar-dark.bg-primary {
     background-color: #333333;
