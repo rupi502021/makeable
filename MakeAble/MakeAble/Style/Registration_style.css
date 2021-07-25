@@ -58,4 +58,24 @@ body {
     background-size: cover;
 }
 
+img#PP {
+    max-width: 25%;
+    float: left;
+}
 
+input#filebutton {
+    float: inherit;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+
+a.nav-link {
+    pointer-events: none;
+}

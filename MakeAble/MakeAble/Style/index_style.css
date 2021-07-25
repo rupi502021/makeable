@@ -163,3 +163,38 @@ h1 {
 .container.gallery {
     padding-top: 50px;
 }
+
+.disableddiv {
+    /*pointer-events: none;
+            opacity: 0.4;*/
+    display: none;
+}
+
+.scroll {
+    padding-top: 200px;
+}
+
+form#formSearch {
+    margin-bottom: 100px;
+}
+
+.container2 {
+    margin: 0 auto;
+    text-align: center;
+    width: inherit;
+    position: absolute;
+    margin-top: 15%;
+}
+
+h2#headline1 {
+    text-align: right;
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-top: 9%;
+    margin-right: 5%;
+}
+
+button#resultsBTN {
+    background-color: #0aaa5c
+}

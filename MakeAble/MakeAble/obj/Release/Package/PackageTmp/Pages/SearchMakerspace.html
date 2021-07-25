@@ -41,39 +41,65 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" defer></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script src="./index.js"></script>
 
+    <script src="../Scripts/ajaxCalls.js"></script>
     <link href="../Style/Searchmakerspace_style.css" rel="stylesheet" />
     <script>
         $(document).ready(function () {
-            var a = [];
-            var b = [];
-            var c = [{ id: 0, text: 'מיזוג אוויר' }, { id: 1, text: 'עמדת קפה וכיבוד' }, { id: 2, text: 'חניה חינם' }, { id: 3, text: 'תשלום אונליין' }, { id: 4, text: 'נגישות' }];
-            var d = [];
+            m = JSON.parse(sessionStorage.getItem('MakerspacesForSearch'));
+            if (m != null) {
+                document.getElementsByName('mylist')[0].value = m.City;
+
+                var a = m.professionArr;
+                var b = m.listname_tools;
+                if (m.facilities != null) {
+                    var c = m.facilities;
+                }
+                else {
+                    var c = [{ id: 'מיזוג אוויר', text: 'מיזוג אוויר' }, { id: 'עמדת קפה וכיבוד', text: 'עמדת קפה וכיבוד' }, { id: 'חניה חינם', text: 'חניה חינם' }, { id: 'תשלום אונליין', text: 'תשלום אונליין' }, { id: 'נגישות', text: 'נגישות' }];
+                }
+                var c2 = [{ id: 'מיזוג אוויר', text: 'מיזוג אוויר' }, { id: 'עמדת קפה וכיבוד', text: 'עמדת קפה וכיבוד' }, { id: 'חניה חינם', text: 'חניה חינם' }, { id: 'תשלום אונליין', text: 'תשלום אונליין' }, { id: 'נגישות', text: 'נגישות' }];
+
+                var d = m.list_days;
+            } else {
+                var a = [];
+                var b = [];
+                var c2 = [{ id: 'מיזוג אוויר', text: 'מיזוג אוויר' }, { id: 'עמדת קפה וכיבוד', text: 'עמדת קפה וכיבוד' }, { id: 'חניה חינם', text: 'חניה חינם' }, { id: 'תשלום אונליין', text: 'תשלום אונליין' }, { id: 'נגישות', text: 'נגישות' }];
+                var d = [];
+            }
+
             $('#profs').select2({
                 placeholder: 'בחר תחומי עיסוק',
                 data: a,
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
+            $('#profs').val(a).trigger('change');
+
             $('#tools').select2({
                 placeholder: 'בחר כלים',
                 data: b,
                 tags: true,
                 tokenSeparators: [',', ' ']
-            });         
+            });
+            $('#tools').val(b).trigger('change');
+
             $('#facili').select2({
                 placeholder: 'בחר מתקנים',
-                data: c,
+                data: c2,
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
+            $('#facili').val(c).trigger('change');
+
             $('#selectdays').select2({
                 placeholder: 'בחר ימי זמינות',
                 data: d,
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
+            $('#selectdays').val(d).trigger('change');
+
             var data = {
                 resource_id: '5c78e9fa-c2e2-4771-93ff-7f400a12f7ba', // the resource id
             };
@@ -94,7 +120,7 @@
             });
         })
     </script>
-    <script src="../Scripts/ajaxCalls.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -108,7 +134,100 @@
             $("#filebutton").change(function () {
                 readURL(this);
             });
+            $('#resultsBTN').click(newResults);
         });
+
+        function newResults() {
+            var getvalue = document.getElementsByName('mylist')[0];
+            city = getvalue.value;
+            makerspace = {
+                City: city,
+                professionArr: $("#profs").val(),
+                listname_tools: $("#tools").val(),
+                list_days: $("#selectdays").val(),
+                facilities: $("#facili").val()
+            }
+            sessionStorage.setItem("MakerspacesForSearch", JSON.stringify(makerspace));
+        }
+        function changeByPreference(data) {
+            var preference_array_end = data.slice(0);
+            var newarray = [];
+            for (var i = 0; i < data.length; i++) {
+                //הדרך המתאימה ביותר
+                if (data[i].City == m.City) {
+                    //כלים
+                    for (var j = 0; j < data[i].Tools_list.length; j++) {
+                        for (var k = 0; (m.listname_tools != null) && (k < m.listname_tools.length); k++) {
+                            if (data[i].Tools_list[j] == m.listname_tools[k]) {
+                                //תחומי עיסוק
+                                for (var o = 0; o < data[i].Professions.length; o++) {
+                                    for (var p = 0; (m.professionArr!=null)&& (p < m.professionArr.length); p++) {
+                                        if (data[i].Professions[o] == m.professionArr[p]) {
+                                            //ימי זמינות
+                                            for (var a = 0; a < data[i].Daily_hours.length; a++) {
+                                                for (var b = 0; (m.list_days != null) && (b < m.list_days.length); b++) {
+                                                    if (data[i].Daily_hours[a] == m.list_days[b]) {
+                                                        //מתקנים
+                                                        for (var c = 0; (m.facilities != null) && (c < m.facilities.length); c++) {
+                                                            if ((data[i].Accessibility == 1) && (m.facilities == 'נגישות') || (data[i].Aircondition == 1) && (m.facilities == 'מיזוג אוויר') || (data[i].Free_parking == 1) && (m.facilities == 'חניה חינם') || (data[i].Online_payment == 1) && (m.facilities == 'תשלום אונליין') || (data[i].Serving_coffee == 1) && (m.facilities == 'עמדת קפה וכיבוד')) {
+                                                                newarray.push(data[i]);
+                                                                for (var y = 0; y < preference_array_end.length; y++) {
+                                                                    preference_array_end.splice(i, 1);
+                                                                    break;
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }               
+            }
+            // לפי כלים בלבד
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < data[i].Tools_list.length; j++) {
+                    for (var k = 0; (m.listname_tools != null) && ( k < m.listname_tools.length); k++) {
+                        if (data[i].Tools_list[j] == m.listname_tools[k]) {
+                            if (newarray.length == 0) {
+                                newarray.push(data[i]);
+                                for (var y = 0; y < preference_array_end.length; y++) {
+                                    preference_array_end.splice(i, 1);
+                                    break;
+                                }
+                            }
+                            exist = false;
+                            for (var n = 0; n < newarray.length; n++) {
+                                if (newarray[n].MakerspaceId == data[i].MakerspaceId) {
+                                    exist = true;
+                                }
+                            }
+
+                            if (exist != true) {
+                                newarray.push(data[i]);
+                                for (var y = 0; y < preference_array_end.length; y++) {
+                                    preference_array_end.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+           
+
+            console.log(preference_array_end);
+            console.log(newarray);
+            var merge_array = newarray.concat(preference_array_end);
+            return merge_array;
+        }
         //להכניס תמונה לתצוגה מקדימה
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -234,15 +353,18 @@
                 value += " <option id='" + data[i].ToolId + "' value = '" + data[i].ToolName + "' > " + data[i].ToolName + "</option > ";
             }
             $('select[name="tools"]').append(value);
-          
-            
+
+
         }
         function getAllmakers() {
             let api = "../api/Makerspaces/All";
             ajaxCall("GET", api, "", getSuccessAllmakers, error);
         }
         function getSuccessAllmakers(data) {
-
+            if (m != null) {
+                var data = changeByPreference(data);
+            }
+            //לשבץ את הסידור החדש בפונקציות
             addresses = [];
             for (var i = 0; i < data.length; i++) {
                 let address = data[i].City + " " + data[i].Street + " " + data[i].Num_street;
@@ -267,7 +389,7 @@
                 } else {
                     str += "<td class='col-6'><img id='PM' src='../images/notfoundPic.jpg' alt='תמונת מייקרספייס' /></td>";
                 }
-                str += "<td class='col-6'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1>"; //שם                
+                str += "<td class='col-6'><h1><a href='#'></a>" + d[i].MakerspaceName + "</h1>"; //שם
                 str += "</tr>";
                 str += "<tr class='row'>";
                 str += "<td class='col-6'><h6><b>כתובת: </b> רחוב &nbsp" + d[i].Street + "&nbsp" + d[i].Num_street + ", " + d[i].City + "</h6>"; //מקום
@@ -292,11 +414,11 @@
             $("#MakerList").append(str);
         }
 
-        function openinfo(id) {                     
-                for (var j = 0; j < makersArr.length; j++) {
-                    for (var h = 0; h < markers.length; h++) {
+        function openinfo(id) {
+            for (var j = 0; j < makersArr.length; j++) {
+                for (var h = 0; h < markers.length; h++) {
 
-                        if (id == makersArr[j].MakerspaceId && id == markers[h].id) {
+                    if (id == makersArr[j].MakerspaceId && id == markers[h].id) {
                         let contentString =
                             '<div id="content">' +
                             '<div id="siteNotice">' +
@@ -331,7 +453,7 @@
                         $("#myModal").modal();
                     }
                     else {
-                       
+
                         swal({
                             title: "הינך לא מחובר",
                             text: "יש צורך להתחבר על מנת ליצור הזמנה",
@@ -340,21 +462,21 @@
                         });
                         break;
                     }
-                    
+
                 }
 
             }
 
         }
-        
-        function AddRes() { 
-            
+
+        function AddRes() {
+
             reservation = {
                 MakerspaceId: makerspaceId,
-                User_email:email,
-                Date:$("#resDate").val(),
+                User_email: email,
+                Date: $("#resDate").val(),
                 StartTime_req: $("#res_from").val(),
-                EndTime_req: $("#res_to").val(),               
+                EndTime_req: $("#res_to").val(),
                 Description: $("#textarea").val(),
                 StatusApproved: false,
             }
@@ -374,7 +496,7 @@
                 window.location.href = 'searchMakerspace.html';
             }
             );
-            
+
         }
 
         function addToFavorite(id) {//יש אפשרות לעשות פופאפ של ריינטינג למייקרספייס
@@ -416,7 +538,7 @@
                 icon: "error",
                 timer: 2500,
             }).then(function () {
-                
+
             });
         }
         //מפת גוגל
@@ -428,7 +550,7 @@
                 center: { lat: 32.067, lng: 34.785 },
                 zoom: 9,
             });
-            console.log(document.getElementById("map"));
+
             infowindow = new google.maps.InfoWindow();
         }
 
@@ -469,7 +591,7 @@
                             map: map,
                             animation: google.maps.Animation.DROP,
                         });
-                
+
                         marker.set("id", id);
                         markers.push(marker);
 
@@ -485,6 +607,8 @@
                 });
             }
         }
+
+
     </script>
 
 
@@ -526,11 +650,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <a class="for-pwd" href="javascript:;">שכחת סיסמא?</a>
-                                    </div>
-                                </div>
+                               
                             </form>
                         </div>
                     </div>
@@ -608,9 +728,8 @@
                     <label for="select" class="form-label">מתקנים</label>
                     <select class="form-control" name="facili" id="facili" multiple="multiple"></select>
                 </div>
-                <button type="button" class="btn btn-outline-primary">חפש</button>
+                <button id="resultsBTN" type="submit" class="btn btn-outline-primary">חפש</button>
             </div>
-
         </form>
 
     </div>
@@ -633,7 +752,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" id="ResForm" role="form">
-                       
+
 
                         <div class="row form-group">
                             <label for="resDate" class="col-sm-3 control-label">תאריך הזמנה</label>
@@ -649,7 +768,7 @@
                                 עד:<input id="res_to" type="time" name="appt-time">
                             </div>
                         </div>
-                      
+
                         <div class="row form-group">
                             <label class="col-sm-3 control-label" for="textarea">הערות</label>
                             <div class="col-sm-9">

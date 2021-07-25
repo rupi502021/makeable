@@ -4,9 +4,6 @@
     <meta charset="utf-8" />
     <title>הוספת גלריה</title>
 
-    <!-- Site Icons -->
-    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <!-- Site CSS -->
@@ -30,16 +27,31 @@
 
     <link href="../Style/newGallery_style.css" rel="stylesheet" />
 
- 
+    <style>
+        img#PP {
+            max-width: 25%;
+            float: left;
+        }
+
+        input#filebutton {
+            float: inherit;
+        }
+
+        #logo_top {
+            width: 180px;
+            height: 51px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+    </style>
     <script>
         $(document).ready(function () {
-            l = JSON.parse(localStorage.getItem('user'));
-            l1 = JSON.parse(sessionStorage.getItem('user'));
             $("#galleyBTNsave").click(f1);
             $("#galleyBTNpub").click(f1);
             getAllProf();
             getAllMakerspaces();
-            getUserFavMakerspaces();
 
             $("#filebutton").change(function () {
                 readURL(this);
@@ -180,36 +192,12 @@
         function getSuccessAllMaker(data) {
 
             var makerlist = [];
-            var value = "";
+            var value = " <option value='כל חללי העבודה'></option>";
             for (var i = 0; i < data.length; i++) {
                 makerlist.push(data[i].MakerspaceName);
                 value += " <option data-id='" + data[i].MakerspaceId + "' value = '" + data[i].MakerspaceName + "' > " + data[i].MakerspaceName + "</option > ";
             }
             $("#mylistAll").append(value);
-
-        }
-        function getUserFavMakerspaces() {
-            if (l == null) {
-                email = l1.Email;
-
-                var api = "../api/Makerspaces/Liked/" + email + "/";
-            }
-            else {
-                email = l.Email;
-
-                var api = "../api/Makerspaces/Liked/" + email + "/";
-            }
-            ajaxCall("GET", api, "", getSuccessUserFavMaker, error);
-        }
-        function getSuccessUserFavMaker(data) {
-
-            var makerlist = [];
-            var value = "";
-            for (var i = 0; i < data.length; i++) {
-                makerlist.push(data[i].MakerspaceName);
-                value += " <option data-id='" + data[i].MakerspaceId + "' value = '" + data[i].MakerspaceName + "' > " + data[i].MakerspaceName + "</option > ";
-            }
-            $("#mylistUser").append(value);
 
         }
 
@@ -235,16 +223,16 @@
 <body dir="rtl">
     <!-- Start header -->
     <header class="top-navbar">
-        <nav id="nav1" class="navbar navbar-expand navbar-light bg-light">
+        <nav id="nav1" class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.html">
                     <img id="logo_top" src="../images/make.png" alt="" />
                 </a>
-                <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>-->
+                </button>
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">דף הבית</a></li>
@@ -286,7 +274,7 @@
                         <label for="checkboxes-0">
                             <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
                             <label class="control-label" for="selectbasic">
-                                <input class="form-control" list="mylistUser" name="mylistUser" placeholder="חללי העבודה במועדפים">
+                                <input class="form-control" list="mylistUser" name="mylistAllUser" placeholder="חללי העבודה במועדפים">
                                 <datalist id="mylistUser"></datalist>
                             </label>
                         </label>
@@ -309,9 +297,9 @@
             <div class="form-group">
                 <div class="col-sm-9">
                     <span id="CPP"></span>
-                    <!--<img id="PP" src="images/notfoundPic.jpg" alt="makerPhoto" />-->
+                    <img id="PP" src="../images/notfoundPic.jpg" alt="makerPhoto" />
                     <div class="col-sm-6">
-                        <input id="filebutton" name="filebutton" class="input-file" type="file" multiple>
+                        <input id="filebutton" name="filebutton" class="input-file" type="file">
                     </div>
                 </div>
                 <label class="col-sm-3 control-label" for="filebutton">העלאת תמונה</label>
