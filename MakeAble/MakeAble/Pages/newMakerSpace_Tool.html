@@ -24,27 +24,8 @@
     <script src="../Scripts/ajaxCalls.js"></script>
 
     <link href="../Style/newMakerSpace_style.css" rel="stylesheet" />
-    <style>
-        img#PP {
-            max-width: 25%;
-            float: left;
-        }
 
-        input#filebutton {
-            float: inherit;
-        }
-        #logo_top {
-            width: 180px;
-            height: 51px;
-        }
-
-        .navbar-brand {
-            padding: 0px;
-        }
-        a.nav-link {
-            pointer-events: none;
-        }
-    </style>
+    <link href="../Style/newMakerSpace_Tool_style.css" rel="stylesheet" />
 
     <script>
         $(document).ready(function () {
@@ -53,6 +34,9 @@
             });
 
             $("#ToolForm").submit(f1);
+            if (localStorage.getItem("Tool") != null) {
+                $("#ToolForm_finish").css("display", "block");;
+            }
             $("#ToolForm_finish").click(function () {
                 swal({
                     title: "תהליך הוספת החלל הושלם בהצלחה",
@@ -130,6 +114,7 @@
         }
 
         function success(data) {
+            localStorage.setItem("Tool", data);
             swal({
                 title: "הכלי התווסף בהצלחה",
                 icon: "success",

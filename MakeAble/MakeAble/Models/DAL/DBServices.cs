@@ -248,11 +248,11 @@ namespace MakeAble.Models.DAL
             StringBuilder sb = new StringBuilder();
             // use a string builder to create the dynamic string
 
-            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
+            sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
             user.Email, user.Fname, user.Lname,
             user.City, user.Password, user.Phone, user.ProfilePhoto, /*user.BirthDay,*/ user.Description, user.Have_makerspace);
 
-            String prefix = "INSERT INTO Users " + "([Email],[Fname],[Lname],[City],[Password],[Phone],[ProfilePhoto],[BirthDay],[Description],[Have_makerspace])";
+            String prefix = "INSERT INTO Users " + "([Email],[Fname],[Lname],[City],[Password],[Phone],[ProfilePhoto],[Description],[Have_makerspace])"; //חסר birthday
 
             command = prefix + sb.ToString();
             try

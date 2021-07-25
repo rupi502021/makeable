@@ -188,3 +188,8 @@ li.circle {
     padding: 15px 32px;
     display: inline-block;
 }
+.sidebar-nav {
+    text-align: right;
+    font-family: Calibri;
+    font-size: 30px;
+}

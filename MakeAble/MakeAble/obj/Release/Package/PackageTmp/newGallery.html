@@ -30,31 +30,16 @@
 
     <link href="../Style/newGallery_style.css" rel="stylesheet" />
 
-    <style>
-        img#PP {
-            max-width: 25%;
-            float: left;
-        }
-
-        input#filebutton {
-            float: inherit;
-        }
-
-        #logo_top {
-            width: 180px;
-            height: 51px;
-        }
-
-        .navbar-brand {
-            padding: 0px;
-        }
-    </style>
+ 
     <script>
         $(document).ready(function () {
+            l = JSON.parse(localStorage.getItem('user'));
+            l1 = JSON.parse(sessionStorage.getItem('user'));
             $("#galleyBTNsave").click(f1);
             $("#galleyBTNpub").click(f1);
             getAllProf();
             getAllMakerspaces();
+            getUserFavMakerspaces();
 
             $("#filebutton").change(function () {
                 readURL(this);
@@ -195,12 +180,36 @@
         function getSuccessAllMaker(data) {
 
             var makerlist = [];
-            var value = " <option value='כל חללי העבודה'></option>";
+            var value = "";
             for (var i = 0; i < data.length; i++) {
                 makerlist.push(data[i].MakerspaceName);
                 value += " <option data-id='" + data[i].MakerspaceId + "' value = '" + data[i].MakerspaceName + "' > " + data[i].MakerspaceName + "</option > ";
             }
             $("#mylistAll").append(value);
+
+        }
+        function getUserFavMakerspaces() {
+            if (l == null) {
+                email = l1.Email;
+
+                var api = "../api/Makerspaces/Liked/" + email + "/";
+            }
+            else {
+                email = l.Email;
+
+                var api = "../api/Makerspaces/Liked/" + email + "/";
+            }
+            ajaxCall("GET", api, "", getSuccessUserFavMaker, error);
+        }
+        function getSuccessUserFavMaker(data) {
+
+            var makerlist = [];
+            var value = "";
+            for (var i = 0; i < data.length; i++) {
+                makerlist.push(data[i].MakerspaceName);
+                value += " <option data-id='" + data[i].MakerspaceId + "' value = '" + data[i].MakerspaceName + "' > " + data[i].MakerspaceName + "</option > ";
+            }
+            $("#mylistUser").append(value);
 
         }
 
@@ -277,7 +286,7 @@
                         <label for="checkboxes-0">
                             <input type="radio" name="checkboxes" id="checkboxes-1" value="1">
                             <label class="control-label" for="selectbasic">
-                                <input class="form-control" list="mylistUser" name="mylistAllUser" placeholder="חללי העבודה במועדפים">
+                                <input class="form-control" list="mylistUser" name="mylistUser" placeholder="חללי העבודה במועדפים">
                                 <datalist id="mylistUser"></datalist>
                             </label>
                         </label>

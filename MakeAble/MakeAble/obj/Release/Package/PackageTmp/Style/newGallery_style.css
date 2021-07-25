@@ -102,3 +102,21 @@ label.col-sm-3.control-label {
         letter-spacing: 4px;
     }
 
+img#PP {
+    max-width: 25%;
+    float: left;
+}
+
+input#filebutton {
+    float: inherit;
+}
+
+#logo_top {
+    width: 180px;
+    height: 51px;
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+

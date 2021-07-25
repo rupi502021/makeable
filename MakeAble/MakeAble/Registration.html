@@ -114,7 +114,7 @@
                 Lname: $("#lastName").val(),
                 Email: $("#email").val(),
                 Password: $("#password").val(),
-                //BirthDay: $("#birthDate").val(),
+                //BirthDay: null,
                 Phone: $("#phoneNumber").val(),
                 City: city,
                 Description: $("#textarea").val(),
@@ -184,7 +184,7 @@
         }
 
         function error(err) {
-            alert(err.responseJSON.Message);
+            alert(err.responseJSON);
         }
 
         function clear() {

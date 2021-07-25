@@ -77,13 +77,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="bin/MakeAble.dll">
-      <publishTime>07/24/2021 19:38:10</publishTime>
+      <publishTime>07/25/2021 20:02:09</publishTime>
     </File>
     <File Include="bin/MakeAble.dll.config">
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="bin/MakeAble.pdb">
-      <publishTime>07/24/2021 19:38:10</publishTime>
+      <publishTime>07/25/2021 20:02:09</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>07/23/2021 18:03:02</publishTime>
@@ -407,7 +407,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="Galleries.html">
-      <publishTime>07/24/2021 20:46:11</publishTime>
+      <publishTime>07/25/2021 13:43:01</publishTime>
     </File>
     <File Include="GalleryPage.html">
       <publishTime>02/04/2021 11:34:35</publishTime>
@@ -632,7 +632,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="index.html">
-      <publishTime>07/24/2021 13:41:28</publishTime>
+      <publishTime>07/25/2021 14:19:32</publishTime>
     </File>
     <File Include="js/01-custom-places-example.js">
       <publishTime>07/23/2021 18:03:02</publishTime>
@@ -653,13 +653,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="newGallery.html">
-      <publishTime>07/22/2021 16:44:29</publishTime>
+      <publishTime>07/25/2021 14:27:46</publishTime>
     </File>
     <File Include="newMakerSpace.html">
-      <publishTime>07/22/2021 17:49:16</publishTime>
+      <publishTime>07/25/2021 14:18:27</publishTime>
     </File>
     <File Include="newMakerSpace_Tool.html">
-      <publishTime>07/24/2021 18:50:38</publishTime>
+      <publishTime>07/25/2021 19:53:11</publishTime>
     </File>
     <File Include="newRequest.html">
       <publishTime>07/22/2021 17:50:45</publishTime>
@@ -740,7 +740,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/22/2021 17:55:30</publishTime>
     </File>
     <File Include="personal-favorites-space.html">
-      <publishTime>07/22/2021 17:59:06</publishTime>
+      <publishTime>07/25/2021 14:28:52</publishTime>
     </File>
     <File Include="personal-gallery.html">
       <publishTime>07/22/2021 18:06:59</publishTime>
@@ -752,7 +752,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:51:03</publishTime>
     </File>
     <File Include="Registration.html">
-      <publishTime>07/23/2021 18:29:03</publishTime>
+      <publishTime>07/25/2021 20:01:58</publishTime>
     </File>
     <File Include="Scripts/ajaxCalls.js">
       <publishTime>07/23/2021 18:03:02</publishTime>
@@ -791,7 +791,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="SearchMakerspace.html">
-      <publishTime>07/24/2021 21:21:39</publishTime>
+      <publishTime>07/25/2021 13:43:01</publishTime>
     </File>
     <File Include="style.css">
       <publishTime>07/23/2021 18:03:02</publishTime>
@@ -803,34 +803,37 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="Style/index_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:19:31</publishTime>
     </File>
     <File Include="Style/modal_photos.css">
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="Style/newGallery_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:14:21</publishTime>
     </File>
     <File Include="Style/newMakerSpace_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:18:25</publishTime>
+    </File>
+    <File Include="Style/newMakerSpace_Tool_style.css">
+      <publishTime>07/25/2021 14:17:07</publishTime>
     </File>
     <File Include="Style/order-history_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:36:22</publishTime>
     </File>
     <File Include="Style/order-request-approved_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:37:17</publishTime>
     </File>
     <File Include="Style/order-request_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:37:17</publishTime>
     </File>
     <File Include="Style/order-statistics_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:37:17</publishTime>
     </File>
     <File Include="Style/personal_favorites_gallery_style.css">
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="Style/personal_favorites_space_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:36:25</publishTime>
     </File>
     <File Include="Style/personal_gallery_style.css">
       <publishTime>07/23/2021 18:03:02</publishTime>
@@ -842,7 +845,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/23/2021 18:03:02</publishTime>
     </File>
     <File Include="Style/Registration_style.css">
-      <publishTime>07/23/2021 18:03:02</publishTime>
+      <publishTime>07/25/2021 14:15:34</publishTime>
     </File>
     <File Include="Style/Searchmakerspace_style.css">
       <publishTime>07/23/2021 18:03:02</publishTime>

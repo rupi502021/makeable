@@ -68,7 +68,12 @@
                         console.log("makerspaceid: " + makerspace.Id);
                         console.log("makerspacename: " + makerspace.Name);
                     }
-                    let api = "../api/Reservations/GetApprovedReservation/makerspaceid/" + makerspace.Id
+                    if (JSON.parse(localStorage.getItem('Makerspace')) != null) {
+                        makerspace = JSON.parse(localStorage.getItem('Makerspace'));
+                        console.log("makerspaceid: " + makerspace.Id);
+                        console.log("makerspacename: " + makerspace.Name);
+                    }
+                    let api = "../api/Reservations/GetApprovedReservation/makerspaceid/" + makerspace.Id;
                     $.ajax({
                         type: "GET",
                         url: api,
@@ -162,6 +167,13 @@
             if (JSON.parse(sessionStorage.getItem('Makerspace')) != null) {
 
                 makerspace = JSON.parse(sessionStorage.getItem('Makerspace'));
+                console.log("makerspaceid: " + makerspace.Id);
+                console.log("makerspacename: " + makerspace.Name);
+
+                getRequest();
+            }
+            else if (JSON.parse(localStorage.getItem('Makerspace')) != null) {
+                makerspace = JSON.parse(localStorage.getItem('Makerspace'));
                 console.log("makerspaceid: " + makerspace.Id);
                 console.log("makerspacename: " + makerspace.Name);
 
@@ -383,9 +395,9 @@
         </div> <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="ph1"></div>
-        <div class="container">
+        <!--<div class="container">
             <div id="calendar"></div>
-        </div>
+        </div>-->
 
 
 
